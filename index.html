@@ -331,6 +331,33 @@
       color: var(--accent);
     }
 
+    .header-streak-col {
+      text-align: center;
+      min-width: 0;
+      max-width: 11rem;
+      justify-self: center;
+    }
+    .header-streak-motto {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-top: 5px;
+    }
+    .header-streak-motto-en {
+      font-size: 8px;
+      color: var(--text3);
+      letter-spacing: 0.04em;
+      line-height: 1.4;
+      font-weight: 400;
+    }
+    .header-streak-motto-ko {
+      font-size: 9px;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+      line-height: 1.4;
+      opacity: 0.95;
+    }
+
     /* ── 페이지 시스템 ── */
     .page { display: none; flex-direction: column; flex: 1; overflow-y: auto; }
     .page.active { display: flex; }
@@ -342,6 +369,82 @@
       flex-direction: column;
       gap: 1.25rem;
       flex: 1;
+    }
+
+    /* 홈 · 도구 사용 시각 (우측 하단 고정, 탭바 위) */
+    .home-tool-track-panel {
+      position: fixed;
+      right: max(0.5rem, env(safe-area-inset-right));
+      bottom: max(5.5rem, calc(4.75rem + env(safe-area-inset-bottom)));
+      width: min(230px, calc(100vw - 1.25rem));
+      z-index: 20;
+      padding: 0.55rem 0.65rem 0.6rem;
+      background: rgba(14, 12, 10, 0.94);
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+    }
+    .home-tool-track-title {
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: var(--accent2);
+      margin-bottom: 0.25rem;
+    }
+    .home-tool-track-note {
+      font-size: 8px;
+      color: var(--text3);
+      letter-spacing: 0.04em;
+      line-height: 1.4;
+      margin: 0 0 0.4rem;
+      opacity: 0.95;
+    }
+    .tool-track-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.25rem 0.4rem;
+      padding: 0.3rem 0;
+      border-top: 0.5px solid rgba(255, 255, 255, 0.06);
+    }
+    .tool-track-row:first-of-type {
+      border-top: none;
+      padding-top: 0.15rem;
+    }
+    .tool-track-row--done .tool-track-time {
+      color: var(--accent);
+    }
+    .tool-track-name {
+      flex: 1;
+      min-width: 4.5rem;
+      font-size: 10px;
+      color: var(--text2);
+      letter-spacing: 0.05em;
+    }
+    .tool-track-time {
+      font-size: 10px;
+      font-variant-numeric: tabular-nums;
+      color: var(--text3);
+      min-width: 3.2rem;
+      text-align: right;
+    }
+    .tool-track-btn {
+      font-size: 9px;
+      padding: 3px 7px;
+      border-radius: 5px;
+      border: 0.5px solid var(--border);
+      background: var(--bg3);
+      color: var(--text2);
+      cursor: pointer;
+      letter-spacing: 0.06em;
+    }
+    .tool-track-btn:hover {
+      border-color: var(--accent2);
+      color: var(--text);
+    }
+    .tool-track-btn--open {
+      border-color: rgba(180, 160, 90, 0.35);
+      color: var(--accent2);
     }
 
     .home-greeting {
@@ -1601,6 +1704,19 @@
       border: 0.5px solid var(--border);
       color: var(--accent2);
       letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    button.char-tag {
+      font: inherit;
+      font-size: 10px;
+      font-family: var(--font-body);
+      background: transparent;
+    }
+    .char-tag:hover {
+      border-color: var(--accent2);
+      color: var(--text);
+      background: rgba(200, 170, 90, 0.1);
     }
 
     /* 하단 바 (기존 호환) */
@@ -1888,9 +2004,12 @@
     <!-- 헤더 -->
     <header class="main-header">
       <div aria-hidden="true"></div>
-      <div style="text-align:center;">
+      <div class="header-streak-col">
         <div class="header-streak" id="streak-count">0</div>
-        <div style="font-size:10px;color:var(--text3);letter-spacing:0.2em;">훈련일</div>
+        <div class="header-streak-motto" aria-label="훈련일">
+          <span class="header-streak-motto-en">just do it , and then some</span>
+          <span class="header-streak-motto-ko">그냥 해라 , 그리고 좀 더 해라</span>
+        </div>
       </div>
       <div class="header-date" id="header-date"></div>
     </header>
@@ -1953,6 +2072,38 @@
                 </div>
                 <p class="spinner-spin-hint" id="spinner-spin-hint" aria-live="polite"></p>
               </div>
+            </div>
+          </div>
+
+          <div id="home-tool-track-panel" class="home-tool-track-panel" aria-label="작업 도구 사용 기록">
+            <div class="home-tool-track-title">TOOL CHECK · 오늘</div>
+            <p class="home-tool-track-note">브라우저는 PC 앱 실행을 알 수 없습니다. 앱은 켠 뒤 「기록」을 누르면 시각이 찍힙니다. 웹은 「열기」로 새 탭과 함께 기록됩니다.</p>
+            <div class="tool-track-row" id="tool-track-row-photoshop" data-tool="photoshop">
+              <span class="tool-track-name">Photoshop</span>
+              <span class="tool-track-time" id="tool-track-time-photoshop">—</span>
+              <button type="button" class="tool-track-btn" id="tool-track-log-photoshop">기록</button>
+            </div>
+            <div class="tool-track-row" id="tool-track-row-illustrator" data-tool="illustrator">
+              <span class="tool-track-name">Illustrator</span>
+              <span class="tool-track-time" id="tool-track-time-illustrator">—</span>
+              <button type="button" class="tool-track-btn" id="tool-track-log-illustrator">기록</button>
+            </div>
+            <div class="tool-track-row" id="tool-track-row-spine" data-tool="spine">
+              <span class="tool-track-name">Spine</span>
+              <span class="tool-track-time" id="tool-track-time-spine">—</span>
+              <button type="button" class="tool-track-btn" id="tool-track-log-spine">기록</button>
+            </div>
+            <div class="tool-track-row" id="tool-track-row-pinterest" data-tool="pinterest">
+              <span class="tool-track-name">Pinterest</span>
+              <span class="tool-track-time" id="tool-track-time-pinterest">—</span>
+              <button type="button" class="tool-track-btn tool-track-btn--open" id="tool-track-open-pinterest">열기</button>
+              <button type="button" class="tool-track-btn" id="tool-track-log-pinterest">기록</button>
+            </div>
+            <div class="tool-track-row" id="tool-track-row-coloso" data-tool="coloso">
+              <span class="tool-track-name">콜로소 강의</span>
+              <span class="tool-track-time" id="tool-track-time-coloso">—</span>
+              <button type="button" class="tool-track-btn tool-track-btn--open" id="tool-track-open-coloso">열기</button>
+              <button type="button" class="tool-track-btn" id="tool-track-log-coloso">기록</button>
             </div>
           </div>
 
@@ -2575,6 +2726,84 @@
     refreshTabCompleteDock();
   }
 
+  /* ── 홈 · 도구 사용 시각 (오늘 KST, localStorage) ── */
+  const LS_TOOL_TRACK_DAY = 'dokcho_tool_track_by_day';
+  const TOOL_TRACK_OPEN_URLS = {
+    pinterest: 'https://www.pinterest.com/',
+    coloso: 'https://coloso.co.kr/'
+  };
+
+  function ymdKSTForTools() {
+    const d = new Date();
+    const k = new Date(d.getTime() + 9 * 60 * 60 * 1000);
+    return k.toISOString().slice(0, 10);
+  }
+
+  function readToolTrackTodayMap() {
+    const day = ymdKSTForTools();
+    try {
+      const raw = JSON.parse(localStorage.getItem(LS_TOOL_TRACK_DAY) || '{}');
+      const m = raw[day];
+      return m && typeof m === 'object' ? m : {};
+    } catch (e) { return {}; }
+  }
+
+  function writeToolTrackMark(toolId) {
+    const day = ymdKSTForTools();
+    try {
+      const raw = JSON.parse(localStorage.getItem(LS_TOOL_TRACK_DAY) || '{}');
+      if (!raw[day] || typeof raw[day] !== 'object') raw[day] = {};
+      raw[day][toolId] = new Date().toISOString();
+      localStorage.setItem(LS_TOOL_TRACK_DAY, JSON.stringify(raw));
+    } catch (e) {}
+    refreshHomeToolTrackPanel();
+  }
+
+  function formatToolTrackDisplay(iso) {
+    if (!iso) return '—';
+    try {
+      const d = new Date(iso);
+      return '\u2713 ' + d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
+    } catch (e) { return '—'; }
+  }
+
+  function refreshHomeToolTrackPanel() {
+    const ids = ['photoshop', 'illustrator', 'spine', 'pinterest', 'coloso'];
+    const data = readToolTrackTodayMap();
+    ids.forEach(function(id) {
+      const tEl = document.getElementById('tool-track-time-' + id);
+      const row = document.getElementById('tool-track-row-' + id);
+      const iso = data[id];
+      if (tEl) tEl.textContent = iso ? formatToolTrackDisplay(iso) : '—';
+      if (row) row.classList.toggle('tool-track-row--done', !!iso);
+    });
+  }
+
+  function initHomeToolTrack() {
+    const panel = document.getElementById('home-tool-track-panel');
+    if (!panel || panel._toolTrackInit) return;
+    panel._toolTrackInit = true;
+    ['photoshop', 'illustrator', 'spine', 'pinterest', 'coloso'].forEach(function(id) {
+      const logBtn = document.getElementById('tool-track-log-' + id);
+      if (logBtn) logBtn.addEventListener('click', function() { writeToolTrackMark(id); });
+    });
+    const pOpen = document.getElementById('tool-track-open-pinterest');
+    if (pOpen) {
+      pOpen.addEventListener('click', function() {
+        try { window.open(TOOL_TRACK_OPEN_URLS.pinterest, '_blank', 'noopener,noreferrer'); } catch (e) {}
+        writeToolTrackMark('pinterest');
+      });
+    }
+    const cOpen = document.getElementById('tool-track-open-coloso');
+    if (cOpen) {
+      cOpen.addEventListener('click', function() {
+        try { window.open(TOOL_TRACK_OPEN_URLS.coloso, '_blank', 'noopener,noreferrer'); } catch (e) {}
+        writeToolTrackMark('coloso');
+      });
+    }
+    refreshHomeToolTrackPanel();
+  }
+
   /* ── 탭 전환 ── */
   function goTab(name) {
     if (typeof canSwitchToTab === 'function' && !canSwitchToTab(name)) {
@@ -2592,6 +2821,10 @@
     if (name === 'pose' && typeof window._renderPose === 'function') window._renderPose();
     if (name === 'memo' && typeof initMemoPage === 'function') initMemoPage();
     if (name === 'concept' && typeof initConceptPage === 'function') initConceptPage();
+    if (name === 'home') {
+      if (typeof initHomeToolTrack === 'function') initHomeToolTrack();
+      if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
+    }
     if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
     if (typeof updateTabButtonLocks === 'function') updateTabButtonLocks();
   }
@@ -3468,9 +3701,19 @@
     cap.textContent = '붙인 키워드';
     host.appendChild(cap);
     linked.forEach(function(word) {
-      const t = document.createElement('span');
+      const t = document.createElement('button');
+      t.type = 'button';
       t.className = 'char-tag';
       t.textContent = '@ ' + word;
+      t.title = '클릭하여 이 캐릭터에서 제거';
+      t.addEventListener('click', function() {
+        const s2 = readCharacterSheet();
+        mergeFormIntoSheet(s2);
+        s2.linkedKeywords = (s2.linkedKeywords || []).filter(function(w) { return w !== word; });
+        writeCharacterSheet(s2);
+        renderLinkedKeywordPreview();
+        if (typeof renderConceptKeywordLinks === 'function') renderConceptKeywordLinks();
+      });
       host.appendChild(t);
     });
   }
@@ -4206,6 +4449,8 @@
   initMemoPage();
   initConceptPage();
   if (typeof initTabWorkChainUI === 'function') initTabWorkChainUI();
+  if (typeof initHomeToolTrack === 'function') initHomeToolTrack();
+  if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
   startGalleryTicker();
 
   /* ── 유튜브 오디오 ── */
@@ -4309,6 +4554,8 @@
       var an = ap && ap.id && ap.id.indexOf('page-') === 0 ? ap.id.slice(5) : 'home';
       if (typeof canSwitchToTab === 'function' && !canSwitchToTab(an) && typeof goTab === 'function') goTab('home');
       if (typeof initTabWorkChainUI === 'function') initTabWorkChainUI();
+      if (typeof initHomeToolTrack === 'function') initHomeToolTrack();
+      if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
       if (typeof updateTabButtonLocks === 'function') updateTabButtonLocks();
       if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
     }, 400);
