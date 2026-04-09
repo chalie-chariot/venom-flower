@@ -400,6 +400,34 @@
       margin-right: auto;
     }
 
+    .home-tab-chain-test {
+      width: 100%;
+      max-width: 440px;
+      margin: 0.75rem auto 0;
+      padding: 0.5rem 0.65rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: center;
+      align-items: center;
+      border: 0.5px dashed var(--border2);
+      border-radius: 8px;
+      background: rgba(40, 36, 28, 0.35);
+    }
+    .home-tab-chain-test span {
+      width: 100%;
+      text-align: center;
+      font-size: 9px;
+      color: var(--text3);
+      letter-spacing: 0.12em;
+    }
+    .home-tab-chain-test .btn-cq {
+      font-size: 10px;
+      height: 34px;
+      padding: 0 0.75rem;
+      opacity: 0.9;
+    }
+
     .btn-work-main {
       width: 100%;
       height: 52px;
@@ -1862,7 +1890,7 @@
       <div aria-hidden="true"></div>
       <div style="text-align:center;">
         <div class="header-streak" id="streak-count">0</div>
-        <div style="font-size:10px;color:var(--text3);letter-spacing:0.2em;">연속 훈련일</div>
+        <div style="font-size:10px;color:var(--text3);letter-spacing:0.2em;">훈련일</div>
       </div>
       <div class="header-date" id="header-date"></div>
     </header>
@@ -1892,6 +1920,12 @@
 
           <div class="home-work-cta">
             <button type="button" class="btn-hero primary btn-work-main" onclick="goTab('croquis')">작업하기</button>
+          </div>
+
+          <div class="home-tab-chain-test" aria-label="탭 순서 테스트">
+            <span>DEV · 탭 순서(작업 완료 체인) 테스트</span>
+            <button type="button" class="btn-cq primary" id="btn-tab-chain-test-all">전체 통과 (모든 탭 열기)</button>
+            <button type="button" class="btn-cq" id="btn-tab-chain-test-reset">순서 초기화</button>
           </div>
 
           <!-- 레퍼런스 돌림판 -->
@@ -2486,6 +2520,22 @@
     }, 2600);
   }
 
+  async function recordFullTrainingCycleComplete() {
+    try {
+      const d = { ...(window._stats || {}) };
+      const next = (Number(d.streak) || 0) + 1;
+      if (typeof window._saveStats === 'function') {
+        await window._saveStats({ streak: next });
+      } else {
+        d.streak = next;
+        window._stats = d;
+        try { localStorage.setItem('dokcho_stats', JSON.stringify(d)); } catch (err) {}
+        const el = document.getElementById('streak-count');
+        if (el) el.textContent = String(next);
+      }
+    } catch (err) { console.warn('훈련일 저장 실패', err); }
+  }
+
   function initTabWorkChainUI() {
     const cb = document.getElementById('tab-work-complete-cb');
     if (!cb || cb._tabChainBound) return;
@@ -2505,14 +2555,20 @@
       }
       this.disabled = true;
       if (dock) dock.classList.add('tab-work-dock--done');
-      setTimeout(function() {
+      setTimeout(async function() {
         c.push(frontier);
         writeTabChain(c);
+        var fullCycle = c.length >= TAB_ORDER.length;
+        if (fullCycle) {
+          await recordFullTrainingCycleComplete();
+          writeTabChain([]);
+        }
         if (dock) dock.classList.remove('tab-work-dock--done');
         const cb2 = document.getElementById('tab-work-complete-cb');
         if (cb2) { cb2.checked = false; cb2.disabled = false; }
         updateTabButtonLocks();
         refreshTabCompleteDock();
+        if (fullCycle && typeof goTab === 'function') goTab('home');
       }, 620);
     });
     updateTabButtonLocks();
@@ -4121,6 +4177,25 @@
       r.readAsDataURL(f);
     }
   });
+
+  (function bindTabChainTestButtons() {
+    var btnAll = document.getElementById('btn-tab-chain-test-all');
+    var btnReset = document.getElementById('btn-tab-chain-test-reset');
+    if (btnAll) {
+      btnAll.addEventListener('click', function() {
+        writeTabChain(TAB_ORDER.slice());
+        updateTabButtonLocks();
+        refreshTabCompleteDock();
+      });
+    }
+    if (btnReset) {
+      btnReset.addEventListener('click', function() {
+        writeTabChain([]);
+        updateTabButtonLocks();
+        refreshTabCompleteDock();
+      });
+    }
+  })();
 
   cqUpdateRing();
   cqUpdateDots();
