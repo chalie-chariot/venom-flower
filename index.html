@@ -901,6 +901,14 @@
 
     .tab-btn.active { color: var(--accent); }
 
+    .tab-btn.tab-btn-locked {
+      opacity: 0.38;
+      cursor: not-allowed;
+      filter: grayscale(0.35);
+      pointer-events: none;
+    }
+    .tab-btn.tab-btn-locked .tab-label { letter-spacing: 0.08em; }
+
     .tab-btn.active::before {
       content: '';
       position: absolute;
@@ -929,6 +937,114 @@
       line-height: 1.2;
       text-align: center;
       max-width: 100%;
+    }
+
+    /* ── 탭 순서 작업 완료 독 ── */
+    .tab-work-dock {
+      flex-shrink: 0;
+      padding: 0.65rem 1rem 0.5rem;
+      background: linear-gradient(180deg, rgba(24, 22, 18, 0.98), var(--bg2));
+      border-top: 0.5px solid var(--border);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .tab-work-dock.is-hidden {
+      display: none;
+    }
+    .tab-work-dock-inner {
+      max-width: 36rem;
+      margin: 0 auto;
+    }
+    .tab-work-dock-hint {
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.06em;
+      line-height: 1.45;
+      margin: 0 0 0.5rem;
+    }
+    .tab-work-dock-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .tab-work-complete-label {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .tab-work-complete-label input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .tab-work-check-frame {
+      width: 30px;
+      height: 30px;
+      flex-shrink: 0;
+      border: 2px solid var(--border2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg3);
+      transition: border-color 0.2s, box-shadow 0.25s, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s;
+    }
+    .tab-work-check-svg {
+      width: 18px;
+      height: 18px;
+      color: var(--accent);
+    }
+    .tab-work-check-path {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      transition: stroke-dashoffset 0.45s ease-out;
+    }
+    .tab-work-dock--pulse .tab-work-check-frame {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent-glow), 0 0 18px rgba(200, 170, 90, 0.2);
+      animation: tabWorkDockPulse 1.6s ease-in-out infinite;
+    }
+    @keyframes tabWorkDockPulse {
+      0%, 100% { box-shadow: 0 0 0 1px var(--accent-glow), 0 0 12px rgba(200, 170, 90, 0.15); }
+      50% { box-shadow: 0 0 0 2px var(--accent-glow), 0 0 22px rgba(200, 170, 90, 0.28); }
+    }
+    @keyframes tabWorkDockIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .tab-work-dock:not(.is-hidden):not(.tab-work-dock--blocked-msg) {
+      animation: tabWorkDockIn 0.4s ease-out both;
+    }
+    .tab-work-dock--waiting .tab-work-dock-actions {
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    .tab-work-dock--blocked-msg .tab-work-dock-actions {
+      display: none;
+    }
+    .tab-work-dock--blocked-msg {
+      animation: tabWorkDockWarn 0.35s ease-out;
+    }
+    @keyframes tabWorkDockWarn {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+    .tab-work-complete-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent2);
+      letter-spacing: 0.12em;
+    }
+    .tab-work-dock--done .tab-work-check-frame {
+      background: rgba(180, 150, 70, 0.12);
+      border-color: var(--accent);
+      transform: scale(1.08);
+    }
+    .tab-work-dock--done .tab-work-check-path {
+      stroke-dashoffset: 0;
     }
 
     /* ── 서브 페이지 공통 ── */
@@ -1959,7 +2075,8 @@
             <div>
               <h3 class="memo-section-title">일반 메모장</h3>
               <p class="memo-hint"><strong>@</strong>와 키워드를 <strong>붙여</strong> 씁니다 (띄어쓰기 없음). 키워드는 <strong>.</strong> 앞까지이거나, 공백·다음 <strong>@</strong>·줄 끝에서 끝납니다. 예: <code style="color:var(--accent2);">@로랑.</code> → 키워드 <code style="color:var(--accent2);">로랑</code>. 같은 저장 안 같은 단어는 한 번만 저장되며, 너무 긴 토큰은 제외됩니다.</p>
-              <textarea id="memo-editor" class="memo-editor" placeholder="자유 메모…&#10;예: @로랑. 오늘은 @레이. 만났다"></textarea>
+              <p class="memo-hint"><strong>Enter</strong> 또는 <strong>Shift+Enter</strong> → 줄바꿈 · <strong>Ctrl+Enter</strong> 또는 <strong>⌘+Enter</strong> → 메모장 저장</p>
+              <textarea id="memo-editor" class="memo-editor" placeholder="자유 메모…&#10;예: @로랑. 오늘은 @레이. 만났다 (Ctrl+Enter 로 저장)"></textarea>
               <div class="memo-keyword-thread" id="memo-keyword-thread" aria-label="저장된 키워드 스레드">
                 <div class="memo-kw-label">KEYWORD THREAD</div>
                 <div class="memo-kw-toolbar">
@@ -2050,6 +2167,24 @@
         </div>
       </div>
 
+    </div>
+
+    <!-- 탭 순서: 작업 완료 체크 (홈→크로키→… 순으로 다음 탭 잠금 해제) -->
+    <div id="tab-work-complete-dock" class="tab-work-dock is-hidden" aria-live="polite">
+      <div class="tab-work-dock-inner">
+        <p class="tab-work-dock-hint" id="tab-work-dock-hint"></p>
+        <div class="tab-work-dock-actions" id="tab-work-dock-actions">
+          <label class="tab-work-complete-label" id="tab-work-complete-label">
+            <input type="checkbox" id="tab-work-complete-cb" autocomplete="off" />
+            <span class="tab-work-check-frame" aria-hidden="true">
+              <svg class="tab-work-check-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="tab-work-check-path" d="M6 12L10 16L18 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" pathLength="1" />
+              </svg>
+            </span>
+            <span class="tab-work-complete-title" id="tab-work-complete-title">작업 완료</span>
+          </label>
+        </div>
+      </div>
     </div>
 
     <!-- ── 하단 탭바 ── -->
@@ -2227,8 +2362,169 @@
   const dateEl = document.getElementById('header-date');
   if(dateEl) dateEl.innerHTML = dateStr;
 
+  /* ── 탭 순서 잠금 (홈→크로키→포즈→레퍼런스→갤러리→메모→캐릭터 창작) ── */
+  const TAB_ORDER = ['home', 'croquis', 'pose', 'reference', 'gallery', 'memo', 'concept'];
+  const LS_TAB_CHAIN = 'dokcho_tab_chain';
+  const TAB_CHAIN_LABELS = {
+    home: '홈', croquis: '크로키', pose: '포즈', reference: '레퍼런스', gallery: '갤러리', memo: '메모', concept: '캐릭터 창작'
+  };
+
+  function readTabChain() {
+    try {
+      const o = JSON.parse(localStorage.getItem(LS_TAB_CHAIN) || '{}');
+      return Array.isArray(o.checked) ? o.checked : [];
+    } catch (e) { return []; }
+  }
+
+  function writeTabChain(checked) {
+    localStorage.setItem(LS_TAB_CHAIN, JSON.stringify({ checked: checked }));
+  }
+
+  function tabChainMaxUnlockedIndex() {
+    return readTabChain().length;
+  }
+
+  function canSwitchToTab(name) {
+    const i = TAB_ORDER.indexOf(name);
+    if (i === -1) return true;
+    return i <= tabChainMaxUnlockedIndex();
+  }
+
+  function getFrontierTab() {
+    const c = readTabChain();
+    if (c.length >= TAB_ORDER.length) return null;
+    return TAB_ORDER[c.length];
+  }
+
+  function isTabWorkReady(name) {
+    if (name === 'home') return true;
+    const o = readTabActivity();
+    if (name === 'memo') {
+      return !!(o.memo || (typeof memoHasStoredContent === 'function' && memoHasStoredContent()));
+    }
+    if (name === 'concept') {
+      return !!(o.concept || (typeof conceptHasStoredContent === 'function' && conceptHasStoredContent()));
+    }
+    return !!o[name];
+  }
+
+  function updateTabButtonLocks() {
+    const maxI = tabChainMaxUnlockedIndex();
+    TAB_ORDER.forEach(function(tabName, i) {
+      const btn = document.getElementById('tab-' + tabName);
+      if (!btn) return;
+      const locked = i > maxI;
+      btn.classList.toggle('tab-btn-locked', locked);
+      btn.disabled = locked;
+      if (locked) btn.setAttribute('aria-disabled', 'true');
+      else btn.removeAttribute('aria-disabled');
+    });
+  }
+
+  function refreshTabCompleteDock() {
+    const dock = document.getElementById('tab-work-complete-dock');
+    if (!dock) return;
+    const main = document.getElementById('screen-main');
+    if (!main || main.classList.contains('hidden')) {
+      dock.classList.add('is-hidden');
+      return;
+    }
+    if (dock.classList.contains('tab-work-dock--blocked-msg')) return;
+
+    const activePage = document.querySelector('#screen-main .page.active');
+    const activeName = activePage && activePage.id && activePage.id.indexOf('page-') === 0
+      ? activePage.id.slice(5)
+      : 'home';
+    const frontier = getFrontierTab();
+    const cb = document.getElementById('tab-work-complete-cb');
+    const hint = document.getElementById('tab-work-dock-hint');
+    const title = document.getElementById('tab-work-complete-title');
+
+    if (frontier === null) {
+      dock.classList.add('is-hidden');
+      if (cb) { cb.checked = false; cb.disabled = true; }
+      return;
+    }
+
+    if (activeName !== frontier) {
+      dock.classList.add('is-hidden');
+      return;
+    }
+
+    const ready = isTabWorkReady(frontier);
+    const label = TAB_CHAIN_LABELS[frontier] || frontier;
+    dock.classList.remove('is-hidden');
+    dock.classList.toggle('tab-work-dock--pulse', ready);
+    dock.classList.toggle('tab-work-dock--waiting', !ready);
+    if (hint) {
+      hint.textContent = ready
+        ? '「' + label + '」에서 할 일을 마쳤다면 아래를 체크하세요. 체크 후에만 다음 탭으로 이동할 수 있습니다.'
+        : '「' + label + '」에서 아직 인정된 작업이 없습니다. (기존과 같이 각 탭 활동을 한 뒤 이 메시지가 바뀝니다.)';
+    }
+    if (title) title.textContent = '작업 완료 — ' + label;
+    if (cb) {
+      cb.checked = false;
+      cb.disabled = !ready;
+    }
+  }
+
+  function showTabChainBlockedMessage() {
+    const dock = document.getElementById('tab-work-complete-dock');
+    const hint = document.getElementById('tab-work-dock-hint');
+    const frontier = getFrontierTab();
+    if (!dock || !hint) return;
+    const label = frontier ? (TAB_CHAIN_LABELS[frontier] || frontier) : '';
+    dock.classList.remove('is-hidden');
+    dock.classList.remove('tab-work-dock--pulse', 'tab-work-dock--waiting');
+    dock.classList.add('tab-work-dock--blocked-msg');
+    hint.textContent = frontier
+      ? '먼저 「' + label + '」에서 작업을 마친 뒤, 아래 「작업 완료」를 체크해야 다음 탭이 열립니다.'
+      : '순서대로 모든 탭을 완료했습니다.';
+    setTimeout(function() {
+      dock.classList.remove('tab-work-dock--blocked-msg');
+      refreshTabCompleteDock();
+    }, 2600);
+  }
+
+  function initTabWorkChainUI() {
+    const cb = document.getElementById('tab-work-complete-cb');
+    if (!cb || cb._tabChainBound) return;
+    cb._tabChainBound = true;
+    cb.addEventListener('change', function() {
+      if (!this.checked || this.disabled) return;
+      const frontier = getFrontierTab();
+      if (!frontier || !isTabWorkReady(frontier)) {
+        this.checked = false;
+        return;
+      }
+      const dock = document.getElementById('tab-work-complete-dock');
+      const c = readTabChain().slice();
+      if (c.length >= TAB_ORDER.length || TAB_ORDER[c.length] !== frontier) {
+        this.checked = false;
+        return;
+      }
+      this.disabled = true;
+      if (dock) dock.classList.add('tab-work-dock--done');
+      setTimeout(function() {
+        c.push(frontier);
+        writeTabChain(c);
+        if (dock) dock.classList.remove('tab-work-dock--done');
+        const cb2 = document.getElementById('tab-work-complete-cb');
+        if (cb2) { cb2.checked = false; cb2.disabled = false; }
+        updateTabButtonLocks();
+        refreshTabCompleteDock();
+      }, 620);
+    });
+    updateTabButtonLocks();
+    refreshTabCompleteDock();
+  }
+
   /* ── 탭 전환 ── */
   function goTab(name) {
+    if (typeof canSwitchToTab === 'function' && !canSwitchToTab(name)) {
+      if (typeof showTabChainBlockedMessage === 'function') showTabChainBlockedMessage();
+      return;
+    }
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     const page = document.getElementById('page-' + name);
@@ -2240,6 +2536,8 @@
     if (name === 'pose' && typeof window._renderPose === 'function') window._renderPose();
     if (name === 'memo' && typeof initMemoPage === 'function') initMemoPage();
     if (name === 'concept' && typeof initConceptPage === 'function') initConceptPage();
+    if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
+    if (typeof updateTabButtonLocks === 'function') updateTabButtonLocks();
   }
 
   /* ── 레퍼런스 돌림판 ── */
@@ -2293,6 +2591,7 @@
     o[key] = true;
     localStorage.setItem(LS_TAB_ACTIVITY, JSON.stringify(o));
     if (typeof updateRoutineCheckboxAvailability === 'function') updateRoutineCheckboxAvailability();
+    if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
   }
 
   function allTabsHaveActivity() {
@@ -2512,6 +2811,7 @@
       if (typeof conceptHasStoredContent === 'function' && conceptHasStoredContent()) markTabActivity('concept');
     } catch (e) {}
     if (typeof updateRoutineCheckboxAvailability === 'function') updateRoutineCheckboxAvailability();
+    if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
   }
 
   let mmSelectedId = null;
@@ -3258,6 +3558,17 @@
           }
         });
       }
+      const memoEd = document.getElementById('memo-editor');
+      if (memoEd) {
+        memoEd.addEventListener('keydown', function(ev) {
+          if (ev.key !== 'Enter') return;
+          if (ev.ctrlKey || ev.metaKey) {
+            ev.preventDefault();
+            const saveBtn = document.getElementById('memo-save-btn');
+            if (saveBtn) saveBtn.click();
+          }
+        });
+      }
     }
   }
 
@@ -3819,6 +4130,7 @@
   syncTabActivityFromData();
   initMemoPage();
   initConceptPage();
+  if (typeof initTabWorkChainUI === 'function') initTabWorkChainUI();
   startGalleryTicker();
 
   /* ── 유튜브 오디오 ── */
@@ -3918,6 +4230,12 @@
       if (typeof syncTabActivityFromData === 'function') syncTabActivityFromData();
       if (typeof initMemoPage === 'function') initMemoPage();
       if (typeof initConceptPage === 'function') initConceptPage();
+      var ap = document.querySelector('#screen-main .page.active');
+      var an = ap && ap.id && ap.id.indexOf('page-') === 0 ? ap.id.slice(5) : 'home';
+      if (typeof canSwitchToTab === 'function' && !canSwitchToTab(an) && typeof goTab === 'function') goTab('home');
+      if (typeof initTabWorkChainUI === 'function') initTabWorkChainUI();
+      if (typeof updateTabButtonLocks === 'function') updateTabButtonLocks();
+      if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
     }, 400);
   }
 </script>
