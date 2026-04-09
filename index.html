@@ -708,9 +708,9 @@
     <div class="audio-player">
       <p class="audio-track-name" id="track-name">Away — 동기부여 편집영상</p>
 
-      <!-- 유튜브 미니 플레이어 -->
-      <div id="yt-player" style="width:100%;height:0;padding-bottom:56.25%;position:relative;border-radius:8px;overflow:hidden;margin-bottom:0.75rem;display:none;">
-        <iframe id="yt-iframe" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allowfullscreen allow="autoplay"></iframe>
+      <!-- 유튜브 숨김 플레이어 -->
+      <div style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;overflow:hidden;">
+        <iframe id="yt-iframe" allowfullscreen allow="autoplay" style="width:1px;height:1px;border:none;"></iframe>
       </div>
 
       <div class="audio-progress-wrap">
@@ -1056,7 +1056,6 @@
   const audioStatus = document.getElementById('audio-status');
   const btnPlay     = document.getElementById('btn-play');
   const btnStart    = document.getElementById('btn-start');
-  const ytWrap      = document.getElementById('yt-player');
   const ytIframe    = document.getElementById('yt-iframe');
 
   function fmt(s) {
@@ -1068,7 +1067,6 @@
   function togglePlay() {
     if (!ytLoaded) {
       /* 처음 클릭 — 영상 창 보여주고 재생 */
-      ytWrap.style.display = 'block';
       ytIframe.src = `https://www.youtube.com/embed/${YT_VIDEO_ID}?autoplay=1&rel=0&modestbranding=1`;
       ytLoaded = true;
       btnPlay.textContent = '⏸';
