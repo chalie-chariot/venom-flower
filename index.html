@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a08">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="독초">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>독초 — Venom Flower</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a08;
+      --bg2: #111109;
+      --bg3: #1a1a14;
+      --surface: #1e1e17;
+      --border: rgba(180,170,80,0.12);
+      --border2: rgba(180,170,80,0.25);
+      --accent: #b4c44a;
+      --accent2: #7a9e1a;
+      --accent-glow: rgba(180,196,74,0.15);
+      --text: #e8e4d0;
+      --text2: #9a9680;
+      --text3: #5a5848;
+      --danger: #c44a4a;
+      --font-display: 'Bebas Neue', cursive;
+      --font-serif: 'Noto Serif KR', serif;
+      --font-body: 'Noto Sans KR', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 배경 텍스처 ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 80%, rgba(100,140,20,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 80% 20%, rgba(60,80,10,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── 화면들 ── */
+    .screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px);
+    }
+
+    /* ════════════════════════
+       INTRO 화면
+    ════════════════════════ */
+    #screen-intro {
+      padding: 2rem;
+      gap: 0;
+    }
+
+    .intro-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .intro-eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.4em;
+      color: var(--accent2);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.3s ease forwards;
+    }
+
+    .intro-title {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 15vw, 11rem);
+      line-height: 0.88;
+      letter-spacing: 0.02em;
+      color: var(--accent);
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s ease forwards;
+    }
+
+    .intro-subtitle {
+      font-family: var(--font-serif);
+      font-size: clamp(0.75rem, 2vw, 0.9rem);
+      font-weight: 300;
+      color: var(--text3);
+      margin-top: 1rem;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.7s ease forwards;
+    }
+
+    /* 글귀 */
+    .intro-quote {
+      max-width: 480px;
+      text-align: center;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.9s ease forwards;
+    }
+
+    .intro-quote p {
+      font-family: var(--font-serif);
+      font-size: clamp(0.8rem, 2.2vw, 0.95rem);
+      font-weight: 300;
+      color: var(--text2);
+      line-height: 1.9;
+    }
+
+    .intro-quote span {
+      color: var(--accent);
+      font-weight: 400;
+    }
+
+    /* 오디오 플레이어 영역 */
+    .audio-section {
+      width: 100%;
+      max-width: 440px;
+      opacity: 0;
+      animation: fadeUp 0.8s 1.1s ease forwards;
+    }
+
+    .audio-label {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--text3);
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .audio-player {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .audio-track-name {
+      font-size: 13px;
+      color: var(--text2);
+      font-weight: 300;
+    }
+
+    .audio-progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .audio-progress {
+      flex: 1;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .audio-progress-bar {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.5s linear;
+      border-radius: 2px;
+    }
+
+    .audio-time {
+      font-size: 11px;
+      color: var(--text3);
+      min-width: 36px;
+      text-align: right;
+    }
+
+    .audio-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn-play {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 0.5px solid var(--border2);
+      background: transparent;
+      color: var(--accent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .btn-play:hover { background: var(--accent-glow); }
+
+    .audio-status {
+      font-size: 12px;
+      color: var(--text3);
+      flex: 1;
+    }
+
+    .audio-status.listening { color: var(--accent2); }
+    .audio-status.done { color: var(--accent); }
+
+    /* 완료 후 시작 버튼 */
+    .btn-start {
+      margin-top: 1.5rem;
+      width: 100%;
+      max-width: 440px;
+      height: 56px;
+      background: transparent;
+      border: 0.5px solid var(--border2);
+      border-radius: 8px;
+      color: var(--text3);
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      cursor: not-allowed;
+      transition: all 0.5s ease;
+      opacity: 0;
+      animation: fadeUp 0.8s 1.3s ease forwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-start.active {
+      color: var(--bg);
+      background: var(--accent);
+      border-color: var(--accent);
+      cursor: pointer;
+      letter-spacing: 0.3em;
+    }
+
+    .btn-start.active::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+      transform: translateX(-100%);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      to { transform: translateX(100%); }
+    }
+
+    /* ════════════════════════
+       MAIN 화면 (홈 대시보드)
+    ════════════════════════ */
+    #screen-main {
+      padding: 0;
+      align-items: stretch;
+      justify-content: stretch;
+    }
+
+    .main-layout {
+      width: 100%;
+      height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    /* 헤더 */
+    .main-header {
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .header-logo {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .header-date {
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.2em;
+      text-align: right;
+    }
+
+    .header-streak {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    /* 메인 콘텐츠 */
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      overflow: hidden;
+    }
+
+    .main-panel {
+      background: var(--bg);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .panel-label {
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      color: var(--text3);
+      text-transform: uppercase;
+    }
+
+    .panel-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .panel-desc {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .btn-panel {
+      margin-top: auto;
+      padding: 0.75rem 1.25rem;
+      background: transparent;
+      border: 0.5px solid var(--border2);
+      border-radius: 6px;
+      color: var(--text2);
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .btn-panel:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .btn-panel.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
+    }
+    .btn-panel.primary:hover {
+      background: var(--accent2);
+      border-color: var(--accent2);
+      color: var(--bg);
+    }
+
+    /* 오늘 현황 */
+    .stats-row {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .stat-item {
+      flex: 1;
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.2em;
+      margin-top: 4px;
+    }
+
+    /* 하단 바 */
+    .main-footer {
+      border-top: 0.5px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: var(--text3);
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 0.5rem 0;
+      transition: color 0.2s;
+      border-bottom: 1px solid transparent;
+    }
+    .nav-btn:hover, .nav-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .footer-quote {
+      font-family: var(--font-serif);
+      font-size: 10px;
+      color: var(--text3);
+      font-weight: 300;
+      max-width: 300px;
+      text-align: right;
+    }
+
+    /* ── 공통 애니메이션 ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 모바일 ── */
+    @media (max-width: 600px) {
+      .intro-title { font-size: clamp(4rem, 22vw, 6rem); }
+      .main-content { grid-template-columns: 1fr; }
+      .footer-nav { gap: 1rem; }
+      .footer-quote { display: none; }
+      .stats-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════
+     INTRO 화면
+══════════════════════════ -->
+<div id="screen-intro" class="screen">
+
+  <div class="intro-header">
+    <p class="intro-eyebrow">Venom Flower Studio</p>
+    <div style="opacity:0;animation:fadeUp 1s 0.4s ease forwards;">
+    <svg width="200" height="220" viewBox="0 0 220 240" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;">
+      <path d="M110 230 C110 200 108 175 110 145" stroke="#7a9e1a" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M109 185 C90 178 72 168 68 150 C85 155 102 165 109 178" stroke="#7a9e1a" stroke-width="1" fill="none"/>
+      <path d="M109 178 C95 168 80 158 68 150" stroke="#7a9e1a" stroke-width="0.5" stroke-linecap="round" opacity="0.5"/>
+      <path d="M111 195 C130 185 150 172 155 154 C138 160 120 172 111 186" stroke="#7a9e1a" stroke-width="1" fill="none"/>
+      <path d="M111 186 C125 175 140 163 155 154" stroke="#7a9e1a" stroke-width="0.5" stroke-linecap="round" opacity="0.5"/>
+      <path d="M110 145 C106 128 100 108 110 92 C120 108 114 128 110 145Z" stroke="#b4c44a" stroke-width="1" fill="none"/>
+      <path d="M110 145 C124 135 140 128 150 116 C140 108 126 118 110 145Z" stroke="#b4c44a" stroke-width="1" fill="none"/>
+      <path d="M110 145 C126 148 144 152 152 166 C138 170 124 162 110 145Z" stroke="#b4c44a" stroke-width="1" fill="none"/>
+      <path d="M110 145 C106 162 100 180 110 194 C120 180 114 162 110 145Z" stroke="#b4c44a" stroke-width="1" fill="none"/>
+      <path d="M110 145 C94 148 76 152 68 166 C82 170 96 162 110 145Z" stroke="#b4c44a" stroke-width="1" fill="none"/>
+      <path d="M110 145 C96 135 80 128 70 116 C80 108 94 118 110 145Z" stroke="#b4c44a" stroke-width="1" fill="none"/>
+      <path d="M110 145 C108 132 106 115 110 98" stroke="#b4c44a" stroke-width="0.4" opacity="0.4" stroke-linecap="round"/>
+      <path d="M110 145 C120 138 134 132 146 120" stroke="#b4c44a" stroke-width="0.4" opacity="0.4" stroke-linecap="round"/>
+      <path d="M110 145 C122 147 138 152 148 163" stroke="#b4c44a" stroke-width="0.4" opacity="0.4" stroke-linecap="round"/>
+      <path d="M110 145 C108 158 106 173 110 188" stroke="#b4c44a" stroke-width="0.4" opacity="0.4" stroke-linecap="round"/>
+      <path d="M110 145 C98 147 82 152 72 163" stroke="#b4c44a" stroke-width="0.4" opacity="0.4" stroke-linecap="round"/>
+      <path d="M110 145 C100 138 86 132 74 120" stroke="#b4c44a" stroke-width="0.4" opacity="0.4" stroke-linecap="round"/>
+      <circle cx="110" cy="145" r="7" stroke="#b4c44a" stroke-width="1" fill="none"/>
+      <circle cx="110" cy="145" r="2.5" fill="#b4c44a" opacity="0.6"/>
+      <circle cx="110" cy="133" r="1.2" fill="#b4c44a" opacity="0.5"/>
+      <circle cx="119" cy="137" r="1.2" fill="#b4c44a" opacity="0.5"/>
+      <circle cx="119" cy="153" r="1.2" fill="#b4c44a" opacity="0.5"/>
+      <circle cx="110" cy="157" r="1.2" fill="#b4c44a" opacity="0.5"/>
+      <circle cx="101" cy="153" r="1.2" fill="#b4c44a" opacity="0.5"/>
+      <circle cx="101" cy="137" r="1.2" fill="#b4c44a" opacity="0.5"/>
+      <path d="M80 138 C76 128 74 116 80 108 C86 116 84 128 80 138Z" stroke="#7a9e1a" stroke-width="0.8" fill="none" opacity="0.7"/>
+      <path d="M80 138 L80 160 C80 160 75 155 72 150" stroke="#7a9e1a" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.7"/>
+      <path d="M80 152 C74 148 68 144 65 136 C72 138 78 143 80 152Z" stroke="#7a9e1a" stroke-width="0.7" fill="none" opacity="0.6"/>
+      <path d="M140 132 C136 122 134 110 140 102 C146 110 144 122 140 132Z" stroke="#7a9e1a" stroke-width="0.8" fill="none" opacity="0.7"/>
+      <path d="M140 132 L140 158 C140 158 145 152 148 147" stroke="#7a9e1a" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.7"/>
+      <path d="M140 148 C147 143 154 138 157 130 C150 133 144 138 140 148Z" stroke="#7a9e1a" stroke-width="0.7" fill="none" opacity="0.6"/>
+    </svg>
+    </div>
+    <p class="intro-subtitle" style="margin-top:0.5rem;">온실속의 화초 — 독하게 마음먹자</p>
+  </div>
+
+  <div class="intro-quote">
+    <p>
+      깨우치지 못한 채 똑같은 하루의 연속은<br>
+      <span>속절없이 시간만 낭비될 뿐이다</span>
+    </p>
+  </div>
+
+  <div class="audio-section">
+    <p class="audio-label">훈련 시작 전 — Away</p>
+    <div class="audio-player">
+      <p class="audio-track-name" id="track-name">Away — 동기부여 편집영상</p>
+      <div class="audio-progress-wrap">
+        <div class="audio-progress">
+          <div class="audio-progress-bar" id="progress-bar"></div>
+        </div>
+        <span class="audio-time" id="audio-time">0:00</span>
+      </div>
+      <div class="audio-controls">
+        <button class="btn-play" id="btn-play" onclick="togglePlay()">▶</button>
+        <span class="audio-status" id="audio-status">재생을 눌러 시작하세요</span>
+      </div>
+    </div>
+
+    <!-- 음원 파일 (실제 파일 넣으면 자동 작동) -->
+    <audio id="main-audio" preload="auto">
+      <!-- <source src="audio/away.mp3" type="audio/mpeg"> -->
+    </audio>
+
+    <button class="btn-start" id="btn-start" onclick="enterMain()" disabled>
+      훈련 시작
+    </button>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════
+     MAIN 대시보드 화면
+══════════════════════════ -->
+<div id="screen-main" class="screen hidden">
+  <div class="main-layout">
+
+    <!-- 헤더 -->
+    <header class="main-header">
+      <div class="header-logo">독초</div>
+      <div style="text-align:center;">
+        <div class="header-streak" id="streak-count">0</div>
+        <div style="font-size:10px;color:var(--text3);letter-spacing:0.2em;">연속 훈련일</div>
+      </div>
+      <div class="header-date" id="header-date"></div>
+    </header>
+
+    <!-- 메인 패널들 -->
+    <div class="main-content">
+
+      <!-- 크로키 훈련 -->
+      <div class="main-panel">
+        <p class="panel-label">Daily Training</p>
+        <h2 class="panel-title">크로키<br>훈련</h2>
+        <div class="stats-row">
+          <div class="stat-item">
+            <div class="stat-num" id="today-croquis">0</div>
+            <div class="stat-label">오늘 완료</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num" id="total-croquis">0</div>
+            <div class="stat-label">누적 총계</div>
+          </div>
+        </div>
+        <p class="panel-desc">2분 타이머 · 랜덤 이미지<br>3장 완료 후 셀프 피드백</p>
+        <button class="btn-panel primary" onclick="alert('Phase 2에서 구현됩니다!')">훈련 시작 →</button>
+      </div>
+
+      <!-- 갤러리 & 업로드 -->
+      <div class="main-panel">
+        <p class="panel-label">Gallery</p>
+        <h2 class="panel-title">작업<br>갤러리</h2>
+        <div class="stats-row">
+          <div class="stat-item">
+            <div class="stat-num" id="total-works">0</div>
+            <div class="stat-label">업로드 수</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num" id="feedback-count">0</div>
+            <div class="stat-label">피드백 완료</div>
+          </div>
+        </div>
+        <p class="panel-desc">크로키 · 완성작 · 레퍼런스<br>5분 내 삭제 가능</p>
+        <button class="btn-panel" onclick="alert('Phase 2에서 구현됩니다!')">갤러리 보기 →</button>
+      </div>
+
+      <!-- 레퍼런스 -->
+      <div class="main-panel">
+        <p class="panel-label">Reference</p>
+        <h2 class="panel-title">레퍼런스<br>관리</h2>
+        <p class="panel-desc">LD · SD · 연출 분류<br>돌림판으로 오늘의 작업 선택</p>
+        <button class="btn-panel" onclick="alert('Phase 4에서 구현됩니다!')">폴더 열기 →</button>
+      </div>
+
+      <!-- 메모 & 마인드맵 -->
+      <div class="main-panel">
+        <p class="panel-label">Memo</p>
+        <h2 class="panel-title">메모<br>세계관</h2>
+        <p class="panel-desc">키워드 메모 · 세계관 설정<br>/ 마인드맵 파생</p>
+        <button class="btn-panel" onclick="alert('Phase 4에서 구현됩니다!')">메모 열기 →</button>
+      </div>
+
+    </div>
+
+    <!-- 하단 네비 -->
+    <footer class="main-footer">
+      <nav class="footer-nav">
+        <button class="nav-btn active">홈</button>
+        <button class="nav-btn" onclick="alert('Phase 2에서 구현!')">크로키</button>
+        <button class="nav-btn" onclick="alert('Phase 2에서 구현!')">갤러리</button>
+        <button class="nav-btn" onclick="alert('Phase 4에서 구현!')">메모</button>
+      </nav>
+      <p class="footer-quote">하나를 끝까지 완성하는 것을 목표로</p>
+    </footer>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════
+     Firebase SDK
+══════════════════════════ -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, increment }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDfBgTwawlVt3PD-HAttHoPp-Ehm5uLa2c",
+    authDomain: "venom-flower-4ff09.firebaseapp.com",
+    projectId: "venom-flower-4ff09",
+    storageBucket: "venom-flower-4ff09.firebasestorage.app",
+    messagingSenderId: "255493327050",
+    appId: "1:255493327050:web:8ce566b6219abcd79e4c33",
+    measurementId: "G-THPGJPWLS0"
+  };
+
+  let db;
+  try {
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    window._db = db;
+    loadStats();
+  } catch(e) {
+    console.warn("Firebase 미연결 — 로컬 모드로 실행");
+    loadLocalStats();
+  }
+
+  async function loadStats() {
+    try {
+      const ref = doc(db, "users", "dokcho");
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        const d = snap.data();
+        window._stats = d;
+        updateUI(d);
+      } else {
+        const init = { todayCroquis:0, totalCroquis:0, totalWorks:0, feedbackCount:0, streak:0, lastDate:'' };
+        await setDoc(ref, init);
+        window._stats = init;
+        updateUI(init);
+      }
+    } catch(e) { loadLocalStats(); }
+  }
+
+  function loadLocalStats() {
+    const saved = JSON.parse(localStorage.getItem('dokcho_stats') || '{}');
+    const d = { todayCroquis:0, totalCroquis:0, totalWorks:0, feedbackCount:0, streak:0, lastDate:'', ...saved };
+    window._stats = d;
+    updateUI(d);
+  }
+
+  function updateUI(d) {
+    const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+    set('today-croquis', d.todayCroquis || 0);
+    set('total-croquis', d.totalCroquis || 0);
+    set('total-works', d.totalWorks || 0);
+    set('feedback-count', d.feedbackCount || 0);
+    set('streak-count', d.streak || 0);
+  }
+
+  window._saveStats = async function(updates) {
+    const merged = { ...(window._stats || {}), ...updates };
+    window._stats = merged;
+    localStorage.setItem('dokcho_stats', JSON.stringify(merged));
+    if (window._db) {
+      try {
+        const ref = doc(window._db, "users", "dokcho");
+        await updateDoc(ref, updates);
+      } catch(e) { console.warn("Firebase 저장 실패 — 로컬에만 저장됨"); }
+    }
+    updateUI(merged);
+  };
+</script>
+
+<!-- ══════════════════════════
+     UI 로직
+══════════════════════════ -->
+<script>
+  /* ── 날짜 표시 ── */
+  const dateEl = document.getElementById('header-date');
+  const now = new Date();
+  dateEl.innerHTML = `${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일<br>
+    <span style="font-size:10px;letter-spacing:0.15em;">
+      ${'일월화수목금토'[now.getDay()]}요일
+    </span>`;
+
+  /* ── 오디오 ── */
+  const audio    = document.getElementById('main-audio');
+  const progressBar = document.getElementById('progress-bar');
+  const audioTime   = document.getElementById('audio-time');
+  const audioStatus = document.getElementById('audio-status');
+  const btnPlay  = document.getElementById('btn-play');
+  const btnStart = document.getElementById('btn-start');
+
+  let audioCompleted = false;
+  let devMode = false; // true로 바꾸면 음원 없이 테스트 가능
+
+  function fmt(s) {
+    const m = Math.floor(s/60), sec = Math.floor(s%60);
+    return `${m}:${sec.toString().padStart(2,'0')}`;
+  }
+
+  function togglePlay() {
+    if (devMode) { completeAudio(); return; }
+    if (!audio.src || audio.src === window.location.href) {
+      /* 음원 파일이 없을 때 — 개발용 시뮬레이션 */
+      simulateAudio();
+      return;
+    }
+    if (audio.paused) {
+      audio.play();
+      btnPlay.textContent = '⏸';
+      audioStatus.textContent = '듣는 중...';
+      audioStatus.className = 'audio-status listening';
+    } else {
+      audio.pause();
+      btnPlay.textContent = '▶';
+      audioStatus.textContent = '일시정지';
+      audioStatus.className = 'audio-status';
+    }
+  }
+
+  audio.ontimeupdate = () => {
+    if (!audio.duration) return;
+    const pct = (audio.currentTime / audio.duration) * 100;
+    progressBar.style.width = pct + '%';
+    audioTime.textContent = fmt(audio.currentTime);
+  };
+
+  audio.onended = completeAudio;
+
+  function completeAudio() {
+    audioCompleted = true;
+    progressBar.style.width = '100%';
+    audioStatus.textContent = '완료 — 훈련을 시작하세요';
+    audioStatus.className = 'audio-status done';
+    btnPlay.textContent = '✓';
+    btnPlay.style.borderColor = 'var(--accent)';
+    btnStart.disabled = false;
+    btnStart.classList.add('active');
+    btnStart.textContent = '훈련 시작 →';
+  }
+
+  /* 음원 없을 때 시뮬레이션 (개발용) */
+  let simTimer = null, simProgress = 0, simTotal = 30; // 30초 시뮬
+  function simulateAudio() {
+    if (simTimer) {
+      clearInterval(simTimer);
+      simTimer = null;
+      btnPlay.textContent = '▶';
+      audioStatus.textContent = '일시정지';
+      audioStatus.className = 'audio-status';
+      return;
+    }
+    btnPlay.textContent = '⏸';
+    audioStatus.textContent = '시뮬레이션 중 (음원 파일 없음)';
+    audioStatus.className = 'audio-status listening';
+    simTimer = setInterval(() => {
+      simProgress++;
+      const pct = (simProgress / simTotal) * 100;
+      progressBar.style.width = pct + '%';
+      audioTime.textContent = fmt(simProgress);
+      if (simProgress >= simTotal) {
+        clearInterval(simTimer);
+        completeAudio();
+      }
+    }, 1000);
+  }
+
+  /* ── 화면 전환 ── */
+  function enterMain() {
+    if (!audioCompleted) return;
+    document.getElementById('screen-intro').classList.add('hidden');
+    setTimeout(() => {
+      document.getElementById('screen-main').classList.remove('hidden');
+    }, 400);
+  }
+</script>
+
+</body>
+</html>
