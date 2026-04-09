@@ -1560,7 +1560,7 @@
       left: 50%;
       transform: translateX(-50%);
       bottom: calc(4.75rem + env(safe-area-inset-bottom));
-      z-index: 200;
+      z-index: 99999;
       max-width: min(22rem, calc(100vw - 2rem));
       padding: 0.55rem 1rem;
       background: rgba(22, 20, 16, 0.96);
@@ -1899,6 +1899,8 @@
   </style>
 </head>
 <body>
+<!-- 알림: screen-main 밖에 두어 레이아웃·hidden과 무관하게 표시 -->
+<div id="app-toast" class="app-toast-bar" role="status" aria-live="polite" aria-hidden="true"></div>
 
 <!-- ══════════════════════════
      INTRO 화면
@@ -2161,7 +2163,6 @@
      MAIN 화면
 ══════════════════════════ -->
 <div id="screen-main" class="screen hidden">
-  <div id="app-toast" class="app-toast-bar" role="status" aria-live="polite"></div>
   <div class="main-layout">
 
     <!-- 헤더 -->
@@ -2740,6 +2741,32 @@
     <span style="font-size:10px;letter-spacing:0.15em;">${'일월화수목금토'[now.getDay()]}요일</span>`;
   const dateEl = document.getElementById('header-date');
   if(dateEl) dateEl.innerHTML = dateStr;
+
+  /* 전역 토스트 — 스크립트 최상단에 두어 항상 동작 (#app-toast는 </body> 직전) */
+  var __cqToastTimer = null;
+  function cqShowToast(msg) {
+    var text = msg != null ? String(msg) : '';
+    if (__cqToastTimer) {
+      clearTimeout(__cqToastTimer);
+      __cqToastTimer = null;
+    }
+    var el = document.getElementById('app-toast');
+    if (el) {
+      el.textContent = text;
+      el.classList.toggle('is-visible', !!text);
+      el.setAttribute('aria-hidden', text ? 'false' : 'true');
+      __cqToastTimer = setTimeout(function() {
+        el.textContent = '';
+        el.classList.remove('is-visible');
+        el.setAttribute('aria-hidden', 'true');
+        __cqToastTimer = null;
+      }, 4500);
+    }
+    try { console.info('[venom]', text); } catch (e) {}
+    if (text && !el) {
+      try { alert(text); } catch (e2) {}
+    }
+  }
 
   /* ── 탭 순서 잠금 (홈→크로키→포즈→레퍼런스→갤러리→메모→캐릭터 창작) ── */
   const TAB_ORDER = ['home', 'croquis', 'pose', 'reference', 'gallery', 'memo', 'concept'];
@@ -4363,63 +4390,72 @@
     });
   });
 
-  document.getElementById('ref-upload-btn').addEventListener('click', () => {
-    document.getElementById('ref-file').click();
-  });
-
-  document.getElementById('ref-file').addEventListener('change', function(ev) {
-    const files = ev.target.files;
-    if (!files || !files.length) return;
-    const cat = document.getElementById('ref-cat-select').value;
-    const imgs = Array.from(files).filter(f => f.type.startsWith('image/'));
-    ev.target.value = '';
-    if (!imgs.length) return;
-    let list = readRefs();
-    let left = imgs.length;
-    imgs.forEach(f => {
-      const r = new FileReader();
-      r.onload = () => {
-        list.push({ id: uid(), cat, data: r.result, addedAt: new Date().toISOString(), note: '' });
-        left--;
-        if (left === 0) {
-          writeRefs(list);
-          window._renderReference();
-          markTabActivity('reference');
-        }
-      };
-      r.onerror = () => { left--; if (left === 0) { writeRefs(list); window._renderReference(); } };
-      r.readAsDataURL(f);
-    });
-  });
-
-  document.getElementById('pose-upload-btn').addEventListener('click', () => {
-    document.getElementById('pose-file').click();
-  });
-
-  document.getElementById('pose-file').addEventListener('change', function(ev) {
-    const files = ev.target.files;
-    if (!files || !files.length) return;
-    const cat = document.getElementById('pose-cat-select').value;
-    const imgs = Array.from(files).filter(f => f.type.startsWith('image/'));
-    ev.target.value = '';
-    if (!imgs.length) return;
-    let list = readPoses();
-    let left = imgs.length;
-    imgs.forEach(f => {
-      const r = new FileReader();
-      r.onload = () => {
-        list.push({ id: uid(), cat, data: r.result, addedAt: new Date().toISOString() });
-        left--;
-        if (left === 0) {
-          writePoses(list);
-          window._renderPose();
-          markTabActivity('pose');
-        }
-      };
-      r.onerror = () => { left--; if (left === 0) { writePoses(list); window._renderPose(); } };
-      r.readAsDataURL(f);
-    });
-  });
+  (function bindRefPoseUploads() {
+    var refBtn = document.getElementById('ref-upload-btn');
+    var refInp = document.getElementById('ref-file');
+    if (refBtn && refInp) {
+      refBtn.addEventListener('click', function() { refInp.click(); });
+      refInp.addEventListener('change', function(ev) {
+        const files = ev.target.files;
+        if (!files || !files.length) return;
+        const catSel = document.getElementById('ref-cat-select');
+        const cat = catSel ? catSel.value : 'LD';
+        const imgs = Array.from(files).filter(isLikelyImageFile);
+        ev.target.value = '';
+        if (!imgs.length) return;
+        let list = readRefs();
+        let left = imgs.length;
+        imgs.forEach(function(f) {
+          const r = new FileReader();
+          r.onload = function() {
+            list.push({ id: uid(), cat: cat, data: r.result, addedAt: new Date().toISOString(), note: '' });
+            left--;
+            if (left === 0) {
+              writeRefs(list);
+              window._renderReference();
+              markTabActivity('reference');
+            }
+          };
+          r.onerror = function() { left--; if (left === 0) { writeRefs(list); window._renderReference(); } };
+          r.readAsDataURL(f);
+        });
+      });
+    } else {
+      console.warn('[venom] 레퍼런스 업로드 버튼 없음');
+    }
+    var poseBtn = document.getElementById('pose-upload-btn');
+    var poseInp = document.getElementById('pose-file');
+    if (poseBtn && poseInp) {
+      poseBtn.addEventListener('click', function() { poseInp.click(); });
+      poseInp.addEventListener('change', function(ev) {
+        const files = ev.target.files;
+        if (!files || !files.length) return;
+        const catSel = document.getElementById('pose-cat-select');
+        const cat = catSel ? catSel.value : 'LD';
+        const imgs = Array.from(files).filter(isLikelyImageFile);
+        ev.target.value = '';
+        if (!imgs.length) return;
+        let list = readPoses();
+        let left = imgs.length;
+        imgs.forEach(function(f) {
+          const r = new FileReader();
+          r.onload = function() {
+            list.push({ id: uid(), cat: cat, data: r.result, addedAt: new Date().toISOString() });
+            left--;
+            if (left === 0) {
+              writePoses(list);
+              window._renderPose();
+              markTabActivity('pose');
+            }
+          };
+          r.onerror = function() { left--; if (left === 0) { writePoses(list); window._renderPose(); } };
+          r.readAsDataURL(f);
+        });
+      });
+    } else {
+      console.warn('[venom] 포즈 업로드 버튼 없음');
+    }
+  })();
 
   /* ── 갤러리 ── */
   let galleryTick = null;
@@ -4594,24 +4630,6 @@
   let cqCompleted = 0;
   let cqCurrentRefId = null;
   let cqRefPickCounts = {};
-  let cqToastT = null;
-
-  function cqShowToast(msg) {
-    if (cqToastT) clearTimeout(cqToastT);
-    var text = msg || '';
-    var el = document.getElementById('app-toast') || document.getElementById('cq-toast');
-    if (!el) {
-      try { alert(text); } catch (e) {}
-      return;
-    }
-    el.textContent = text;
-    if (el.id === 'app-toast') el.classList.toggle('is-visible', !!text);
-    cqToastT = setTimeout(function() {
-      el.textContent = '';
-      if (el.id === 'app-toast') el.classList.remove('is-visible');
-      cqToastT = null;
-    }, 3200);
-  }
 
   function cqFmt(sec) {
     const m = Math.floor(sec / 60);
@@ -4620,6 +4638,7 @@
   }
 
   function cqUpdateRing() {
+    if (!cqRing || !cqTimeEl) return;
     const p = cqRemaining / CROQUIS_SEC;
     cqRing.style.strokeDasharray = String(RING_LEN);
     cqRing.style.strokeDashoffset = String(RING_LEN * (1 - p));
@@ -4664,7 +4683,7 @@
 
   function cqStartTimer() {
     if (cqCompleted >= 3) return;
-    if (!cqWrap.classList.contains('has-img')) {
+    if (!cqWrap || !cqWrap.classList.contains('has-img')) {
       cqShowToast('먼저 이미지를 불러오세요.');
       return;
     }
@@ -4685,6 +4704,7 @@
   }
 
   function cqSetImage(src, refId) {
+    if (!cqImg || !cqWrap) return;
     cqImg.src = src;
     cqWrap.classList.add('has-img');
     cqCurrentRefId = refId || null;
@@ -4729,34 +4749,43 @@
     setCroquisTouched();
   }
 
-  document.getElementById('cq-upload-btn').addEventListener('click', () => {
-    document.getElementById('cq-file').click();
-  });
-
-  document.getElementById('cq-file').addEventListener('change', function(ev) {
-    const f = ev.target.files && ev.target.files[0];
-    ev.target.value = '';
-    if (!f || !f.type.startsWith('image/')) return;
-    const r = new FileReader();
-    r.onload = () => {
-      cqSetImage(r.result, null);
-      setCroquisTouched();
-    };
-    r.readAsDataURL(f);
-  });
-
-  document.getElementById('cq-random-btn').addEventListener('click', cqPickRandomPose);
-
-  document.getElementById('cq-start').addEventListener('click', cqStartTimer);
-  document.getElementById('cq-pause').addEventListener('click', cqPauseTimer);
-  document.getElementById('cq-reset').addEventListener('click', cqResetTimerOnly);
-  document.getElementById('cq-next').addEventListener('click', () => {
-    if (cqCompleted >= 3) return;
-    cqStopTimer();
-    cqAdvanceRound();
-  });
-
-  document.getElementById('cq-feedback-save').addEventListener('click', async () => {
+  (function bindCroquisControls() {
+    var cqUp = document.getElementById('cq-upload-btn');
+    var cqFi = document.getElementById('cq-file');
+    if (cqUp && cqFi) {
+      cqUp.addEventListener('click', function() { cqFi.click(); });
+      cqFi.addEventListener('change', function(ev) {
+        var f = ev.target.files && ev.target.files[0];
+        ev.target.value = '';
+        if (!f || !isLikelyImageFile(f)) return;
+        var r = new FileReader();
+        r.onload = function() {
+          cqSetImage(r.result, null);
+          setCroquisTouched();
+        };
+        r.readAsDataURL(f);
+      });
+    }
+    var cqRand = document.getElementById('cq-random-btn');
+    if (cqRand) cqRand.addEventListener('click', cqPickRandomPose);
+    var cqSt = document.getElementById('cq-start');
+    var cqPs = document.getElementById('cq-pause');
+    var cqRs = document.getElementById('cq-reset');
+    var cqNx = document.getElementById('cq-next');
+    if (cqSt) cqSt.addEventListener('click', cqStartTimer);
+    if (cqPs) cqPs.addEventListener('click', cqPauseTimer);
+    if (cqRs) cqRs.addEventListener('click', cqResetTimerOnly);
+    if (cqNx) cqNx.addEventListener('click', function() {
+      if (cqCompleted >= 3) return;
+      cqStopTimer();
+      cqAdvanceRound();
+    });
+    var cqFbs = document.getElementById('cq-feedback-save');
+    if (!cqFbs) {
+      console.warn('[venom] 크로키 피드백 버튼 없음');
+      return;
+    }
+    cqFbs.addEventListener('click', async () => {
     const text = (cqFbText.value || '').trim();
     const today = new Date();
     const dateStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
@@ -4777,9 +4806,11 @@
     document.getElementById('cq-next').disabled = false;
     cqShowToast('피드백이 저장되었습니다.');
     setCroquisTouched();
-  });
+    });
+  })();
 
-  document.getElementById('memo-save-btn').addEventListener('click', function() {
+  var memoSaveBtn = document.getElementById('memo-save-btn');
+  if (memoSaveBtn) memoSaveBtn.addEventListener('click', function() {
     const ed = document.getElementById('memo-editor');
     if (!ed) return;
     try {
@@ -4802,7 +4833,8 @@
     markMemoTabIfNeeded();
   });
 
-  document.getElementById('concept-save-btn').addEventListener('click', function() {
+  var conceptSaveBtn = document.getElementById('concept-save-btn');
+  if (conceptSaveBtn) conceptSaveBtn.addEventListener('click', function() {
     const s = readCharacterSheet();
     mergeFormIntoSheet(s);
     writeCharacterSheet(s);
