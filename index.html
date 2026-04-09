@@ -1400,6 +1400,21 @@
       min-height: 3.25rem;
       font-size: 13px;
     }
+    /* 캐릭터 창작: @ 키워드 — 헤더 고정 */
+    #page-concept .char-kw-header-card {
+      position: sticky;
+      top: 0;
+      z-index: 6;
+      margin: 0 0 1rem;
+      padding: 0.75rem 0 1rem;
+      background: var(--bg);
+      border-bottom: 0.5px solid var(--border);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+    #page-concept .char-kw-header-card .memo-hint {
+      margin-bottom: 0.45rem;
+    }
+
     .char-kw-pick-area {
       display: flex;
       flex-direction: column;
@@ -1408,7 +1423,7 @@
       border: 0.5px solid var(--border);
       border-radius: 8px;
       background: var(--bg3);
-      max-height: 220px;
+      max-height: 200px;
       overflow-y: auto;
     }
     .char-kw-pick {
@@ -1943,8 +1958,8 @@
           <div class="memo-split">
             <div>
               <h3 class="memo-section-title">일반 메모장</h3>
-              <p class="memo-hint"><strong>@</strong> + 띄어쓰기 + 단어 를 <strong>한 줄</strong>에 쓰고 저장하면 키워드가 스레드에 쌓입니다. (예: <code style="color:var(--accent2);">@ 독초</code>)</p>
-              <textarea id="memo-editor" class="memo-editor" placeholder="자유 메모…&#10;@ 키워드 형식으로 줄마다 키워드 저장"></textarea>
+              <p class="memo-hint"><strong>@</strong> + 띄어쓰기 + <strong>짧은 단어</strong>(다음 띄어쓰기·다음 <strong>@</strong> 전까지)를 쓰면 키워드로 저장됩니다. 한 줄·여러 줄 모두 가능합니다. 같은 저장 안에서는 같은 단어는 한 번만 잡힙니다. (너무 긴 난타는 키워드에서 제외 · 예: <code style="color:var(--accent2);">@ 독초</code> <code style="color:var(--accent2);">@ 레이</code>)</p>
+              <textarea id="memo-editor" class="memo-editor" placeholder="자유 메모…&#10;예: @ 독초 그래도 @ 레이 (한 줄에 여러 @ 가능)"></textarea>
               <div class="memo-keyword-thread" id="memo-keyword-thread" aria-label="저장된 키워드 스레드">
                 <div class="memo-kw-label">KEYWORD THREAD</div>
                 <div class="memo-kw-toolbar">
@@ -1980,6 +1995,14 @@
             <h2 class="page-title">캐릭터 창작</h2>
             <span class="page-sub">이미지 · 질문지 · 메모 키워드</span>
           </div>
+
+          <div class="char-kw-header-card" id="char-kw-header-card">
+            <div class="memo-kw-label" style="margin-bottom:0.35rem;">메모 @ 키워드 연결</div>
+            <p class="memo-hint">메모장에서 저장한 <code style="color:var(--accent2);">@ 단어</code>를 여기서 고르면 이 캐릭터에 붙습니다. (항상 이 영역에 고정)</p>
+            <div class="char-kw-pick-area" id="char-kw-pick-wrap"></div>
+            <div class="char-linked-preview" id="char-linked-preview" aria-label="붙인 키워드" style="margin-top:0.5rem;"></div>
+          </div>
+
           <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: 이미지 추가, 질문지 작성, 메모 <strong>@</strong> 키워드 붙이기, 또는 「캐릭터 저장」 중 하나로 이 탭 활동이 인정됩니다.</p>
 
           <h3 class="memo-section-title">컨셉 이미지</h3>
@@ -2022,11 +2045,6 @@
               <textarea id="char-f-extra" class="memo-editor char-q-text" rows="3" placeholder="그 밖에 남기고 싶은 설정…"></textarea>
             </div>
           </div>
-
-          <h3 class="memo-section-title">메모 <strong>@</strong> 키워드 붙이기</h3>
-          <p class="memo-hint">메모장에서 <code style="color:var(--accent2);">@ 단어</code> 형식으로 저장된 키워드를 체크하면 이 캐릭터에 메모로 연결됩니다.</p>
-          <div class="char-kw-pick-area" id="char-kw-pick-wrap"></div>
-          <div class="char-linked-preview" id="char-linked-preview" aria-label="붙인 키워드"></div>
 
           <button type="button" class="btn-cq primary" id="concept-save-btn" style="align-self:flex-end;height:40px;padding:0 1.25rem;">캐릭터 저장</button>
         </div>
@@ -2249,6 +2267,8 @@
   const LS_TAB_ACTIVITY = 'dokcho_tab_activity';
   const LS_MEMO_BODY = 'dokcho_memo_body';
   const LS_MEMO_KEYWORDS = 'dokcho_memo_keywords';
+  /** @ 뒤 한 토큰으로 인정할 최대 글자 수(난타·문장 조각 제외). 필요 시 숫자만 조정 */
+  const AT_KEYWORD_MAX_LEN = 12;
   const LS_MINDMAP = 'dokcho_mindmap';
   const LS_CHARACTER_SHEET = 'dokcho_character_sheet';
   const LS_CONCEPT_BODY_LEGACY = 'dokcho_concept_body';
@@ -2551,11 +2571,19 @@
 
   function extractAtKeywords(text) {
     const out = [];
-    const re = /^@\s+(.+)$/gm;
+    const seen = Object.create(null);
+    const raw = text || '';
+    const re = /@\s+([^\s@]+)/g;
+    const atIso = new Date().toISOString();
     let m;
-    while ((m = re.exec(text || '')) !== null) {
-      const w = (m[1] || '').trim();
-      if (w) out.push({ word: w, at: new Date().toISOString() });
+    while ((m = re.exec(raw)) !== null) {
+      let w = (m[1] || '').trim();
+      w = w.replace(/[，。,.!?;:·'"』」）)\]}…]+$/g, '').trim();
+      if (!w) continue;
+      if (w.length > AT_KEYWORD_MAX_LEN) continue;
+      if (seen[w]) continue;
+      seen[w] = true;
+      out.push({ word: w, at: atIso });
     }
     return out;
   }
@@ -3726,11 +3754,16 @@
     const found = extractAtKeywords(ed.value);
     if (found.length) {
       const b = readMemoKeywordBundle();
+      let added = false;
       found.forEach(function(f) {
+        if (b.entries.some(function(e) { return e.word === f.word; })) return;
         b.entries.push({ id: uid(), word: f.word, at: f.at, groupId: null });
+        added = true;
       });
-      writeMemoKeywordBundle(b);
-      renderKeywordThread();
+      if (added) {
+        writeMemoKeywordBundle(b);
+        renderKeywordThread();
+      }
     }
     markMemoTabIfNeeded();
   });
