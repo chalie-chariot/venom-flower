@@ -288,8 +288,8 @@
     .main-layout {
       width: 100%;
       height: 100vh;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
+      display: flex;
+      flex-direction: column;
     }
 
     /* 헤더 */
@@ -321,145 +321,317 @@
       color: var(--accent);
     }
 
-    /* 메인 콘텐츠 */
-    .main-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--border);
-      overflow: hidden;
-    }
+    /* ── 페이지 시스템 ── */
+    .page { display: none; flex-direction: column; flex: 1; overflow-y: auto; }
+    .page.active { display: flex; }
 
-    .main-panel {
-      background: var(--bg);
-      padding: 2rem;
+    /* ── 홈 페이지 ── */
+    .home-wrap {
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.25rem;
+      flex: 1;
     }
 
-    .panel-label {
-      font-size: 10px;
-      letter-spacing: 0.4em;
-      color: var(--text3);
-      text-transform: uppercase;
+    .home-greeting {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .panel-title {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      color: var(--text);
-      line-height: 1;
-    }
-
-    .panel-desc {
-      font-size: 12px;
+    .greeting-text {
+      font-family: var(--font-serif);
+      font-size: 13px;
       color: var(--text2);
-      line-height: 1.8;
       font-weight: 300;
     }
 
-    .btn-panel {
-      margin-top: auto;
-      padding: 0.75rem 1.25rem;
-      background: transparent;
-      border: 0.5px solid var(--border2);
-      border-radius: 6px;
-      color: var(--text2);
-      font-family: var(--font-body);
-      font-size: 12px;
+    .greeting-date {
+      font-size: 11px;
+      color: var(--text3);
       letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-align: center;
-    }
-    .btn-panel:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: var(--accent-glow);
+      text-align: right;
     }
 
-    .btn-panel.primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: var(--bg);
-    }
-    .btn-panel.primary:hover {
-      background: var(--accent2);
-      border-color: var(--accent2);
-      color: var(--bg);
-    }
-
-    /* 오늘 현황 */
-    .stats-row {
+    /* 오늘 현황 바 */
+    .today-bar {
       display: flex;
-      gap: 1rem;
+      gap: 0.75rem;
     }
 
-    .stat-item {
+    .today-card {
       flex: 1;
       background: var(--surface);
       border: 0.5px solid var(--border);
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      padding: 1rem;
       text-align: center;
     }
 
-    .stat-num {
+    .today-num {
       font-family: var(--font-display);
-      font-size: 1.8rem;
+      font-size: 2.2rem;
       color: var(--accent);
       line-height: 1;
     }
 
-    .stat-label {
+    .today-label {
       font-size: 10px;
       color: var(--text3);
       letter-spacing: 0.2em;
       margin-top: 4px;
     }
 
-    /* 하단 바 */
-    .main-footer {
-      border-top: 0.5px solid var(--border);
-      padding: 1rem 2rem;
+    /* 크로키 빠른 시작 카드 */
+    .croquis-hero {
+      background: var(--surface);
+      border: 0.5px solid var(--border2);
+      border-radius: 14px;
+      padding: 1.5rem;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: flex-start;
       justify-content: space-between;
     }
 
-    .footer-nav {
-      display: flex;
-      gap: 2rem;
-    }
-
-    .nav-btn {
-      background: none;
-      border: none;
-      color: var(--text3);
-      font-family: var(--font-body);
-      font-size: 11px;
-      letter-spacing: 0.2em;
+    .hero-label {
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      color: var(--accent2);
       text-transform: uppercase;
-      cursor: pointer;
-      padding: 0.5rem 0;
-      transition: color 0.2s;
-      border-bottom: 1px solid transparent;
-    }
-    .nav-btn:hover, .nav-btn.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
     }
 
-    .footer-quote {
-      font-family: var(--font-serif);
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      color: var(--text);
+      line-height: 1;
+      margin-top: 4px;
+    }
+
+    .timer-display {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      line-height: 1;
+    }
+
+    .timer-sub {
       font-size: 10px;
       color: var(--text3);
-      font-weight: 300;
-      max-width: 300px;
+      letter-spacing: 0.2em;
+      margin-top: 2px;
       text-align: right;
     }
+
+    .croquis-progress {
+      display: flex;
+      gap: 6px;
+    }
+
+    .prog-dot {
+      flex: 1;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      transition: background 0.3s;
+    }
+
+    .prog-dot.done { background: var(--accent); }
+    .prog-dot.current { background: var(--accent2); }
+
+    .croquis-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn-hero {
+      flex: 1;
+      height: 48px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 0.5px solid var(--border2);
+      background: transparent;
+      color: var(--text2);
+    }
+
+    .btn-hero.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
+      font-weight: 500;
+    }
+
+    .btn-hero.primary:hover { background: var(--accent2); border-color: var(--accent2); }
+    .btn-hero:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* 돌림판 카드 */
+    .spinner-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .spinner-info { flex: 1; }
+
+    .spinner-label {
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      color: var(--text3);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .spinner-result {
+      font-family: var(--font-serif);
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 400;
+      min-height: 20px;
+    }
+
+    .spinner-category {
+      font-size: 10px;
+      color: var(--accent2);
+      letter-spacing: 0.15em;
+      margin-top: 2px;
+    }
+
+    .btn-spin {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 0.5px solid var(--border2);
+      background: transparent;
+      color: var(--accent);
+      font-size: 22px;
+      cursor: pointer;
+      transition: all 0.3s;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-spin:hover { background: var(--accent-glow); border-color: var(--accent); }
+    .btn-spin.spinning { animation: spin 0.5s ease; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── 하단 탭바 ── */
+    .tab-bar {
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      background: var(--bg2);
+    }
+
+    .tab-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 0.75rem 0.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text3);
+      position: relative;
+    }
+
+    .tab-btn.active { color: var(--accent); }
+
+    .tab-btn.active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20%;
+      right: 20%;
+      height: 1.5px;
+      background: var(--accent);
+      border-radius: 0 0 2px 2px;
+    }
+
+    .tab-icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .tab-label {
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      font-family: var(--font-body);
+    }
+
+    /* ── 서브 페이지 공통 ── */
+    .page-wrap {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      flex: 1;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .page-sub {
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.2em;
+      margin-left: auto;
+    }
+
+    .coming-soon {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      opacity: 0.4;
+    }
+
+    .coming-soon-icon { font-size: 2.5rem; }
+
+    .coming-soon p {
+      font-family: var(--font-serif);
+      font-size: 13px;
+      color: var(--text2);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+    }
+
+    /* 하단 바 (기존 호환) */
+    .main-footer { display: none; }
 
     /* ── 공통 애니메이션 ── */
     @keyframes fadeUp {
@@ -470,10 +642,10 @@
     /* ── 모바일 ── */
     @media (max-width: 600px) {
       .intro-title { font-size: clamp(4rem, 22vw, 6rem); }
-      .main-content { grid-template-columns: 1fr; }
-      .footer-nav { gap: 1rem; }
-      .footer-quote { display: none; }
-      .stats-row { flex-direction: column; }
+      .today-bar { gap: 0.5rem; }
+      .today-num { font-size: 1.8rem; }
+      .hero-title { font-size: 2rem; }
+      .timer-display { font-size: 2.8rem; }
     }
   </style>
 </head>
@@ -535,6 +707,10 @@
     <p class="audio-label">훈련 시작 전 — Away</p>
     <div class="audio-player">
       <p class="audio-track-name" id="track-name">Away — 동기부여 편집영상</p>
+
+      <!-- 유튜브 숨김 플레이어 -->
+      <div id="yt-player" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"></div>
+
       <div class="audio-progress-wrap">
         <div class="audio-progress">
           <div class="audio-progress-bar" id="progress-bar"></div>
@@ -547,11 +723,6 @@
       </div>
     </div>
 
-    <!-- 음원 파일 (실제 파일 넣으면 자동 작동) -->
-    <audio id="main-audio" preload="auto">
-      <!-- <source src="audio/away.mp3" type="audio/mpeg"> -->
-    </audio>
-
     <button class="btn-start" id="btn-start" onclick="enterMain()" disabled>
       훈련 시작
     </button>
@@ -560,7 +731,7 @@
 </div>
 
 <!-- ══════════════════════════
-     MAIN 대시보드 화면
+     MAIN 화면
 ══════════════════════════ -->
 <div id="screen-main" class="screen hidden">
   <div class="main-layout">
@@ -575,73 +746,161 @@
       <div class="header-date" id="header-date"></div>
     </header>
 
-    <!-- 메인 패널들 -->
-    <div class="main-content">
+    <!-- 페이지 컨테이너 -->
+    <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
 
-      <!-- 크로키 훈련 -->
-      <div class="main-panel">
-        <p class="panel-label">Daily Training</p>
-        <h2 class="panel-title">크로키<br>훈련</h2>
-        <div class="stats-row">
-          <div class="stat-item">
-            <div class="stat-num" id="today-croquis">0</div>
-            <div class="stat-label">오늘 완료</div>
+      <!-- ── 홈 페이지 ── -->
+      <div id="page-home" class="page active">
+        <div class="home-wrap">
+
+          <!-- 인사 -->
+          <div class="home-greeting">
+            <div>
+              <div class="greeting-text">오늘도 독하게 🌿</div>
+            </div>
+            <div class="greeting-date" id="header-date2"></div>
           </div>
-          <div class="stat-item">
-            <div class="stat-num" id="total-croquis">0</div>
-            <div class="stat-label">누적 총계</div>
+
+          <!-- 오늘 현황 -->
+          <div class="today-bar">
+            <div class="today-card">
+              <div class="today-num" id="today-croquis">0</div>
+              <div class="today-label">오늘 크로키</div>
+            </div>
+            <div class="today-card">
+              <div class="today-num" id="total-croquis">0</div>
+              <div class="today-label">누적 총계</div>
+            </div>
+            <div class="today-card">
+              <div class="today-num" id="total-works">0</div>
+              <div class="today-label">업로드 수</div>
+            </div>
+          </div>
+
+          <!-- 크로키 빠른 시작 -->
+          <div class="croquis-hero">
+            <div class="hero-top">
+              <div>
+                <p class="hero-label">Daily Croquis</p>
+                <h2 class="hero-title">크로키<br>훈련</h2>
+              </div>
+              <div style="text-align:right;">
+                <div class="timer-display" id="home-timer">2:00</div>
+                <div class="timer-sub">분 타이머</div>
+              </div>
+            </div>
+
+            <!-- 3장 진행도 -->
+            <div class="croquis-progress">
+              <div class="prog-dot" id="dot-1"></div>
+              <div class="prog-dot" id="dot-2"></div>
+              <div class="prog-dot" id="dot-3"></div>
+            </div>
+
+            <div class="croquis-actions">
+              <button class="btn-hero primary" onclick="goTab('croquis')">훈련 시작 →</button>
+              <button class="btn-hero" onclick="goTab('gallery')">갤러리</button>
+            </div>
+          </div>
+
+          <!-- 레퍼런스 돌림판 -->
+          <div class="spinner-card">
+            <div class="spinner-info">
+              <p class="spinner-label">Today's Reference</p>
+              <div class="spinner-result" id="spinner-result">돌림판을 돌려보세요</div>
+              <div class="spinner-category" id="spinner-cat"></div>
+            </div>
+            <button class="btn-spin" id="btn-spin" onclick="spinWheel()">⟳</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── 크로키 페이지 ── -->
+      <div id="page-croquis" class="page">
+        <div class="page-wrap">
+          <div class="page-header">
+            <h2 class="page-title">크로키</h2>
+            <span class="page-sub">2분 타이머</span>
+          </div>
+          <div class="coming-soon">
+            <div class="coming-soon-icon">✏️</div>
+            <p>Phase 2 — 곧 구현됩니다</p>
+            <p style="font-size:11px;color:var(--text3);">이미지 업로드 · 타이머 · 피드백</p>
           </div>
         </div>
-        <p class="panel-desc">2분 타이머 · 랜덤 이미지<br>3장 완료 후 셀프 피드백</p>
-        <button class="btn-panel primary" onclick="alert('Phase 2에서 구현됩니다!')">훈련 시작 →</button>
       </div>
 
-      <!-- 갤러리 & 업로드 -->
-      <div class="main-panel">
-        <p class="panel-label">Gallery</p>
-        <h2 class="panel-title">작업<br>갤러리</h2>
-        <div class="stats-row">
-          <div class="stat-item">
-            <div class="stat-num" id="total-works">0</div>
-            <div class="stat-label">업로드 수</div>
+      <!-- ── 레퍼런스 페이지 ── -->
+      <div id="page-reference" class="page">
+        <div class="page-wrap">
+          <div class="page-header">
+            <h2 class="page-title">레퍼런스</h2>
+            <span class="page-sub">LD · SD · 연출</span>
           </div>
-          <div class="stat-item">
-            <div class="stat-num" id="feedback-count">0</div>
-            <div class="stat-label">피드백 완료</div>
+          <div class="coming-soon">
+            <div class="coming-soon-icon">🗂</div>
+            <p>Phase 4 — 곧 구현됩니다</p>
+            <p style="font-size:11px;color:var(--text3);">폴더 분류 · 돌림판</p>
           </div>
         </div>
-        <p class="panel-desc">크로키 · 완성작 · 레퍼런스<br>5분 내 삭제 가능</p>
-        <button class="btn-panel" onclick="alert('Phase 2에서 구현됩니다!')">갤러리 보기 →</button>
       </div>
 
-      <!-- 레퍼런스 -->
-      <div class="main-panel">
-        <p class="panel-label">Reference</p>
-        <h2 class="panel-title">레퍼런스<br>관리</h2>
-        <p class="panel-desc">LD · SD · 연출 분류<br>돌림판으로 오늘의 작업 선택</p>
-        <button class="btn-panel" onclick="alert('Phase 4에서 구현됩니다!')">폴더 열기 →</button>
+      <!-- ── 갤러리 페이지 ── -->
+      <div id="page-gallery" class="page">
+        <div class="page-wrap">
+          <div class="page-header">
+            <h2 class="page-title">갤러리</h2>
+            <span class="page-sub" id="gallery-count">0장</span>
+          </div>
+          <div class="coming-soon">
+            <div class="coming-soon-icon">🖼</div>
+            <p>Phase 2 — 곧 구현됩니다</p>
+            <p style="font-size:11px;color:var(--text3);">크로키 · 완성작 · 5분 삭제</p>
+          </div>
+        </div>
       </div>
 
-      <!-- 메모 & 마인드맵 -->
-      <div class="main-panel">
-        <p class="panel-label">Memo</p>
-        <h2 class="panel-title">메모<br>세계관</h2>
-        <p class="panel-desc">키워드 메모 · 세계관 설정<br>/ 마인드맵 파생</p>
-        <button class="btn-panel" onclick="alert('Phase 4에서 구현됩니다!')">메모 열기 →</button>
+      <!-- ── 메모 페이지 ── -->
+      <div id="page-memo" class="page">
+        <div class="page-wrap">
+          <div class="page-header">
+            <h2 class="page-title">메모</h2>
+            <span class="page-sub">세계관 · 마인드맵</span>
+          </div>
+          <div class="coming-soon">
+            <div class="coming-soon-icon">📝</div>
+            <p>Phase 4 — 곧 구현됩니다</p>
+            <p style="font-size:11px;color:var(--text3);">키워드 · 세계관 · / 마인드맵</p>
+          </div>
+        </div>
       </div>
 
     </div>
 
-    <!-- 하단 네비 -->
-    <footer class="main-footer">
-      <nav class="footer-nav">
-        <button class="nav-btn active">홈</button>
-        <button class="nav-btn" onclick="alert('Phase 2에서 구현!')">크로키</button>
-        <button class="nav-btn" onclick="alert('Phase 2에서 구현!')">갤러리</button>
-        <button class="nav-btn" onclick="alert('Phase 4에서 구현!')">메모</button>
-      </nav>
-      <p class="footer-quote">하나를 끝까지 완성하는 것을 목표로</p>
-    </footer>
+    <!-- ── 하단 탭바 ── -->
+    <nav class="tab-bar">
+      <button class="tab-btn active" id="tab-home" onclick="goTab('home')">
+        <span class="tab-icon">⌂</span>
+        <span class="tab-label">홈</span>
+      </button>
+      <button class="tab-btn" id="tab-croquis" onclick="goTab('croquis')">
+        <span class="tab-icon">✏</span>
+        <span class="tab-label">크로키</span>
+      </button>
+      <button class="tab-btn" id="tab-reference" onclick="goTab('reference')">
+        <span class="tab-icon">◈</span>
+        <span class="tab-label">레퍼런스</span>
+      </button>
+      <button class="tab-btn" id="tab-gallery" onclick="goTab('gallery')">
+        <span class="tab-icon">▣</span>
+        <span class="tab-label">갤러리</span>
+      </button>
+      <button class="tab-btn" id="tab-memo" onclick="goTab('memo')">
+        <span class="tab-icon">✦</span>
+        <span class="tab-label">메모</span>
+      </button>
+    </nav>
 
   </div>
 </div>
@@ -727,59 +986,139 @@
 ══════════════════════════ -->
 <script>
   /* ── 날짜 표시 ── */
-  const dateEl = document.getElementById('header-date');
   const now = new Date();
-  dateEl.innerHTML = `${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일<br>
-    <span style="font-size:10px;letter-spacing:0.15em;">
-      ${'일월화수목금토'[now.getDay()]}요일
-    </span>`;
+  const dateStr = `${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일<br>
+    <span style="font-size:10px;letter-spacing:0.15em;">${'일월화수목금토'[now.getDay()]}요일</span>`;
+  const dateEl = document.getElementById('header-date');
+  if(dateEl) dateEl.innerHTML = dateStr;
+  const dateEl2 = document.getElementById('header-date2');
+  if(dateEl2) dateEl2.innerHTML = dateStr;
 
-  /* ── 오디오 ── */
-  const audio    = document.getElementById('main-audio');
+  /* ── 탭 전환 ── */
+  function goTab(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    const page = document.getElementById('page-' + name);
+    const tab  = document.getElementById('tab-' + name);
+    if(page) page.classList.add('active');
+    if(tab)  tab.classList.add('active');
+  }
+
+  /* ── 레퍼런스 돌림판 ── */
+  const refItems = [
+    { text: '인체 비례 — 전신 LD', cat: 'LD' },
+    { text: '얼굴 각도 — 3/4뷰', cat: 'LD' },
+    { text: '손 — 다양한 포즈', cat: 'LD' },
+    { text: '발 — 구조 분석', cat: 'LD' },
+    { text: '캐릭터 전신 — SD 2등신', cat: 'SD' },
+    { text: '캐릭터 표정 — SD', cat: 'SD' },
+    { text: '액션 연출 — 타격감', cat: '연출' },
+    { text: '카메라 앵글 — 로우앵글', cat: '연출' },
+    { text: '빛과 그림자 — 역광', cat: '연출' },
+    { text: '배경 원근 — 1점 투시', cat: '연출' },
+  ];
+
+  let lastSpinIdx = -1;
+
+  function spinWheel() {
+    const btn = document.getElementById('btn-spin');
+    const resultEl = document.getElementById('spinner-result');
+    const catEl = document.getElementById('spinner-cat');
+
+    btn.classList.add('spinning');
+    setTimeout(() => btn.classList.remove('spinning'), 500);
+
+    let idx;
+    do { idx = Math.floor(Math.random() * refItems.length); }
+    while (idx === lastSpinIdx && refItems.length > 1);
+    lastSpinIdx = idx;
+
+    const item = refItems[idx];
+    resultEl.style.opacity = '0';
+    setTimeout(() => {
+      resultEl.textContent = item.text;
+      catEl.textContent = item.cat;
+      resultEl.style.opacity = '1';
+      resultEl.style.transition = 'opacity 0.3s';
+    }, 150);
+  }
+
+  /* ── 유튜브 IFrame API ── */
+  const YT_VIDEO_ID = 'mOk4ghoRtDo';
+  let ytPlayer = null;
+  let ytReady = false;
+  let audioCompleted = false;
+  let progressTimer = null;
+
   const progressBar = document.getElementById('progress-bar');
   const audioTime   = document.getElementById('audio-time');
   const audioStatus = document.getElementById('audio-status');
   const btnPlay  = document.getElementById('btn-play');
   const btnStart = document.getElementById('btn-start');
 
-  let audioCompleted = false;
-  let devMode = false; // true로 바꾸면 음원 없이 테스트 가능
-
   function fmt(s) {
-    const m = Math.floor(s/60), sec = Math.floor(s%60);
+    s = Math.floor(s);
+    const m = Math.floor(s/60), sec = s%60;
     return `${m}:${sec.toString().padStart(2,'0')}`;
   }
 
+  /* 유튜브 API 스크립트 로드 */
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+
+  window.onYouTubeIframeAPIReady = function() {
+    ytPlayer = new YT.Player('yt-player', {
+      videoId: YT_VIDEO_ID,
+      playerVars: { autoplay: 0, controls: 0, rel: 0, modestbranding: 1 },
+      events: {
+        onReady: () => { ytReady = true; },
+        onStateChange: (e) => {
+          if (e.data === YT.PlayerState.ENDED) completeAudio();
+          if (e.data === YT.PlayerState.PLAYING) startProgressTracking();
+          if (e.data === YT.PlayerState.PAUSED) stopProgressTracking();
+        }
+      }
+    });
+  };
+
+  function startProgressTracking() {
+    stopProgressTracking();
+    progressTimer = setInterval(() => {
+      if (!ytPlayer || !ytPlayer.getDuration) return;
+      const cur = ytPlayer.getCurrentTime();
+      const dur = ytPlayer.getDuration();
+      if (!dur) return;
+      progressBar.style.width = (cur / dur * 100) + '%';
+      audioTime.textContent = fmt(cur);
+    }, 500);
+  }
+
+  function stopProgressTracking() {
+    if (progressTimer) { clearInterval(progressTimer); progressTimer = null; }
+  }
+
   function togglePlay() {
-    if (devMode) { completeAudio(); return; }
-    if (!audio.src || audio.src === window.location.href) {
-      /* 음원 파일이 없을 때 — 개발용 시뮬레이션 */
-      simulateAudio();
+    if (!ytReady) {
+      audioStatus.textContent = '로딩 중...';
       return;
     }
-    if (audio.paused) {
-      audio.play();
-      btnPlay.textContent = '⏸';
-      audioStatus.textContent = '듣는 중...';
-      audioStatus.className = 'audio-status listening';
-    } else {
-      audio.pause();
+    const state = ytPlayer.getPlayerState();
+    if (state === YT.PlayerState.PLAYING) {
+      ytPlayer.pauseVideo();
       btnPlay.textContent = '▶';
       audioStatus.textContent = '일시정지';
       audioStatus.className = 'audio-status';
+    } else {
+      ytPlayer.playVideo();
+      btnPlay.textContent = '⏸';
+      audioStatus.textContent = '듣는 중...';
+      audioStatus.className = 'audio-status listening';
     }
   }
 
-  audio.ontimeupdate = () => {
-    if (!audio.duration) return;
-    const pct = (audio.currentTime / audio.duration) * 100;
-    progressBar.style.width = pct + '%';
-    audioTime.textContent = fmt(audio.currentTime);
-  };
-
-  audio.onended = completeAudio;
-
   function completeAudio() {
+    stopProgressTracking();
     audioCompleted = true;
     progressBar.style.width = '100%';
     audioStatus.textContent = '완료 — 훈련을 시작하세요';
@@ -789,32 +1128,6 @@
     btnStart.disabled = false;
     btnStart.classList.add('active');
     btnStart.textContent = '훈련 시작 →';
-  }
-
-  /* 음원 없을 때 시뮬레이션 (개발용) */
-  let simTimer = null, simProgress = 0, simTotal = 30; // 30초 시뮬
-  function simulateAudio() {
-    if (simTimer) {
-      clearInterval(simTimer);
-      simTimer = null;
-      btnPlay.textContent = '▶';
-      audioStatus.textContent = '일시정지';
-      audioStatus.className = 'audio-status';
-      return;
-    }
-    btnPlay.textContent = '⏸';
-    audioStatus.textContent = '시뮬레이션 중 (음원 파일 없음)';
-    audioStatus.className = 'audio-status listening';
-    simTimer = setInterval(() => {
-      simProgress++;
-      const pct = (simProgress / simTotal) * 100;
-      progressBar.style.width = pct + '%';
-      audioTime.textContent = fmt(simProgress);
-      if (simProgress >= simTotal) {
-        clearInterval(simTimer);
-        completeAudio();
-      }
-    }, 1000);
   }
 
   /* ── 화면 전환 ── */
