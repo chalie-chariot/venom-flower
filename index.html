@@ -449,12 +449,13 @@
       color: var(--accent2);
     }
 
-    /* 홈 · 글귀 (카드별) — 화면 가로 중앙 · 세로는 중앙보다 약간 아래 */
+    /* 홈 · 글귀 (카드별) — 좌측 · 세로는 중앙 부근 */
     .home-quote-stack {
       position: fixed;
-      left: 50%;
+      left: max(0.65rem, env(safe-area-inset-left));
+      right: auto;
       top: 56vh;
-      transform: translate(-50%, -50%);
+      transform: translateY(-50%);
       bottom: auto;
       z-index: 19;
       display: flex;
@@ -462,7 +463,7 @@
       justify-content: flex-start;
       align-items: stretch;
       gap: 0.5rem;
-      width: min(22rem, calc(100vw - 2rem));
+      width: min(20rem, calc(100vw - 9rem));
       max-width: calc(100vw - 1rem);
       max-height: min(48vh, 28rem);
       overflow-y: auto;
@@ -492,7 +493,7 @@
     }
     @media (max-width: 560px) {
       .home-quote-stack {
-        width: min(19rem, calc(100vw - 1.25rem));
+        width: min(17rem, calc(100vw - 5.5rem));
         top: 58vh;
         max-height: min(50vh, 26rem);
       }
@@ -3909,7 +3910,14 @@
   }
 
   function writeCharacterSheet(s) {
-    localStorage.setItem(LS_CHARACTER_SHEET, JSON.stringify(normalizeCharacterSheet(s)));
+    const normalized = normalizeCharacterSheet(s);
+    const json = JSON.stringify(normalized);
+    try {
+      localStorage.setItem(LS_CHARACTER_SHEET, json);
+    } catch (e) {
+      console.warn('character sheet 저장 실패', e);
+      throw e;
+    }
   }
 
   function characterSheetHasContent(s) {
@@ -3952,6 +3960,50 @@
     if (f.type && f.type.startsWith('image/')) return true;
     const n = (f.name || '').toLowerCase();
     return /\.(png|jpe?g|gif|webp|bmp|svg|heic|heif|avif|tif|tiff)$/i.test(n);
+  }
+
+  /** 큰 data URL은 JPEG로 줄여 localStorage 한도(약 5MB) 안에 넣기 쉽게 함 */
+  function shrinkConceptImageDataUrl(dataUrl) {
+    return new Promise(function(resolve) {
+      if (!dataUrl || typeof dataUrl !== 'string' || dataUrl.indexOf('data:image') !== 0) {
+        resolve(dataUrl);
+        return;
+      }
+      if (dataUrl.length < 700000) {
+        resolve(dataUrl);
+        return;
+      }
+      var img = new Image();
+      img.onload = function() {
+        try {
+          var maxDim = 1680;
+          var w = img.naturalWidth;
+          var h = img.naturalHeight;
+          if (!w || !h) {
+            resolve(dataUrl);
+            return;
+          }
+          var scale = Math.min(1, maxDim / Math.max(w, h));
+          var nw = Math.max(1, Math.round(w * scale));
+          var nh = Math.max(1, Math.round(h * scale));
+          var c = document.createElement('canvas');
+          c.width = nw;
+          c.height = nh;
+          var ctx = c.getContext('2d');
+          if (!ctx) {
+            resolve(dataUrl);
+            return;
+          }
+          ctx.drawImage(img, 0, 0, nw, nh);
+          var out = c.toDataURL('image/jpeg', 0.82);
+          resolve(out.length < dataUrl.length ? out : dataUrl);
+        } catch (err) {
+          resolve(dataUrl);
+        }
+      };
+      img.onerror = function() { resolve(dataUrl); };
+      img.src = dataUrl;
+    });
   }
 
   function renderLinkedKeywordPreview() {
@@ -4061,6 +4113,13 @@
       img.src = item.data;
       img.alt = '';
       img.draggable = false;
+      img.loading = 'eager';
+      img.decoding = 'async';
+      img.addEventListener('error', function once() {
+        img.removeEventListener('error', once);
+        cell.style.background = 'rgba(200,80,80,0.15)';
+        cell.setAttribute('data-img-error', '1');
+      });
       const rm = document.createElement('button');
       rm.type = 'button';
       rm.className = 'thumb-remove';
@@ -4675,11 +4734,35 @@
     }
     try {
       for (let i = 0; i < n; i++) {
-        const data = await readFileAsDataURL(imgs[i]);
+        let data = await readFileAsDataURL(imgs[i]);
+        data = await shrinkConceptImageDataUrl(data);
+        if (!data || String(data).length < 32) continue;
         arr.push({ id: uid(), data: data, addedAt: new Date().toISOString() });
       }
+      if (!arr.length) {
+        if (typeof cqShowToast === 'function') cqShowToast('이미지 데이터를 읽지 못했습니다.');
+        return;
+      }
       s.images = arr;
-      writeCharacterSheet(s);
+      var saved = false;
+      var working = arr.slice();
+      while (working.length && !saved) {
+        s.images = working;
+        try {
+          writeCharacterSheet(s);
+          saved = true;
+          if (working.length < arr.length && typeof cqShowToast === 'function') {
+            cqShowToast('저장 용량 한도에 맞추려 뒤에서부터 일부 이미지를 빼고 저장했습니다. 더 작은 파일을 권장합니다.');
+          }
+        } catch (eQuota) {
+          working.pop();
+        }
+      }
+      if (!saved) {
+        s.images = [];
+        if (typeof cqShowToast === 'function') cqShowToast('브라우저 저장 한도를 초과했습니다. 이미지를 더 작게(JPG 등) 줄인 뒤 다시 시도해 주세요.');
+        return;
+      }
       renderCharacterImages();
       if (characterSheetHasContent(s)) markTabActivity('concept');
     } catch (err) {
