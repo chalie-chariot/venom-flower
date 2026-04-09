@@ -1233,6 +1233,81 @@
       stroke-dashoffset: 0;
     }
 
+    /* ── 픽시브 업로드 게이트 (마지막 탭 완료 시) ── */
+    .pixiv-upload-gate {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+    .pixiv-upload-gate.is-open {
+      display: flex;
+    }
+    .pixiv-upload-gate-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(4px);
+    }
+    .pixiv-upload-gate-panel {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 22rem;
+      padding: 1.25rem 1.35rem;
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5);
+    }
+    .pixiv-upload-gate-title {
+      margin: 0 0 0.6rem;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      color: var(--accent2);
+    }
+    .pixiv-upload-gate-desc {
+      margin: 0 0 0.75rem;
+      font-size: 11px;
+      line-height: 1.55;
+      color: var(--text2);
+      letter-spacing: 0.06em;
+    }
+    .pixiv-upload-gate-warn {
+      font-size: 10px;
+      color: #c99;
+      margin: 0 0 0.75rem;
+    }
+    a.pixiv-upload-gate-openlink {
+      display: inline-flex;
+      margin-bottom: 1rem;
+      text-decoration: none;
+    }
+    .pixiv-upload-confirm-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      font-size: 11px;
+      color: var(--text2);
+      letter-spacing: 0.05em;
+      line-height: 1.5;
+      cursor: pointer;
+      user-select: none;
+      margin-bottom: 0.85rem;
+    }
+    .pixiv-upload-confirm-label input {
+      margin-top: 0.2rem;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+    }
+    #pixiv-upload-gate-cancel {
+      width: 100%;
+    }
+
     /* ── 서브 페이지 공통 ── */
     .page-wrap {
       padding: 1.5rem;
@@ -2474,6 +2549,22 @@
       </button>
     </nav>
 
+    <!-- 마지막 탭 작업 완료 시: 픽시브 업로드 확인 (체크해야 1사이클 완료) -->
+    <div id="pixiv-upload-gate" class="pixiv-upload-gate" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="pixiv-upload-gate-title">
+      <div class="pixiv-upload-gate-backdrop" id="pixiv-upload-gate-backdrop" tabindex="-1"></div>
+      <div class="pixiv-upload-gate-panel">
+        <h2 class="pixiv-upload-gate-title" id="pixiv-upload-gate-title">픽시브 업로드</h2>
+        <p class="pixiv-upload-gate-desc" id="pixiv-upload-gate-desc">새 탭에서 픽시브 업로드 페이지를 열었습니다. 업로드를 마친 뒤 아래를 체크해야 이번 1사이클이 완료됩니다.</p>
+        <p class="pixiv-upload-gate-warn" id="pixiv-upload-gate-popup-hint" hidden></p>
+        <a class="btn-cq primary pixiv-upload-gate-openlink" id="pixiv-upload-gate-openlink" href="https://www.pixiv.net/illustration/create/draft" target="_blank" rel="noopener noreferrer">픽시브 업로드 페이지 열기</a>
+        <label class="pixiv-upload-confirm-label" for="pixiv-upload-confirm-cb">
+          <input type="checkbox" id="pixiv-upload-confirm-cb" autocomplete="off" />
+          <span>픽시브 업로드를 마쳤다 (체크해야 다음 1사이클 진행)</span>
+        </label>
+        <button type="button" class="btn-cq" id="pixiv-upload-gate-cancel">아직 안 함 · 닫기</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -2623,6 +2714,8 @@
   const TAB_CHAIN_LABELS = {
     home: '홈', croquis: '크로키', pose: '포즈', reference: '레퍼런스', gallery: '갤러리', memo: '메모', concept: '캐릭터 창작'
   };
+  /* 마지막 탭 완료 시 새 탭으로 열 픽시브 업로드 URL (필요 시 변경) */
+  const PIXIV_UPLOAD_URL = 'https://www.pixiv.net/illustration/create/draft';
 
   function readTabChain() {
     try {
@@ -2712,9 +2805,13 @@
     dock.classList.toggle('tab-work-dock--pulse', ready);
     dock.classList.toggle('tab-work-dock--waiting', !ready);
     if (hint) {
-      hint.textContent = ready
-        ? '「' + label + '」에서 할 일을 마쳤다면 아래를 체크하세요. 체크 후에만 다음 탭으로 이동할 수 있습니다.'
-        : '「' + label + '」에서 아직 인정된 작업이 없습니다. (기존과 같이 각 탭 활동을 한 뒤 이 메시지가 바뀝니다.)';
+      if (ready && frontier === 'concept') {
+        hint.textContent = '마지막 단계입니다. 체크하면 픽시브 업로드 페이지가 열리고, 업로드 확인 창에서 체크해야 이번 1사이클이 완료됩니다.';
+      } else if (ready) {
+        hint.textContent = '「' + label + '」에서 할 일을 마쳤다면 아래를 체크하세요. 체크 후에만 다음 탭으로 이동할 수 있습니다.';
+      } else {
+        hint.textContent = '「' + label + '」에서 아직 인정된 작업이 없습니다. (기존과 같이 각 탭 활동을 한 뒤 이 메시지가 바뀝니다.)';
+      }
     }
     if (title) title.textContent = '작업 완료 — ' + label;
     if (cb) {
@@ -2757,6 +2854,98 @@
     } catch (err) { console.warn('훈련일 저장 실패', err); }
   }
 
+  function openPixivUploadGate() {
+    const gate = document.getElementById('pixiv-upload-gate');
+    const link = document.getElementById('pixiv-upload-gate-openlink');
+    const hint = document.getElementById('pixiv-upload-gate-popup-hint');
+    const confirmCb = document.getElementById('pixiv-upload-confirm-cb');
+    if (!gate) return;
+    if (link) link.href = PIXIV_UPLOAD_URL;
+    if (confirmCb) {
+      confirmCb.checked = false;
+      confirmCb.disabled = false;
+    }
+    if (hint) {
+      var w = null;
+      try {
+        w = window.open(PIXIV_UPLOAD_URL, '_blank', 'noopener,noreferrer');
+      } catch (e) { w = null; }
+      if (!w) {
+        hint.hidden = false;
+        hint.textContent = '팝업이 차단된 것 같습니다. 아래 버튼으로 픽시브 업로드 페이지를 여세요.';
+      } else {
+        hint.hidden = true;
+        hint.textContent = '';
+      }
+    }
+    gate.classList.add('is-open');
+    gate.setAttribute('aria-hidden', 'false');
+    document.documentElement.style.overflow = 'hidden';
+  }
+
+  function closePixivUploadGate() {
+    const gate = document.getElementById('pixiv-upload-gate');
+    const confirmCb = document.getElementById('pixiv-upload-confirm-cb');
+    if (gate) {
+      gate.classList.remove('is-open');
+      gate.setAttribute('aria-hidden', 'true');
+    }
+    if (confirmCb) {
+      confirmCb.checked = false;
+      confirmCb.disabled = false;
+    }
+    document.documentElement.style.overflow = '';
+  }
+
+  async function finishConceptCycleAfterPixiv() {
+    const frontier = getFrontierTab();
+    if (frontier !== 'concept' || !isTabWorkReady('concept')) return;
+    var c = readTabChain().slice();
+    if (c.length >= TAB_ORDER.length || TAB_ORDER[c.length] !== 'concept') return;
+    c.push('concept');
+    writeTabChain([]);
+    await recordFullTrainingCycleComplete();
+    closePixivUploadGate();
+    const dock = document.getElementById('tab-work-complete-dock');
+    if (dock) dock.classList.remove('tab-work-dock--done');
+    const cb2 = document.getElementById('tab-work-complete-cb');
+    if (cb2) { cb2.checked = false; cb2.disabled = false; }
+    updateTabButtonLocks();
+    refreshTabCompleteDock();
+    if (typeof goTab === 'function') goTab('home');
+  }
+
+  function initPixivUploadGateUI() {
+    const confirmCb = document.getElementById('pixiv-upload-confirm-cb');
+    const cancelBtn = document.getElementById('pixiv-upload-gate-cancel');
+    const backdrop = document.getElementById('pixiv-upload-gate-backdrop');
+    const link = document.getElementById('pixiv-upload-gate-openlink');
+    if (link) link.href = PIXIV_UPLOAD_URL;
+    if (!confirmCb || confirmCb._pixivGateBound) return;
+    confirmCb._pixivGateBound = true;
+    confirmCb.addEventListener('change', async function() {
+      if (!this.checked) return;
+      this.disabled = true;
+      try {
+        await finishConceptCycleAfterPixiv();
+      } finally {
+        this.disabled = false;
+        this.checked = false;
+      }
+    });
+    function onCancel() {
+      closePixivUploadGate();
+    }
+    if (cancelBtn) cancelBtn.addEventListener('click', onCancel);
+    if (backdrop) backdrop.addEventListener('click', onCancel);
+    document.addEventListener('keydown', function(ev) {
+      const gate = document.getElementById('pixiv-upload-gate');
+      if (!gate || !gate.classList.contains('is-open') || ev.key !== 'Escape') return;
+      ev.preventDefault();
+      onCancel();
+    });
+  }
+
   function initTabWorkChainUI() {
     const cb = document.getElementById('tab-work-complete-cb');
     if (!cb || cb._tabChainBound) return;
@@ -2772,6 +2961,11 @@
       const c = readTabChain().slice();
       if (c.length >= TAB_ORDER.length || TAB_ORDER[c.length] !== frontier) {
         this.checked = false;
+        return;
+      }
+      if (frontier === 'concept') {
+        this.checked = false;
+        openPixivUploadGate();
         return;
       }
       this.disabled = true;
@@ -4519,6 +4713,7 @@
   initMemoPage();
   initConceptPage();
   if (typeof initTabWorkChainUI === 'function') initTabWorkChainUI();
+  if (typeof initPixivUploadGateUI === 'function') initPixivUploadGateUI();
   if (typeof initHomeToolTrack === 'function') initHomeToolTrack();
   if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
   startGalleryTicker();
@@ -4624,6 +4819,7 @@
       var an = ap && ap.id && ap.id.indexOf('page-') === 0 ? ap.id.slice(5) : 'home';
       if (typeof canSwitchToTab === 'function' && !canSwitchToTab(an) && typeof goTab === 'function') goTab('home');
       if (typeof initTabWorkChainUI === 'function') initTabWorkChainUI();
+      if (typeof initPixivUploadGateUI === 'function') initPixivUploadGateUI();
       if (typeof initHomeToolTrack === 'function') initHomeToolTrack();
       if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
       if (typeof updateTabButtonLocks === 'function') updateTabButtonLocks();
