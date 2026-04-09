@@ -1749,7 +1749,14 @@
       border: 0.5px solid var(--border);
       background: var(--bg3);
     }
-    .gal-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* contain: 원본 비율 유지, 셀 안에 전부 보임(여백은 배경색) */
+    .gal-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+    }
     .gal-cell--locked {
       border-color: rgba(180, 170, 80, 0.08);
     }
