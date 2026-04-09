@@ -708,8 +708,10 @@
     <div class="audio-player">
       <p class="audio-track-name" id="track-name">Away — 동기부여 편집영상</p>
 
-      <!-- 유튜브 숨김 플레이어 -->
-      <div id="yt-player" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"></div>
+      <!-- 유튜브 미니 플레이어 -->
+      <div id="yt-player" style="width:100%;height:0;padding-bottom:56.25%;position:relative;border-radius:8px;overflow:hidden;margin-bottom:0.75rem;display:none;">
+        <iframe id="yt-iframe" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allowfullscreen allow="autoplay"></iframe>
+      </div>
 
       <div class="audio-progress-wrap">
         <div class="audio-progress">
@@ -1043,18 +1045,19 @@
     }, 150);
   }
 
-  /* ── 유튜브 IFrame API ── */
+  /* ── 유튜브 오디오 ── */
   const YT_VIDEO_ID = 'mOk4ghoRtDo';
-  let ytPlayer = null;
-  let ytReady = false;
   let audioCompleted = false;
   let progressTimer = null;
+  let ytLoaded = false;
 
   const progressBar = document.getElementById('progress-bar');
   const audioTime   = document.getElementById('audio-time');
   const audioStatus = document.getElementById('audio-status');
-  const btnPlay  = document.getElementById('btn-play');
-  const btnStart = document.getElementById('btn-start');
+  const btnPlay     = document.getElementById('btn-play');
+  const btnStart    = document.getElementById('btn-start');
+  const ytWrap      = document.getElementById('yt-player');
+  const ytIframe    = document.getElementById('yt-iframe');
 
   function fmt(s) {
     s = Math.floor(s);
@@ -1062,59 +1065,43 @@
     return `${m}:${sec.toString().padStart(2,'0')}`;
   }
 
-  /* 유튜브 API 스크립트 로드 */
-  const tag = document.createElement('script');
-  tag.src = 'https://www.youtube.com/iframe_api';
-  document.head.appendChild(tag);
+  function togglePlay() {
+    if (!ytLoaded) {
+      /* 처음 클릭 — 영상 창 보여주고 재생 */
+      ytWrap.style.display = 'block';
+      ytIframe.src = `https://www.youtube.com/embed/${YT_VIDEO_ID}?autoplay=1&rel=0&modestbranding=1`;
+      ytLoaded = true;
+      btnPlay.textContent = '⏸';
+      audioStatus.textContent = '듣는 중...';
+      audioStatus.className = 'audio-status listening';
+      startFakeProgress();
+    } else {
+      /* 일시정지 — iframe src 비우기 */
+      ytIframe.src = '';
+      ytLoaded = false;
+      btnPlay.textContent = '▶';
+      audioStatus.textContent = '일시정지';
+      audioStatus.className = 'audio-status';
+      stopProgressTracking();
+    }
+  }
 
-  window.onYouTubeIframeAPIReady = function() {
-    ytPlayer = new YT.Player('yt-player', {
-      videoId: YT_VIDEO_ID,
-      playerVars: { autoplay: 0, controls: 0, rel: 0, modestbranding: 1 },
-      events: {
-        onReady: () => { ytReady = true; },
-        onStateChange: (e) => {
-          if (e.data === YT.PlayerState.ENDED) completeAudio();
-          if (e.data === YT.PlayerState.PLAYING) startProgressTracking();
-          if (e.data === YT.PlayerState.PAUSED) stopProgressTracking();
-        }
-      }
-    });
-  };
+  /* 영상 길이 기반 진행바 (유튜브 영상: 약 4분 = 240초) */
+  const TOTAL_SEC = 240;
+  let elapsed = 0;
 
-  function startProgressTracking() {
+  function startFakeProgress() {
     stopProgressTracking();
     progressTimer = setInterval(() => {
-      if (!ytPlayer || !ytPlayer.getDuration) return;
-      const cur = ytPlayer.getCurrentTime();
-      const dur = ytPlayer.getDuration();
-      if (!dur) return;
-      progressBar.style.width = (cur / dur * 100) + '%';
-      audioTime.textContent = fmt(cur);
-    }, 500);
+      elapsed++;
+      progressBar.style.width = Math.min(elapsed / TOTAL_SEC * 100, 100) + '%';
+      audioTime.textContent = fmt(elapsed);
+      if (elapsed >= TOTAL_SEC) completeAudio();
+    }, 1000);
   }
 
   function stopProgressTracking() {
     if (progressTimer) { clearInterval(progressTimer); progressTimer = null; }
-  }
-
-  function togglePlay() {
-    if (!ytReady) {
-      audioStatus.textContent = '로딩 중...';
-      return;
-    }
-    const state = ytPlayer.getPlayerState();
-    if (state === YT.PlayerState.PLAYING) {
-      ytPlayer.pauseVideo();
-      btnPlay.textContent = '▶';
-      audioStatus.textContent = '일시정지';
-      audioStatus.className = 'audio-status';
-    } else {
-      ytPlayer.playVideo();
-      btnPlay.textContent = '⏸';
-      audioStatus.textContent = '듣는 중...';
-      audioStatus.className = 'audio-status listening';
-    }
   }
 
   function completeAudio() {
