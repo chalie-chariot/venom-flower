@@ -614,7 +614,7 @@
       margin-top: 0.65rem;
       padding: 0.65rem 0 0;
       border-top: 0.5px solid var(--border);
-      max-height: 160px;
+      max-height: 280px;
       overflow-y: auto;
     }
 
@@ -625,15 +625,111 @@
       margin-bottom: 0.4rem;
     }
 
+    .memo-kw-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .memo-kw-toolbar input {
+      flex: 1;
+      min-width: 100px;
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 6px;
+      padding: 0.35rem 0.5rem;
+      font-size: 11px;
+      color: var(--text);
+    }
+    .memo-kw-toolbar input:focus {
+      outline: none;
+      border-color: var(--accent2);
+    }
+    .memo-kw-toolbar .btn-cq {
+      height: 32px;
+      padding: 0 0.65rem;
+      font-size: 10px;
+    }
+
+    .memo-kw-group {
+      margin-bottom: 0.65rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      background: var(--bg3);
+      border: 0.5px solid var(--border);
+    }
+    .memo-kw-group-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+    }
+    .memo-kw-group-name {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent2);
+      letter-spacing: 0.08em;
+    }
+    .memo-kw-group-actions {
+      display: flex;
+      gap: 0.25rem;
+      flex-shrink: 0;
+    }
+    .memo-kw-icon-btn {
+      width: 26px;
+      height: 26px;
+      padding: 0;
+      border: 0.5px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg2);
+      color: var(--text3);
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .memo-kw-icon-btn:hover {
+      color: var(--text);
+      border-color: var(--border2);
+    }
+    .memo-kw-icon-btn.danger:hover {
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+
     .memo-kw-item {
       font-size: 11px;
       color: var(--text2);
-      padding: 0.35rem 0 0.35rem 0.65rem;
+      padding: 0.35rem 0.35rem 0.35rem 0.5rem;
       border-left: 2px solid var(--border2);
       margin-bottom: 0.35rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 0.35rem 0.5rem;
     }
+    .memo-kw-item-body { flex: 1; min-width: 0; }
     .memo-kw-item strong { color: var(--accent); font-weight: 500; }
     .memo-kw-meta { font-size: 9px; color: var(--text3); margin-top: 2px; }
+    .memo-kw-item-tools {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      flex-shrink: 0;
+    }
+    .memo-kw-item-tools select {
+      font-size: 10px;
+      padding: 2px 4px;
+      border-radius: 4px;
+      border: 0.5px solid var(--border);
+      background: var(--bg2);
+      color: var(--text2);
+      max-width: 7rem;
+    }
 
     .memo-future {
       font-size: 10px;
@@ -685,9 +781,57 @@
 
     .mm-tree { margin-top: 0.35rem; }
 
+    .mm-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+    }
+    .mm-add-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      height: 32px;
+      padding: 0 0.5rem;
+      border-radius: 8px;
+      border: 0.5px dashed var(--border2);
+      background: var(--bg2);
+      color: var(--accent2);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .mm-add-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .mm-add-root-tail {
+      margin-top: 0.35rem;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      min-width: auto;
+      padding: 0 0.75rem;
+    }
+    .mm-add-child {
+      margin: 4px 0 4px 4px;
+      min-width: 28px;
+      height: 28px;
+      font-size: 16px;
+    }
+
     .mm-node-wrap {
       margin: 4px 0;
       padding-left: 0;
+    }
+
+    .mm-node-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
     }
 
     .mm-node {
@@ -709,6 +853,21 @@
       box-shadow: 0 0 0 1px var(--accent-glow);
       color: var(--accent);
     }
+
+    .mm-node-tool {
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border: 0.5px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg3);
+      color: var(--text3);
+      font-size: 12px;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .mm-node-tool:hover { color: var(--text); border-color: var(--border2); }
+    .mm-node-tool-del:hover { color: var(--danger); border-color: var(--danger); }
 
     .mm-node-children {
       margin-left: 14px;
@@ -1221,6 +1380,70 @@
       color: var(--text3);
     }
 
+    /* ── 캐릭터 창작 페이지 ── */
+    .char-q-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .char-q-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .char-q-label {
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.12em;
+    }
+    .char-q-text {
+      min-height: 3.25rem;
+      font-size: 13px;
+    }
+    .char-kw-pick-area {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      padding: 0.75rem;
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg3);
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    .char-kw-pick {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 11px;
+      color: var(--text2);
+      cursor: pointer;
+      letter-spacing: 0.04em;
+    }
+    .char-kw-pick input { margin-top: 3px; accent-color: var(--accent); }
+    .char-kw-meta {
+      display: block;
+      font-size: 9px;
+      color: var(--text3);
+      margin-top: 2px;
+    }
+    .char-linked-preview {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem;
+      min-height: 0;
+    }
+    .char-linked-preview:empty { display: none; }
+    .char-tag {
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 0.5px solid var(--border);
+      color: var(--accent2);
+      letter-spacing: 0.06em;
+    }
+
     /* 하단 바 (기존 호환) */
     .main-footer { display: none; }
 
@@ -1555,7 +1778,7 @@
                 </label>
                 <label class="spinner-check-label is-locked" id="spinner-label-routine">
                   <input type="checkbox" id="spinner-check-routine" disabled />
-                  <span>완료 — 작업 루틴을 끝까지 마쳤습니다 (크로키·포즈·레퍼런스·갤러리·메모·창작캐릭터 컨셉아트 각 탭에서 업로드 또는 글 작성 후 활성)</span>
+                  <span>완료 — 작업 루틴을 끝까지 마쳤습니다 (크로키·포즈·레퍼런스·갤러리·메모·캐릭터 창작 각 탭에서 업로드 또는 글 작성 후 활성)</span>
                 </label>
                 <div class="spinner-dev-row">
                   <label class="spinner-check-label">
@@ -1724,14 +1947,18 @@
               <textarea id="memo-editor" class="memo-editor" placeholder="자유 메모…&#10;@ 키워드 형식으로 줄마다 키워드 저장"></textarea>
               <div class="memo-keyword-thread" id="memo-keyword-thread" aria-label="저장된 키워드 스레드">
                 <div class="memo-kw-label">KEYWORD THREAD</div>
+                <div class="memo-kw-toolbar">
+                  <input type="text" id="memo-kw-new-group-name" placeholder="새 그룹 이름" maxlength="40" autocomplete="off" />
+                  <button type="button" class="btn-cq" id="memo-kw-add-group">그룹 추가</button>
+                </div>
                 <div id="memo-keyword-list"></div>
               </div>
-              <p class="memo-future">추후 캐릭터 컨셉아트 작업 시 이 메모장을 붙여 쓸 수 있게 연동 예정입니다.</p>
+              <p class="memo-future">저장된 <strong>@</strong> 키워드는 <strong>캐릭터 창작</strong> 탭에서 캐릭터 메모로 붙일 수 있습니다.</p>
             </div>
 
             <div>
               <h3 class="memo-section-title">마인드맵</h3>
-              <p class="memo-hint"><strong>/</strong> + 띄어쓰기 + 단어 입력 후 <strong>Enter</strong> → 선택된 노드 아래 파생 노드가 생깁니다. 노드를 눌러 부모를 바꿀 수 있습니다. 컨셉아트 기반 연관 단어·아이디어를 시각화해 보세요.</p>
+              <p class="memo-hint"><strong>/</strong> + 띄어쓰기 + 단어 후 <strong>Enter</strong> → 선택 노드 아래에 추가 (비어 있으면 루트로 추가). 트리의 <strong>+</strong> 로도 노드를 만들 수 있고, <strong>✎</strong> 이름 수정 · <strong>×</strong> 삭제입니다.</p>
               <div class="mindmap-box" id="mindmap-box">
                 <p class="mm-focus-hint" id="mm-focus-label">선택: 루트</p>
                 <div class="mm-tree" id="mm-tree"></div>
@@ -1746,16 +1973,62 @@
         </div>
       </div>
 
-      <!-- ── 창작캐릭터 컨셉아트 ── -->
+      <!-- ── 캐릭터 창작 ── -->
       <div id="page-concept" class="page">
         <div class="page-wrap">
           <div class="page-header">
-            <h2 class="page-title">창작캐릭터 컨셉아트</h2>
-            <span class="page-sub">설정 · 시트 노트</span>
+            <h2 class="page-title">캐릭터 창작</h2>
+            <span class="page-sub">이미지 · 질문지 · 메모 키워드</span>
           </div>
-          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: 아래 내용을 작성한 뒤 「컨셉 저장」을 누르면 이 탭 활동으로 인정됩니다.</p>
-          <textarea id="concept-editor" class="memo-editor" placeholder="캐릭터 이름, 성격, 실루엣, 컬러 팔레트, 의상·소품, 참고 키워드…&#10;자유 형식으로 정리해 보세요."></textarea>
-          <button type="button" class="btn-cq primary" id="concept-save-btn" style="align-self:flex-end;height:40px;padding:0 1.25rem;">컨셉 저장</button>
+          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: 이미지 추가, 질문지 작성, 메모 <strong>@</strong> 키워드 붙이기, 또는 「캐릭터 저장」 중 하나로 이 탭 활동이 인정됩니다.</p>
+
+          <h3 class="memo-section-title">컨셉 이미지</h3>
+          <p class="memo-hint">시트·전신·표정 등 참고 이미지를 넣을 수 있습니다. (최대 12장 · 언제든 삭제 가능)</p>
+          <div class="gallery-toolbar">
+            <input type="file" id="char-file" accept="image/*" multiple hidden />
+            <button type="button" class="btn-cq primary" id="char-upload-btn" style="height:40px;padding:0 1rem;">이미지 추가</button>
+          </div>
+          <div class="gallery-grid" id="char-image-grid"></div>
+
+          <h3 class="memo-section-title">질문지</h3>
+          <p class="memo-hint">항목별로 적어 두면 나중에 설정을 잃지 않기 좋습니다.</p>
+          <div class="char-q-list">
+            <div class="char-q-block">
+              <label class="char-q-label" for="char-f-name">이름 · 호칭</label>
+              <textarea id="char-f-name" class="memo-editor char-q-text" rows="2" placeholder="이름, 별명, 코드네임…"></textarea>
+            </div>
+            <div class="char-q-block">
+              <label class="char-q-label" for="char-f-look">외형 · 분위기</label>
+              <textarea id="char-f-look" class="memo-editor char-q-text" rows="2" placeholder="실루엣, 색, 인상…"></textarea>
+            </div>
+            <div class="char-q-block">
+              <label class="char-q-label" for="char-f-personality">성격</label>
+              <textarea id="char-f-personality" class="memo-editor char-q-text" rows="2" placeholder="말투, 습관, 가치관…"></textarea>
+            </div>
+            <div class="char-q-block">
+              <label class="char-q-label" for="char-f-ability">능력 · 특기</label>
+              <textarea id="char-f-ability" class="memo-editor char-q-text" rows="2" placeholder="전투, 마법, 재능, 약점…"></textarea>
+            </div>
+            <div class="char-q-block">
+              <label class="char-q-label" for="char-f-story">서사 · 배경</label>
+              <textarea id="char-f-story" class="memo-editor char-q-text" rows="3" placeholder="과거, 목표, 트라우마, 전환점…"></textarea>
+            </div>
+            <div class="char-q-block">
+              <label class="char-q-label" for="char-f-relation">관계</label>
+              <textarea id="char-f-relation" class="memo-editor char-q-text" rows="2" placeholder="타인과의 관계, 소속…"></textarea>
+            </div>
+            <div class="char-q-block">
+              <label class="char-q-label" for="char-f-extra">자유 메모</label>
+              <textarea id="char-f-extra" class="memo-editor char-q-text" rows="3" placeholder="그 밖에 남기고 싶은 설정…"></textarea>
+            </div>
+          </div>
+
+          <h3 class="memo-section-title">메모 <strong>@</strong> 키워드 붙이기</h3>
+          <p class="memo-hint">메모장에서 <code style="color:var(--accent2);">@ 단어</code> 형식으로 저장된 키워드를 체크하면 이 캐릭터에 메모로 연결됩니다.</p>
+          <div class="char-kw-pick-area" id="char-kw-pick-wrap"></div>
+          <div class="char-linked-preview" id="char-linked-preview" aria-label="붙인 키워드"></div>
+
+          <button type="button" class="btn-cq primary" id="concept-save-btn" style="align-self:flex-end;height:40px;padding:0 1.25rem;">캐릭터 저장</button>
         </div>
       </div>
 
@@ -1789,7 +2062,7 @@
       </button>
       <button class="tab-btn" id="tab-concept" onclick="goTab('concept')">
         <span class="tab-icon">✧</span>
-        <span class="tab-label tab-label-long">창작캐릭터<br>컨셉아트</span>
+        <span class="tab-label">캐릭터 창작</span>
       </button>
     </nav>
 
@@ -1977,7 +2250,10 @@
   const LS_MEMO_BODY = 'dokcho_memo_body';
   const LS_MEMO_KEYWORDS = 'dokcho_memo_keywords';
   const LS_MINDMAP = 'dokcho_mindmap';
-  const LS_CONCEPT_BODY = 'dokcho_concept_body';
+  const LS_CHARACTER_SHEET = 'dokcho_character_sheet';
+  const LS_CONCEPT_BODY_LEGACY = 'dokcho_concept_body';
+  const CHAR_FIELD_KEYS = ['name', 'look', 'personality', 'ability', 'story', 'relation', 'extra'];
+  const CHAR_IMG_MAX = 12;
   const LS_CROQUIS_TOUCHED = 'dokcho_croquis_touched';
 
   function formatSpinnerDateOnly(d) {
@@ -2092,7 +2368,7 @@
 
     if (!routineEffective()) {
       if (!allTabsHaveActivity()) {
-        setSpinnerHint('크로키·포즈·레퍼런스·갤러리·메모·창작캐릭터 컨셉아트 탭에서 각각 업로드 또는 글 작성 후 「완료」가 활성화됩니다. 테스트는 하단 【테스트】체크로 대체할 수 있습니다.');
+        setSpinnerHint('크로키·포즈·레퍼런스·갤러리·메모·캐릭터 창작 탭에서 각각 업로드 또는 글 작성 후 「완료」가 활성화됩니다. 테스트는 하단 【테스트】체크로 대체할 수 있습니다.');
       } else {
         setSpinnerHint('「완료」에 체크하거나 【테스트】를 사용해 주세요.');
       }
@@ -2218,18 +2494,59 @@
     if (typeof updateRoutineCheckboxAvailability === 'function') updateRoutineCheckboxAvailability();
   }
 
-  let mmSelectedId = 'mm-root';
+  let mmSelectedId = null;
   let memoMmListenersBound = false;
 
-  function readMemoKeywords() {
-    try {
-      const a = JSON.parse(localStorage.getItem(LS_MEMO_KEYWORDS) || '[]');
-      return Array.isArray(a) ? a : [];
-    } catch (e) { return []; }
+  function normalizeMemoKeywordEntry(e) {
+    return {
+      id: e.id || uid(),
+      word: (e.word != null ? String(e.word) : '').trim(),
+      at: e.at || new Date().toISOString(),
+      groupId: e.groupId != null && e.groupId !== '' ? e.groupId : null
+    };
   }
 
-  function writeMemoKeywords(arr) {
-    localStorage.setItem(LS_MEMO_KEYWORDS, JSON.stringify(arr));
+  function readMemoKeywordBundle() {
+    try {
+      const raw = localStorage.getItem(LS_MEMO_KEYWORDS);
+      if (!raw) return { groups: [], entries: [] };
+      const p = JSON.parse(raw);
+      if (Array.isArray(p)) {
+        return {
+          groups: [],
+          entries: p.map(normalizeMemoKeywordEntry).filter(function(x) { return x.word; })
+        };
+      }
+      const groups = Array.isArray(p.groups)
+        ? p.groups.map(function(g) {
+            return { id: g.id || uid(), name: ((g.name != null ? String(g.name) : '') || '그룹').trim() || '그룹' };
+          })
+        : [];
+      const entries = Array.isArray(p.entries)
+        ? p.entries.map(normalizeMemoKeywordEntry).filter(function(x) { return x.word; })
+        : [];
+      return { groups: groups, entries: entries };
+    } catch (err) { return { groups: [], entries: [] }; }
+  }
+
+  function writeMemoKeywordBundle(bundle) {
+    const groups = (bundle.groups || []).map(function(g) {
+      return { id: g.id || uid(), name: ((g.name != null ? String(g.name) : '') || '그룹').trim() || '그룹' };
+    });
+    const entries = (bundle.entries || []).map(normalizeMemoKeywordEntry).filter(function(x) { return x.word; });
+    localStorage.setItem(LS_MEMO_KEYWORDS, JSON.stringify({ groups: groups, entries: entries }));
+    memoKwRefreshConceptIfOpen();
+  }
+
+  function memoKwRefreshConceptIfOpen() {
+    const pageConcept = document.getElementById('page-concept');
+    if (pageConcept && pageConcept.classList.contains('active') && typeof renderConceptKeywordLinks === 'function') {
+      renderConceptKeywordLinks();
+    }
+  }
+
+  function readMemoKeywords() {
+    return readMemoKeywordBundle().entries;
   }
 
   function extractAtKeywords(text) {
@@ -2243,60 +2560,229 @@
     return out;
   }
 
+  function memoKwRemoveEntry(entryId) {
+    const b = readMemoKeywordBundle();
+    b.entries = b.entries.filter(function(e) { return e.id !== entryId; });
+    writeMemoKeywordBundle(b);
+    renderKeywordThread();
+    markMemoTabIfNeeded();
+  }
+
+  function memoKwSetEntryGroup(entryId, groupId) {
+    const b = readMemoKeywordBundle();
+    const gid = groupId && String(groupId).trim() ? groupId : null;
+    b.entries = b.entries.map(function(e) {
+      return e.id === entryId ? Object.assign({}, e, { groupId: gid }) : e;
+    });
+    writeMemoKeywordBundle(b);
+    renderKeywordThread();
+  }
+
+  function memoKwAddGroup() {
+    const inp = document.getElementById('memo-kw-new-group-name');
+    const name = inp ? inp.value.trim() : '';
+    if (!name) return;
+    const b = readMemoKeywordBundle();
+    b.groups.push({ id: uid(), name: name });
+    if (inp) inp.value = '';
+    writeMemoKeywordBundle(b);
+    renderKeywordThread();
+  }
+
+  function memoKwRemoveGroup(groupId) {
+    const b = readMemoKeywordBundle();
+    b.groups = b.groups.filter(function(g) { return g.id !== groupId; });
+    b.entries = b.entries.map(function(e) {
+      return e.groupId === groupId ? Object.assign({}, e, { groupId: null }) : e;
+    });
+    writeMemoKeywordBundle(b);
+    renderKeywordThread();
+  }
+
+  function memoKwRenameGroup(groupId) {
+    const b = readMemoKeywordBundle();
+    const g = b.groups.find(function(x) { return x.id === groupId; });
+    if (!g) return;
+    const next = prompt('그룹 이름', g.name);
+    if (next === null) return;
+    g.name = (next || '').trim() || '그룹';
+    writeMemoKeywordBundle(b);
+    renderKeywordThread();
+  }
+
   function renderKeywordThread() {
     const host = document.getElementById('memo-keyword-list');
     if (!host) return;
-    const list = readMemoKeywords().slice().reverse();
+    const b = readMemoKeywordBundle();
+    const groups = b.groups || [];
+    const entries = (b.entries || []).slice();
+
+    function sortByAtDesc(a, b) {
+      return new Date(b.at) - new Date(a.at);
+    }
+
+    function makeEntryRow(entry) {
+      const row = document.createElement('div');
+      row.className = 'memo-kw-item';
+      const body = document.createElement('div');
+      body.className = 'memo-kw-item-body';
+      const strong = document.createElement('strong');
+      strong.textContent = '@ ' + entry.word;
+      body.appendChild(strong);
+      const meta = document.createElement('div');
+      meta.className = 'memo-kw-meta';
+      try {
+        const dt = new Date(entry.at);
+        meta.textContent = dt.getFullYear() + '.' + String(dt.getMonth() + 1).padStart(2, '0') + '.' + String(dt.getDate()).padStart(2, '0') + ' ' +
+          String(dt.getHours()).padStart(2, '0') + ':' + String(dt.getMinutes()).padStart(2, '0');
+      } catch (err) { meta.textContent = ''; }
+      body.appendChild(meta);
+      row.appendChild(body);
+      const tools = document.createElement('div');
+      tools.className = 'memo-kw-item-tools';
+      const sel = document.createElement('select');
+      sel.setAttribute('aria-label', '그룹');
+      const opt0 = document.createElement('option');
+      opt0.value = '';
+      opt0.textContent = '미분류';
+      sel.appendChild(opt0);
+      groups.forEach(function(g) {
+        const opt = document.createElement('option');
+        opt.value = g.id;
+        opt.textContent = g.name;
+        sel.appendChild(opt);
+      });
+      sel.value = entry.groupId && groups.some(function(g) { return g.id === entry.groupId; }) ? entry.groupId : '';
+      sel.addEventListener('change', function() {
+        memoKwSetEntryGroup(entry.id, sel.value || null);
+      });
+      tools.appendChild(sel);
+      const rm = document.createElement('button');
+      rm.type = 'button';
+      rm.className = 'memo-kw-icon-btn danger';
+      rm.textContent = '×';
+      rm.title = '이 키워드 제거';
+      rm.addEventListener('click', function() { memoKwRemoveEntry(entry.id); });
+      tools.appendChild(rm);
+      row.appendChild(tools);
+      return row;
+    }
+
     host.innerHTML = '';
-    if (!list.length) {
+    if (!entries.length && !groups.length) {
       const p = document.createElement('p');
       p.style.cssText = 'font-size:10px;color:var(--text3);letter-spacing:0.06em;';
       p.textContent = '저장된 키워드가 없습니다. @ 단어 형식으로 메모 후 「메모장 저장」을 누르세요.';
       host.appendChild(p);
       return;
     }
-    list.forEach(function(entry) {
-      const row = document.createElement('div');
-      row.className = 'memo-kw-item';
-      const strong = document.createElement('strong');
-      strong.textContent = '@ ' + entry.word;
-      row.appendChild(strong);
-      const meta = document.createElement('div');
-      meta.className = 'memo-kw-meta';
-      try {
-        const d = new Date(entry.at);
-        meta.textContent = d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate()).padStart(2, '0') + ' ' +
-          String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
-      } catch (e) { meta.textContent = ''; }
-      row.appendChild(meta);
-      host.appendChild(row);
+
+    if (!entries.length) {
+      const p = document.createElement('p');
+      p.style.cssText = 'font-size:10px;color:var(--text3);letter-spacing:0.06em;margin-bottom:0.5rem;';
+      p.textContent = '저장된 키워드가 없습니다. 그룹만 남아 있습니다.';
+      host.appendChild(p);
+    }
+
+    groups.forEach(function(g) {
+      const ge = entries.filter(function(e) { return e.groupId === g.id; }).sort(sortByAtDesc);
+      const box = document.createElement('div');
+      box.className = 'memo-kw-group';
+      const head = document.createElement('div');
+      head.className = 'memo-kw-group-head';
+      const title = document.createElement('span');
+      title.className = 'memo-kw-group-name';
+      title.textContent = g.name;
+      head.appendChild(title);
+      const act = document.createElement('div');
+      act.className = 'memo-kw-group-actions';
+      const reBtn = document.createElement('button');
+      reBtn.type = 'button';
+      reBtn.className = 'memo-kw-icon-btn';
+      reBtn.textContent = '✎';
+      reBtn.title = '그룹 이름 수정';
+      reBtn.addEventListener('click', function() { memoKwRenameGroup(g.id); });
+      const xBtn = document.createElement('button');
+      xBtn.type = 'button';
+      xBtn.className = 'memo-kw-icon-btn danger';
+      xBtn.textContent = '×';
+      xBtn.title = '그룹 삭제 (키워드는 미분류로)';
+      xBtn.addEventListener('click', function() { memoKwRemoveGroup(g.id); });
+      act.appendChild(reBtn);
+      act.appendChild(xBtn);
+      head.appendChild(act);
+      box.appendChild(head);
+      if (ge.length) {
+        ge.forEach(function(entry) { box.appendChild(makeEntryRow(entry)); });
+      } else {
+        const hint = document.createElement('p');
+        hint.style.cssText = 'font-size:10px;color:var(--text3);margin:0;padding-left:0.25rem;';
+        hint.textContent = '이 그룹에 키워드를 넣으려면 항목의 그룹 선택에서 지정하세요.';
+        box.appendChild(hint);
+      }
+      host.appendChild(box);
     });
+
+    const ungrouped = entries.filter(function(e) { return !e.groupId; }).sort(sortByAtDesc);
+    if (ungrouped.length) {
+      const ubox = document.createElement('div');
+      ubox.className = 'memo-kw-group';
+      const uhead = document.createElement('div');
+      uhead.className = 'memo-kw-group-head';
+      const ut = document.createElement('span');
+      ut.className = 'memo-kw-group-name';
+      ut.textContent = '미분류';
+      uhead.appendChild(ut);
+      ubox.appendChild(uhead);
+      ungrouped.forEach(function(entry) {
+        ubox.appendChild(makeEntryRow(entry));
+      });
+      host.appendChild(ubox);
+    }
+  }
+
+  function getMindmapRoots(d) {
+    const roots = d.roots;
+    const nodes = d.nodes || {};
+    if (Array.isArray(roots)) {
+      return roots.filter(function(id) { return nodes[id]; });
+    }
+    return [];
   }
 
   function readMindmapData() {
     try {
-      const d = JSON.parse(localStorage.getItem(LS_MINDMAP) || 'null');
-      if (d && d.nodes && d.rootId && d.nodes[d.rootId]) return d;
-    } catch (e) {}
-    return {
-      rootId: 'mm-root',
-      nodes: {
-        'mm-root': { id: 'mm-root', label: '루트', parentId: null }
+      const raw = localStorage.getItem(LS_MINDMAP);
+      const d = raw ? JSON.parse(raw) : null;
+      if (d && d.nodes && typeof d.nodes === 'object') {
+        if (!Array.isArray(d.roots)) {
+          if (d.rootId && d.nodes[d.rootId]) {
+            d.roots = [d.rootId];
+          } else {
+            d.roots = Object.keys(d.nodes).filter(function(id) {
+              return d.nodes[id] && d.nodes[id].parentId == null;
+            });
+          }
+        }
+        if (!d.roots) d.roots = [];
+        return d;
       }
-    };
+    } catch (err) {}
+    return { roots: [], nodes: {} };
   }
 
   function writeMindmapData(d) {
-    localStorage.setItem(LS_MINDMAP, JSON.stringify(d));
+    const out = { roots: d.roots || [], nodes: d.nodes || {} };
+    localStorage.setItem(LS_MINDMAP, JSON.stringify(out));
   }
 
   function memoHasStoredContent() {
     try {
       if ((localStorage.getItem(LS_MEMO_BODY) || '').trim().length > 0) return true;
-    } catch (e) {}
+    } catch (err) {}
     if (readMemoKeywords().length > 0) return true;
     const d = readMindmapData();
-    return Object.keys(d.nodes || {}).length > 1;
+    return Object.keys(d.nodes || {}).length > 0;
   }
 
   function markMemoTabIfNeeded() {
@@ -2306,8 +2792,129 @@
   function updateMmFocusLabel() {
     const el = document.getElementById('mm-focus-label');
     const d = readMindmapData();
-    const n = d.nodes[mmSelectedId];
-    if (el) el.textContent = '선택: ' + (n ? n.label : '루트');
+    const n = mmSelectedId && d.nodes[mmSelectedId];
+    if (el) el.textContent = '선택: ' + (n ? (n.label || '(이름 없음)') : '없음');
+  }
+
+  function mindmapSetLabel(id, label) {
+    const d = readMindmapData();
+    if (!d.nodes[id]) return;
+    d.nodes[id].label = label;
+    writeMindmapData(d);
+    renderMindmap();
+    updateMmFocusLabel();
+    markMemoTabIfNeeded();
+  }
+
+  function mindmapDeleteNode(id) {
+    const d = readMindmapData();
+    const toRemove = [];
+
+    function collect(nid) {
+      toRemove.push(nid);
+      Object.keys(d.nodes).forEach(function(k) {
+        if (d.nodes[k].parentId === nid) collect(k);
+      });
+    }
+    collect(id);
+    toRemove.forEach(function(nid) { delete d.nodes[nid]; });
+    d.roots = (d.roots || []).filter(function(r) { return toRemove.indexOf(r) === -1; });
+    if (mmSelectedId && toRemove.indexOf(mmSelectedId) >= 0) {
+      const roots = getMindmapRoots(d);
+      mmSelectedId = roots[0] || null;
+    }
+    writeMindmapData(d);
+    renderMindmap();
+    updateMmFocusLabel();
+    markMemoTabIfNeeded();
+  }
+
+  function mindmapAddRoot(label) {
+    const d = readMindmapData();
+    if (!d.roots) d.roots = [];
+    if (!d.nodes) d.nodes = {};
+    const id = 'mm-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7);
+    d.nodes[id] = { id: id, label: label || '새 노드', parentId: null };
+    d.roots.push(id);
+    writeMindmapData(d);
+    mmSelectedId = id;
+    renderMindmap();
+    updateMmFocusLabel();
+    markMemoTabIfNeeded();
+  }
+
+  function renderMindmapSubtree(nodeId, container, d) {
+    const node = d.nodes[nodeId];
+    if (!node) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'mm-node-wrap';
+    const row = document.createElement('div');
+    row.className = 'mm-node-row';
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'mm-node' + (mmSelectedId === nodeId ? ' selected' : '');
+    btn.textContent = (node.label != null && String(node.label).trim()) ? node.label : '(이름 없음)';
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      mmSelectedId = nodeId;
+      renderMindmap();
+      updateMmFocusLabel();
+    });
+
+    const editBtn = document.createElement('button');
+    editBtn.type = 'button';
+    editBtn.className = 'mm-node-tool';
+    editBtn.textContent = '✎';
+    editBtn.title = '이름 수정';
+    editBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const next = prompt('노드 이름', node.label != null ? node.label : '');
+      if (next === null) return;
+      mindmapSetLabel(nodeId, (next || '').trim());
+    });
+
+    const delBtn = document.createElement('button');
+    delBtn.type = 'button';
+    delBtn.className = 'mm-node-tool mm-node-tool-del';
+    delBtn.textContent = '×';
+    delBtn.title = '이 노드와 하위 노드 삭제';
+    delBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (!confirm('이 노드와 하위 노드를 모두 삭제할까요?')) return;
+      mindmapDeleteNode(nodeId);
+    });
+
+    row.appendChild(btn);
+    row.appendChild(editBtn);
+    row.appendChild(delBtn);
+    wrap.appendChild(row);
+
+    function childIds(parentId) {
+      return Object.keys(d.nodes)
+        .filter(function(cid) { return d.nodes[cid].parentId === parentId; })
+        .sort(function(a, b) { return a.localeCompare(b); });
+    }
+
+    const ch = document.createElement('div');
+    ch.className = 'mm-node-children';
+    childIds(nodeId).forEach(function(cid) {
+      renderMindmapSubtree(cid, ch, d);
+    });
+    const addChild = document.createElement('button');
+    addChild.type = 'button';
+    addChild.className = 'mm-add-btn mm-add-child';
+    addChild.textContent = '+';
+    addChild.title = '하위 노드 추가';
+    addChild.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const label = prompt('하위 노드 이름', '');
+      if (label === null) return;
+      mindmapAddChild(nodeId, (label || '').trim() || '새 노드');
+    });
+    ch.appendChild(addChild);
+    wrap.appendChild(ch);
+    container.appendChild(wrap);
   }
 
   function renderMindmap() {
@@ -2315,67 +2922,56 @@
     if (!treeEl) return;
     treeEl.innerHTML = '';
     const d = readMindmapData();
-    const rid = d.rootId;
-    const rootNode = d.nodes[rid];
-    if (!rootNode) return;
+    const roots = getMindmapRoots(d);
+    const nodeCount = Object.keys(d.nodes || {}).length;
 
-    function childIds(parentId) {
-      return Object.keys(d.nodes)
-        .filter(function(id) { return d.nodes[id].parentId === parentId; })
-        .sort(function(a, b) { return a.localeCompare(b); });
-    }
-
-    function build(parentId, container) {
-      childIds(parentId).forEach(function(cid) {
-        const node = d.nodes[cid];
-        if (!node) return;
-        const wrap = document.createElement('div');
-        wrap.className = 'mm-node-wrap';
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'mm-node' + (mmSelectedId === cid ? ' selected' : '');
-        btn.textContent = node.label;
-        btn.addEventListener('click', function() {
-          mmSelectedId = cid;
-          renderMindmap();
-          updateMmFocusLabel();
-        });
-        wrap.appendChild(btn);
-        if (childIds(cid).length) {
-          const ch = document.createElement('div');
-          ch.className = 'mm-node-children';
-          build(cid, ch);
-          wrap.appendChild(ch);
-        }
-        container.appendChild(wrap);
+    if (!nodeCount || !roots.length) {
+      const empty = document.createElement('div');
+      empty.className = 'mm-empty';
+      const p = document.createElement('p');
+      p.className = 'mm-focus-hint';
+      p.style.margin = '0';
+      p.textContent = '노드가 없습니다. + 로 루트를 추가하거나, 아래에 / 단어 후 Enter 를 입력하세요.';
+      const add = document.createElement('button');
+      add.type = 'button';
+      add.className = 'mm-add-btn';
+      add.textContent = '+';
+      add.title = '루트 노드 추가';
+      add.addEventListener('click', function() {
+        const label = prompt('루트 노드 이름', '');
+        if (label === null) return;
+        mindmapAddRoot((label || '').trim() || '새 노드');
       });
+      empty.appendChild(p);
+      empty.appendChild(add);
+      treeEl.appendChild(empty);
+      return;
     }
 
-    const w0 = document.createElement('div');
-    w0.className = 'mm-node-wrap';
-    const btn0 = document.createElement('button');
-    btn0.type = 'button';
-    btn0.className = 'mm-node' + (mmSelectedId === rid ? ' selected' : '');
-    btn0.textContent = rootNode.label;
-    btn0.addEventListener('click', function() {
-      mmSelectedId = rid;
-      renderMindmap();
-      updateMmFocusLabel();
+    roots.forEach(function(rid) {
+      renderMindmapSubtree(rid, treeEl, d);
     });
-    w0.appendChild(btn0);
-    const ch0 = document.createElement('div');
-    ch0.className = 'mm-node-children';
-    build(rid, ch0);
-    w0.appendChild(ch0);
-    treeEl.appendChild(w0);
+
+    const addRoot = document.createElement('button');
+    addRoot.type = 'button';
+    addRoot.className = 'mm-add-btn mm-add-root-tail';
+    addRoot.textContent = '+ 루트';
+    addRoot.title = '루트 노드 추가';
+    addRoot.addEventListener('click', function() {
+      const label = prompt('루트 노드 이름', '');
+      if (label === null) return;
+      mindmapAddRoot((label || '').trim() || '새 노드');
+    });
+    treeEl.appendChild(addRoot);
   }
 
   function mindmapAddChild(parentId, label) {
     const d = readMindmapData();
-    if (!d.nodes[parentId]) parentId = d.rootId;
+    if (!d.nodes[parentId]) return;
     const id = 'mm-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7);
-    d.nodes[id] = { id: id, label: label, parentId: parentId };
+    d.nodes[id] = { id: id, label: label || '새 노드', parentId: parentId };
     writeMindmapData(d);
+    mmSelectedId = id;
     renderMindmap();
     updateMmFocusLabel();
     markMemoTabIfNeeded();
@@ -2389,23 +2985,218 @@
     const raw = (inp.value || '').trim();
     const m = raw.match(/^\/\s+(.+)$/);
     if (!m || !(m[1] || '').trim()) return;
-    mindmapAddChild(mmSelectedId, m[1].trim());
+    const label = m[1].trim();
+    const d = readMindmapData();
+    const roots = getMindmapRoots(d);
+    const nodeCount = Object.keys(d.nodes || {}).length;
+    if (!nodeCount || !roots.length) {
+      mindmapAddRoot(label);
+    } else if (mmSelectedId && d.nodes[mmSelectedId]) {
+      mindmapAddChild(mmSelectedId, label);
+    } else {
+      mindmapAddRoot(label);
+    }
     inp.value = '';
   }
 
-  function conceptHasStoredContent() {
+  function defaultCharacterSheet() {
+    return {
+      images: [],
+      fields: { name: '', look: '', personality: '', ability: '', story: '', relation: '', extra: '' },
+      linkedKeywords: []
+    };
+  }
+
+  function normalizeCharacterSheet(d) {
+    const def = defaultCharacterSheet();
+    const fields = Object.assign({}, def.fields, d.fields && typeof d.fields === 'object' ? d.fields : {});
+    return {
+      images: Array.isArray(d.images) ? d.images.filter(function(x) { return x && x.id && x.data; }) : [],
+      fields: fields,
+      linkedKeywords: Array.isArray(d.linkedKeywords)
+        ? d.linkedKeywords.map(function(w) { return String(w).trim(); }).filter(Boolean) : []
+    };
+  }
+
+  function readCharacterSheet() {
     try {
-      return (localStorage.getItem(LS_CONCEPT_BODY) || '').trim().length > 0;
-    } catch (e) { return false; }
+      const raw = localStorage.getItem(LS_CHARACTER_SHEET);
+      if (raw) {
+        const d = JSON.parse(raw);
+        if (d && typeof d === 'object') return normalizeCharacterSheet(d);
+      }
+    } catch (e) {}
+    try {
+      const old = localStorage.getItem(LS_CONCEPT_BODY_LEGACY);
+      if (old && String(old).trim()) {
+        const migrated = defaultCharacterSheet();
+        migrated.fields.extra = old;
+        writeCharacterSheet(migrated);
+        try { localStorage.removeItem(LS_CONCEPT_BODY_LEGACY); } catch (e2) {}
+        return migrated;
+      }
+    } catch (e) {}
+    return defaultCharacterSheet();
+  }
+
+  function writeCharacterSheet(s) {
+    localStorage.setItem(LS_CHARACTER_SHEET, JSON.stringify(normalizeCharacterSheet(s)));
+  }
+
+  function characterSheetHasContent(s) {
+    if (!s) return false;
+    if (s.images && s.images.length) return true;
+    if (s.linkedKeywords && s.linkedKeywords.length) return true;
+    const f = s.fields || {};
+    for (let i = 0; i < CHAR_FIELD_KEYS.length; i++) {
+      if ((f[CHAR_FIELD_KEYS[i]] || '').trim()) return true;
+    }
+    return false;
+  }
+
+  function collectCharacterFieldsFromForm() {
+    const o = {};
+    CHAR_FIELD_KEYS.forEach(function(k) {
+      const el = document.getElementById('char-f-' + k);
+      o[k] = el ? el.value : '';
+    });
+    return o;
+  }
+
+  function mergeFormIntoSheet(s) {
+    if (!s.fields) s.fields = defaultCharacterSheet().fields;
+    const f = collectCharacterFieldsFromForm();
+    CHAR_FIELD_KEYS.forEach(function(k) { s.fields[k] = f[k] != null ? f[k] : ''; });
+  }
+
+  function renderLinkedKeywordPreview() {
+    const host = document.getElementById('char-linked-preview');
+    if (!host) return;
+    const s = readCharacterSheet();
+    const linked = s.linkedKeywords || [];
+    host.innerHTML = '';
+    if (!linked.length) return;
+    const cap = document.createElement('span');
+    cap.className = 'memo-kw-label';
+    cap.style.marginRight = '0.5rem';
+    cap.style.alignSelf = 'center';
+    cap.textContent = '붙인 키워드';
+    host.appendChild(cap);
+    linked.forEach(function(word) {
+      const t = document.createElement('span');
+      t.className = 'char-tag';
+      t.textContent = '@ ' + word;
+      host.appendChild(t);
+    });
+  }
+
+  function renderConceptKeywordLinks() {
+    const host = document.getElementById('char-kw-pick-wrap');
+    if (!host) return;
+    const sheet = readCharacterSheet();
+    mergeFormIntoSheet(sheet);
+    const linked = new Set(sheet.linkedKeywords || []);
+    const memoKw = readMemoKeywords();
+    const byWord = {};
+    memoKw.forEach(function(e) {
+      if (e && e.word) byWord[e.word] = e;
+    });
+    const words = Object.keys(byWord).sort();
+    host.innerHTML = '';
+    if (!words.length) {
+      const p = document.createElement('p');
+      p.className = 'memo-hint';
+      p.style.margin = '0';
+      p.textContent = '메모장에서 @ 키워드를 저장하면 여기서 캐릭터에 붙일 수 있습니다.';
+      host.appendChild(p);
+      renderLinkedKeywordPreview();
+      return;
+    }
+    words.forEach(function(word) {
+      const lab = document.createElement('label');
+      lab.className = 'char-kw-pick';
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.checked = linked.has(word);
+      const wrap = document.createElement('span');
+      const strong = document.createElement('strong');
+      strong.textContent = '@ ' + word;
+      wrap.appendChild(strong);
+      const meta = document.createElement('span');
+      meta.className = 'char-kw-meta';
+      try {
+        const d = new Date(byWord[word].at);
+        meta.textContent = d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate()).padStart(2, '0');
+      } catch (e) { meta.textContent = ''; }
+      wrap.appendChild(meta);
+      cb.addEventListener('change', function() {
+        const s = readCharacterSheet();
+        mergeFormIntoSheet(s);
+        const set = new Set(s.linkedKeywords || []);
+        if (cb.checked) set.add(word); else set.delete(word);
+        s.linkedKeywords = Array.from(set);
+        writeCharacterSheet(s);
+        renderLinkedKeywordPreview();
+        if (characterSheetHasContent(s)) markTabActivity('concept');
+      });
+      lab.appendChild(cb);
+      lab.appendChild(wrap);
+      host.appendChild(lab);
+    });
+    renderLinkedKeywordPreview();
+  }
+
+  function renderCharacterImages() {
+    const grid = document.getElementById('char-image-grid');
+    if (!grid) return;
+    const s = readCharacterSheet();
+    const items = s.images || [];
+    grid.innerHTML = '';
+    if (!items.length) {
+      const empty = document.createElement('div');
+      empty.className = 'gal-empty';
+      empty.textContent = '컨셉 이미지를 추가해 보세요.';
+      grid.appendChild(empty);
+      return;
+    }
+    items.forEach(function(item) {
+      const cell = document.createElement('div');
+      cell.className = 'gal-cell';
+      const img = document.createElement('img');
+      img.src = item.data;
+      img.alt = '';
+      img.draggable = false;
+      const rm = document.createElement('button');
+      rm.type = 'button';
+      rm.className = 'thumb-remove';
+      rm.textContent = '×';
+      rm.setAttribute('aria-label', '이미지 삭제');
+      rm.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        const s2 = readCharacterSheet();
+        mergeFormIntoSheet(s2);
+        s2.images = (s2.images || []).filter(function(x) { return x.id !== item.id; });
+        writeCharacterSheet(s2);
+        renderCharacterImages();
+      });
+      cell.appendChild(img);
+      cell.appendChild(rm);
+      grid.appendChild(cell);
+    });
+  }
+
+  function conceptHasStoredContent() {
+    return characterSheetHasContent(readCharacterSheet());
   }
 
   function initConceptPage() {
-    const ed = document.getElementById('concept-editor');
-    if (ed) {
-      try {
-        ed.value = localStorage.getItem(LS_CONCEPT_BODY) || '';
-      } catch (e) {}
-    }
+    const s = readCharacterSheet();
+    CHAR_FIELD_KEYS.forEach(function(k) {
+      const el = document.getElementById('char-f-' + k);
+      if (el) el.value = s.fields[k] || '';
+    });
+    renderCharacterImages();
+    renderConceptKeywordLinks();
   }
 
   function initMemoPage() {
@@ -2416,13 +3207,28 @@
       } catch (e) {}
     }
     renderKeywordThread();
-    if (!readMindmapData().nodes[mmSelectedId]) mmSelectedId = 'mm-root';
+    const md = readMindmapData();
+    if (!mmSelectedId || !md.nodes[mmSelectedId]) {
+      const roots = getMindmapRoots(md);
+      mmSelectedId = roots[0] || null;
+    }
     renderMindmap();
     updateMmFocusLabel();
     if (!memoMmListenersBound) {
       memoMmListenersBound = true;
       const mmIn = document.getElementById('mm-input');
       if (mmIn) mmIn.addEventListener('keydown', mmInputKeydown);
+      const addGrp = document.getElementById('memo-kw-add-group');
+      if (addGrp) addGrp.addEventListener('click', memoKwAddGroup);
+      const grpName = document.getElementById('memo-kw-new-group-name');
+      if (grpName) {
+        grpName.addEventListener('keydown', function(ev) {
+          if (ev.key === 'Enter') {
+            ev.preventDefault();
+            memoKwAddGroup();
+          }
+        });
+      }
     }
   }
 
@@ -2919,21 +3725,56 @@
     } catch (e) {}
     const found = extractAtKeywords(ed.value);
     if (found.length) {
-      const k = readMemoKeywords();
-      k.push.apply(k, found);
-      writeMemoKeywords(k);
+      const b = readMemoKeywordBundle();
+      found.forEach(function(f) {
+        b.entries.push({ id: uid(), word: f.word, at: f.at, groupId: null });
+      });
+      writeMemoKeywordBundle(b);
       renderKeywordThread();
     }
     markMemoTabIfNeeded();
   });
 
   document.getElementById('concept-save-btn').addEventListener('click', function() {
-    const ed = document.getElementById('concept-editor');
-    if (!ed) return;
-    try {
-      localStorage.setItem(LS_CONCEPT_BODY, ed.value);
-    } catch (e) {}
-    if ((ed.value || '').trim().length > 0) markTabActivity('concept');
+    const s = readCharacterSheet();
+    mergeFormIntoSheet(s);
+    writeCharacterSheet(s);
+    renderLinkedKeywordPreview();
+    if (characterSheetHasContent(s)) markTabActivity('concept');
+  });
+
+  document.getElementById('char-upload-btn').addEventListener('click', function() {
+    document.getElementById('char-file').click();
+  });
+
+  document.getElementById('char-file').addEventListener('change', function(ev) {
+    const files = ev.target.files;
+    ev.target.value = '';
+    if (!files || !files.length) return;
+    const s = readCharacterSheet();
+    mergeFormIntoSheet(s);
+    const arr = s.images || [];
+    const room = CHAR_IMG_MAX - arr.length;
+    if (room <= 0) return;
+    const imgs = Array.from(files).filter(function(f) { return f.type.startsWith('image/'); });
+    const n = Math.min(imgs.length, room);
+    if (!n) return;
+    let left = n;
+    for (let i = 0; i < n; i++) {
+      const f = imgs[i];
+      const r = new FileReader();
+      r.onload = function() {
+        arr.push({ id: uid(), data: r.result, addedAt: new Date().toISOString() });
+        left--;
+        if (left === 0) {
+          s.images = arr;
+          writeCharacterSheet(s);
+          renderCharacterImages();
+          if (characterSheetHasContent(s)) markTabActivity('concept');
+        }
+      };
+      r.readAsDataURL(f);
+    }
   });
 
   cqUpdateRing();
