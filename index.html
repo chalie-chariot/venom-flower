@@ -117,6 +117,24 @@
       animation: fadeUp 0.8s 0.7s ease forwards;
     }
 
+    .intro-logo-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 0.35rem auto 0.5rem;
+      opacity: 0;
+      animation: fadeUp 1.2s 0.4s ease forwards;
+    }
+    .intro-logo-flower {
+      display: block;
+      width: min(200px, 48vw);
+      height: auto;
+      overflow: visible;
+    }
+    .intro-logo-flower .petal-vein {
+      stroke: url(#introFlowerGrad);
+      opacity: 0.35;
+    }
+
     /* 글귀 */
     .intro-quote {
       max-width: 480px;
@@ -1921,213 +1939,41 @@
 
   <div class="intro-header">
     <p class="intro-eyebrow">Venom Flower Studio</p>
-    <div style="opacity:0;animation:fadeUp 1.2s 0.4s ease forwards;">
-    <svg width="280" height="300" viewBox="0 0 280 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;">
-      <defs>
-        <!-- 뱀 몸통 그라디언트 — 입체감 -->
-        <linearGradient id="snakeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%"   stop-color="#1a3a04"/>
-          <stop offset="30%"  stop-color="#4a8a10"/>
-          <stop offset="55%"  stop-color="#7ac030"/>
-          <stop offset="75%"  stop-color="#4a8a10"/>
-          <stop offset="100%" stop-color="#1a3a04"/>
-        </linearGradient>
-        <linearGradient id="snakeGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%"   stop-color="#0e2402"/>
-          <stop offset="40%"  stop-color="#3a6e0c"/>
-          <stop offset="60%"  stop-color="#6aaa22"/>
-          <stop offset="100%" stop-color="#0e2402"/>
-        </linearGradient>
-        <linearGradient id="headGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%"   stop-color="#5aaa1a"/>
-          <stop offset="50%"  stop-color="#2a6a06"/>
-          <stop offset="100%" stop-color="#0e2a02"/>
-        </linearGradient>
-        <linearGradient id="bellyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%"   stop-color="#8ac830" stop-opacity="0.35"/>
-          <stop offset="100%" stop-color="#4a8a10" stop-opacity="0"/>
-        </linearGradient>
-        <!-- 뱀 몸통 필터 — 두께감 -->
-        <filter id="snakeBlur">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" result="blur"/>
-          <feOffset dx="1.5" dy="2" result="shadow"/>
-          <feFlood flood-color="#0a1a02" flood-opacity="0.6" result="color"/>
-          <feComposite in="color" in2="shadow" operator="in" result="coloredShadow"/>
-          <feMerge>
-            <feMergeNode in="coloredShadow"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-        <filter id="headFilter">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/>
-          <feOffset dx="1" dy="2" result="shadow"/>
-          <feFlood flood-color="#0a1a02" flood-opacity="0.7" result="color"/>
-          <feComposite in="color" in2="shadow" operator="in" result="coloredShadow"/>
-          <feMerge>
-            <feMergeNode in="coloredShadow"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-      </defs>
-
-      <!-- ── 줄기 ── -->
-      <path d="M130 288 C129 265 128 242 129 218 C130 195 130 172 130 148" stroke="#5a7e10" stroke-width="1.3" stroke-linecap="round"/>
-
-      <!-- 왼쪽 잎 -->
-      <path d="M129 220 C108 210 84 196 66 174 C86 171 112 185 129 204" stroke="#6a8e14" stroke-width="1" fill="none" stroke-linecap="round"/>
-      <path d="M129 204 C114 192 94 180 66 174" stroke="#4a6e0a" stroke-width="0.45" opacity="0.45" stroke-linecap="round"/>
-      <path d="M100 190 C94 182 86 177 78 175" stroke="#4a6e0a" stroke-width="0.35" opacity="0.3" stroke-linecap="round"/>
-
-      <!-- 오른쪽 잎 -->
-      <path d="M131 234 C154 221 180 206 192 182 C172 180 146 195 131 216" stroke="#6a8e14" stroke-width="1" fill="none" stroke-linecap="round"/>
-      <path d="M131 216 C148 200 166 188 192 182" stroke="#4a6e0a" stroke-width="0.45" opacity="0.45" stroke-linecap="round"/>
-      <path d="M158 196 C164 188 172 184 180 182" stroke="#4a6e0a" stroke-width="0.35" opacity="0.3" stroke-linecap="round"/>
-
-      <!-- ════════════════════
-           독뱀 — 입체 곡선
-      ════════════════════ -->
-
-      <!-- 그림자 레이어 (맨 뒤) -->
-      <path d="M132 282 C125 268 117 253 113 238 C109 222 114 208 121 196 C128 184 138 174 143 161 C148 148 146 142 140 137"
-            stroke="#0a1802" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.35"/>
-      <path d="M140 137 C151 129 166 121 172 110 C179 98 175 84 165 77 C155 70 140 70 129 72 C118 74 107 81 103 92 C99 103 103 117 112 126 C121 135 135 138 147 134 C159 130 167 120 168 109"
-            stroke="#0a1802" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.35"/>
-
-      <!-- 뱀 몸통 바깥 윤곽 (가장 어두운 외곽) -->
-      <path d="M132 282 C125 268 117 253 113 238 C109 222 114 208 121 196 C128 184 138 174 143 161 C148 148 146 142 140 137"
-            stroke="#162802" stroke-width="9" stroke-linecap="round" fill="none"/>
-      <!-- 뱀 몸통 메인 색 -->
-      <path d="M132 282 C125 268 117 253 113 238 C109 222 114 208 121 196 C128 184 138 174 143 161 C148 148 146 142 140 137"
-            stroke="url(#snakeGrad)" stroke-width="7" stroke-linecap="round" fill="none"/>
-      <!-- 뱀 배 (하이라이트) -->
-      <path d="M131 278 C125 265 118 251 115 237 C112 223 116 210 122 198 C128 186 137 177 142 164 C146 151 145 144 140 138"
-            stroke="#8ad030" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.28"/>
-      <!-- 최상단 반사광 -->
-      <path d="M130 270 C124 258 118 246 116 233 C114 220 117 209 123 198"
-            stroke="#aae040" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.18"/>
-
-      <!-- 똬리 바깥 윤곽 -->
-      <path d="M140 137 C151 129 166 121 172 110 C179 98 175 84 165 77 C155 70 140 70 129 72 C118 74 107 81 103 92 C99 103 103 117 112 126 C121 135 135 138 147 134 C159 130 167 120 168 109"
-            stroke="#162802" stroke-width="9" stroke-linecap="round" fill="none"/>
-      <!-- 똬리 메인 색 -->
-      <path d="M140 137 C151 129 166 121 172 110 C179 98 175 84 165 77 C155 70 140 70 129 72 C118 74 107 81 103 92 C99 103 103 117 112 126 C121 135 135 138 147 134 C159 130 167 120 168 109"
-            stroke="url(#snakeGrad2)" stroke-width="7" stroke-linecap="round" fill="none"/>
-      <!-- 똬리 하이라이트 -->
-      <path d="M141 134 C153 126 167 118 172 107 C178 95 173 82 163 76"
-            stroke="#8ad030" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.25"/>
-      <path d="M115 128 C110 117 111 104 118 96 C126 87 138 84 150 85"
-            stroke="#8ad030" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.2"/>
-
-      <!-- 비늘 패턴 — 줄기 올라오는 부분 -->
-      <path d="M119 268 L125 264" stroke="#2a5008" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
-      <path d="M116 254 L122 250" stroke="#2a5008" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
-      <path d="M114 240 L120 236" stroke="#2a5008" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
-      <path d="M115 226 L121 222" stroke="#2a5008" stroke-width="1" opacity="0.45" stroke-linecap="round"/>
-      <path d="M119 213 L125 209" stroke="#2a5008" stroke-width="1" opacity="0.45" stroke-linecap="round"/>
-      <path d="M124 201 L130 197" stroke="#2a5008" stroke-width="1" opacity="0.45" stroke-linecap="round"/>
-      <path d="M131 189 L137 185" stroke="#2a5008" stroke-width="1" opacity="0.4" stroke-linecap="round"/>
-      <path d="M138 177 L144 173" stroke="#2a5008" stroke-width="1" opacity="0.4" stroke-linecap="round"/>
-      <path d="M142 164 L147 160" stroke="#2a5008" stroke-width="1" opacity="0.4" stroke-linecap="round"/>
-
-      <!-- 비늘 패턴 — 똬리 -->
-      <path d="M153 131 L158 124" stroke="#2a5008" stroke-width="0.9" opacity="0.4" stroke-linecap="round"/>
-      <path d="M163 119 L167 112" stroke="#2a5008" stroke-width="0.9" opacity="0.4" stroke-linecap="round"/>
-      <path d="M168 105 L165 97" stroke="#2a5008" stroke-width="0.9" opacity="0.4" stroke-linecap="round"/>
-      <path d="M159 83 L152 77" stroke="#2a5008" stroke-width="0.9" opacity="0.4" stroke-linecap="round"/>
-      <path d="M143 74 L136 75" stroke="#2a5008" stroke-width="0.9" opacity="0.35" stroke-linecap="round"/>
-      <path d="M127 76 L121 82" stroke="#2a5008" stroke-width="0.9" opacity="0.35" stroke-linecap="round"/>
-      <path d="M110 92 L107 101" stroke="#2a5008" stroke-width="0.9" opacity="0.35" stroke-linecap="round"/>
-      <path d="M106 112 L110 121" stroke="#2a5008" stroke-width="0.9" opacity="0.35" stroke-linecap="round"/>
-      <path d="M118 132 L126 136" stroke="#2a5008" stroke-width="0.9" opacity="0.35" stroke-linecap="round"/>
-
-      <!-- 목 연결 — 위에서 오른쪽으로 꺾임 -->
-      <path d="M168 109 C170 100 172 90 176 82 C179 75 183 70 188 68"
-            stroke="#0e2002" stroke-width="9" stroke-linecap="round" fill="none"/>
-      <path d="M168 109 C170 100 172 90 176 82 C179 75 183 70 188 68"
-            stroke="url(#headGrad)" stroke-width="7" stroke-linecap="round" fill="none"/>
-      <path d="M169 107 C171 98 173 88 177 80 C180 73 184 68 189 66"
-            stroke="#8ad030" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.2"/>
-
-      <!-- 뱀 머리 — 좌우 역삼각형 (왼쪽이 넓고 오른쪽 주둥이가 뾰족) -->
-      <!-- 그림자 -->
-      <path d="M183 52 C192 55 210 62 220 72 C226 78 226 86 221 92 C216 98 206 100 196 98 C186 96 180 88 180 80 C180 70 183 58 183 52Z"
-            fill="#060e01" opacity="0.45"/>
-
-      <!-- 머리 베이스 -->
-      <!-- 뒤통수(왼쪽) 넓고 주둥이(오른쪽) 뾰족한 역삼각 -->
-      <path d="M187 52 C192 48 212 58 222 70 C228 78 227 88 221 94 C215 100 203 102 193 99 C183 96 178 87 179 78 C180 68 184 56 187 52Z"
-            fill="#1e4806" stroke="#0a1a02" stroke-width="1.2"/>
-
-      <!-- 등 중앙 하이라이트 -->
-      <path d="M190 54 C200 52 212 58 220 68" stroke="#7ac830" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-      <path d="M191 62 C200 58 210 62 218 70" stroke="#9ad840" stroke-width="1" stroke-linecap="round" opacity="0.22"/>
-
-      <!-- 위아래 음영 — 납작한 독사 느낌 -->
-      <path d="M187 52 C188 60 186 68 184 76" stroke="#0a1a02" stroke-width="3.5" stroke-linecap="round" opacity="0.35"/>
-      <path d="M220 94 C216 96 208 100 198 101" stroke="#0a1a02" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
-
-      <!-- 머리 비늘 라인 (가로) -->
-      <path d="M188 66 C198 63 210 65 220 70" stroke="#1a3804" stroke-width="0.8" opacity="0.5" stroke-linecap="round"/>
-      <path d="M186 76 C196 73 210 73 221 79" stroke="#1a3804" stroke-width="0.8" opacity="0.45" stroke-linecap="round"/>
-      <path d="M185 86 C196 84 210 84 220 88" stroke="#1a3804" stroke-width="0.7" opacity="0.4" stroke-linecap="round"/>
-
-      <!-- 턱 아랫면 밝은 배색 -->
-      <path d="M188 100 C198 104 210 103 220 97" stroke="#6aaa20" stroke-width="1.2" stroke-linecap="round" opacity="0.28"/>
-
-      <!-- 주둥이 끝 뾰족 -->
-      <path d="M221 72 C228 74 232 78 231 83" fill="#162e04" stroke="#0a1a02" stroke-width="0.8"/>
-      <path d="M221 90 C228 88 232 84 231 80" fill="#162e04" stroke="#0a1a02" stroke-width="0.8"/>
-
-      <!-- 콧구멍 -->
-      <ellipse cx="226" cy="76" rx="1.2" ry="0.9" fill="#050c01" opacity="0.7" transform="rotate(70 226 76)"/>
-      <ellipse cx="227" cy="83" rx="1.1" ry="0.8" fill="#050c01" opacity="0.6" transform="rotate(80 227 83)"/>
-
-      <!-- 눈 — 세로 동공 -->
-      <circle cx="198" cy="72" r="4.5" fill="#0a1a02" stroke="#050a01" stroke-width="0.5"/>
-      <circle cx="198" cy="72" r="3.5" fill="#2a7010"/>
-      <ellipse cx="198" cy="72" rx="1.1" ry="3" fill="#030601"/>
-      <circle cx="196.5" cy="70.5" r="0.9" fill="#c8f040" opacity="0.7"/>
-
-      <!-- 피트 기관 -->
-      <ellipse cx="214" cy="68" rx="1.5" ry="1" fill="#0a1a02" opacity="0.5" transform="rotate(70 214 68)"/>
-
-      <!-- 혀 — 오른쪽으로 뻗는 두 갈래 -->
-      <path d="M231 78 C237 72 242 66 247 61" stroke="#c44a4a" stroke-width="1.3" stroke-linecap="round" opacity="0.95"/>
-      <path d="M231 78 C237 76 241 73 247 73" stroke="#c44a4a" stroke-width="1.3" stroke-linecap="round" opacity="0.95"/>
-      <!-- 혀 몸통 -->
-      <path d="M222 79 C225 78 228 78 231 78" stroke="#c44a4a" stroke-width="1" stroke-linecap="round" opacity="0.55"/>
-
-      <!-- ── 꽃 ── -->
-      <!-- 꽃잎 6개 — 날카롭고 우아하게 -->
-      <path d="M130 148 C126 130 120 106 130 82 C140 106 134 130 130 148Z" stroke="#b4c44a" stroke-width="1.1" fill="none"/>
-      <path d="M130 148 C148 143 170 137 184 118 C166 108 146 118 130 148Z" stroke="#b4c44a" stroke-width="1.1" fill="none"/>
-      <path d="M130 148 C148 153 170 160 180 180 C160 186 142 173 130 148Z" stroke="#b4c44a" stroke-width="1.1" fill="none"/>
-      <path d="M130 148 C126 166 120 188 130 210 C140 188 134 166 130 148Z" stroke="#b4c44a" stroke-width="1.1" fill="none"/>
-      <path d="M130 148 C112 153 90 160 80 180 C100 186 118 173 130 148Z" stroke="#b4c44a" stroke-width="1.1" fill="none"/>
-      <path d="M130 148 C112 143 90 137 76 118 C94 108 114 118 130 148Z" stroke="#b4c44a" stroke-width="1.1" fill="none"/>
-
-      <!-- 꽃잎 내부 맥 -->
-      <path d="M130 148 C128 132 126 112 130 88" stroke="#c8d860" stroke-width="0.3" opacity="0.3" stroke-linecap="round"/>
-      <path d="M130 148 C144 140 160 132 178 122" stroke="#c8d860" stroke-width="0.3" opacity="0.3" stroke-linecap="round"/>
-      <path d="M130 148 C144 156 160 164 174 174" stroke="#c8d860" stroke-width="0.3" opacity="0.3" stroke-linecap="round"/>
-      <path d="M130 148 C128 162 126 182 130 204" stroke="#c8d860" stroke-width="0.3" opacity="0.3" stroke-linecap="round"/>
-      <path d="M130 148 C116 156 100 164 86 174" stroke="#c8d860" stroke-width="0.3" opacity="0.3" stroke-linecap="round"/>
-      <path d="M130 148 C116 140 100 132 82 122" stroke="#c8d860" stroke-width="0.3" opacity="0.3" stroke-linecap="round"/>
-
-      <!-- 꽃 중심 -->
-      <circle cx="130" cy="148" r="11" stroke="#b4c44a" stroke-width="1" fill="none"/>
-      <circle cx="130" cy="148" r="6" stroke="#c8d860" stroke-width="0.6" fill="none" opacity="0.6"/>
-      <circle cx="130" cy="148" r="2.2" fill="#b4c44a" opacity="0.85"/>
-
-      <!-- 수술 -->
-      <circle cx="130" cy="135" r="1.3" fill="#c8d860" opacity="0.7"/>
-      <circle cx="141" cy="141" r="1.3" fill="#c8d860" opacity="0.7"/>
-      <circle cx="141" cy="155" r="1.3" fill="#c8d860" opacity="0.7"/>
-      <circle cx="130" cy="161" r="1.3" fill="#c8d860" opacity="0.7"/>
-      <circle cx="119" cy="155" r="1.3" fill="#c8d860" opacity="0.7"/>
-      <circle cx="119" cy="141" r="1.3" fill="#c8d860" opacity="0.7"/>
-
-    </svg>
+    <div class="intro-logo-wrap" aria-hidden="true">
+      <svg class="intro-logo-flower" width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="introFlowerGrad" x1="8%" y1="92%" x2="92%" y2="8%" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#2d6b2d"/>
+            <stop offset="38%" stop-color="#5a9e3a"/>
+            <stop offset="68%" stop-color="#6b8f4a"/>
+            <stop offset="100%" stop-color="#5b2d8a"/>
+          </linearGradient>
+          <path id="intro-petal-outline" d="M0 8 C-22 -8 -38 -42 -6 -58 C32 -42 22 -8 0 8"/>
+          <path id="intro-petal-vein" d="M0 4 C-6 -18 -14 -36 -4 -48"/>
+        </defs>
+        <g transform="translate(100,102)" stroke="url(#introFlowerGrad)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <g stroke-width="1.35">
+            <use href="#intro-petal-outline" transform="rotate(0)"/>
+            <use href="#intro-petal-outline" transform="rotate(51.429)"/>
+            <use href="#intro-petal-outline" transform="rotate(102.857)"/>
+            <use href="#intro-petal-outline" transform="rotate(154.286)"/>
+            <use href="#intro-petal-outline" transform="rotate(205.714)"/>
+            <use href="#intro-petal-outline" transform="rotate(257.143)"/>
+            <use href="#intro-petal-outline" transform="rotate(308.571)"/>
+          </g>
+          <g class="petal-vein" stroke-width="0.55">
+            <use href="#intro-petal-vein" transform="rotate(0)"/>
+            <use href="#intro-petal-vein" transform="rotate(51.429)"/>
+            <use href="#intro-petal-vein" transform="rotate(102.857)"/>
+            <use href="#intro-petal-vein" transform="rotate(154.286)"/>
+            <use href="#intro-petal-vein" transform="rotate(205.714)"/>
+            <use href="#intro-petal-vein" transform="rotate(257.143)"/>
+            <use href="#intro-petal-vein" transform="rotate(308.571)"/>
+          </g>
+          <circle cx="0" cy="0" r="14" stroke-width="1.1"/>
+          <circle cx="0" cy="0" r="7" stroke-width="0.65" opacity="0.55"/>
+        </g>
+      </svg>
     </div>
     <p class="intro-subtitle" style="margin-top:0.25rem;font-size:clamp(0.7rem,2vw,0.85rem);letter-spacing:0.12em;">온실속의 화초여, 독초가 되어라</p>
   </div>
