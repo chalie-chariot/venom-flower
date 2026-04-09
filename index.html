@@ -393,61 +393,17 @@
       margin-top: 4px;
     }
 
-    /* 크로키 빠른 시작 — 정사각형 + 훈련 시작 */
-    .croquis-quick {
-      display: flex;
-      align-items: stretch;
-      gap: 0.75rem;
+    .home-work-cta {
+      width: 100%;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .btn-croquis-square {
-      width: 64px;
-      height: 64px;
-      min-width: 64px;
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2px;
-      border-radius: 10px;
-      border: 0.5px solid var(--border2);
-      background: var(--surface);
-      color: var(--accent);
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: var(--font-body);
-      padding: 0;
-    }
-
-    .btn-croquis-square:hover {
-      border-color: var(--accent);
-      background: var(--accent-glow);
-      color: var(--text);
-    }
-
-    .btn-croquis-square .bcs-icon {
-      font-size: 20px;
-      line-height: 1;
-    }
-
-    .btn-croquis-square .bcs-sub {
-      font-size: 9px;
-      letter-spacing: 0.12em;
-      color: var(--text3);
-      font-weight: 500;
-    }
-
-    .croquis-quick-actions {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      min-width: 0;
-    }
-
-    .croquis-quick-actions .btn-hero {
-      flex: none;
+    .btn-work-main {
+      width: 100%;
+      height: 52px;
+      letter-spacing: 0.28em;
     }
 
     .btn-hero {
@@ -536,9 +492,52 @@
       justify-content: center;
     }
 
-    .btn-spin:hover { background: var(--accent-glow); border-color: var(--accent); }
+    .btn-spin:hover:not(:disabled) { background: var(--accent-glow); border-color: var(--accent); }
+    .btn-spin:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
     .btn-spin.spinning { animation: spin 0.5s ease; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    .spinner-gate {
+      width: 100%;
+      margin-top: 0.75rem;
+      padding-top: 0.85rem;
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      text-align: left;
+    }
+    .spinner-gate-date-line {
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 0.06em;
+      line-height: 1.45;
+    }
+    .spinner-gate-date-line[hidden] { display: none !important; }
+    .spinner-check-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 11px;
+      color: var(--text2);
+      line-height: 1.4;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+    }
+    .spinner-check-label input {
+      margin-top: 2px;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+    }
+    .spinner-spin-hint {
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.06em;
+      min-height: 1.2em;
+    }
 
     /* ── 하단 탭바 ── */
     .tab-bar {
@@ -888,6 +887,55 @@
       position: relative;
     }
     .ref-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* 레퍼런스: 이미지 + 하단 메모 (포즈 탭은 기존 정사각 셀 유지) */
+    #page-reference .ref-cell.ref-cell-with-note {
+      aspect-ratio: auto;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 4px 4px 6px;
+    }
+    #page-reference .ref-cell-visual {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--bg2);
+    }
+    #page-reference .ref-cell-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .ref-note-input {
+      width: 100%;
+      min-height: 56px;
+      max-height: 120px;
+      resize: vertical;
+      box-sizing: border-box;
+      border: 0.5px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg2);
+      color: var(--text2);
+      font-size: 10px;
+      font-family: var(--font-body);
+      padding: 6px 8px;
+      line-height: 1.4;
+    }
+    .ref-note-input::placeholder {
+      color: var(--text3);
+      letter-spacing: 0.04em;
+    }
+    .ref-note-input:focus {
+      outline: none;
+      border-color: var(--accent2);
+    }
+
     .thumb-remove {
       position: absolute;
       top: 4px;
@@ -947,6 +995,13 @@
       background: var(--bg3);
     }
     .gal-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gal-cell--locked {
+      border-color: rgba(180, 170, 80, 0.08);
+    }
+    .gal-cell--locked img {
+      user-select: none;
+      -webkit-user-drag: none;
+    }
     .gal-meta {
       position: absolute;
       left: 0;
@@ -965,6 +1020,13 @@
       letter-spacing: 0.06em;
     }
     .gal-countdown.expired { color: var(--text3); }
+    .gal-countdown.archived {
+      font-family: var(--font-body);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text3);
+    }
     .gal-empty {
       grid-column: 1 / -1;
       text-align: center;
@@ -1288,16 +1350,8 @@
             </div>
           </div>
 
-          <!-- 크로키 빠른 시작 -->
-          <div class="croquis-quick">
-            <button type="button" class="btn-croquis-square" onclick="startCroquisFromHome()" aria-label="크로키 훈련 시작">
-              <span class="bcs-icon">✏</span>
-              <span class="bcs-sub">크로키</span>
-            </button>
-            <div class="croquis-quick-actions">
-              <button type="button" class="btn-hero primary" onclick="startCroquisFromHome()">훈련 시작 →</button>
-              <button type="button" class="btn-hero" onclick="goTab('gallery')">갤러리</button>
-            </div>
+          <div class="home-work-cta">
+            <button type="button" class="btn-hero primary btn-work-main" onclick="goTab('croquis')">작업하기</button>
           </div>
 
           <!-- 레퍼런스 돌림판 -->
@@ -1307,6 +1361,18 @@
             <div class="spinner-info">
               <div class="spinner-result" id="spinner-result">돌림판을 돌려보세요</div>
               <div class="spinner-category" id="spinner-cat"></div>
+              <div class="spinner-gate" id="spinner-gate">
+                <p class="spinner-gate-date-line" id="spinner-gate-date-line" hidden></p>
+                <label class="spinner-check-label">
+                  <input type="checkbox" id="spinner-check-date" />
+                  <span>위에 표시된 날짜·시각이 맞습니다</span>
+                </label>
+                <label class="spinner-check-label">
+                  <input type="checkbox" id="spinner-check-final" />
+                  <span>완성·제출 전 마지막으로 한 번 더 확인했습니다</span>
+                </label>
+                <p class="spinner-spin-hint" id="spinner-spin-hint" aria-live="polite"></p>
+              </div>
             </div>
           </div>
 
@@ -1432,7 +1498,7 @@
           <div class="gallery-toolbar">
             <input type="file" id="gal-file" accept="image/*" multiple hidden />
             <button type="button" class="btn-cq primary" id="gal-upload-btn" style="height:40px;padding:0 1rem;">이미지 업로드</button>
-            <span style="font-size:10px;color:var(--text3);letter-spacing:0.1em;">최대 30장 · 삭제는 업로드 후 5분</span>
+            <span style="font-size:10px;color:var(--text3);letter-spacing:0.1em;">최대 30장 · 업로드 후 5분 안에만 삭제 가능 · 이후 보관(편집·삭제 불가)</span>
           </div>
           <div class="gallery-grid" id="gallery-grid"></div>
         </div>
@@ -1626,17 +1692,8 @@
   const dateEl = document.getElementById('header-date');
   if(dateEl) dateEl.innerHTML = dateStr;
 
-  let cqHomeAutoTimer = null;
-  function cqClearHomeAutoTimer() {
-    if (cqHomeAutoTimer) {
-      clearTimeout(cqHomeAutoTimer);
-      cqHomeAutoTimer = null;
-    }
-  }
-
   /* ── 탭 전환 ── */
   function goTab(name) {
-    if (name !== 'croquis') cqClearHomeAutoTimer();
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     const page = document.getElementById('page-' + name);
@@ -1663,14 +1720,80 @@
   ];
 
   let lastSpinIdx = -1;
+  let spinnerClickedAt = null;
+
+  function formatSpinnerClickedAt(d) {
+    const w = '일월화수목금토'[d.getDay()] + '요일';
+    const hh = String(d.getHours()).padStart(2, '0');
+    const mm = String(d.getMinutes()).padStart(2, '0');
+    return d.getFullYear() + '년 ' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 (' + w + ') · ' + hh + ':' + mm;
+  }
+
+  function updateSpinnerButtonState() {
+    const btn = document.getElementById('btn-spin');
+    const cbFinal = document.getElementById('spinner-check-final');
+    if (!btn || !cbFinal) return;
+    /* 첫 클릭 전: 버튼 활성. 날짜 고정 후 ~ 2번째 체크 전: 비활성. 2번째 체크 후: 다시 활성 */
+    if (!spinnerClickedAt) {
+      btn.disabled = false;
+      return;
+    }
+    btn.disabled = !cbFinal.checked;
+  }
+
+  function setSpinnerHint(msg) {
+    const el = document.getElementById('spinner-spin-hint');
+    if (el) el.textContent = msg || '';
+  }
+
+  (function initSpinnerGate() {
+    const cbDate = document.getElementById('spinner-check-date');
+    const cbFinal = document.getElementById('spinner-check-final');
+    const onChange = () => {
+      updateSpinnerButtonState();
+      setSpinnerHint('');
+    };
+    if (cbDate) cbDate.addEventListener('change', onChange);
+    if (cbFinal) cbFinal.addEventListener('change', onChange);
+    updateSpinnerButtonState();
+  })();
 
   function spinWheel() {
     const btn = document.getElementById('btn-spin');
     const resultEl = document.getElementById('spinner-result');
     const catEl = document.getElementById('spinner-cat');
+    const dateLine = document.getElementById('spinner-gate-date-line');
+    const cbDate = document.getElementById('spinner-check-date');
+    const cbFinal = document.getElementById('spinner-check-final');
 
+    if (!spinnerClickedAt) {
+      spinnerClickedAt = new Date();
+      if (dateLine) {
+        dateLine.hidden = false;
+        dateLine.textContent = '돌림판을 누른 시점: ' + formatSpinnerClickedAt(spinnerClickedAt);
+      }
+      if (cbDate) cbDate.checked = false;
+      if (cbFinal) cbFinal.checked = false;
+      setSpinnerHint('아래 두 항목을 확인한 뒤, 특히 「완성 전 확인」에 체크하면 돌림판이 활성화됩니다.');
+      updateSpinnerButtonState();
+      return;
+    }
+
+    if (!cbFinal || !cbFinal.checked) {
+      setSpinnerHint('「완성·제출 전 마지막 확인」에 체크해야 돌림판을 돌릴 수 있습니다.');
+      updateSpinnerButtonState();
+      return;
+    }
+
+    if (!cbDate || !cbDate.checked) {
+      setSpinnerHint('날짜·시각 확인에도 체크해 주세요.');
+      updateSpinnerButtonState();
+      return;
+    }
+
+    setSpinnerHint('');
     btn.classList.add('spinning');
-    setTimeout(() => btn.classList.remove('spinning'), 500);
+    setTimeout(function() { btn.classList.remove('spinning'); }, 500);
 
     let idx;
     do { idx = Math.floor(Math.random() * refItems.length); }
@@ -1679,12 +1802,21 @@
 
     const item = refItems[idx];
     resultEl.style.opacity = '0';
-    setTimeout(() => {
+    setTimeout(function() {
       resultEl.textContent = item.text;
       catEl.textContent = item.cat;
       resultEl.style.opacity = '1';
       resultEl.style.transition = 'opacity 0.3s';
     }, 150);
+
+    spinnerClickedAt = null;
+    if (dateLine) {
+      dateLine.hidden = true;
+      dateLine.textContent = '';
+    }
+    if (cbDate) cbDate.checked = false;
+    if (cbFinal) cbFinal.checked = false;
+    updateSpinnerButtonState();
   }
 
   /* ── 레퍼런스 / 갤러리 / 크로키 (localStorage + Firebase 연동) ── */
@@ -1710,6 +1842,21 @@
   }
   function writeRefs(arr) {
     localStorage.setItem(LS_REF, JSON.stringify(arr));
+  }
+
+  let refNoteSaveTimers = {};
+  function saveRefNote(id, note) {
+    const list = readRefs().map(function(x) {
+      return x.id === id ? Object.assign({}, x, { note: note }) : x;
+    });
+    writeRefs(list);
+  }
+  function scheduleRefNoteSave(id, value) {
+    if (refNoteSaveTimers[id]) clearTimeout(refNoteSaveTimers[id]);
+    refNoteSaveTimers[id] = setTimeout(function() {
+      delete refNoteSaveTimers[id];
+      saveRefNote(id, value);
+    }, 450);
   }
 
   function readPoses() {
@@ -1761,7 +1908,9 @@
       }
       list.forEach(item => {
         const cell = document.createElement('div');
-        cell.className = 'ref-cell';
+        cell.className = 'ref-cell ref-cell-with-note';
+        const vis = document.createElement('div');
+        vis.className = 'ref-cell-visual';
         const img = document.createElement('img');
         img.src = item.data;
         img.alt = cat;
@@ -1776,8 +1925,25 @@
           writeRefs(next);
           window._renderReference();
         });
-        cell.appendChild(img);
-        cell.appendChild(rm);
+        vis.appendChild(img);
+        vis.appendChild(rm);
+        const ta = document.createElement('textarea');
+        ta.className = 'ref-note-input';
+        ta.setAttribute('aria-label', '가져올 부분 메모');
+        ta.placeholder = '이 이미지에서 내 것으로 가져올 부분·요소·느낌을 적어 두세요.';
+        ta.value = item.note != null ? item.note : '';
+        ta.addEventListener('input', function() {
+          scheduleRefNoteSave(item.id, ta.value);
+        });
+        ta.addEventListener('blur', function() {
+          if (refNoteSaveTimers[item.id]) {
+            clearTimeout(refNoteSaveTimers[item.id]);
+            delete refNoteSaveTimers[item.id];
+          }
+          saveRefNote(item.id, ta.value);
+        });
+        cell.appendChild(vis);
+        cell.appendChild(ta);
         panel.appendChild(cell);
       });
     });
@@ -1861,7 +2027,7 @@
     imgs.forEach(f => {
       const r = new FileReader();
       r.onload = () => {
-        list.push({ id: uid(), cat, data: r.result, addedAt: new Date().toISOString() });
+        list.push({ id: uid(), cat, data: r.result, addedAt: new Date().toISOString(), note: '' });
         left--;
         if (left === 0) {
           writeRefs(list);
@@ -1926,39 +2092,47 @@
     const now = Date.now();
     items.forEach(item => {
       const cell = document.createElement('div');
-      cell.className = 'gal-cell';
+      const elapsed = now - item.uploadedAt;
+      const left = Math.max(0, GAL_DEL_MS - elapsed);
+      const locked = left <= 0;
+      cell.className = 'gal-cell' + (locked ? ' gal-cell--locked' : '');
+
       const img = document.createElement('img');
       img.src = item.data;
       img.alt = '';
+      img.draggable = false;
+
       const meta = document.createElement('div');
       meta.className = 'gal-meta';
-      const elapsed = now - item.uploadedAt;
-      const left = Math.max(0, GAL_DEL_MS - elapsed);
       const cd = document.createElement('span');
-      cd.className = 'gal-countdown' + (left <= 0 ? ' expired' : '');
-      if (left <= 0) cd.textContent = '삭제 불가';
-      else {
+      if (locked) {
+        cd.className = 'gal-countdown archived';
+        cd.textContent = '보관됨 · 편집 불가';
+      } else {
+        cd.className = 'gal-countdown';
         const s = Math.ceil(left / 1000);
         const m = Math.floor(s / 60);
         const sec = s % 60;
         cd.textContent = m + ':' + String(sec).padStart(2, '0');
       }
-      const rm = document.createElement('button');
-      rm.type = 'button';
-      rm.className = 'thumb-remove';
-      rm.textContent = '×';
-      rm.setAttribute('aria-label', '이미지 삭제');
-      rm.disabled = left <= 0;
-      rm.addEventListener('click', (ev) => {
-        ev.stopPropagation();
-        if (Date.now() - item.uploadedAt >= GAL_DEL_MS) return;
-        const arr = readGallery().filter(x => x.id !== item.id);
-        writeGallery(arr);
-        window._renderGallery();
-      });
+
       meta.appendChild(cd);
       cell.appendChild(img);
-      cell.appendChild(rm);
+      if (!locked) {
+        const rm = document.createElement('button');
+        rm.type = 'button';
+        rm.className = 'thumb-remove';
+        rm.textContent = '×';
+        rm.setAttribute('aria-label', '이미지 삭제');
+        rm.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          if (Date.now() - item.uploadedAt >= GAL_DEL_MS) return;
+          const arr = readGallery().filter(x => x.id !== item.id);
+          writeGallery(arr);
+          window._renderGallery();
+        });
+        cell.appendChild(rm);
+      }
       cell.appendChild(meta);
       grid.appendChild(cell);
     });
@@ -2072,7 +2246,6 @@
 
   function cqStartTimer() {
     if (cqCompleted >= 3) return;
-    cqClearHomeAutoTimer();
     if (!cqWrap.classList.contains('has-img')) {
       cqShowToast('먼저 이미지를 불러오세요.');
       return;
@@ -2080,22 +2253,6 @@
     cqStopTimer();
     cqRunning = true;
     cqTimerId = setInterval(cqTick, 1000);
-  }
-
-  function startCroquisFromHome() {
-    cqClearHomeAutoTimer();
-    goTab('croquis');
-    if (!readPoses().length) {
-      cqShowToast('포즈 탭에 크로키용 이미지를 먼저 추가하세요.');
-      return;
-    }
-    cqPickRandomPose();
-    cqResetTimerOnly();
-    cqShowToast('5초 후 타이머가 시작됩니다.');
-    cqHomeAutoTimer = setTimeout(function() {
-      cqHomeAutoTimer = null;
-      cqStartTimer();
-    }, 5000);
   }
 
   function cqPauseTimer() {
