@@ -449,23 +449,26 @@
       color: var(--accent2);
     }
 
-    /* 홈 · 좌측 상단~중앙 글귀 (카드별 분리) */
+    /* 홈 · 글귀 (카드별) — 화면 가로 중앙 · 세로는 중앙보다 약간 아래 */
     .home-quote-stack {
       position: fixed;
-      left: max(0.5rem, env(safe-area-inset-left));
-      top: max(5.75rem, calc(4.25rem + env(safe-area-inset-top)));
-      bottom: 50vh;
+      left: 50%;
+      top: 56vh;
+      transform: translate(-50%, -50%);
+      bottom: auto;
       z-index: 19;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
+      align-items: stretch;
       gap: 0.5rem;
-      width: min(18rem, calc(100vw - 15rem));
-      max-width: calc(100vw - 0.75rem);
+      width: min(22rem, calc(100vw - 2rem));
+      max-width: calc(100vw - 1rem);
+      max-height: min(48vh, 28rem);
       overflow-y: auto;
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
-      padding-right: 2px;
+      padding: 0 2px;
       box-sizing: border-box;
     }
     .home-quote-card {
@@ -489,9 +492,9 @@
     }
     @media (max-width: 560px) {
       .home-quote-stack {
-        width: min(16.5rem, calc(100vw - 1rem));
-        top: max(5.25rem, calc(3.75rem + env(safe-area-inset-top)));
-        bottom: 48vh;
+        width: min(19rem, calc(100vw - 1.25rem));
+        top: 58vh;
+        max-height: min(50vh, 26rem);
       }
       .home-quote-card {
         padding: 0.5rem 0.6rem 0.55rem;
@@ -2455,7 +2458,7 @@
           <h3 class="memo-section-title">컨셉 이미지</h3>
           <p class="memo-hint">시트·전신·표정 등 참고 이미지를 넣을 수 있습니다. (최대 12장 · 언제든 삭제 가능)</p>
           <div class="gallery-toolbar">
-            <input type="file" id="char-file" accept="image/*" multiple hidden />
+            <input type="file" id="char-file" accept="image/*,.heic,.heif" multiple hidden />
             <button type="button" class="btn-cq primary" id="char-upload-btn" style="height:40px;padding:0 1rem;">이미지 추가</button>
           </div>
           <div class="gallery-grid" id="char-image-grid"></div>
@@ -3093,27 +3096,9 @@
     if (typeof updateTabButtonLocks === 'function') updateTabButtonLocks();
   }
 
-  /* ── 레퍼런스 돌림판 ── */
-  const refItems = [
-    { text: '인체 비례 — 전신 LD', cat: 'LD' },
-    { text: '얼굴 각도 — 3/4뷰', cat: 'LD' },
-    { text: '손 — 다양한 포즈', cat: 'LD' },
-    { text: '발 — 구조 분석', cat: 'LD' },
-    { text: '캐릭터 전신 — SD 2등신', cat: 'SD' },
-    { text: '캐릭터 표정 — SD', cat: 'SD' },
-    { text: '척추 라인 — 정면·측면', cat: '스파인' },
-    { text: '골반·흉곽 — 기울기와 연결', cat: '스파인' },
-    { text: '목·어깨 — 라인 연속성', cat: '스파인' },
-    { text: '액션 연출 — 타격감', cat: '연출' },
-    { text: '카메라 앵글 — 로우앵글', cat: '연출' },
-    { text: '빛과 그림자 — 역광', cat: '연출' },
-    { text: '배경 원근 — 1점 투시', cat: '연출' },
-    { text: '전신 동세 — 무게중심', cat: '동세' },
-    { text: '스쿼트·구부림 — 관절 각도', cat: '동세' },
-    { text: '달리기·점프 — 순간 포즈', cat: '동세' },
-  ];
-
-  let lastSpinIdx = -1;
+  /* ── 레퍼런스 돌림판 (표시: 카테고리명만) ── */
+  const SPINNER_CATEGORY_POOL = ['LD', 'SD', '스파인', '연출', '동세'];
+  let lastSpinCat = '';
 
   const LS_TAB_ACTIVITY = 'dokcho_tab_activity';
   const LS_MEMO_BODY = 'dokcho_memo_body';
@@ -3252,16 +3237,18 @@
     btn.classList.add('spinning');
     setTimeout(function() { btn.classList.remove('spinning'); }, 500);
 
-    let idx;
-    do { idx = Math.floor(Math.random() * refItems.length); }
-    while (idx === lastSpinIdx && refItems.length > 1);
-    lastSpinIdx = idx;
+    let cat;
+    let guard = 0;
+    do {
+      cat = SPINNER_CATEGORY_POOL[Math.floor(Math.random() * SPINNER_CATEGORY_POOL.length)];
+      guard++;
+    } while (cat === lastSpinCat && SPINNER_CATEGORY_POOL.length > 1 && guard < 16);
+    lastSpinCat = cat;
 
-    const item = refItems[idx];
     resultEl.style.opacity = '0';
     setTimeout(function() {
-      resultEl.textContent = item.text;
-      catEl.textContent = item.cat;
+      resultEl.textContent = cat;
+      if (catEl) catEl.textContent = '';
       resultEl.style.opacity = '1';
       resultEl.style.transition = 'opacity 0.3s';
     }, 150);
@@ -3949,6 +3936,22 @@
     if (!s.fields) s.fields = defaultCharacterSheet().fields;
     const f = collectCharacterFieldsFromForm();
     CHAR_FIELD_KEYS.forEach(function(k) { s.fields[k] = f[k] != null ? f[k] : ''; });
+  }
+
+  function readFileAsDataURL(file) {
+    return new Promise(function(resolve, reject) {
+      const r = new FileReader();
+      r.onload = function() { resolve(r.result); };
+      r.onerror = function() { reject(new Error('read')); };
+      r.readAsDataURL(file);
+    });
+  }
+
+  function isLikelyImageFile(f) {
+    if (!f) return false;
+    if (f.type && f.type.startsWith('image/')) return true;
+    const n = (f.name || '').toLowerCase();
+    return /\.(png|jpe?g|gif|webp|bmp|svg|heic|heif|avif|tif|tiff)$/i.test(n);
   }
 
   function renderLinkedKeywordPreview() {
@@ -4655,33 +4658,33 @@
     document.getElementById('char-file').click();
   });
 
-  document.getElementById('char-file').addEventListener('change', function(ev) {
+  document.getElementById('char-file').addEventListener('change', async function(ev) {
     const files = ev.target.files;
     ev.target.value = '';
     if (!files || !files.length) return;
     const s = readCharacterSheet();
     mergeFormIntoSheet(s);
-    const arr = s.images || [];
+    const arr = (s.images || []).slice();
     const room = CHAR_IMG_MAX - arr.length;
     if (room <= 0) return;
-    const imgs = Array.from(files).filter(function(f) { return f.type.startsWith('image/'); });
+    const imgs = Array.from(files).filter(isLikelyImageFile);
     const n = Math.min(imgs.length, room);
-    if (!n) return;
-    let left = n;
-    for (let i = 0; i < n; i++) {
-      const f = imgs[i];
-      const r = new FileReader();
-      r.onload = function() {
-        arr.push({ id: uid(), data: r.result, addedAt: new Date().toISOString() });
-        left--;
-        if (left === 0) {
-          s.images = arr;
-          writeCharacterSheet(s);
-          renderCharacterImages();
-          if (characterSheetHasContent(s)) markTabActivity('concept');
-        }
-      };
-      r.readAsDataURL(f);
+    if (!n) {
+      if (typeof cqShowToast === 'function') cqShowToast('지원하는 이미지 파일만 선택할 수 있습니다.');
+      return;
+    }
+    try {
+      for (let i = 0; i < n; i++) {
+        const data = await readFileAsDataURL(imgs[i]);
+        arr.push({ id: uid(), data: data, addedAt: new Date().toISOString() });
+      }
+      s.images = arr;
+      writeCharacterSheet(s);
+      renderCharacterImages();
+      if (characterSheetHasContent(s)) markTabActivity('concept');
+    } catch (err) {
+      console.warn('컨셉 이미지 저장 실패', err);
+      if (typeof cqShowToast === 'function') cqShowToast('이미지를 불러오거나 저장하지 못했습니다. 용량을 줄이거나 다른 형식으로 다시 시도해 주세요.');
     }
   });
 
