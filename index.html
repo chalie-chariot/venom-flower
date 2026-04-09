@@ -11,7 +11,7 @@
   <link rel="apple-touch-icon" href="icons/icon-192.png">
   <title>독초 — Venom Flower</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0a0a08;
@@ -27,8 +27,7 @@
       --text2: #9a9680;
       --text3: #5a5848;
       --danger: #c44a4a;
-      --font-display: 'Bebas Neue', cursive;
-      --font-serif: 'Noto Serif KR', serif;
+      --font-display: 'Bebas Neue', 'Noto Sans KR', sans-serif;
       --font-body: 'Noto Sans KR', sans-serif;
     }
 
@@ -107,7 +106,7 @@
     }
 
     .intro-subtitle {
-      font-family: var(--font-serif);
+      font-family: var(--font-body);
       font-size: clamp(0.75rem, 2vw, 0.9rem);
       font-weight: 300;
       color: var(--text3);
@@ -127,7 +126,7 @@
     }
 
     .intro-quote p {
-      font-family: var(--font-serif);
+      font-family: var(--font-body);
       font-size: clamp(0.8rem, 2.2vw, 0.95rem);
       font-weight: 300;
       color: var(--text2);
@@ -358,7 +357,7 @@
     }
 
     .greeting-text {
-      font-family: var(--font-serif);
+      font-family: var(--font-body);
       font-size: 13px;
       color: var(--text2);
       font-weight: 300;
@@ -493,50 +492,60 @@
     .btn-hero.primary:hover { background: var(--accent2); border-color: var(--accent2); }
     .btn-hero:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* 돌림판 카드 */
+    /* 돌림판 카드 (세로 · 가운데 정렬) */
     .spinner-card {
       background: var(--surface);
       border: 0.5px solid var(--border);
       border-radius: 14px;
-      padding: 1.25rem 1.5rem;
+      padding: 1.35rem 1.5rem 1.5rem;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 1.25rem;
+      text-align: center;
+      width: 100%;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
+      gap: 0;
     }
 
-    .spinner-info { flex: 1; }
+    .spinner-info {
+      width: 100%;
+      margin-top: 1rem;
+    }
 
     .spinner-label {
       font-size: 10px;
       letter-spacing: 0.35em;
       color: var(--text3);
       text-transform: uppercase;
-      margin-bottom: 4px;
+      margin-bottom: 1rem;
     }
 
     .spinner-result {
-      font-family: var(--font-serif);
+      font-family: var(--font-body);
       font-size: 14px;
       color: var(--text);
       font-weight: 400;
-      min-height: 20px;
+      min-height: 22px;
     }
 
     .spinner-category {
       font-size: 10px;
       color: var(--accent2);
       letter-spacing: 0.15em;
-      margin-top: 2px;
+      margin-top: 6px;
     }
 
     .btn-spin {
-      width: 56px;
-      height: 56px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       border: 0.5px solid var(--border2);
       background: transparent;
       color: var(--accent);
-      font-size: 22px;
+      font-size: 32px;
+      line-height: 1;
       cursor: pointer;
       transition: all 0.3s;
       flex-shrink: 0;
@@ -640,7 +649,7 @@
     .coming-soon-icon { font-size: 2.5rem; }
 
     .coming-soon p {
-      font-family: var(--font-serif);
+      font-family: var(--font-body);
       font-size: 13px;
       color: var(--text2);
       font-weight: 300;
@@ -1322,12 +1331,12 @@
 
           <!-- 레퍼런스 돌림판 -->
           <div class="spinner-card">
+            <p class="spinner-label">Today's Reference</p>
+            <button type="button" class="btn-spin" id="btn-spin" onclick="spinWheel()" aria-label="레퍼런스 돌림판">⟳</button>
             <div class="spinner-info">
-              <p class="spinner-label">Today's Reference</p>
               <div class="spinner-result" id="spinner-result">돌림판을 돌려보세요</div>
               <div class="spinner-category" id="spinner-cat"></div>
             </div>
-            <button class="btn-spin" id="btn-spin" onclick="spinWheel()">⟳</button>
           </div>
 
         </div>
