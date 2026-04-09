@@ -1554,6 +1554,34 @@
       min-height: 1.2em;
     }
 
+    /* 전역 토스트 — 어떤 탭에서든 보임 (크로키 전용 #cq-toast는 비활성 탭에서 숨겨짐) */
+    .app-toast-bar {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: calc(4.75rem + env(safe-area-inset-bottom));
+      z-index: 200;
+      max-width: min(22rem, calc(100vw - 2rem));
+      padding: 0.55rem 1rem;
+      background: rgba(22, 20, 16, 0.96);
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--danger);
+      letter-spacing: 0.04em;
+      text-align: center;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s;
+    }
+    .app-toast-bar.is-visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
     /* ── 레퍼런스 페이지 ── */
     .ref-cat-bar {
       display: flex;
@@ -2133,6 +2161,7 @@
      MAIN 화면
 ══════════════════════════ -->
 <div id="screen-main" class="screen hidden">
+  <div id="app-toast" class="app-toast-bar" role="status" aria-live="polite"></div>
   <div class="main-layout">
 
     <!-- 헤더 -->
@@ -4463,11 +4492,18 @@
     });
   };
 
-  document.getElementById('gal-upload-btn').addEventListener('click', () => {
-    document.getElementById('gal-file').click();
-  });
+  (function bindGalleryUpload() {
+    var galBtn = document.getElementById('gal-upload-btn');
+    var galFile = document.getElementById('gal-file');
+    if (!galBtn || !galFile) {
+      console.warn('[venom] gal-upload 요소 없음');
+      return;
+    }
+    galBtn.addEventListener('click', function() {
+      galFile.click();
+    });
 
-  document.getElementById('gal-file').addEventListener('change', async function(ev) {
+    galFile.addEventListener('change', async function(ev) {
     const files = ev.target.files;
     ev.target.value = '';
     if (!files || !files.length) return;
@@ -4540,14 +4576,14 @@
       if (typeof cqShowToast === 'function') cqShowToast('갤러리에 저장하지 못했습니다.');
     }
     startGalleryTicker();
-  });
+    });
+  })();
 
   /* ── 크로키 ── */
   const cqRing = document.getElementById('croquis-ring-progress');
   const cqTimeEl = document.getElementById('croquis-time-display');
   const cqImg = document.getElementById('croquis-img');
   const cqWrap = document.getElementById('croquis-image-wrap');
-  const cqToast = document.getElementById('cq-toast');
   const cqDup = document.getElementById('cq-dup-info');
   const cqFbPanel = document.getElementById('cq-feedback-panel');
   const cqFbText = document.getElementById('cq-feedback-text');
@@ -4562,8 +4598,19 @@
 
   function cqShowToast(msg) {
     if (cqToastT) clearTimeout(cqToastT);
-    cqToast.textContent = msg || '';
-    cqToastT = setTimeout(() => { cqToast.textContent = ''; cqToastT = null; }, 3200);
+    var text = msg || '';
+    var el = document.getElementById('app-toast') || document.getElementById('cq-toast');
+    if (!el) {
+      try { alert(text); } catch (e) {}
+      return;
+    }
+    el.textContent = text;
+    if (el.id === 'app-toast') el.classList.toggle('is-visible', !!text);
+    cqToastT = setTimeout(function() {
+      el.textContent = '';
+      if (el.id === 'app-toast') el.classList.remove('is-visible');
+      cqToastT = null;
+    }, 3200);
   }
 
   function cqFmt(sec) {
@@ -4763,11 +4810,18 @@
     if (characterSheetHasContent(s)) markTabActivity('concept');
   });
 
-  document.getElementById('char-upload-btn').addEventListener('click', function() {
-    document.getElementById('char-file').click();
-  });
+  (function bindConceptUpload() {
+    var charBtn = document.getElementById('char-upload-btn');
+    var charFile = document.getElementById('char-file');
+    if (!charBtn || !charFile) {
+      console.warn('[venom] char-upload 요소 없음');
+      return;
+    }
+    charBtn.addEventListener('click', function() {
+      charFile.click();
+    });
 
-  document.getElementById('char-file').addEventListener('change', async function(ev) {
+    charFile.addEventListener('change', async function(ev) {
     const files = ev.target.files;
     ev.target.value = '';
     if (!files || !files.length) return;
@@ -4826,7 +4880,8 @@
       console.warn('컨셉 이미지 저장 실패', err);
       if (typeof cqShowToast === 'function') cqShowToast('이미지를 불러오거나 저장하지 못했습니다. 용량을 줄이거나 다른 형식으로 다시 시도해 주세요.');
     }
-  });
+    });
+  })();
 
   (function bindTabChainTestButtons() {
     var btnAll = document.getElementById('btn-tab-chain-test-all');
