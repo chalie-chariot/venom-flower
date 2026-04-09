@@ -584,6 +584,138 @@
       border-color: var(--accent2);
     }
 
+    .memo-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+    @media (max-width: 720px) {
+      .memo-split { grid-template-columns: 1fr; }
+    }
+
+    .memo-section-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--text);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.35rem;
+    }
+
+    .memo-hint {
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.06em;
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
+    }
+
+    .memo-keyword-thread {
+      margin-top: 0.65rem;
+      padding: 0.65rem 0 0;
+      border-top: 0.5px solid var(--border);
+      max-height: 160px;
+      overflow-y: auto;
+    }
+
+    .memo-kw-label {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--accent2);
+      margin-bottom: 0.4rem;
+    }
+
+    .memo-kw-item {
+      font-size: 11px;
+      color: var(--text2);
+      padding: 0.35rem 0 0.35rem 0.65rem;
+      border-left: 2px solid var(--border2);
+      margin-bottom: 0.35rem;
+    }
+    .memo-kw-item strong { color: var(--accent); font-weight: 500; }
+    .memo-kw-meta { font-size: 9px; color: var(--text3); margin-top: 2px; }
+
+    .memo-future {
+      font-size: 10px;
+      color: var(--text3);
+      font-style: italic;
+      margin-top: 0.5rem;
+      letter-spacing: 0.04em;
+    }
+
+    .mindmap-box {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem;
+      min-height: 200px;
+      max-height: 320px;
+      overflow: auto;
+    }
+
+    .mm-input-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .mm-input-row input {
+      flex: 1;
+      min-width: 140px;
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 6px;
+      padding: 0.5rem 0.65rem;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 12px;
+    }
+    .mm-input-row input:focus {
+      outline: none;
+      border-color: var(--accent2);
+    }
+
+    .mm-focus-hint {
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.06em;
+    }
+
+    .mm-tree { margin-top: 0.35rem; }
+
+    .mm-node-wrap {
+      margin: 4px 0;
+      padding-left: 0;
+    }
+
+    .mm-node {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 0.5px solid var(--border);
+      background: var(--bg2);
+      cursor: pointer;
+      font-size: 11px;
+      color: var(--text2);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .mm-node:hover { border-color: var(--border2); color: var(--text); }
+    .mm-node.selected {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent-glow);
+      color: var(--accent);
+    }
+
+    .mm-node-children {
+      margin-left: 14px;
+      padding-left: 10px;
+      border-left: 0.5px solid var(--border);
+    }
+
     /* ── 하단 탭바 ── */
     .tab-bar {
       border-top: 0.5px solid var(--border);
@@ -593,6 +725,7 @@
 
     .tab-btn {
       flex: 1;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -629,6 +762,14 @@
       font-size: 9px;
       letter-spacing: 0.15em;
       font-family: var(--font-body);
+    }
+
+    .tab-label-long {
+      font-size: 7px;
+      letter-spacing: 0.06em;
+      line-height: 1.2;
+      text-align: center;
+      max-width: 100%;
     }
 
     /* ── 서브 페이지 공통 ── */
@@ -1414,7 +1555,7 @@
                 </label>
                 <label class="spinner-check-label is-locked" id="spinner-label-routine">
                   <input type="checkbox" id="spinner-check-routine" disabled />
-                  <span>완료 — 작업 루틴을 끝까지 마쳤습니다 (크로키·포즈·레퍼런스·갤러리·메모 각 탭에서 업로드 또는 글 작성 후 활성)</span>
+                  <span>완료 — 작업 루틴을 끝까지 마쳤습니다 (크로키·포즈·레퍼런스·갤러리·메모·창작캐릭터 컨셉아트 각 탭에서 업로드 또는 글 작성 후 활성)</span>
                 </label>
                 <div class="spinner-dev-row">
                   <label class="spinner-check-label">
@@ -1490,13 +1631,15 @@
         <div class="page-wrap">
           <div class="page-header">
             <h2 class="page-title">포즈</h2>
-            <span class="page-sub">크로키 전용 · LD · SD · 연출</span>
+            <span class="page-sub">크로키 전용 · LD · SD · 스파인 · 연출 · 동세</span>
           </div>
           <div class="ref-upload-bar">
             <select class="ref-select" id="pose-cat-select" aria-label="포즈 업로드 카테고리">
               <option value="LD">LD</option>
               <option value="SD">SD</option>
+              <option value="스파인">스파인</option>
               <option value="연출">연출</option>
+              <option value="동세">동세</option>
             </select>
             <input type="file" id="pose-file" accept="image/*" multiple hidden />
             <button type="button" class="btn-cq primary" id="pose-upload-btn" style="height:40px;padding:0 1rem;">이미지 업로드</button>
@@ -1504,11 +1647,15 @@
           <div class="ref-cat-bar" role="tablist">
             <button type="button" class="pose-cat-btn active" data-pose-tab="LD" role="tab">LD</button>
             <button type="button" class="pose-cat-btn" data-pose-tab="SD" role="tab">SD</button>
+            <button type="button" class="pose-cat-btn" data-pose-tab="스파인" role="tab">스파인</button>
             <button type="button" class="pose-cat-btn" data-pose-tab="연출" role="tab">연출</button>
+            <button type="button" class="pose-cat-btn" data-pose-tab="동세" role="tab">동세</button>
           </div>
           <div id="pose-panel-ld" class="ref-grid" data-pose-panel="LD"></div>
           <div id="pose-panel-sd" class="ref-grid" data-pose-panel="SD" style="display:none;"></div>
+          <div id="pose-panel-spine" class="ref-grid" data-pose-panel="스파인" style="display:none;"></div>
           <div id="pose-panel-dir" class="ref-grid" data-pose-panel="연출" style="display:none;"></div>
+          <div id="pose-panel-dongse" class="ref-grid" data-pose-panel="동세" style="display:none;"></div>
         </div>
       </div>
 
@@ -1517,13 +1664,15 @@
         <div class="page-wrap">
           <div class="page-header">
             <h2 class="page-title">레퍼런스</h2>
-            <span class="page-sub">LD · SD · 연출</span>
+            <span class="page-sub">LD · SD · 스파인 · 연출 · 동세</span>
           </div>
           <div class="ref-upload-bar">
             <select class="ref-select" id="ref-cat-select" aria-label="업로드 카테고리">
               <option value="LD">LD</option>
               <option value="SD">SD</option>
+              <option value="스파인">스파인</option>
               <option value="연출">연출</option>
+              <option value="동세">동세</option>
             </select>
             <input type="file" id="ref-file" accept="image/*" multiple hidden />
             <button type="button" class="btn-cq primary" id="ref-upload-btn" style="height:40px;padding:0 1rem;">이미지 업로드</button>
@@ -1531,11 +1680,15 @@
           <div class="ref-cat-bar" role="tablist">
             <button type="button" class="ref-cat-btn active" data-ref-tab="LD" role="tab">LD</button>
             <button type="button" class="ref-cat-btn" data-ref-tab="SD" role="tab">SD</button>
+            <button type="button" class="ref-cat-btn" data-ref-tab="스파인" role="tab">스파인</button>
             <button type="button" class="ref-cat-btn" data-ref-tab="연출" role="tab">연출</button>
+            <button type="button" class="ref-cat-btn" data-ref-tab="동세" role="tab">동세</button>
           </div>
           <div id="ref-panel-ld" class="ref-grid" data-ref-panel="LD"></div>
           <div id="ref-panel-sd" class="ref-grid" data-ref-panel="SD" style="display:none;"></div>
+          <div id="ref-panel-spine" class="ref-grid" data-ref-panel="스파인" style="display:none;"></div>
           <div id="ref-panel-dir" class="ref-grid" data-ref-panel="연출" style="display:none;"></div>
+          <div id="ref-panel-dongse" class="ref-grid" data-ref-panel="동세" style="display:none;"></div>
         </div>
       </div>
 
@@ -1560,11 +1713,49 @@
         <div class="page-wrap">
           <div class="page-header">
             <h2 class="page-title">메모</h2>
-            <span class="page-sub">세계관 · 마인드맵</span>
+            <span class="page-sub">메모장 · 마인드맵</span>
           </div>
-          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: 내용을 적고 저장하면 이 탭 활동으로 인정됩니다.</p>
-          <textarea id="memo-editor" class="memo-editor" placeholder="키워드, 세계관, 마인드맵 메모…"></textarea>
-          <button type="button" class="btn-cq primary" id="memo-save-btn" style="align-self:flex-end;height:40px;padding:0 1.25rem;">저장</button>
+          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: 메모 저장 또는 마인드맵 노드 추가 시 이 탭 활동으로 인정됩니다.</p>
+
+          <div class="memo-split">
+            <div>
+              <h3 class="memo-section-title">일반 메모장</h3>
+              <p class="memo-hint"><strong>@</strong> + 띄어쓰기 + 단어 를 <strong>한 줄</strong>에 쓰고 저장하면 키워드가 스레드에 쌓입니다. (예: <code style="color:var(--accent2);">@ 독초</code>)</p>
+              <textarea id="memo-editor" class="memo-editor" placeholder="자유 메모…&#10;@ 키워드 형식으로 줄마다 키워드 저장"></textarea>
+              <div class="memo-keyword-thread" id="memo-keyword-thread" aria-label="저장된 키워드 스레드">
+                <div class="memo-kw-label">KEYWORD THREAD</div>
+                <div id="memo-keyword-list"></div>
+              </div>
+              <p class="memo-future">추후 캐릭터 컨셉아트 작업 시 이 메모장을 붙여 쓸 수 있게 연동 예정입니다.</p>
+            </div>
+
+            <div>
+              <h3 class="memo-section-title">마인드맵</h3>
+              <p class="memo-hint"><strong>/</strong> + 띄어쓰기 + 단어 입력 후 <strong>Enter</strong> → 선택된 노드 아래 파생 노드가 생깁니다. 노드를 눌러 부모를 바꿀 수 있습니다. 컨셉아트 기반 연관 단어·아이디어를 시각화해 보세요.</p>
+              <div class="mindmap-box" id="mindmap-box">
+                <p class="mm-focus-hint" id="mm-focus-label">선택: 루트</p>
+                <div class="mm-tree" id="mm-tree"></div>
+              </div>
+              <div class="mm-input-row">
+                <input type="text" id="mm-input" placeholder="/ 단어 입력 후 Enter" autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="btn-cq primary" id="memo-save-btn" style="align-self:flex-end;height:40px;padding:0 1.25rem;margin-top:0.5rem;">메모장 저장</button>
+        </div>
+      </div>
+
+      <!-- ── 창작캐릭터 컨셉아트 ── -->
+      <div id="page-concept" class="page">
+        <div class="page-wrap">
+          <div class="page-header">
+            <h2 class="page-title">창작캐릭터 컨셉아트</h2>
+            <span class="page-sub">설정 · 시트 노트</span>
+          </div>
+          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: 아래 내용을 작성한 뒤 「컨셉 저장」을 누르면 이 탭 활동으로 인정됩니다.</p>
+          <textarea id="concept-editor" class="memo-editor" placeholder="캐릭터 이름, 성격, 실루엣, 컬러 팔레트, 의상·소품, 참고 키워드…&#10;자유 형식으로 정리해 보세요."></textarea>
+          <button type="button" class="btn-cq primary" id="concept-save-btn" style="align-self:flex-end;height:40px;padding:0 1.25rem;">컨셉 저장</button>
         </div>
       </div>
 
@@ -1595,6 +1786,10 @@
       <button class="tab-btn" id="tab-memo" onclick="goTab('memo')">
         <span class="tab-icon">✦</span>
         <span class="tab-label">메모</span>
+      </button>
+      <button class="tab-btn" id="tab-concept" onclick="goTab('concept')">
+        <span class="tab-icon">✧</span>
+        <span class="tab-label tab-label-long">창작캐릭터<br>컨셉아트</span>
       </button>
     </nav>
 
@@ -1752,7 +1947,8 @@
     if (name === 'gallery' && typeof window._renderGallery === 'function') window._renderGallery();
     if (name === 'reference' && typeof window._renderReference === 'function') window._renderReference();
     if (name === 'pose' && typeof window._renderPose === 'function') window._renderPose();
-    if (name === 'memo' && typeof initMemoEditor === 'function') initMemoEditor();
+    if (name === 'memo' && typeof initMemoPage === 'function') initMemoPage();
+    if (name === 'concept' && typeof initConceptPage === 'function') initConceptPage();
   }
 
   /* ── 레퍼런스 돌림판 ── */
@@ -1763,16 +1959,25 @@
     { text: '발 — 구조 분석', cat: 'LD' },
     { text: '캐릭터 전신 — SD 2등신', cat: 'SD' },
     { text: '캐릭터 표정 — SD', cat: 'SD' },
+    { text: '척추 라인 — 정면·측면', cat: '스파인' },
+    { text: '골반·흉곽 — 기울기와 연결', cat: '스파인' },
+    { text: '목·어깨 — 라인 연속성', cat: '스파인' },
     { text: '액션 연출 — 타격감', cat: '연출' },
     { text: '카메라 앵글 — 로우앵글', cat: '연출' },
     { text: '빛과 그림자 — 역광', cat: '연출' },
     { text: '배경 원근 — 1점 투시', cat: '연출' },
+    { text: '전신 동세 — 무게중심', cat: '동세' },
+    { text: '스쿼트·구부림 — 관절 각도', cat: '동세' },
+    { text: '달리기·점프 — 순간 포즈', cat: '동세' },
   ];
 
   let lastSpinIdx = -1;
 
   const LS_TAB_ACTIVITY = 'dokcho_tab_activity';
   const LS_MEMO_BODY = 'dokcho_memo_body';
+  const LS_MEMO_KEYWORDS = 'dokcho_memo_keywords';
+  const LS_MINDMAP = 'dokcho_mindmap';
+  const LS_CONCEPT_BODY = 'dokcho_concept_body';
   const LS_CROQUIS_TOUCHED = 'dokcho_croquis_touched';
 
   function formatSpinnerDateOnly(d) {
@@ -1796,7 +2001,7 @@
 
   function allTabsHaveActivity() {
     const o = readTabActivity();
-    return !!(o.croquis && o.pose && o.reference && o.gallery && o.memo);
+    return !!(o.croquis && o.pose && o.reference && o.gallery && o.memo && o.concept);
   }
 
   function routineEffective() {
@@ -1887,7 +2092,7 @@
 
     if (!routineEffective()) {
       if (!allTabsHaveActivity()) {
-        setSpinnerHint('크로키·포즈·레퍼런스·갤러리·메모 탭에서 각각 업로드 또는 글 작성 후 「완료」가 활성화됩니다. 테스트는 하단 【테스트】체크로 대체할 수 있습니다.');
+        setSpinnerHint('크로키·포즈·레퍼런스·갤러리·메모·창작캐릭터 컨셉아트 탭에서 각각 업로드 또는 글 작성 후 「완료」가 활성화됩니다. 테스트는 하단 【테스트】체크로 대체할 수 있습니다.');
       } else {
         setSpinnerHint('「완료」에 체크하거나 【테스트】를 사용해 주세요.');
       }
@@ -2005,28 +2210,236 @@
       if (readGallery().length > 0) markTabActivity('gallery');
     } catch (e) {}
     try {
-      if ((localStorage.getItem(LS_MEMO_BODY) || '').trim().length > 0) markTabActivity('memo');
+      if (typeof memoHasStoredContent === 'function' && memoHasStoredContent()) markTabActivity('memo');
+    } catch (e) {}
+    try {
+      if (typeof conceptHasStoredContent === 'function' && conceptHasStoredContent()) markTabActivity('concept');
     } catch (e) {}
     if (typeof updateRoutineCheckboxAvailability === 'function') updateRoutineCheckboxAvailability();
   }
 
-  function initMemoEditor() {
-    const ed = document.getElementById('memo-editor');
-    if (!ed) return;
+  let mmSelectedId = 'mm-root';
+  let memoMmListenersBound = false;
+
+  function readMemoKeywords() {
     try {
-      ed.value = localStorage.getItem(LS_MEMO_BODY) || '';
-    } catch (e) {}
+      const a = JSON.parse(localStorage.getItem(LS_MEMO_KEYWORDS) || '[]');
+      return Array.isArray(a) ? a : [];
+    } catch (e) { return []; }
   }
+
+  function writeMemoKeywords(arr) {
+    localStorage.setItem(LS_MEMO_KEYWORDS, JSON.stringify(arr));
+  }
+
+  function extractAtKeywords(text) {
+    const out = [];
+    const re = /^@\s+(.+)$/gm;
+    let m;
+    while ((m = re.exec(text || '')) !== null) {
+      const w = (m[1] || '').trim();
+      if (w) out.push({ word: w, at: new Date().toISOString() });
+    }
+    return out;
+  }
+
+  function renderKeywordThread() {
+    const host = document.getElementById('memo-keyword-list');
+    if (!host) return;
+    const list = readMemoKeywords().slice().reverse();
+    host.innerHTML = '';
+    if (!list.length) {
+      const p = document.createElement('p');
+      p.style.cssText = 'font-size:10px;color:var(--text3);letter-spacing:0.06em;';
+      p.textContent = '저장된 키워드가 없습니다. @ 단어 형식으로 메모 후 「메모장 저장」을 누르세요.';
+      host.appendChild(p);
+      return;
+    }
+    list.forEach(function(entry) {
+      const row = document.createElement('div');
+      row.className = 'memo-kw-item';
+      const strong = document.createElement('strong');
+      strong.textContent = '@ ' + entry.word;
+      row.appendChild(strong);
+      const meta = document.createElement('div');
+      meta.className = 'memo-kw-meta';
+      try {
+        const d = new Date(entry.at);
+        meta.textContent = d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate()).padStart(2, '0') + ' ' +
+          String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+      } catch (e) { meta.textContent = ''; }
+      row.appendChild(meta);
+      host.appendChild(row);
+    });
+  }
+
+  function readMindmapData() {
+    try {
+      const d = JSON.parse(localStorage.getItem(LS_MINDMAP) || 'null');
+      if (d && d.nodes && d.rootId && d.nodes[d.rootId]) return d;
+    } catch (e) {}
+    return {
+      rootId: 'mm-root',
+      nodes: {
+        'mm-root': { id: 'mm-root', label: '루트', parentId: null }
+      }
+    };
+  }
+
+  function writeMindmapData(d) {
+    localStorage.setItem(LS_MINDMAP, JSON.stringify(d));
+  }
+
+  function memoHasStoredContent() {
+    try {
+      if ((localStorage.getItem(LS_MEMO_BODY) || '').trim().length > 0) return true;
+    } catch (e) {}
+    if (readMemoKeywords().length > 0) return true;
+    const d = readMindmapData();
+    return Object.keys(d.nodes || {}).length > 1;
+  }
+
+  function markMemoTabIfNeeded() {
+    if (memoHasStoredContent()) markTabActivity('memo');
+  }
+
+  function updateMmFocusLabel() {
+    const el = document.getElementById('mm-focus-label');
+    const d = readMindmapData();
+    const n = d.nodes[mmSelectedId];
+    if (el) el.textContent = '선택: ' + (n ? n.label : '루트');
+  }
+
+  function renderMindmap() {
+    const treeEl = document.getElementById('mm-tree');
+    if (!treeEl) return;
+    treeEl.innerHTML = '';
+    const d = readMindmapData();
+    const rid = d.rootId;
+    const rootNode = d.nodes[rid];
+    if (!rootNode) return;
+
+    function childIds(parentId) {
+      return Object.keys(d.nodes)
+        .filter(function(id) { return d.nodes[id].parentId === parentId; })
+        .sort(function(a, b) { return a.localeCompare(b); });
+    }
+
+    function build(parentId, container) {
+      childIds(parentId).forEach(function(cid) {
+        const node = d.nodes[cid];
+        if (!node) return;
+        const wrap = document.createElement('div');
+        wrap.className = 'mm-node-wrap';
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'mm-node' + (mmSelectedId === cid ? ' selected' : '');
+        btn.textContent = node.label;
+        btn.addEventListener('click', function() {
+          mmSelectedId = cid;
+          renderMindmap();
+          updateMmFocusLabel();
+        });
+        wrap.appendChild(btn);
+        if (childIds(cid).length) {
+          const ch = document.createElement('div');
+          ch.className = 'mm-node-children';
+          build(cid, ch);
+          wrap.appendChild(ch);
+        }
+        container.appendChild(wrap);
+      });
+    }
+
+    const w0 = document.createElement('div');
+    w0.className = 'mm-node-wrap';
+    const btn0 = document.createElement('button');
+    btn0.type = 'button';
+    btn0.className = 'mm-node' + (mmSelectedId === rid ? ' selected' : '');
+    btn0.textContent = rootNode.label;
+    btn0.addEventListener('click', function() {
+      mmSelectedId = rid;
+      renderMindmap();
+      updateMmFocusLabel();
+    });
+    w0.appendChild(btn0);
+    const ch0 = document.createElement('div');
+    ch0.className = 'mm-node-children';
+    build(rid, ch0);
+    w0.appendChild(ch0);
+    treeEl.appendChild(w0);
+  }
+
+  function mindmapAddChild(parentId, label) {
+    const d = readMindmapData();
+    if (!d.nodes[parentId]) parentId = d.rootId;
+    const id = 'mm-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7);
+    d.nodes[id] = { id: id, label: label, parentId: parentId };
+    writeMindmapData(d);
+    renderMindmap();
+    updateMmFocusLabel();
+    markMemoTabIfNeeded();
+  }
+
+  function mmInputKeydown(e) {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    const inp = document.getElementById('mm-input');
+    if (!inp) return;
+    const raw = (inp.value || '').trim();
+    const m = raw.match(/^\/\s+(.+)$/);
+    if (!m || !(m[1] || '').trim()) return;
+    mindmapAddChild(mmSelectedId, m[1].trim());
+    inp.value = '';
+  }
+
+  function conceptHasStoredContent() {
+    try {
+      return (localStorage.getItem(LS_CONCEPT_BODY) || '').trim().length > 0;
+    } catch (e) { return false; }
+  }
+
+  function initConceptPage() {
+    const ed = document.getElementById('concept-editor');
+    if (ed) {
+      try {
+        ed.value = localStorage.getItem(LS_CONCEPT_BODY) || '';
+      } catch (e) {}
+    }
+  }
+
+  function initMemoPage() {
+    const ed = document.getElementById('memo-editor');
+    if (ed) {
+      try {
+        ed.value = localStorage.getItem(LS_MEMO_BODY) || '';
+      } catch (e) {}
+    }
+    renderKeywordThread();
+    if (!readMindmapData().nodes[mmSelectedId]) mmSelectedId = 'mm-root';
+    renderMindmap();
+    updateMmFocusLabel();
+    if (!memoMmListenersBound) {
+      memoMmListenersBound = true;
+      const mmIn = document.getElementById('mm-input');
+      if (mmIn) mmIn.addEventListener('keydown', mmInputKeydown);
+    }
+  }
+
+  /* ── 레퍼런스 / 포즈 공통 카테고리 ── */
+  const REF_CATEGORIES = ['LD', 'SD', '스파인', '연출', '동세'];
 
   /* ── 레퍼런스 UI ── */
   let refActiveTab = 'LD';
 
   window._renderReference = function() {
-    const byCat = { LD: [], SD: [], '연출': [] };
+    const byCat = {};
+    REF_CATEGORIES.forEach(function(c) { byCat[c] = []; });
     readRefs().forEach(item => {
       if (byCat[item.cat]) byCat[item.cat].push(item);
+      else byCat['LD'].push(item);
     });
-    ['LD', 'SD', '연출'].forEach(cat => {
+    REF_CATEGORIES.forEach(cat => {
       const panel = document.querySelector('#page-reference [data-ref-panel="' + cat + '"]');
       if (!panel) return;
       panel.innerHTML = '';
@@ -2082,11 +2495,13 @@
   };
 
   window._renderPose = function() {
-    const byCat = { LD: [], SD: [], '연출': [] };
+    const byCat = {};
+    REF_CATEGORIES.forEach(function(c) { byCat[c] = []; });
     readPoses().forEach(item => {
       if (byCat[item.cat]) byCat[item.cat].push(item);
+      else byCat['LD'].push(item);
     });
-    ['LD', 'SD', '연출'].forEach(cat => {
+    REF_CATEGORIES.forEach(cat => {
       const panel = document.querySelector('#page-pose [data-pose-panel="' + cat + '"]');
       if (!panel) return;
       panel.innerHTML = '';
@@ -2502,7 +2917,23 @@
     try {
       localStorage.setItem(LS_MEMO_BODY, ed.value);
     } catch (e) {}
-    if ((ed.value || '').trim().length > 0) markTabActivity('memo');
+    const found = extractAtKeywords(ed.value);
+    if (found.length) {
+      const k = readMemoKeywords();
+      k.push.apply(k, found);
+      writeMemoKeywords(k);
+      renderKeywordThread();
+    }
+    markMemoTabIfNeeded();
+  });
+
+  document.getElementById('concept-save-btn').addEventListener('click', function() {
+    const ed = document.getElementById('concept-editor');
+    if (!ed) return;
+    try {
+      localStorage.setItem(LS_CONCEPT_BODY, ed.value);
+    } catch (e) {}
+    if ((ed.value || '').trim().length > 0) markTabActivity('concept');
   });
 
   cqUpdateRing();
@@ -2511,7 +2942,8 @@
   window._renderGallery();
   if (typeof window._renderPose === 'function') window._renderPose();
   syncTabActivityFromData();
-  initMemoEditor();
+  initMemoPage();
+  initConceptPage();
   startGalleryTicker();
 
   /* ── 유튜브 오디오 ── */
@@ -2609,7 +3041,8 @@
       if (typeof window._renderPose === 'function') window._renderPose();
       if (typeof window._renderGallery === 'function') window._renderGallery();
       if (typeof syncTabActivityFromData === 'function') syncTabActivityFromData();
-      if (typeof initMemoEditor === 'function') initMemoEditor();
+      if (typeof initMemoPage === 'function') initMemoPage();
+      if (typeof initConceptPage === 'function') initConceptPage();
     }, 400);
   }
 </script>
