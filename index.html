@@ -447,6 +447,45 @@
       color: var(--accent2);
     }
 
+    /* 홈 · 좌측 하단 글귀 */
+    .home-quote-panel {
+      position: fixed;
+      left: max(0.5rem, env(safe-area-inset-left));
+      bottom: max(5.5rem, calc(4.75rem + env(safe-area-inset-bottom)));
+      width: min(18rem, calc(100vw - 15rem));
+      max-width: calc(100vw - 0.75rem);
+      z-index: 19;
+      margin: 0;
+      padding: 0.65rem 0.75rem 0.7rem;
+      background: rgba(14, 12, 10, 0.88);
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      border-left: 2px solid rgba(200, 170, 90, 0.45);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(8px);
+    }
+    .home-quote-panel p {
+      margin: 0;
+      font-size: 11px;
+      line-height: 1.65;
+      color: var(--text2);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+    }
+    .home-quote-panel p + p {
+      margin-top: 0.55rem;
+    }
+    @media (max-width: 560px) {
+      .home-quote-panel {
+        width: min(16.5rem, calc(100vw - 1rem));
+        padding: 0.5rem 0.6rem;
+      }
+      .home-quote-panel p {
+        font-size: 10px;
+        line-height: 1.6;
+      }
+    }
+
     .home-greeting {
       display: flex;
       align-items: center;
@@ -2074,6 +2113,13 @@
               </div>
             </div>
           </div>
+
+          <blockquote class="home-quote-panel">
+            <p>실패란 단어는 없는 겁니다, 아직 성공하지 않은거지</p>
+            <p>이 세상에 불가능은 없습니다, 어려운거지, 어려우면 다음날 다시 또 하면 되는거에요.</p>
+            <p>실패를 두려워해야 하는 게 아니라, 실패를 해보지 않은 것을 두려워 해라</p>
+            <p>도전을 해야지 열정이 생기는 것이지, 열정은 누가 주는 게 아니다</p>
+          </blockquote>
 
           <div id="home-tool-track-panel" class="home-tool-track-panel" aria-label="작업 도구 사용 기록">
             <div class="home-tool-track-title">TOOL CHECK · 오늘</div>
