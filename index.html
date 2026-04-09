@@ -233,6 +233,23 @@
     .audio-status.listening { color: var(--accent2); }
     .audio-status.done { color: var(--accent); }
 
+    /* DEV ONLY — 인트로 오디오 건너뛰기 (제거 시 .btn-intro-skip 블록 함께 삭제) */
+    .btn-intro-skip {
+      display: block;
+      margin: 0.75rem auto 0.35rem;
+      padding: 0.2rem 0.4rem;
+      border: none;
+      background: transparent;
+      color: var(--text3);
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      opacity: 0.55;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .btn-intro-skip:hover { opacity: 0.9; color: var(--text2); }
+
     /* 완료 후 시작 버튼 */
     .btn-start {
       margin-top: 1.5rem;
@@ -630,6 +647,328 @@
       letter-spacing: 0.1em;
     }
 
+    /* ── 크로키 페이지 ── */
+    .croquis-body { display: flex; flex-direction: column; gap: 1rem; flex: 1; min-height: 0; }
+    .croquis-image-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--bg3);
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .croquis-image-wrap img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: none;
+    }
+    .croquis-image-wrap.has-img img { display: block; }
+    .croquis-placeholder {
+      font-size: 12px;
+      color: var(--text3);
+      letter-spacing: 0.12em;
+      text-align: center;
+      padding: 1rem;
+    }
+    .croquis-image-wrap.has-img .croquis-placeholder { display: none; }
+
+    .croquis-timer-block {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .croquis-ring-svg {
+      width: 140px;
+      height: 140px;
+      transform: rotate(-90deg);
+      flex-shrink: 0;
+    }
+    .croquis-ring-bg { fill: none; stroke: var(--border); stroke-width: 6; }
+    .croquis-ring-fg {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 6;
+      stroke-linecap: butt;
+      transition: stroke 0.35s ease;
+    }
+    .croquis-ring-fg.warn { stroke: var(--danger); }
+    .croquis-time-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+    .croquis-time-num {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: 0.04em;
+    }
+    .croquis-time-num.warn { color: var(--danger); }
+    .croquis-time-label {
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.25em;
+    }
+
+    .croquis-btns {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+    @media (min-width: 480px) {
+      .croquis-btns { grid-template-columns: repeat(4, 1fr); }
+    }
+    .btn-cq {
+      height: 44px;
+      border-radius: 8px;
+      border: 0.5px solid var(--border2);
+      background: var(--surface);
+      color: var(--text2);
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-cq:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-cq.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
+      font-weight: 500;
+    }
+    .btn-cq.primary:hover { background: var(--accent2); border-color: var(--accent2); color: var(--bg); }
+    .btn-cq:disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+
+    .croquis-load-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .croquis-dup {
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.06em;
+      margin-left: auto;
+    }
+    .croquis-dup strong { color: var(--accent2); font-weight: 500; }
+
+    .croquis-dots-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      padding: 0.25rem 0;
+    }
+    .cq-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+      border: 0.5px solid var(--border2);
+      transition: background 0.25s, box-shadow 0.25s;
+    }
+    .cq-dot.done {
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+    .cq-dot.current {
+      background: var(--accent2);
+      box-shadow: 0 0 10px rgba(122, 158, 26, 0.35);
+    }
+
+    .croquis-feedback {
+      background: var(--surface);
+      border: 0.5px solid var(--border2);
+      border-radius: 12px;
+      padding: 1rem;
+      display: none;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .croquis-feedback.visible { display: flex; }
+    .croquis-feedback h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--text);
+      letter-spacing: 0.04em;
+    }
+    .croquis-feedback textarea {
+      width: 100%;
+      min-height: 100px;
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 13px;
+      resize: vertical;
+    }
+    .croquis-feedback textarea:focus {
+      outline: none;
+      border-color: var(--accent2);
+    }
+    .btn-save-fb {
+      align-self: flex-end;
+      height: 44px;
+      padding: 0 1.5rem;
+      border-radius: 8px;
+      border: none;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+    }
+    .btn-save-fb:hover { background: var(--accent2); }
+    .croquis-toast {
+      font-size: 11px;
+      color: var(--danger);
+      min-height: 1.2em;
+    }
+
+    /* ── 레퍼런스 페이지 ── */
+    .ref-cat-bar {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      border-bottom: 0.5px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+    .ref-cat-btn {
+      padding: 0.45rem 0.85rem;
+      border-radius: 6px;
+      border: 0.5px solid var(--border);
+      background: transparent;
+      color: var(--text3);
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ref-cat-btn:hover { color: var(--accent); border-color: var(--border2); }
+    .ref-cat-btn.active {
+      background: var(--accent-glow);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .ref-upload-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 0;
+    }
+    .ref-select {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 6px;
+      color: var(--text2);
+      font-family: var(--font-body);
+      font-size: 12px;
+      padding: 0.4rem 0.6rem;
+    }
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+    .ref-cell {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 0.5px solid var(--border);
+      background: var(--bg3);
+      position: relative;
+    }
+    .ref-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .ref-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 12px;
+      color: var(--text3);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── 갤러리 페이지 ── */
+    .gallery-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+    .gal-cell {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 0.5px solid var(--border);
+      background: var(--bg3);
+    }
+    .gal-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gal-meta {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 4px 6px;
+      background: linear-gradient(transparent, rgba(10,10,8,0.92));
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .gal-countdown {
+      font-family: var(--font-display);
+      font-size: 14px;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+    }
+    .gal-countdown.expired { color: var(--text3); }
+    .btn-gal-del {
+      align-self: flex-end;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 0.5px solid var(--border2);
+      background: rgba(196,74,74,0.15);
+      color: var(--danger);
+      cursor: pointer;
+      font-family: var(--font-body);
+    }
+    .btn-gal-del:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      color: var(--text3);
+      border-color: var(--border);
+      background: transparent;
+    }
+    .gal-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 2.5rem 1rem;
+      font-size: 12px;
+      color: var(--text3);
+    }
+
     /* 하단 바 (기존 호환) */
     .main-footer { display: none; }
 
@@ -898,6 +1237,9 @@
       </div>
     </div>
 
+    <!-- DEV ONLY -->
+    <button type="button" class="btn-intro-skip" id="btn-intro-skip" onclick="skipIntroAudio()">개발 중 건너뛰기 →</button>
+
     <button class="btn-start" id="btn-start" onclick="enterMain()" disabled>
       훈련 시작
     </button>
@@ -993,15 +1335,55 @@
 
       <!-- ── 크로키 페이지 ── -->
       <div id="page-croquis" class="page">
-        <div class="page-wrap">
+        <div class="page-wrap croquis-body">
           <div class="page-header">
             <h2 class="page-title">크로키</h2>
-            <span class="page-sub">2분 타이머</span>
+            <span class="page-sub">2분 · 3장</span>
           </div>
-          <div class="coming-soon">
-            <div class="coming-soon-icon">✏️</div>
-            <p>Phase 2 — 곧 구현됩니다</p>
-            <p style="font-size:11px;color:var(--text3);">이미지 업로드 · 타이머 · 피드백</p>
+
+          <div class="croquis-image-wrap" id="croquis-image-wrap">
+            <p class="croquis-placeholder">이미지 업로드 또는 랜덤으로 불러오세요</p>
+            <img id="croquis-img" alt="크로키 참고" />
+          </div>
+
+          <div class="croquis-timer-block">
+            <svg class="croquis-ring-svg" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="croquis-ring-bg" cx="60" cy="60" r="52" />
+              <circle id="croquis-ring-progress" class="croquis-ring-fg" cx="60" cy="60" r="52"
+                stroke-dasharray="326.73" stroke-dashoffset="0" />
+            </svg>
+            <div class="croquis-time-stack">
+              <span class="croquis-time-num" id="croquis-time-display">2:00</span>
+              <span class="croquis-time-label">REMAINING</span>
+            </div>
+          </div>
+
+          <div class="croquis-btns">
+            <button type="button" class="btn-cq primary" id="cq-start">시작</button>
+            <button type="button" class="btn-cq" id="cq-pause">일시정지</button>
+            <button type="button" class="btn-cq" id="cq-reset">리셋</button>
+            <button type="button" class="btn-cq" id="cq-next">다음</button>
+          </div>
+
+          <div class="croquis-load-row">
+            <input type="file" id="cq-file" accept="image/*" hidden />
+            <button type="button" class="btn-cq" id="cq-upload-btn" style="flex:0 0 auto;padding:0 1rem;height:40px;">이미지 업로드</button>
+            <button type="button" class="btn-cq" id="cq-random-btn" style="flex:0 0 auto;padding:0 1rem;height:40px;">랜덤</button>
+            <span class="croquis-dup" id="cq-dup-info"></span>
+          </div>
+          <p class="croquis-toast" id="cq-toast"></p>
+
+          <div class="croquis-dots-row" aria-label="진행 3장">
+            <span class="cq-dot" id="cq-dot-0"></span>
+            <span class="cq-dot" id="cq-dot-1"></span>
+            <span class="cq-dot" id="cq-dot-2"></span>
+          </div>
+
+          <div class="croquis-feedback" id="cq-feedback-panel">
+            <h3>셀프 피드백</h3>
+            <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">3장을 마쳤습니다. 오늘의 느낌을 남겨두세요.</p>
+            <textarea id="cq-feedback-text" placeholder="비례, 라인, 연출… 메모"></textarea>
+            <button type="button" class="btn-save-fb" id="cq-feedback-save">피드백 저장</button>
           </div>
         </div>
       </div>
@@ -1013,11 +1395,23 @@
             <h2 class="page-title">레퍼런스</h2>
             <span class="page-sub">LD · SD · 연출</span>
           </div>
-          <div class="coming-soon">
-            <div class="coming-soon-icon">🗂</div>
-            <p>Phase 4 — 곧 구현됩니다</p>
-            <p style="font-size:11px;color:var(--text3);">폴더 분류 · 돌림판</p>
+          <div class="ref-upload-bar">
+            <select class="ref-select" id="ref-cat-select" aria-label="업로드 카테고리">
+              <option value="LD">LD</option>
+              <option value="SD">SD</option>
+              <option value="연출">연출</option>
+            </select>
+            <input type="file" id="ref-file" accept="image/*" multiple hidden />
+            <button type="button" class="btn-cq primary" id="ref-upload-btn" style="height:40px;padding:0 1rem;">이미지 업로드</button>
           </div>
+          <div class="ref-cat-bar" role="tablist">
+            <button type="button" class="ref-cat-btn active" data-ref-tab="LD" role="tab">LD</button>
+            <button type="button" class="ref-cat-btn" data-ref-tab="SD" role="tab">SD</button>
+            <button type="button" class="ref-cat-btn" data-ref-tab="연출" role="tab">연출</button>
+          </div>
+          <div id="ref-panel-ld" class="ref-grid" data-ref-panel="LD"></div>
+          <div id="ref-panel-sd" class="ref-grid" data-ref-panel="SD" style="display:none;"></div>
+          <div id="ref-panel-dir" class="ref-grid" data-ref-panel="연출" style="display:none;"></div>
         </div>
       </div>
 
@@ -1028,11 +1422,12 @@
             <h2 class="page-title">갤러리</h2>
             <span class="page-sub" id="gallery-count">0장</span>
           </div>
-          <div class="coming-soon">
-            <div class="coming-soon-icon">🖼</div>
-            <p>Phase 2 — 곧 구현됩니다</p>
-            <p style="font-size:11px;color:var(--text3);">크로키 · 완성작 · 5분 삭제</p>
+          <div class="gallery-toolbar">
+            <input type="file" id="gal-file" accept="image/*" multiple hidden />
+            <button type="button" class="btn-cq primary" id="gal-upload-btn" style="height:40px;padding:0 1rem;">이미지 업로드</button>
+            <span style="font-size:10px;color:var(--text3);letter-spacing:0.1em;">최대 30장 · 삭제는 업로드 후 5분</span>
           </div>
+          <div class="gallery-grid" id="gallery-grid"></div>
         </div>
       </div>
 
@@ -1154,6 +1549,59 @@
     }
     updateUI(merged);
   };
+
+  function ymdKST(d = new Date()) {
+    const k = new Date(d.getTime() + 9 * 60 * 60 * 1000);
+    return k.toISOString().slice(0, 10);
+  }
+
+  window._bumpCroquisCounts = async function(n) {
+    const today = ymdKST();
+    let d = { ...(window._stats || {}) };
+    if (d.lastDate !== today) {
+      d.todayCroquis = 0;
+      d.lastDate = today;
+    }
+    d.todayCroquis = (d.todayCroquis || 0) + n;
+    d.totalCroquis = (d.totalCroquis || 0) + n;
+    window._stats = d;
+    localStorage.setItem('dokcho_stats', JSON.stringify(d));
+    updateUI(d);
+    if (window._db) {
+      try {
+        const ref = doc(window._db, "users", "dokcho");
+        const snap = await getDoc(ref);
+        const remote = snap.exists() ? snap.data() : {};
+        const rToday = !remote.lastDate || remote.lastDate !== today;
+        if (rToday) {
+          await updateDoc(ref, {
+            lastDate: today,
+            todayCroquis: n,
+            totalCroquis: increment(n)
+          });
+        } else {
+          await updateDoc(ref, {
+            todayCroquis: increment(n),
+            totalCroquis: increment(n)
+          });
+        }
+      } catch(e) { console.warn("Firebase 크로키 카운트 실패", e); }
+    }
+  };
+
+  window._bumpGalleryUploads = async function(n) {
+    let d = { ...(window._stats || {}) };
+    d.totalWorks = (d.totalWorks || 0) + n;
+    window._stats = d;
+    localStorage.setItem('dokcho_stats', JSON.stringify(d));
+    updateUI(d);
+    if (window._db) {
+      try {
+        const ref = doc(window._db, "users", "dokcho");
+        await updateDoc(ref, { totalWorks: increment(n) });
+      } catch(e) { console.warn("Firebase 갤러리 카운트 실패", e); }
+    }
+  };
 </script>
 
 <!-- ══════════════════════════
@@ -1177,6 +1625,8 @@
     const tab  = document.getElementById('tab-' + name);
     if(page) page.classList.add('active');
     if(tab)  tab.classList.add('active');
+    if (name === 'gallery' && typeof window._renderGallery === 'function') window._renderGallery();
+    if (name === 'reference' && typeof window._renderReference === 'function') window._renderReference();
   }
 
   /* ── 레퍼런스 돌림판 ── */
@@ -1217,6 +1667,403 @@
       resultEl.style.transition = 'opacity 0.3s';
     }, 150);
   }
+
+  /* ── 레퍼런스 / 갤러리 / 크로키 (localStorage + Firebase 연동) ── */
+  const LS_REF = 'dokcho_references';
+  const LS_GAL = 'dokcho_gallery';
+  const LS_FB  = 'dokcho_croquis_feedback';
+  const CROQUIS_SEC = 120;
+  const RING_R = 52;
+  const RING_LEN = 2 * Math.PI * RING_R;
+  const GAL_MAX = 30;
+  const GAL_DEL_MS = 5 * 60 * 1000;
+
+  function uid() {
+    return (crypto.randomUUID && crypto.randomUUID()) || ('id-' + Date.now() + '-' + Math.random().toString(36).slice(2));
+  }
+
+  function readRefs() {
+    try {
+      const a = JSON.parse(localStorage.getItem(LS_REF) || '[]');
+      return Array.isArray(a) ? a : [];
+    } catch(e) { return []; }
+  }
+  function writeRefs(arr) {
+    localStorage.setItem(LS_REF, JSON.stringify(arr));
+  }
+
+  function readGallery() {
+    try {
+      const a = JSON.parse(localStorage.getItem(LS_GAL) || '[]');
+      return Array.isArray(a) ? a : [];
+    } catch(e) { return []; }
+  }
+  function writeGallery(arr) {
+    localStorage.setItem(LS_GAL, JSON.stringify(arr));
+  }
+
+  function readFeedbackList() {
+    try {
+      const a = JSON.parse(localStorage.getItem(LS_FB) || '[]');
+      return Array.isArray(a) ? a : [];
+    } catch(e) { return []; }
+  }
+
+  /* ── 레퍼런스 UI ── */
+  let refActiveTab = 'LD';
+
+  window._renderReference = function() {
+    const byCat = { LD: [], SD: [], '연출': [] };
+    readRefs().forEach(item => {
+      if (byCat[item.cat]) byCat[item.cat].push(item);
+    });
+    ['LD', 'SD', '연출'].forEach(cat => {
+      const panel = document.querySelector('[data-ref-panel="' + cat + '"]');
+      if (!panel) return;
+      panel.innerHTML = '';
+      const list = byCat[cat];
+      if (!list.length) {
+        const empty = document.createElement('div');
+        empty.className = 'ref-empty';
+        empty.textContent = '이 카테고리에 저장된 이미지가 없습니다.';
+        panel.appendChild(empty);
+        return;
+      }
+      list.forEach(item => {
+        const cell = document.createElement('div');
+        cell.className = 'ref-cell';
+        const img = document.createElement('img');
+        img.src = item.data;
+        img.alt = cat;
+        cell.appendChild(img);
+        panel.appendChild(cell);
+      });
+    });
+  };
+
+  document.querySelectorAll('.ref-cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.getAttribute('data-ref-tab');
+      refActiveTab = cat;
+      document.querySelectorAll('.ref-cat-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('[data-ref-panel]').forEach(p => {
+        p.style.display = p.getAttribute('data-ref-panel') === cat ? 'grid' : 'none';
+      });
+    });
+  });
+
+  document.getElementById('ref-upload-btn').addEventListener('click', () => {
+    document.getElementById('ref-file').click();
+  });
+
+  document.getElementById('ref-file').addEventListener('change', function(ev) {
+    const files = ev.target.files;
+    if (!files || !files.length) return;
+    const cat = document.getElementById('ref-cat-select').value;
+    const imgs = Array.from(files).filter(f => f.type.startsWith('image/'));
+    ev.target.value = '';
+    if (!imgs.length) return;
+    let list = readRefs();
+    let left = imgs.length;
+    imgs.forEach(f => {
+      const r = new FileReader();
+      r.onload = () => {
+        list.push({ id: uid(), cat, data: r.result, addedAt: new Date().toISOString() });
+        left--;
+        if (left === 0) {
+          writeRefs(list);
+          window._renderReference();
+        }
+      };
+      r.onerror = () => { left--; if (left === 0) { writeRefs(list); window._renderReference(); } };
+      r.readAsDataURL(f);
+    });
+  });
+
+  /* ── 갤러리 ── */
+  let galleryTick = null;
+
+  function startGalleryTicker() {
+    if (galleryTick) return;
+    galleryTick = setInterval(() => { if (typeof window._renderGallery === 'function') window._renderGallery(); }, 1000);
+  }
+
+  window._renderGallery = function() {
+    const grid = document.getElementById('gallery-grid');
+    const countEl = document.getElementById('gallery-count');
+    if (!grid) return;
+    const items = readGallery();
+    if (countEl) countEl.textContent = items.length + '장';
+    grid.innerHTML = '';
+    if (!items.length) {
+      const empty = document.createElement('div');
+      empty.className = 'gal-empty';
+      empty.textContent = '업로드한 작품이 여기 표시됩니다.';
+      grid.appendChild(empty);
+      return;
+    }
+    const now = Date.now();
+    items.forEach(item => {
+      const cell = document.createElement('div');
+      cell.className = 'gal-cell';
+      const img = document.createElement('img');
+      img.src = item.data;
+      img.alt = '';
+      const meta = document.createElement('div');
+      meta.className = 'gal-meta';
+      const elapsed = now - item.uploadedAt;
+      const left = Math.max(0, GAL_DEL_MS - elapsed);
+      const cd = document.createElement('span');
+      cd.className = 'gal-countdown' + (left <= 0 ? ' expired' : '');
+      if (left <= 0) cd.textContent = '삭제 불가';
+      else {
+        const s = Math.ceil(left / 1000);
+        const m = Math.floor(s / 60);
+        const sec = s % 60;
+        cd.textContent = m + ':' + String(sec).padStart(2, '0');
+      }
+      const del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'btn-gal-del';
+      del.textContent = '삭제';
+      del.disabled = left <= 0;
+      del.addEventListener('click', () => {
+        if (Date.now() - item.uploadedAt >= GAL_DEL_MS) return;
+        let arr = readGallery().filter(x => x.id !== item.id);
+        writeGallery(arr);
+        window._renderGallery();
+      });
+      meta.appendChild(cd);
+      meta.appendChild(del);
+      cell.appendChild(img);
+      cell.appendChild(meta);
+      grid.appendChild(cell);
+    });
+  };
+
+  document.getElementById('gal-upload-btn').addEventListener('click', () => {
+    document.getElementById('gal-file').click();
+  });
+
+  document.getElementById('gal-file').addEventListener('change', function(ev) {
+    const files = ev.target.files;
+    if (!files || !files.length) return;
+    let arr = readGallery();
+    const room = GAL_MAX - arr.length;
+    ev.target.value = '';
+    if (room <= 0) return;
+    const imgs = Array.from(files).filter(f => f.type.startsWith('image/'));
+    const n = Math.min(imgs.length, room);
+    if (!n) return;
+    let left = n;
+    for (let i = 0; i < n; i++) {
+      const f = imgs[i];
+      const r = new FileReader();
+      r.onload = () => {
+        arr.push({ id: uid(), data: r.result, uploadedAt: Date.now() });
+        left--;
+        if (left === 0) {
+          if (arr.length > GAL_MAX) arr = arr.slice(-GAL_MAX);
+          writeGallery(arr);
+          window._renderGallery();
+          if (typeof window._bumpGalleryUploads === 'function') window._bumpGalleryUploads(n);
+        }
+      };
+      r.readAsDataURL(f);
+    }
+    startGalleryTicker();
+  });
+
+  /* ── 크로키 ── */
+  const cqRing = document.getElementById('croquis-ring-progress');
+  const cqTimeEl = document.getElementById('croquis-time-display');
+  const cqImg = document.getElementById('croquis-img');
+  const cqWrap = document.getElementById('croquis-image-wrap');
+  const cqToast = document.getElementById('cq-toast');
+  const cqDup = document.getElementById('cq-dup-info');
+  const cqFbPanel = document.getElementById('cq-feedback-panel');
+  const cqFbText = document.getElementById('cq-feedback-text');
+
+  let cqRemaining = CROQUIS_SEC;
+  let cqTimerId = null;
+  let cqRunning = false;
+  let cqCompleted = 0;
+  let cqCurrentRefId = null;
+  let cqRefPickCounts = {};
+  let cqToastT = null;
+
+  function cqShowToast(msg) {
+    if (cqToastT) clearTimeout(cqToastT);
+    cqToast.textContent = msg || '';
+    cqToastT = setTimeout(() => { cqToast.textContent = ''; cqToastT = null; }, 3200);
+  }
+
+  function cqFmt(sec) {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return m + ':' + String(s).padStart(2, '0');
+  }
+
+  function cqUpdateRing() {
+    const p = cqRemaining / CROQUIS_SEC;
+    cqRing.style.strokeDasharray = String(RING_LEN);
+    cqRing.style.strokeDashoffset = String(RING_LEN * (1 - p));
+    const warn = cqRemaining <= 20 && cqRemaining > 0;
+    cqRing.classList.toggle('warn', warn);
+    cqTimeEl.textContent = cqFmt(cqRemaining);
+    cqTimeEl.classList.toggle('warn', warn);
+  }
+
+  function cqUpdateDots() {
+    for (let i = 0; i < 3; i++) {
+      const d = document.getElementById('cq-dot-' + i);
+      if (!d) continue;
+      d.classList.remove('done', 'current');
+      if (cqCompleted >= 3) d.classList.add('done');
+      else if (i < cqCompleted) d.classList.add('done');
+      else if (i === cqCompleted) d.classList.add('current');
+    }
+  }
+
+  function cqStopTimer() {
+    if (cqTimerId) {
+      clearInterval(cqTimerId);
+      cqTimerId = null;
+    }
+    cqRunning = false;
+  }
+
+  function cqTick() {
+    if (cqRemaining <= 0) {
+      cqStopTimer();
+      cqAdvanceRound();
+      return;
+    }
+    cqRemaining--;
+    cqUpdateRing();
+    if (cqRemaining <= 0) {
+      cqStopTimer();
+      cqAdvanceRound();
+    }
+  }
+
+  function cqStartTimer() {
+    if (cqCompleted >= 3) return;
+    if (!cqWrap.classList.contains('has-img')) {
+      cqShowToast('먼저 이미지를 불러오세요.');
+      return;
+    }
+    cqStopTimer();
+    cqRunning = true;
+    cqTimerId = setInterval(cqTick, 1000);
+  }
+
+  function cqPauseTimer() {
+    if (!cqRunning) return;
+    cqStopTimer();
+  }
+
+  function cqResetTimerOnly() {
+    cqStopTimer();
+    cqRemaining = CROQUIS_SEC;
+    cqUpdateRing();
+  }
+
+  function cqSetImage(src, refId) {
+    cqImg.src = src;
+    cqWrap.classList.add('has-img');
+    cqCurrentRefId = refId || null;
+    if (cqCurrentRefId && cqRefPickCounts[cqCurrentRefId] != null) {
+      cqDup.innerHTML = '동일 레퍼런스 <strong>' + cqRefPickCounts[cqCurrentRefId] + '</strong> / 5';
+    } else cqDup.textContent = '';
+  }
+
+  function cqAdvanceRound() {
+    if (cqCompleted >= 3) return;
+    cqCompleted++;
+    cqUpdateDots();
+    cqResetTimerOnly();
+    cqImg.src = '';
+    cqWrap.classList.remove('has-img');
+    cqCurrentRefId = null;
+    cqDup.textContent = '';
+    if (cqCompleted >= 3) {
+      cqFbPanel.classList.add('visible');
+      cqFbText.focus();
+      document.getElementById('cq-start').disabled = true;
+      document.getElementById('cq-pause').disabled = true;
+      document.getElementById('cq-reset').disabled = true;
+      document.getElementById('cq-next').disabled = true;
+    }
+  }
+
+  function cqPickRandomRef() {
+    const all = readRefs();
+    if (!all.length) {
+      cqShowToast('레퍼런스 탭에 이미지를 먼저 추가하세요.');
+      return;
+    }
+    let pool = all.filter(it => (cqRefPickCounts[it.id] || 0) < 5);
+    if (!pool.length) {
+      cqRefPickCounts = {};
+      pool = all.slice();
+    }
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    cqRefPickCounts[pick.id] = (cqRefPickCounts[pick.id] || 0) + 1;
+    cqSetImage(pick.data, pick.id);
+  }
+
+  document.getElementById('cq-upload-btn').addEventListener('click', () => {
+    document.getElementById('cq-file').click();
+  });
+
+  document.getElementById('cq-file').addEventListener('change', function(ev) {
+    const f = ev.target.files && ev.target.files[0];
+    ev.target.value = '';
+    if (!f || !f.type.startsWith('image/')) return;
+    const r = new FileReader();
+    r.onload = () => cqSetImage(r.result, null);
+    r.readAsDataURL(f);
+  });
+
+  document.getElementById('cq-random-btn').addEventListener('click', cqPickRandomRef);
+
+  document.getElementById('cq-start').addEventListener('click', cqStartTimer);
+  document.getElementById('cq-pause').addEventListener('click', cqPauseTimer);
+  document.getElementById('cq-reset').addEventListener('click', cqResetTimerOnly);
+  document.getElementById('cq-next').addEventListener('click', () => {
+    if (cqCompleted >= 3) return;
+    cqStopTimer();
+    cqAdvanceRound();
+  });
+
+  document.getElementById('cq-feedback-save').addEventListener('click', async () => {
+    const text = (cqFbText.value || '').trim();
+    const today = new Date();
+    const dateStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+    const entry = { date: dateStr, text: text || '(내용 없음)', savedAt: today.toISOString() };
+    const list = readFeedbackList();
+    list.push(entry);
+    localStorage.setItem(LS_FB, JSON.stringify(list));
+    if (typeof window._bumpCroquisCounts === 'function') await window._bumpCroquisCounts(3);
+    cqRefPickCounts = {};
+    cqCompleted = 0;
+    cqFbText.value = '';
+    cqFbPanel.classList.remove('visible');
+    cqResetTimerOnly();
+    cqUpdateDots();
+    document.getElementById('cq-start').disabled = false;
+    document.getElementById('cq-pause').disabled = false;
+    document.getElementById('cq-reset').disabled = false;
+    document.getElementById('cq-next').disabled = false;
+    cqShowToast('피드백이 저장되었습니다.');
+  });
+
+  cqUpdateRing();
+  cqUpdateDots();
+
+  window._renderGallery();
+  startGalleryTicker();
 
   /* ── 유튜브 오디오 ── */
   const YT_VIDEO_ID = 'mOk4ghoRtDo';
@@ -1275,6 +2122,21 @@
     if (progressTimer) { clearInterval(progressTimer); progressTimer = null; }
   }
 
+  /* DEV ONLY — 제거 시 HTML <!-- DEV ONLY --> 버튼과 함께 삭제 */
+  function skipIntroAudio() {
+    stopProgressTracking();
+    if (ytIframe && ytLoaded) {
+      ytIframe.src = '';
+      ytLoaded = false;
+    }
+    elapsed = TOTAL_SEC;
+    if (progressBar) progressBar.style.width = '100%';
+    if (audioTime) audioTime.textContent = fmt(TOTAL_SEC);
+    if (btnPlay) btnPlay.textContent = '▶';
+    if (btnPlay) btnPlay.style.borderColor = '';
+    completeAudio();
+  }
+
   function completeAudio() {
     stopProgressTracking();
     audioCompleted = true;
@@ -1294,6 +2156,8 @@
     document.getElementById('screen-intro').classList.add('hidden');
     setTimeout(() => {
       document.getElementById('screen-main').classList.remove('hidden');
+      if (typeof window._renderReference === 'function') window._renderReference();
+      if (typeof window._renderGallery === 'function') window._renderGallery();
     }, 400);
   }
 </script>
