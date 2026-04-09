@@ -2388,9 +2388,9 @@
             <span class="page-sub" id="gallery-count">0장</span>
           </div>
           <div class="gallery-toolbar">
-            <input type="file" id="gal-file" accept="image/*" multiple hidden />
+            <input type="file" id="gal-file" accept="image/*,.heic,.heif" multiple hidden />
             <button type="button" class="btn-cq primary" id="gal-upload-btn" style="height:40px;padding:0 1rem;">이미지 업로드</button>
-            <span style="font-size:10px;color:var(--text3);letter-spacing:0.1em;">최대 30장 · 업로드 후 5분 안에만 삭제 가능 · 이후 보관(편집·삭제 불가)</span>
+            <span style="font-size:10px;color:var(--text3);letter-spacing:0.1em;">최대 30장 · 업로드 후 5분 안에만 삭제 가능 · 이후 보관(편집·삭제 불가) · JPG/PNG 등 확장자·브라우저 저장 용량에 따라 실패할 수 있음</span>
           </div>
           <div class="gallery-grid" id="gallery-grid"></div>
         </div>
@@ -2457,7 +2457,7 @@
           <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: 이미지 추가, 질문지 작성, 메모 <strong>@</strong> 키워드 붙이기, 또는 「캐릭터 저장」 중 하나로 이 탭 활동이 인정됩니다.</p>
 
           <h3 class="memo-section-title">컨셉 이미지</h3>
-          <p class="memo-hint">시트·전신·표정 등 참고 이미지를 넣을 수 있습니다. (최대 12장 · 언제든 삭제 가능)</p>
+          <p class="memo-hint">시트·전신·표정 등 참고 이미지를 넣을 수 있습니다. (최대 12장 · 언제든 삭제 가능) 일부 기기는 파일 종류(MIME)가 비어 있어도 확장자로 인식합니다. 저장이 안 되면 이미지를 더 작게(JPG) 해 보세요.</p>
           <div class="gallery-toolbar">
             <input type="file" id="char-file" accept="image/*,.heic,.heif" multiple hidden />
             <button type="button" class="btn-cq primary" id="char-upload-btn" style="height:40px;padding:0 1rem;">이미지 추가</button>
@@ -3323,7 +3323,12 @@
     } catch(e) { return []; }
   }
   function writeGallery(arr) {
-    localStorage.setItem(LS_GAL, JSON.stringify(arr));
+    try {
+      localStorage.setItem(LS_GAL, JSON.stringify(arr));
+    } catch (e) {
+      console.warn('갤러리 저장 실패', e);
+      throw e;
+    }
   }
 
   function readFeedbackList() {
@@ -3969,7 +3974,7 @@
         resolve(dataUrl);
         return;
       }
-      if (dataUrl.length < 700000) {
+      if (dataUrl.length < 400000) {
         resolve(dataUrl);
         return;
       }
@@ -4462,32 +4467,77 @@
     document.getElementById('gal-file').click();
   });
 
-  document.getElementById('gal-file').addEventListener('change', function(ev) {
+  document.getElementById('gal-file').addEventListener('change', async function(ev) {
     const files = ev.target.files;
+    ev.target.value = '';
     if (!files || !files.length) return;
+    try {
+      localStorage.setItem('__dokcho_ls_probe', '1');
+      localStorage.removeItem('__dokcho_ls_probe');
+    } catch (e0) {
+      if (typeof cqShowToast === 'function') cqShowToast('이 브라우저/모드에서는 저장이 막혀 있습니다. 일반 창에서 열거나 다른 브라우저를 써 주세요.');
+      startGalleryTicker();
+      return;
+    }
+    const startLen = readGallery().length;
     let arr = readGallery();
     const room = GAL_MAX - arr.length;
-    ev.target.value = '';
-    if (room <= 0) return;
-    const imgs = Array.from(files).filter(f => f.type.startsWith('image/'));
+    if (room <= 0) {
+      if (typeof cqShowToast === 'function') cqShowToast('갤러리는 최대 ' + GAL_MAX + '장까지입니다.');
+      startGalleryTicker();
+      return;
+    }
+    const imgs = Array.from(files).filter(isLikelyImageFile);
     const n = Math.min(imgs.length, room);
-    if (!n) return;
-    let left = n;
-    for (let i = 0; i < n; i++) {
-      const f = imgs[i];
-      const r = new FileReader();
-      r.onload = () => {
-        arr.push({ id: uid(), data: r.result, uploadedAt: Date.now() });
-        left--;
-        if (left === 0) {
-          if (arr.length > GAL_MAX) arr = arr.slice(-GAL_MAX);
-          writeGallery(arr);
-          window._renderGallery();
-          markTabActivity('gallery');
-          if (typeof window._bumpGalleryUploads === 'function') window._bumpGalleryUploads(n);
+    if (!n) {
+      if (typeof cqShowToast === 'function') {
+        cqShowToast('이미지로 인식된 파일이 없습니다. JPG·PNG·WEBP 등으로 저장했는지, 확장자가 맞는지 확인해 주세요.');
+      }
+      startGalleryTicker();
+      return;
+    }
+    const added = [];
+    try {
+      for (let i = 0; i < n; i++) {
+        let data = await readFileAsDataURL(imgs[i]);
+        data = await shrinkConceptImageDataUrl(data);
+        if (!data || String(data).length < 32) continue;
+        added.push({ id: uid(), data: data, uploadedAt: Date.now() });
+      }
+      if (!added.length) {
+        if (typeof cqShowToast === 'function') cqShowToast('파일을 읽지 못했습니다.');
+        startGalleryTicker();
+        return;
+      }
+      arr = arr.concat(added);
+      if (arr.length > GAL_MAX) arr = arr.slice(-GAL_MAX);
+      var toSave = arr.slice();
+      var saved = false;
+      while (toSave.length && !saved) {
+        try {
+          writeGallery(toSave);
+          saved = true;
+          if (toSave.length < arr.length && typeof cqShowToast === 'function') {
+            cqShowToast('저장 용량 한도에 맞추려 일부만 저장했습니다. 이미지를 더 작게 해 주세요.');
+          }
+        } catch (eQuota) {
+          toSave.pop();
         }
-      };
-      r.readAsDataURL(f);
+      }
+      if (!saved) {
+        if (typeof cqShowToast === 'function') cqShowToast('브라우저 저장 공간이 부족합니다. 다른 데이터를 지우거나 이미지를 줄인 뒤 다시 시도해 주세요.');
+        startGalleryTicker();
+        return;
+      }
+      window._renderGallery();
+      markTabActivity('gallery');
+      var delta = readGallery().length - startLen;
+      if (delta > 0 && typeof window._bumpGalleryUploads === 'function') {
+        try { await window._bumpGalleryUploads(delta); } catch (e) { console.warn(e); }
+      }
+    } catch (err) {
+      console.warn('갤러리 업로드', err);
+      if (typeof cqShowToast === 'function') cqShowToast('갤러리에 저장하지 못했습니다.');
     }
     startGalleryTicker();
   });
@@ -4721,6 +4771,13 @@
     const files = ev.target.files;
     ev.target.value = '';
     if (!files || !files.length) return;
+    try {
+      localStorage.setItem('__dokcho_ls_probe', '1');
+      localStorage.removeItem('__dokcho_ls_probe');
+    } catch (e0) {
+      if (typeof cqShowToast === 'function') cqShowToast('이 브라우저/모드에서는 저장이 막혀 있습니다. 일반 창에서 열거나 다른 브라우저를 써 주세요.');
+      return;
+    }
     const s = readCharacterSheet();
     mergeFormIntoSheet(s);
     const arr = (s.images || []).slice();
