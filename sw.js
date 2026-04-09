@@ -3,6 +3,8 @@ const ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
   'https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500&display=swap'
 ];
 

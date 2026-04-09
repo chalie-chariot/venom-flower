@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0a0a08">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="독초">
@@ -4020,7 +4021,7 @@
     if (!f) return false;
     if (f.type && f.type.startsWith('image/')) return true;
     const n = (f.name || '').toLowerCase();
-    return /\.(png|jpe?g|gif|webp|bmp|svg|heic|heif|avif|tif|tiff)$/i.test(n);
+    return /\.(png|jpe?g|jfif|gif|webp|bmp|svg|ico|heic|heif|avif|tif|tiff)$/i.test(n);
   }
 
   /** 큰 data URL은 JPEG로 줄여 localStorage 한도(약 5MB) 안에 넣기 쉽게 함 */
@@ -4030,14 +4031,14 @@
         resolve(dataUrl);
         return;
       }
-      if (dataUrl.length < 400000) {
+      if (dataUrl.length < 250000) {
         resolve(dataUrl);
         return;
       }
       var img = new Image();
       img.onload = function() {
         try {
-          var maxDim = 1680;
+          var maxDim = 1280;
           var w = img.naturalWidth;
           var h = img.naturalHeight;
           if (!w || !h) {
@@ -4540,9 +4541,14 @@
     });
 
     galFile.addEventListener('change', async function(ev) {
-    const files = ev.target.files;
-    ev.target.value = '';
-    if (!files || !files.length) return;
+    var inputEl = ev.target;
+    var picked = inputEl && inputEl.files ? Array.from(inputEl.files) : [];
+    inputEl.value = '';
+    if (!picked.length) return;
+    if (typeof isLikelyImageFile !== 'function' || typeof readFileAsDataURL !== 'function') {
+      if (typeof cqShowToast === 'function') cqShowToast('스크립트가 완전히 로드되지 않았습니다. 페이지를 새로고침 해 주세요.');
+      return;
+    }
     try {
       localStorage.setItem('__dokcho_ls_probe', '1');
       localStorage.removeItem('__dokcho_ls_probe');
@@ -4559,7 +4565,7 @@
       startGalleryTicker();
       return;
     }
-    const imgs = Array.from(files).filter(isLikelyImageFile);
+    const imgs = picked.filter(isLikelyImageFile);
     const n = Math.min(imgs.length, room);
     if (!n) {
       if (typeof cqShowToast === 'function') {
@@ -4608,8 +4614,9 @@
         try { await window._bumpGalleryUploads(delta); } catch (e) { console.warn(e); }
       }
     } catch (err) {
-      console.warn('갤러리 업로드', err);
-      if (typeof cqShowToast === 'function') cqShowToast('갤러리에 저장하지 못했습니다.');
+      console.error('[venom gallery]', err);
+      var detail = (err && err.message) ? String(err.message) : String(err);
+      if (typeof cqShowToast === 'function') cqShowToast('갤러리 저장 오류: ' + detail);
     }
     startGalleryTicker();
     });
@@ -4755,9 +4762,13 @@
     if (cqUp && cqFi) {
       cqUp.addEventListener('click', function() { cqFi.click(); });
       cqFi.addEventListener('change', function(ev) {
-        var f = ev.target.files && ev.target.files[0];
-        ev.target.value = '';
-        if (!f || !isLikelyImageFile(f)) return;
+        var inp = ev.target;
+        var f = inp.files && inp.files[0];
+        if (!f || !isLikelyImageFile(f)) {
+          inp.value = '';
+          return;
+        }
+        inp.value = '';
         var r = new FileReader();
         r.onload = function() {
           cqSetImage(r.result, null);
@@ -4854,9 +4865,10 @@
     });
 
     charFile.addEventListener('change', async function(ev) {
-    const files = ev.target.files;
-    ev.target.value = '';
-    if (!files || !files.length) return;
+    var inputEl = ev.target;
+    var picked = inputEl && inputEl.files ? Array.from(inputEl.files) : [];
+    inputEl.value = '';
+    if (!picked.length) return;
     try {
       localStorage.setItem('__dokcho_ls_probe', '1');
       localStorage.removeItem('__dokcho_ls_probe');
@@ -4869,20 +4881,21 @@
     const arr = (s.images || []).slice();
     const room = CHAR_IMG_MAX - arr.length;
     if (room <= 0) return;
-    const imgs = Array.from(files).filter(isLikelyImageFile);
+    const imgs = picked.filter(isLikelyImageFile);
     const n = Math.min(imgs.length, room);
     if (!n) {
       if (typeof cqShowToast === 'function') cqShowToast('지원하는 이미지 파일만 선택할 수 있습니다.');
       return;
     }
     try {
+      var beforeImgCount = arr.length;
       for (let i = 0; i < n; i++) {
         let data = await readFileAsDataURL(imgs[i]);
         data = await shrinkConceptImageDataUrl(data);
         if (!data || String(data).length < 32) continue;
         arr.push({ id: uid(), data: data, addedAt: new Date().toISOString() });
       }
-      if (!arr.length) {
+      if (arr.length === beforeImgCount) {
         if (typeof cqShowToast === 'function') cqShowToast('이미지 데이터를 읽지 못했습니다.');
         return;
       }
