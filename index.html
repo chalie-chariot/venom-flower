@@ -311,17 +311,10 @@
     /* 헤더 */
     .main-header {
       padding: 1.5rem 2rem;
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      justify-content: space-between;
       border-bottom: 0.5px solid var(--border);
-    }
-
-    .header-logo {
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      color: var(--accent);
-      letter-spacing: 0.05em;
     }
 
     .header-date {
@@ -329,6 +322,7 @@
       color: var(--text3);
       letter-spacing: 0.2em;
       text-align: right;
+      justify-self: end;
     }
 
     .header-streak {
@@ -399,73 +393,61 @@
       margin-top: 4px;
     }
 
-    /* 크로키 빠른 시작 카드 */
-    .croquis-hero {
-      background: var(--surface);
-      border: 0.5px solid var(--border2);
-      border-radius: 14px;
-      padding: 1.5rem;
+    /* 크로키 빠른 시작 — 정사각형 + 훈련 시작 */
+    .croquis-quick {
+      display: flex;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+
+    .btn-croquis-square {
+      width: 64px;
+      height: 64px;
+      min-width: 64px;
+      flex-shrink: 0;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-    }
-
-    .hero-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-    }
-
-    .hero-label {
-      font-size: 10px;
-      letter-spacing: 0.35em;
-      color: var(--accent2);
-      text-transform: uppercase;
-    }
-
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: 2.8rem;
-      color: var(--text);
-      line-height: 1;
-      margin-top: 4px;
-    }
-
-    .timer-display {
-      font-family: var(--font-display);
-      font-size: 3.5rem;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      border-radius: 10px;
+      border: 0.5px solid var(--border2);
+      background: var(--surface);
       color: var(--accent);
-      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-body);
+      padding: 0;
+    }
+
+    .btn-croquis-square:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+      color: var(--text);
+    }
+
+    .btn-croquis-square .bcs-icon {
+      font-size: 20px;
       line-height: 1;
     }
 
-    .timer-sub {
-      font-size: 10px;
+    .btn-croquis-square .bcs-sub {
+      font-size: 9px;
+      letter-spacing: 0.12em;
       color: var(--text3);
-      letter-spacing: 0.2em;
-      margin-top: 2px;
-      text-align: right;
+      font-weight: 500;
     }
 
-    .croquis-progress {
-      display: flex;
-      gap: 6px;
-    }
-
-    .prog-dot {
+    .croquis-quick-actions {
       flex: 1;
-      height: 3px;
-      background: var(--border);
-      border-radius: 2px;
-      transition: background 0.3s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      min-width: 0;
     }
 
-    .prog-dot.done { background: var(--accent); }
-    .prog-dot.current { background: var(--accent2); }
-
-    .croquis-actions {
-      display: flex;
-      gap: 0.75rem;
+    .croquis-quick-actions .btn-hero {
+      flex: none;
     }
 
     .btn-hero {
@@ -855,7 +837,8 @@
       border-bottom: 0.5px solid var(--border);
       padding-bottom: 0.75rem;
     }
-    .ref-cat-btn {
+    .ref-cat-btn,
+    .pose-cat-btn {
       padding: 0.45rem 0.85rem;
       border-radius: 6px;
       border: 0.5px solid var(--border);
@@ -867,8 +850,10 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .ref-cat-btn:hover { color: var(--accent); border-color: var(--border2); }
-    .ref-cat-btn.active {
+    .ref-cat-btn:hover,
+    .pose-cat-btn:hover { color: var(--accent); border-color: var(--border2); }
+    .ref-cat-btn.active,
+    .pose-cat-btn.active {
       background: var(--accent-glow);
       border-color: var(--accent);
       color: var(--accent);
@@ -903,6 +888,35 @@
       position: relative;
     }
     .ref-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .thumb-remove {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 26px;
+      height: 26px;
+      border: none;
+      border-radius: 4px;
+      background: rgba(10, 10, 8, 0.82);
+      color: var(--text2);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      padding: 0;
+      font-family: var(--font-body);
+      transition: background 0.15s, color 0.15s;
+    }
+    .thumb-remove:hover:not(:disabled) {
+      background: var(--danger);
+      color: #fff;
+    }
+    .thumb-remove:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
     .ref-empty {
       grid-column: 1 / -1;
       text-align: center;
@@ -951,25 +965,6 @@
       letter-spacing: 0.06em;
     }
     .gal-countdown.expired { color: var(--text3); }
-    .btn-gal-del {
-      align-self: flex-end;
-      font-size: 9px;
-      letter-spacing: 0.12em;
-      padding: 3px 8px;
-      border-radius: 4px;
-      border: 0.5px solid var(--border2);
-      background: rgba(196,74,74,0.15);
-      color: var(--danger);
-      cursor: pointer;
-      font-family: var(--font-body);
-    }
-    .btn-gal-del:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-      color: var(--text3);
-      border-color: var(--border);
-      background: transparent;
-    }
     .gal-empty {
       grid-column: 1 / -1;
       text-align: center;
@@ -992,8 +987,6 @@
       .intro-title { font-size: clamp(4rem, 22vw, 6rem); }
       .today-bar { gap: 0.5rem; }
       .today-num { font-size: 1.8rem; }
-      .hero-title { font-size: 2rem; }
-      .timer-display { font-size: 2.8rem; }
     }
   </style>
 </head>
@@ -1264,7 +1257,7 @@
 
     <!-- 헤더 -->
     <header class="main-header">
-      <div class="header-logo">독초</div>
+      <div aria-hidden="true"></div>
       <div style="text-align:center;">
         <div class="header-streak" id="streak-count">0</div>
         <div style="font-size:10px;color:var(--text3);letter-spacing:0.2em;">연속 훈련일</div>
@@ -1278,14 +1271,6 @@
       <!-- ── 홈 페이지 ── -->
       <div id="page-home" class="page active">
         <div class="home-wrap">
-
-          <!-- 인사 -->
-          <div class="home-greeting">
-            <div>
-              <div class="greeting-text">오늘도 독하게 🌿</div>
-            </div>
-            <div class="greeting-date" id="header-date2"></div>
-          </div>
 
           <!-- 오늘 현황 -->
           <div class="today-bar">
@@ -1304,28 +1289,14 @@
           </div>
 
           <!-- 크로키 빠른 시작 -->
-          <div class="croquis-hero">
-            <div class="hero-top">
-              <div>
-                <p class="hero-label">Daily Croquis</p>
-                <h2 class="hero-title">크로키<br>훈련</h2>
-              </div>
-              <div style="text-align:right;">
-                <div class="timer-display" id="home-timer">2:00</div>
-                <div class="timer-sub">분 타이머</div>
-              </div>
-            </div>
-
-            <!-- 3장 진행도 -->
-            <div class="croquis-progress">
-              <div class="prog-dot" id="dot-1"></div>
-              <div class="prog-dot" id="dot-2"></div>
-              <div class="prog-dot" id="dot-3"></div>
-            </div>
-
-            <div class="croquis-actions">
-              <button class="btn-hero primary" onclick="goTab('croquis')">훈련 시작 →</button>
-              <button class="btn-hero" onclick="goTab('gallery')">갤러리</button>
+          <div class="croquis-quick">
+            <button type="button" class="btn-croquis-square" onclick="startCroquisFromHome()" aria-label="크로키 훈련 시작">
+              <span class="bcs-icon">✏</span>
+              <span class="bcs-sub">크로키</span>
+            </button>
+            <div class="croquis-quick-actions">
+              <button type="button" class="btn-hero primary" onclick="startCroquisFromHome()">훈련 시작 →</button>
+              <button type="button" class="btn-hero" onclick="goTab('gallery')">갤러리</button>
             </div>
           </div>
 
@@ -1394,6 +1365,33 @@
             <textarea id="cq-feedback-text" placeholder="비례, 라인, 연출… 메모"></textarea>
             <button type="button" class="btn-save-fb" id="cq-feedback-save">피드백 저장</button>
           </div>
+        </div>
+      </div>
+
+      <!-- ── 크로키 포즈 (레퍼런스와 분리 저장) ── -->
+      <div id="page-pose" class="page">
+        <div class="page-wrap">
+          <div class="page-header">
+            <h2 class="page-title">포즈</h2>
+            <span class="page-sub">크로키 전용 · LD · SD · 연출</span>
+          </div>
+          <div class="ref-upload-bar">
+            <select class="ref-select" id="pose-cat-select" aria-label="포즈 업로드 카테고리">
+              <option value="LD">LD</option>
+              <option value="SD">SD</option>
+              <option value="연출">연출</option>
+            </select>
+            <input type="file" id="pose-file" accept="image/*" multiple hidden />
+            <button type="button" class="btn-cq primary" id="pose-upload-btn" style="height:40px;padding:0 1rem;">이미지 업로드</button>
+          </div>
+          <div class="ref-cat-bar" role="tablist">
+            <button type="button" class="pose-cat-btn active" data-pose-tab="LD" role="tab">LD</button>
+            <button type="button" class="pose-cat-btn" data-pose-tab="SD" role="tab">SD</button>
+            <button type="button" class="pose-cat-btn" data-pose-tab="연출" role="tab">연출</button>
+          </div>
+          <div id="pose-panel-ld" class="ref-grid" data-pose-panel="LD"></div>
+          <div id="pose-panel-sd" class="ref-grid" data-pose-panel="SD" style="display:none;"></div>
+          <div id="pose-panel-dir" class="ref-grid" data-pose-panel="연출" style="display:none;"></div>
         </div>
       </div>
 
@@ -1466,6 +1464,10 @@
       <button class="tab-btn" id="tab-croquis" onclick="goTab('croquis')">
         <span class="tab-icon">✏</span>
         <span class="tab-label">크로키</span>
+      </button>
+      <button class="tab-btn" id="tab-pose" onclick="goTab('pose')">
+        <span class="tab-icon">◇</span>
+        <span class="tab-label">포즈</span>
       </button>
       <button class="tab-btn" id="tab-reference" onclick="goTab('reference')">
         <span class="tab-icon">◈</span>
@@ -1623,11 +1625,18 @@
     <span style="font-size:10px;letter-spacing:0.15em;">${'일월화수목금토'[now.getDay()]}요일</span>`;
   const dateEl = document.getElementById('header-date');
   if(dateEl) dateEl.innerHTML = dateStr;
-  const dateEl2 = document.getElementById('header-date2');
-  if(dateEl2) dateEl2.innerHTML = dateStr;
+
+  let cqHomeAutoTimer = null;
+  function cqClearHomeAutoTimer() {
+    if (cqHomeAutoTimer) {
+      clearTimeout(cqHomeAutoTimer);
+      cqHomeAutoTimer = null;
+    }
+  }
 
   /* ── 탭 전환 ── */
   function goTab(name) {
+    if (name !== 'croquis') cqClearHomeAutoTimer();
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     const page = document.getElementById('page-' + name);
@@ -1636,6 +1645,7 @@
     if(tab)  tab.classList.add('active');
     if (name === 'gallery' && typeof window._renderGallery === 'function') window._renderGallery();
     if (name === 'reference' && typeof window._renderReference === 'function') window._renderReference();
+    if (name === 'pose' && typeof window._renderPose === 'function') window._renderPose();
   }
 
   /* ── 레퍼런스 돌림판 ── */
@@ -1679,6 +1689,7 @@
 
   /* ── 레퍼런스 / 갤러리 / 크로키 (localStorage + Firebase 연동) ── */
   const LS_REF = 'dokcho_references';
+  const LS_POSE = 'dokcho_croquis_poses';
   const LS_GAL = 'dokcho_gallery';
   const LS_FB  = 'dokcho_croquis_feedback';
   const CROQUIS_SEC = 120;
@@ -1699,6 +1710,16 @@
   }
   function writeRefs(arr) {
     localStorage.setItem(LS_REF, JSON.stringify(arr));
+  }
+
+  function readPoses() {
+    try {
+      const a = JSON.parse(localStorage.getItem(LS_POSE) || '[]');
+      return Array.isArray(a) ? a : [];
+    } catch(e) { return []; }
+  }
+  function writePoses(arr) {
+    localStorage.setItem(LS_POSE, JSON.stringify(arr));
   }
 
   function readGallery() {
@@ -1727,7 +1748,7 @@
       if (byCat[item.cat]) byCat[item.cat].push(item);
     });
     ['LD', 'SD', '연출'].forEach(cat => {
-      const panel = document.querySelector('[data-ref-panel="' + cat + '"]');
+      const panel = document.querySelector('#page-reference [data-ref-panel="' + cat + '"]');
       if (!panel) return;
       panel.innerHTML = '';
       const list = byCat[cat];
@@ -1744,19 +1765,82 @@
         const img = document.createElement('img');
         img.src = item.data;
         img.alt = cat;
+        const rm = document.createElement('button');
+        rm.type = 'button';
+        rm.className = 'thumb-remove';
+        rm.textContent = '×';
+        rm.setAttribute('aria-label', '이미지 삭제');
+        rm.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          const next = readRefs().filter(x => x.id !== item.id);
+          writeRefs(next);
+          window._renderReference();
+        });
         cell.appendChild(img);
+        cell.appendChild(rm);
         panel.appendChild(cell);
       });
     });
   };
 
-  document.querySelectorAll('.ref-cat-btn').forEach(btn => {
+  window._renderPose = function() {
+    const byCat = { LD: [], SD: [], '연출': [] };
+    readPoses().forEach(item => {
+      if (byCat[item.cat]) byCat[item.cat].push(item);
+    });
+    ['LD', 'SD', '연출'].forEach(cat => {
+      const panel = document.querySelector('#page-pose [data-pose-panel="' + cat + '"]');
+      if (!panel) return;
+      panel.innerHTML = '';
+      const list = byCat[cat];
+      if (!list.length) {
+        const empty = document.createElement('div');
+        empty.className = 'ref-empty';
+        empty.textContent = '이 카테고리에 저장된 이미지가 없습니다.';
+        panel.appendChild(empty);
+        return;
+      }
+      list.forEach(item => {
+        const cell = document.createElement('div');
+        cell.className = 'ref-cell';
+        const img = document.createElement('img');
+        img.src = item.data;
+        img.alt = cat;
+        const rm = document.createElement('button');
+        rm.type = 'button';
+        rm.className = 'thumb-remove';
+        rm.textContent = '×';
+        rm.setAttribute('aria-label', '이미지 삭제');
+        rm.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          const next = readPoses().filter(x => x.id !== item.id);
+          writePoses(next);
+          window._renderPose();
+        });
+        cell.appendChild(img);
+        cell.appendChild(rm);
+        panel.appendChild(cell);
+      });
+    });
+  };
+
+  document.querySelectorAll('#page-reference .ref-cat-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const cat = btn.getAttribute('data-ref-tab');
       refActiveTab = cat;
-      document.querySelectorAll('.ref-cat-btn').forEach(b => b.classList.toggle('active', b === btn));
-      document.querySelectorAll('[data-ref-panel]').forEach(p => {
+      document.querySelectorAll('#page-reference .ref-cat-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('#page-reference [data-ref-panel]').forEach(p => {
         p.style.display = p.getAttribute('data-ref-panel') === cat ? 'grid' : 'none';
+      });
+    });
+  });
+
+  document.querySelectorAll('#page-pose .pose-cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.getAttribute('data-pose-tab');
+      document.querySelectorAll('#page-pose .pose-cat-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('#page-pose [data-pose-panel]').forEach(p => {
+        p.style.display = p.getAttribute('data-pose-panel') === cat ? 'grid' : 'none';
       });
     });
   });
@@ -1785,6 +1869,34 @@
         }
       };
       r.onerror = () => { left--; if (left === 0) { writeRefs(list); window._renderReference(); } };
+      r.readAsDataURL(f);
+    });
+  });
+
+  document.getElementById('pose-upload-btn').addEventListener('click', () => {
+    document.getElementById('pose-file').click();
+  });
+
+  document.getElementById('pose-file').addEventListener('change', function(ev) {
+    const files = ev.target.files;
+    if (!files || !files.length) return;
+    const cat = document.getElementById('pose-cat-select').value;
+    const imgs = Array.from(files).filter(f => f.type.startsWith('image/'));
+    ev.target.value = '';
+    if (!imgs.length) return;
+    let list = readPoses();
+    let left = imgs.length;
+    imgs.forEach(f => {
+      const r = new FileReader();
+      r.onload = () => {
+        list.push({ id: uid(), cat, data: r.result, addedAt: new Date().toISOString() });
+        left--;
+        if (left === 0) {
+          writePoses(list);
+          window._renderPose();
+        }
+      };
+      r.onerror = () => { left--; if (left === 0) { writePoses(list); window._renderPose(); } };
       r.readAsDataURL(f);
     });
   });
@@ -1831,20 +1943,22 @@
         const sec = s % 60;
         cd.textContent = m + ':' + String(sec).padStart(2, '0');
       }
-      const del = document.createElement('button');
-      del.type = 'button';
-      del.className = 'btn-gal-del';
-      del.textContent = '삭제';
-      del.disabled = left <= 0;
-      del.addEventListener('click', () => {
+      const rm = document.createElement('button');
+      rm.type = 'button';
+      rm.className = 'thumb-remove';
+      rm.textContent = '×';
+      rm.setAttribute('aria-label', '이미지 삭제');
+      rm.disabled = left <= 0;
+      rm.addEventListener('click', (ev) => {
+        ev.stopPropagation();
         if (Date.now() - item.uploadedAt >= GAL_DEL_MS) return;
-        let arr = readGallery().filter(x => x.id !== item.id);
+        const arr = readGallery().filter(x => x.id !== item.id);
         writeGallery(arr);
         window._renderGallery();
       });
       meta.appendChild(cd);
-      meta.appendChild(del);
       cell.appendChild(img);
+      cell.appendChild(rm);
       cell.appendChild(meta);
       grid.appendChild(cell);
     });
@@ -1958,6 +2072,7 @@
 
   function cqStartTimer() {
     if (cqCompleted >= 3) return;
+    cqClearHomeAutoTimer();
     if (!cqWrap.classList.contains('has-img')) {
       cqShowToast('먼저 이미지를 불러오세요.');
       return;
@@ -1965,6 +2080,22 @@
     cqStopTimer();
     cqRunning = true;
     cqTimerId = setInterval(cqTick, 1000);
+  }
+
+  function startCroquisFromHome() {
+    cqClearHomeAutoTimer();
+    goTab('croquis');
+    if (!readPoses().length) {
+      cqShowToast('포즈 탭에 크로키용 이미지를 먼저 추가하세요.');
+      return;
+    }
+    cqPickRandomPose();
+    cqResetTimerOnly();
+    cqShowToast('5초 후 타이머가 시작됩니다.');
+    cqHomeAutoTimer = setTimeout(function() {
+      cqHomeAutoTimer = null;
+      cqStartTimer();
+    }, 5000);
   }
 
   function cqPauseTimer() {
@@ -2006,10 +2137,10 @@
     }
   }
 
-  function cqPickRandomRef() {
-    const all = readRefs();
+  function cqPickRandomPose() {
+    const all = readPoses();
     if (!all.length) {
-      cqShowToast('레퍼런스 탭에 이미지를 먼저 추가하세요.');
+      cqShowToast('포즈 탭에 크로키용 이미지를 먼저 추가하세요.');
       return;
     }
     let pool = all.filter(it => (cqRefPickCounts[it.id] || 0) < 5);
@@ -2035,7 +2166,7 @@
     r.readAsDataURL(f);
   });
 
-  document.getElementById('cq-random-btn').addEventListener('click', cqPickRandomRef);
+  document.getElementById('cq-random-btn').addEventListener('click', cqPickRandomPose);
 
   document.getElementById('cq-start').addEventListener('click', cqStartTimer);
   document.getElementById('cq-pause').addEventListener('click', cqPauseTimer);
@@ -2072,6 +2203,7 @@
   cqUpdateDots();
 
   window._renderGallery();
+  if (typeof window._renderPose === 'function') window._renderPose();
   startGalleryTicker();
 
   /* ── 유튜브 오디오 ── */
@@ -2166,6 +2298,7 @@
     setTimeout(() => {
       document.getElementById('screen-main').classList.remove('hidden');
       if (typeof window._renderReference === 'function') window._renderReference();
+      if (typeof window._renderPose === 'function') window._renderPose();
       if (typeof window._renderGallery === 'function') window._renderGallery();
     }, 400);
   }
