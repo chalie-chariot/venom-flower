@@ -730,7 +730,7 @@
       opacity: 0.88;
     }
     .home-cycle-card.home-cycle-card--gate-locked .practice-cycle-checks label {
-      cursor: not-allowed;
+      cursor: pointer;
     }
     .home-cycle-card.home-cycle-card--gate-locked .practice-cycle-checks input[type="checkbox"]:disabled {
       cursor: not-allowed;
@@ -1517,7 +1517,7 @@
       pointer-events: none;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.2s ease, visibility 0.2s;
+      transition: opacity 0.38s ease, visibility 0.38s;
     }
     .app-toast-bar.is-visible {
       opacity: 1;
@@ -4948,8 +4948,41 @@
     return k.toISOString().slice(0, 10);
   }
 
+  /** KST 기준 이 날(포함)부터 홈 「오늘」 1사이클 체크·TOOL CHECK 집계 (그 전날짜는 표시·저장 안 함) */
+  const HOME_DAILY_TRACKING_START_KST = '2026-04-11';
+
+  function isHomeDailyTrackingActiveKST(dayYmd) {
+    return typeof dayYmd === 'string' && dayYmd >= HOME_DAILY_TRACKING_START_KST;
+  }
+
+  /** 2026-04-10에 쌓인 「오늘」 데이터 일회 제거 (4/11부터 시작) */
+  function purgeLegacyHomeDaily20260410Once() {
+    try {
+      if (localStorage.getItem('dokcho_purge_kst_20260410_v1')) return;
+      localStorage.setItem('dokcho_purge_kst_20260410_v1', '1');
+      var raw = JSON.parse(localStorage.getItem(LS_TOOL_TRACK_DAY) || '{}');
+      if (raw && raw['2026-04-10']) {
+        delete raw['2026-04-10'];
+        localStorage.setItem(LS_TOOL_TRACK_DAY, JSON.stringify(raw));
+      }
+      var cy = JSON.parse(localStorage.getItem(LS_HOME_PRACTICE_CYCLE) || 'null');
+      if (cy && cy.dayKST === '2026-04-10') {
+        localStorage.removeItem(LS_HOME_PRACTICE_CYCLE);
+      }
+      var attKey = 'dokcho_monthly_attendance_v1';
+      var att = JSON.parse(localStorage.getItem(attKey) || 'null');
+      if (att && Array.isArray(att.dates)) {
+        var nd = att.dates.filter(function(x) { return x !== '2026-04-10'; });
+        if (nd.length !== att.dates.length) {
+          localStorage.setItem(attKey, JSON.stringify({ dates: nd }));
+        }
+      }
+    } catch (e) {}
+  }
+
   function readToolTrackTodayMap() {
     const day = ymdKSTForTools();
+    if (!isHomeDailyTrackingActiveKST(day)) return {};
     try {
       const raw = JSON.parse(localStorage.getItem(LS_TOOL_TRACK_DAY) || '{}');
       const m = raw[day];
@@ -4959,6 +4992,7 @@
 
   function writeToolTrackMark(toolId) {
     const day = ymdKSTForTools();
+    if (!isHomeDailyTrackingActiveKST(day)) return;
     try {
       const raw = JSON.parse(localStorage.getItem(LS_TOOL_TRACK_DAY) || '{}');
       if (!raw[day] || typeof raw[day] !== 'object') raw[day] = {};
@@ -5033,6 +5067,10 @@
 
   function archiveToolTrackOnCycleComplete() {
     const day = ymdKSTForTools();
+    if (!isHomeDailyTrackingActiveKST(day)) {
+      refreshHomeToolTrackPanel();
+      return;
+    }
     const marks = readToolTrackTodayMap();
     const hasMarks = marks && Object.keys(marks).some(function(k) { return marks[k]; });
     if (hasMarks) {
@@ -5074,6 +5112,7 @@
     const panel = document.getElementById('home-tool-track-panel');
     if (!panel || panel._toolTrackInit) return;
     panel._toolTrackInit = true;
+    purgeLegacyHomeDaily20260410Once();
     TOOL_TRACK_IDS.forEach(function(id) {
       const logBtn = document.getElementById('tool-track-log-' + id);
       if (logBtn) logBtn.addEventListener('click', function() { writeToolTrackMark(id); });
@@ -5459,6 +5498,9 @@
 
   function readPracticeCycleState() {
     const day = ymdKSTForTools();
+    if (!isHomeDailyTrackingActiveKST(day)) {
+      return { dayKST: day, slots: Array(PRACTICE_CYCLE_SLOT_COUNT).fill(false), cycles: 0 };
+    }
     try {
       const o = JSON.parse(localStorage.getItem(LS_HOME_PRACTICE_CYCLE) || 'null');
       if (!o || typeof o !== 'object' || o.dayKST !== day) {
@@ -5477,6 +5519,7 @@
   }
 
   function writePracticeCycleState(st) {
+    if (!isHomeDailyTrackingActiveKST(st.dayKST)) return;
     try {
       localStorage.setItem(LS_HOME_PRACTICE_CYCLE, JSON.stringify({
         dayKST: st.dayKST,
@@ -5515,17 +5558,30 @@
     applyPracticeCycleToUI(readPracticeCycleState());
   }
 
+  var PRACTICE_CYCLE_GATE_TOAST_MSG = '크로키 2분 → 도형화 20분 훈련을 2사이클 완료한 뒤에 체크할 수 있습니다.';
+
   function initHomePracticeCycle() {
     const card = document.getElementById('home-practice-cycle-card');
     if (!card || card._practiceCycleInit) return;
     card._practiceCycleInit = true;
+    card.addEventListener('click', function(ev) {
+      if (typeof isSketchTrainingUnlocked === 'function' && isSketchTrainingUnlocked()) return;
+      var t = ev.target;
+      if (!t || !card.contains(t)) return;
+      if (!t.closest || !t.closest('.practice-cycle-checks')) return;
+      ev.preventDefault();
+      ev.stopPropagation();
+      if (typeof cqShowToast === 'function') {
+        cqShowToast(PRACTICE_CYCLE_GATE_TOAST_MSG, 4800);
+      }
+    }, true);
     card.addEventListener('change', function(ev) {
       var t = ev.target;
       if (!t || t.type !== 'checkbox' || !t.hasAttribute('data-cycle-i')) return;
       if (typeof isSketchTrainingUnlocked === 'function' && !isSketchTrainingUnlocked()) {
         t.checked = false;
         if (typeof cqShowToast === 'function') {
-          cqShowToast('크로키·도형화 훈련 2사이클을 먼저 완료해 주세요.');
+          cqShowToast(PRACTICE_CYCLE_GATE_TOAST_MSG, 4800);
         }
         return;
       }
@@ -9113,11 +9169,15 @@
       if (!raw) return { dates: [] };
       var o = JSON.parse(raw);
       if (!o || typeof o !== 'object' || !Array.isArray(o.dates)) return { dates: [] };
-      return {
-        dates: o.dates.filter(function(x) {
-          return typeof x === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(x);
-        })
-      };
+      var dates = o.dates.filter(function(x) {
+        return typeof x === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(x);
+      });
+      var filtered = dates.filter(function(x) { return x !== '2026-04-10'; });
+      if (filtered.length !== dates.length) {
+        try { localStorage.setItem(LS_MONTHLY_ATTENDANCE, JSON.stringify({ dates: filtered })); } catch (e2) {}
+        dates = filtered;
+      }
+      return { dates: dates };
     } catch (e) { return { dates: [] }; }
   }
 
@@ -9190,6 +9250,10 @@
     introAttViewYear = n.getFullYear();
     introAttViewMonth = n.getMonth();
     var ymd = formatLocalYMD(n);
+    if (ymd === '2026-04-10') {
+      renderIntroAttendanceCalendar();
+      return;
+    }
     var rec = readAttendance();
     if (rec.dates.indexOf(ymd) !== -1) {
       renderIntroAttendanceCalendar();
