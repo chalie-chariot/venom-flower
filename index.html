@@ -1796,6 +1796,252 @@
       font-weight: 500;
     }
 
+    /* 기본기: 왼쪽 샘플(손·발·얼굴) / 오른쪽 내 데포르메 비교 */
+    #page-basics .basics-compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: stretch;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 640px) {
+      #page-basics .basics-compare-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    #page-basics .basics-card {
+      background: var(--bg3);
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px 12px;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+    #page-basics .basics-card-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 6px;
+    }
+    #page-basics .basics-card-title--mine {
+      color: var(--accent);
+    }
+    #page-basics .basics-card-hint {
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.04em;
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+    #page-basics .basics-ref-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    #page-basics .basics-ref-slot-label {
+      font-size: 10px;
+      color: var(--text2);
+      letter-spacing: 0.12em;
+      margin-bottom: 2px;
+    }
+    #page-basics .basics-drop {
+      position: relative;
+      border-radius: 6px;
+      cursor: pointer;
+      outline: none;
+      min-height: 96px;
+    }
+    #page-basics .basics-drop--wide {
+      min-height: 220px;
+    }
+    #page-basics .basics-drop:focus-visible {
+      box-shadow: 0 0 0 2px rgba(180, 196, 74, 0.35);
+    }
+    #page-basics .basics-drop.is-empty {
+      border: 1px dashed rgba(180, 170, 80, 0.28);
+      background: rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #page-basics .basics-drop:not(.is-empty) {
+      border: 0.5px solid var(--border);
+      background: var(--surface);
+      overflow: hidden;
+    }
+    #page-basics .basics-drop-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      pointer-events: none;
+      padding: 8px;
+    }
+    #page-basics .basics-drop-icon {
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--text3);
+      line-height: 1;
+    }
+    #page-basics .basics-drop-text {
+      font-size: 10px;
+      color: var(--text3);
+      text-align: center;
+      letter-spacing: 0.04em;
+    }
+    #page-basics .basics-preview-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #page-basics .basics-drop--wide .basics-preview-wrap {
+      min-height: 220px;
+    }
+    #page-basics .basics-preview-img {
+      max-width: 100%;
+      max-height: 240px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      cursor: zoom-in;
+    }
+    #page-basics .basics-remove-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 26px;
+      height: 26px;
+      padding: 0;
+      border: 0.5px solid var(--border);
+      border-radius: 4px;
+      background: rgba(10, 10, 8, 0.88);
+      color: var(--text2);
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 2;
+    }
+    #page-basics .basics-remove-btn:hover {
+      color: var(--danger);
+      border-color: rgba(196, 74, 74, 0.45);
+    }
+    #page-basics .basics-import-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+    }
+    #page-basics .basics-import-btn {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      border: 0.5px solid var(--border2);
+      background: var(--surface);
+      color: var(--text2);
+      cursor: pointer;
+    }
+    #page-basics .basics-import-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent2);
+    }
+    #page-basics .basics-editor-block {
+      width: 100%;
+      margin-top: 0.25rem;
+    }
+    #page-basics .basics-editor-label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 8px;
+    }
+    #page-basics .basics-notes {
+      width: 100%;
+      min-height: 160px;
+      box-sizing: border-box;
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 1.55;
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      resize: vertical;
+    }
+    #page-basics .basics-notes::placeholder {
+      color: var(--text3);
+    }
+    #page-basics .basics-notes:focus {
+      outline: none;
+      border-color: var(--border2);
+      box-shadow: 0 0 0 1px rgba(180, 196, 74, 0.12);
+    }
+    #page-basics .basics-save-row {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      margin-top: 0.75rem;
+    }
+    #page-basics .basics-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 100000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+    #page-basics .basics-lightbox[hidden] {
+      display: none !important;
+    }
+    #page-basics .basics-lightbox-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      border: none;
+      cursor: pointer;
+    }
+    #page-basics .basics-lightbox-inner {
+      position: relative;
+      z-index: 1;
+      max-width: min(96vw, 900px);
+      max-height: min(88vh, 900px);
+    }
+    #page-basics .basics-lightbox-img {
+      max-width: 100%;
+      max-height: min(88vh, 900px);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      border-radius: 6px;
+    }
+    #page-basics .basics-lightbox-close {
+      position: absolute;
+      top: -36px;
+      right: 0;
+      width: 32px;
+      height: 32px;
+      border: 0.5px solid var(--border);
+      border-radius: 4px;
+      background: var(--bg3);
+      color: var(--text);
+      font-size: 18px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
     /* 데포르메 탭 (스펙 DS) */
     #page-deforme .deforme-page-wrap {
       --df-bg-outer: #0f130a;
@@ -2381,6 +2627,285 @@
       margin-top: 0.5rem;
     }
 
+    /* ── 레퍼런스 워크스페이스 (2열: 내 그림 | 참고 레퍼런스) ── */
+    #page-reference .ref-ws {
+      --rw-bg-outer: #0f130a;
+      --rw-card: #161a0e;
+      --rw-sub: #1c2211;
+      --rw-border: #2a3318;
+      --rw-border-hi: #3a4a22;
+      --rw-text: #d4e8a0;
+      --rw-muted: #7a9450;
+      --rw-accent: #8fbc44;
+      background: var(--rw-bg-outer);
+      border-radius: 10px;
+      padding: 12px;
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 12px;
+      align-items: start;
+    }
+    @media (max-width: 720px) {
+      #page-reference .ref-ws {
+        grid-template-columns: 1fr;
+      }
+    }
+    #page-reference .ref-ws-col {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    #page-reference .ref-ws-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+    }
+    #page-reference .ref-ws-label--sub {
+      color: var(--rw-muted);
+    }
+    #page-reference .ref-ws-label--accent {
+      color: var(--rw-accent);
+    }
+    #page-reference .ref-ws-drop {
+      position: relative;
+      border-radius: 8px;
+      box-sizing: border-box;
+      cursor: pointer;
+      outline: none;
+      background: var(--rw-card);
+      border: 0.5px solid var(--rw-border);
+      min-height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #page-reference .ref-ws-drop:focus-visible {
+      box-shadow: 0 0 0 2px rgba(143, 188, 68, 0.35);
+    }
+    #page-reference .ref-ws-drop.is-empty {
+      border: 1px dashed var(--rw-border);
+      background: var(--rw-card);
+    }
+    #page-reference .ref-ws-drop:not(.is-empty) {
+      padding: 4px;
+    }
+    #page-reference .ref-ws-drop-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      pointer-events: none;
+      padding: 12px;
+    }
+    #page-reference .ref-ws-drop-icon {
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--rw-muted);
+      line-height: 1;
+    }
+    #page-reference .ref-ws-drop-text {
+      font-size: 12px;
+      color: var(--rw-muted);
+    }
+    #page-reference .ref-ws-preview {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 312px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #page-reference .ref-ws-preview-img {
+      max-width: 100%;
+      max-height: min(70vh, 520px);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      cursor: zoom-in;
+      display: block;
+    }
+    #page-reference .ref-ws-remove {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border: none;
+      border-radius: 4px;
+      background: transparent;
+      color: var(--rw-muted);
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 2;
+    }
+    #page-reference .ref-ws-remove:hover {
+      color: var(--rw-text);
+    }
+    #page-reference .ref-ws-refs-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    #page-reference .ref-ws-ref-card {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 0;
+      background: var(--rw-card);
+      border: 0.5px solid var(--rw-border);
+      border-radius: 8px;
+      overflow: hidden;
+      min-height: 140px;
+    }
+    #page-reference .ref-ws-ref-card.ref-ws-card--dragging {
+      opacity: 0.55;
+    }
+    #page-reference .ref-ws-handle {
+      flex: 0 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--rw-border-hi);
+      font-size: 14px;
+      line-height: 1;
+      cursor: grab;
+      user-select: none;
+      background: rgba(0, 0, 0, 0.15);
+    }
+    #page-reference .ref-ws-handle:active {
+      cursor: grabbing;
+    }
+    #page-reference .ref-ws-ref-body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 6px 8px 8px;
+      gap: 6px;
+    }
+    #page-reference .ref-ws-ref-drop {
+      position: relative;
+      flex: 1;
+      min-height: 100px;
+      border-radius: 6px;
+      cursor: pointer;
+      background: var(--rw-card);
+      border: 0.5px solid var(--rw-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #page-reference .ref-ws-ref-drop.is-empty {
+      border: 1px dashed var(--rw-border);
+    }
+    #page-reference .ref-ws-ref-drop:not(.is-empty) {
+      padding: 2px;
+    }
+    #page-reference .ref-ws-ref-preview {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #page-reference .ref-ws-ref-preview .ref-ws-preview-img {
+      max-height: 200px;
+      min-height: 60px;
+    }
+    #page-reference .ref-ws-src-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 6px 8px;
+      font-size: 12px;
+      font-family: var(--font-body);
+      color: var(--rw-text);
+      background: var(--rw-sub);
+      border: 0.5px solid var(--rw-border);
+      border-radius: 4px;
+      align-self: flex-end;
+    }
+    #page-reference .ref-ws-src-input::placeholder {
+      color: var(--rw-muted);
+    }
+    #page-reference .ref-ws-src-input:focus {
+      outline: none;
+      border-color: var(--rw-accent);
+    }
+    #page-reference .ref-ws-add-btn {
+      width: 100%;
+      height: 36px;
+      margin-top: 2px;
+      border-radius: 8px;
+      border: 0.5px dashed var(--rw-border);
+      background: transparent;
+      color: var(--rw-muted);
+      font-size: 12px;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    #page-reference .ref-ws-add-btn:hover {
+      border-color: var(--rw-border-hi);
+      color: var(--rw-text);
+    }
+    #page-reference .ref-ws-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 100000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+    #page-reference .ref-ws-lightbox[hidden] {
+      display: none !important;
+    }
+    #page-reference .ref-ws-lightbox-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      border: none;
+      cursor: pointer;
+    }
+    #page-reference .ref-ws-lightbox-inner {
+      position: relative;
+      z-index: 1;
+      max-width: min(96vw, 1200px);
+      max-height: min(90vh, 1200px);
+    }
+    #page-reference .ref-ws-lightbox-img {
+      max-width: 100%;
+      max-height: min(90vh, 1200px);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      border-radius: 6px;
+    }
+    #page-reference .ref-ws-lightbox-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      width: 34px;
+      height: 34px;
+      border: 0.5px solid var(--rw-border);
+      border-radius: 4px;
+      background: var(--rw-card);
+      color: var(--rw-text);
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
     .ref-upload-bar {
       display: flex;
       flex-wrap: wrap;
@@ -2942,28 +3467,95 @@
         <div class="page-wrap">
           <div class="page-header">
             <h2 class="page-title">기본기</h2>
-            <span class="page-sub">인체 · 부위 · 묘사 → 데포르메</span>
+            <span class="page-sub">샘플 대조 · 데포르메 비교 · 메모</span>
           </div>
-          <p class="basics-flow"><strong>실제 묘사</strong>로 그린 뒤, <strong>동일한 모델·레퍼런스</strong>로 한 번 더 그리되 <strong>서브컬쳐 느낌의 데포르메</strong>(머리 비율·눈·선 등)으로 변형해 보세요.</p>
-          <p style="font-size:11px;color:var(--text3);letter-spacing:0.06em;line-height:1.5;margin:0 0 0.75rem;">각 칸에 오늘 연습 내용·관찰 메모를 적고 「기본기 저장」으로 루틴에 반영합니다. (네 칸 모두 짧게라도 채워야 합니다.)</p>
+          <p class="basics-flow"><strong>왼쪽</strong>에 손·발·얼굴 <strong>참고 샘플</strong>을 두고, <strong>오른쪽</strong>에 같은 연습 맥락의 <strong>내 데포르메</strong>를 올려 나란히 비교합니다. 아래 칸에는 <strong>어디에 쓰면 좋을지</strong>, <strong>셀프 피드백</strong> 등을 자유롭게 적습니다.</p>
 
-          <h3 class="memo-section-title">남녀 인체</h3>
-          <p class="memo-hint">골격·비율·실루엣 등 남성·여성 체형 차이를 의식하며 메모하세요.</p>
-          <textarea id="basics-body" class="memo-editor char-q-text" rows="4" placeholder="오늘 연습한 인체 메모…"></textarea>
+          <div class="basics-compare-grid">
+            <div class="basics-card" aria-label="참고 샘플">
+              <div class="basics-card-title">참고 샘플</div>
+              <p class="basics-card-hint">손 · 발 · 얼굴 레퍼런스 이미지를 각각 넣습니다. (탭하거나 파일을 끌어다 놓기)</p>
+              <div class="basics-ref-stack">
+                <div>
+                  <div class="basics-ref-slot-label">손</div>
+                  <div class="basics-drop is-empty" id="basics-drop-hand" tabindex="0" role="button" aria-label="손 참고 이미지">
+                    <input type="file" id="basics-file-hand" class="basics-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
+                    <div class="basics-drop-empty" id="basics-empty-hand">
+                      <span class="basics-drop-icon" aria-hidden="true">+</span>
+                      <span class="basics-drop-text">이미지 추가</span>
+                    </div>
+                    <div class="basics-preview-wrap" id="basics-preview-hand" hidden>
+                      <img id="basics-img-hand" class="basics-preview-img" alt="손 참고" />
+                      <button type="button" class="basics-remove-btn" id="basics-remove-hand" aria-label="손 이미지 제거">×</button>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="basics-ref-slot-label">발</div>
+                  <div class="basics-drop is-empty" id="basics-drop-foot" tabindex="0" role="button" aria-label="발 참고 이미지">
+                    <input type="file" id="basics-file-foot" class="basics-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
+                    <div class="basics-drop-empty" id="basics-empty-foot">
+                      <span class="basics-drop-icon" aria-hidden="true">+</span>
+                      <span class="basics-drop-text">이미지 추가</span>
+                    </div>
+                    <div class="basics-preview-wrap" id="basics-preview-foot" hidden>
+                      <img id="basics-img-foot" class="basics-preview-img" alt="발 참고" />
+                      <button type="button" class="basics-remove-btn" id="basics-remove-foot" aria-label="발 이미지 제거">×</button>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="basics-ref-slot-label">얼굴</div>
+                  <div class="basics-drop is-empty" id="basics-drop-face" tabindex="0" role="button" aria-label="얼굴 참고 이미지">
+                    <input type="file" id="basics-file-face" class="basics-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
+                    <div class="basics-drop-empty" id="basics-empty-face">
+                      <span class="basics-drop-icon" aria-hidden="true">+</span>
+                      <span class="basics-drop-text">이미지 추가</span>
+                    </div>
+                    <div class="basics-preview-wrap" id="basics-preview-face" hidden>
+                      <img id="basics-img-face" class="basics-preview-img" alt="얼굴 참고" />
+                      <button type="button" class="basics-remove-btn" id="basics-remove-face" aria-label="얼굴 이미지 제거">×</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-          <h3 class="memo-section-title" style="margin-top:1rem;">손 · 발 · 얼굴</h3>
-          <p class="memo-hint">손가락·발·표정·이목구비 등 부위별 관찰.</p>
-          <textarea id="basics-limbs" class="memo-editor char-q-text" rows="4" placeholder="손·발·얼굴 연습 메모…"></textarea>
+            <div class="basics-card" aria-label="내 데포르메 비교">
+              <div class="basics-card-title basics-card-title--mine">내 데포르메 (비교)</div>
+              <p class="basics-card-hint">왼쪽 샘플과 같은 연습에서 그린 데포르메 그림을 올려 비교합니다.</p>
+              <div class="basics-import-row">
+                <button type="button" class="basics-import-btn" id="basics-import-deforme-btn">데포르메 탭 이미지 불러오기</button>
+              </div>
+              <div class="basics-drop basics-drop--wide is-empty" id="basics-drop-compare" tabindex="0" role="button" aria-label="내 데포르메 이미지">
+                <input type="file" id="basics-file-compare" class="basics-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
+                <div class="basics-drop-empty" id="basics-empty-compare">
+                  <span class="basics-drop-icon" aria-hidden="true">+</span>
+                  <span class="basics-drop-text">내 데포르메 이미지 추가</span>
+                </div>
+                <div class="basics-preview-wrap" id="basics-preview-compare" hidden>
+                  <img id="basics-img-compare" class="basics-preview-img" alt="내 데포르메" />
+                  <button type="button" class="basics-remove-btn" id="basics-remove-compare" aria-label="비교 이미지 제거">×</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <h3 class="memo-section-title" style="margin-top:1rem;">실제 묘사</h3>
-          <p class="memo-hint">사진·실물·관찰 기반으로 묘사한 내용을 적습니다.</p>
-          <textarea id="basics-real" class="memo-editor char-q-text" rows="4" placeholder="실제 묘사 연습 메모…"></textarea>
+          <div class="basics-editor-block">
+            <label class="basics-editor-label" for="basics-notes">활용 · 셀프 피드백 메모</label>
+            <textarea id="basics-notes" class="basics-notes" rows="10" placeholder="어디에 쓰기 좋을지, 잘된 점, 고칠 점, 비교 소감 등을 길게 적어 보세요…"></textarea>
+          </div>
+          <div class="basics-save-row">
+            <button type="button" class="btn-cq primary" id="basics-save-btn">기본기 저장</button>
+          </div>
+        </div>
 
-          <h3 class="memo-section-title" style="margin-top:1rem;">동일 모델 — 서브컬쳐 데포르메</h3>
-          <p class="memo-hint">위 실제 묘사와 같은 모델·포즈를 유지한 채, 서브컬쳐식 과장·변형으로 다시 그린 결과·느낌을 적습니다.</p>
-          <textarea id="basics-deform" class="memo-editor char-q-text" rows="4" placeholder="데포르메 연습 메모 (비교·어려움·규칙 등)…"></textarea>
-
-          <button type="button" class="btn-cq primary" id="basics-save-btn" style="align-self:flex-end;height:42px;padding:0 1.25rem;margin-top:1rem;">기본기 저장</button>
+        <div id="basics-lightbox" class="basics-lightbox" hidden aria-hidden="true">
+          <button type="button" class="basics-lightbox-backdrop" id="basics-lightbox-backdrop" aria-label="닫기"></button>
+          <div class="basics-lightbox-inner">
+            <button type="button" class="basics-lightbox-close" id="basics-lightbox-close" aria-label="닫기">×</button>
+            <img id="basics-lightbox-img" class="basics-lightbox-img" alt="" />
+          </div>
         </div>
       </div>
 
@@ -3138,37 +3730,36 @@
       <div id="page-reference" class="merge-sub-panel">
           <div class="page-header">
             <h2 class="page-title">레퍼런스</h2>
-            <span class="page-sub">LD · SD · 스파인 · 연출 · 동세 · 감정(표정) · 크리쳐 디자인</span>
+            <span class="page-sub">내 그림 · 참고 레퍼런스 비교</span>
           </div>
-          <div class="ref-upload-bar">
-            <select class="ref-select" id="ref-cat-select" aria-label="업로드 카테고리">
-              <option value="LD">LD</option>
-              <option value="SD">SD</option>
-              <option value="스파인">스파인</option>
-              <option value="연출">연출</option>
-              <option value="동세">동세</option>
-              <option value="감정(표정)">감정(표정)</option>
-              <option value="크리쳐 디자인">크리쳐 디자인</option>
-            </select>
-            <input type="file" id="ref-file" accept="image/*" multiple hidden />
-            <button type="button" class="btn-cq primary" id="ref-upload-btn" style="height:40px;padding:0 1rem;">이미지 업로드</button>
+          <div class="ref-ws" id="ref-workspace-root">
+            <div class="ref-ws-col ref-ws-col--my">
+              <div class="ref-ws-label ref-ws-label--sub">내 그림</div>
+              <div class="ref-ws-drop is-empty" id="ref-ws-my-drop" tabindex="0" role="button" aria-label="내 그림 업로드">
+                <input type="file" id="ref-ws-my-file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
+                <div class="ref-ws-drop-empty" id="ref-ws-my-empty">
+                  <span class="ref-ws-drop-icon" aria-hidden="true">+</span>
+                  <span class="ref-ws-drop-text">그림 추가</span>
+                </div>
+                <div class="ref-ws-preview" id="ref-ws-my-preview" hidden>
+                  <img id="ref-ws-my-img" class="ref-ws-preview-img" alt="내 그림" />
+                  <button type="button" class="ref-ws-remove" id="ref-ws-my-remove" aria-label="이미지 제거">×</button>
+                </div>
+              </div>
+            </div>
+            <div class="ref-ws-col ref-ws-col--refs">
+              <div class="ref-ws-label ref-ws-label--accent">참고 레퍼런스</div>
+              <div class="ref-ws-refs-stack" id="ref-ws-refs-list" aria-label="참고 레퍼런스 목록"></div>
+              <button type="button" class="ref-ws-add-btn" id="ref-ws-add-ref">+ 레퍼런스 추가</button>
+            </div>
           </div>
-          <div class="ref-cat-bar" role="tablist">
-            <button type="button" class="ref-cat-btn active" data-ref-tab="LD" role="tab">LD</button>
-            <button type="button" class="ref-cat-btn" data-ref-tab="SD" role="tab">SD</button>
-            <button type="button" class="ref-cat-btn" data-ref-tab="스파인" role="tab">스파인</button>
-            <button type="button" class="ref-cat-btn" data-ref-tab="연출" role="tab">연출</button>
-            <button type="button" class="ref-cat-btn" data-ref-tab="동세" role="tab">동세</button>
-            <button type="button" class="ref-cat-btn" data-ref-tab="감정(표정)" role="tab">감정(표정)</button>
-            <button type="button" class="ref-cat-btn" data-ref-tab="크리쳐 디자인" role="tab">크리쳐 디자인</button>
+          <div id="ref-ws-lightbox" class="ref-ws-lightbox" hidden aria-hidden="true">
+            <button type="button" class="ref-ws-lightbox-backdrop" id="ref-ws-lightbox-backdrop" aria-label="닫기"></button>
+            <div class="ref-ws-lightbox-inner">
+              <button type="button" class="ref-ws-lightbox-close" id="ref-ws-lightbox-close" aria-label="닫기">×</button>
+              <img id="ref-ws-lightbox-img" class="ref-ws-lightbox-img" alt="" />
+            </div>
           </div>
-          <div id="ref-panel-ld" class="ref-grid" data-ref-panel="LD"></div>
-          <div id="ref-panel-sd" class="ref-grid" data-ref-panel="SD" style="display:none;"></div>
-          <div id="ref-panel-spine" class="ref-grid" data-ref-panel="스파인" style="display:none;"></div>
-          <div id="ref-panel-dir" class="ref-grid" data-ref-panel="연출" style="display:none;"></div>
-          <div id="ref-panel-dongse" class="ref-grid" data-ref-panel="동세" style="display:none;"></div>
-          <div id="ref-panel-emotion" class="ref-grid" data-ref-panel="감정(표정)" style="display:none;"></div>
-          <div id="ref-panel-creature" class="ref-grid" data-ref-panel="크리쳐 디자인" style="display:none;"></div>
       </div>
 
       <div id="page-gallery" class="merge-sub-panel" style="display:none">
@@ -3777,21 +4368,59 @@
   }
 
   const LS_BASICS = 'dokcho_basics_practice';
+
+  function normalizeBasicsBundle(raw) {
+    const o = raw && typeof raw === 'object' ? raw : {};
+    const out = {
+      notes: String(o.notes != null ? o.notes : ''),
+      refHandDataUrl: String(o.refHandDataUrl || ''),
+      refFootDataUrl: String(o.refFootDataUrl || ''),
+      refFaceDataUrl: String(o.refFaceDataUrl || ''),
+      compareDataUrl: String(o.compareDataUrl || ''),
+      savedAt: o.savedAt
+    };
+    if (!out.notes.trim() && (o.body || o.limbs || o.real || o.deform)) {
+      const parts = [];
+      if (o.body) parts.push('[남녀 인체]\n' + o.body);
+      if (o.limbs) parts.push('[손·발·얼굴]\n' + o.limbs);
+      if (o.real) parts.push('[실제 묘사]\n' + o.real);
+      if (o.deform) parts.push('[데포르메]\n' + o.deform);
+      out.notes = parts.join('\n\n');
+    }
+    return out;
+  }
+
   function readBasicsBundle() {
     try {
-      const o = JSON.parse(localStorage.getItem(LS_BASICS) || '{}');
-      return o && typeof o === 'object' ? o : {};
-    } catch (e) { return {}; }
+      const raw = JSON.parse(localStorage.getItem(LS_BASICS) || '{}');
+      return normalizeBasicsBundle(raw);
+    } catch (e) {
+      return normalizeBasicsBundle({});
+    }
   }
+
   function writeBasicsBundle(partial) {
-    const prev = readBasicsBundle();
-    const next = Object.assign({}, prev, partial, { savedAt: new Date().toISOString() });
-    localStorage.setItem(LS_BASICS, JSON.stringify(next));
+    try {
+      const raw = JSON.parse(localStorage.getItem(LS_BASICS) || '{}');
+      const base = normalizeBasicsBundle(raw);
+      const next = Object.assign({}, base, partial, { savedAt: new Date().toISOString() });
+      delete next.body;
+      delete next.limbs;
+      delete next.real;
+      delete next.deform;
+      localStorage.setItem(LS_BASICS, JSON.stringify(next));
+    } catch (e) {
+      if (typeof cqShowToast === 'function') cqShowToast('기본기 저장에 실패했습니다.');
+    }
   }
+
   function basicsHasStoredPractice() {
     const d = readBasicsBundle();
-    const ok = function(s) { return String(s || '').trim().length >= 4; };
-    return ok(d.body) && ok(d.limbs) && ok(d.real) && ok(d.deform);
+    const n = String(d.notes || '').trim();
+    if (n.length >= 40) return true;
+    if (n.length < 10) return false;
+    const hasImg = function(url) { return String(url || '').length > 80; };
+    return hasImg(d.compareDataUrl) || hasImg(d.refHandDataUrl) || hasImg(d.refFootDataUrl) || hasImg(d.refFaceDataUrl);
   }
 
   (function migrateMergedTabChainOnce() {
@@ -4176,12 +4805,27 @@
     refreshHomeToolTrackPanel();
   }
 
+  /** 기록 시각(ISO)이 속한 날의 KST 자정부터 그 시각까지 경과를 「n일 n시간 n분」 */
   function formatToolTrackDisplay(iso) {
     if (!iso) return '—';
     try {
-      const d = new Date(iso);
-      return '\u2713 ' + d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
-    } catch (e) { return '—'; }
+      const log = new Date(iso);
+      const t = log.getTime();
+      if (isNaN(t)) return '—';
+      const k = new Date(t + 9 * 3600000);
+      const y = k.getUTCFullYear();
+      const mo = k.getUTCMonth();
+      const da = k.getUTCDate();
+      const kstMidnightMs = Date.UTC(y, mo, da) - 9 * 3600000;
+      const diff = Math.max(0, t - kstMidnightMs);
+      const totalMin = Math.floor(diff / 60000);
+      const days = Math.floor(totalMin / (24 * 60));
+      const hours = Math.floor((totalMin % (24 * 60)) / 60);
+      const minutes = totalMin % 60;
+      return days + '일 ' + hours + '시간 ' + minutes + '분';
+    } catch (e) {
+      return '—';
+    }
   }
 
   function refreshToolTrackCyclePrevLine() {
@@ -4620,6 +5264,7 @@
 
   /* ── 레퍼런스 / 갤러리 / 크로키 (localStorage + Firebase 연동) ── */
   const LS_REF = 'dokcho_references';
+  const LS_REF_WORKSPACE = 'dokcho_ref_workspace_v1';
   const LS_POSE = 'dokcho_croquis_poses';
   const LS_GAL = 'dokcho_gallery';
   const LS_GAL_GROUPS = 'dokcho_gallery_groups_done';
@@ -4646,12 +5291,90 @@
     localStorage.setItem(LS_REF, JSON.stringify(arr));
   }
 
+  function readRefWorkspaceRaw() {
+    try {
+      const raw = localStorage.getItem(LS_REF_WORKSPACE);
+      if (!raw) return null;
+      const o = JSON.parse(raw);
+      return o && typeof o === 'object' ? o : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function normalizeRefWorkspaceItem(r) {
+    if (!r || typeof r !== 'object') return { id: uid(), data: '', note: '' };
+    return { id: r.id || uid(), data: String(r.data || ''), note: String(r.note || '') };
+  }
+
+  function normalizeRefWorkspace(o) {
+    return {
+      myDrawingDataUrl: String(o.myDrawingDataUrl || ''),
+      refs: Array.isArray(o.refs) ? o.refs.map(normalizeRefWorkspaceItem) : []
+    };
+  }
+
+  function migrateLegacyRefsToWorkspace() {
+    const legacy = readRefs();
+    const refs = legacy.map(function(item) {
+      return {
+        id: item.id || uid(),
+        data: String(item.data || ''),
+        note: String(item.note || '')
+      };
+    });
+    const ws = { myDrawingDataUrl: '', refs: refs };
+    try {
+      localStorage.setItem(LS_REF_WORKSPACE, JSON.stringify(ws));
+    } catch (e) {}
+    return ws;
+  }
+
+  function readRefWorkspace() {
+    const raw = readRefWorkspaceRaw();
+    if (raw) return normalizeRefWorkspace(raw);
+    return normalizeRefWorkspace(migrateLegacyRefsToWorkspace());
+  }
+
+  function writeRefWorkspace(partial) {
+    const cur = readRefWorkspace();
+    const next = {
+      myDrawingDataUrl: partial.myDrawingDataUrl !== undefined ? String(partial.myDrawingDataUrl) : cur.myDrawingDataUrl,
+      refs: partial.refs !== undefined ? partial.refs : cur.refs
+    };
+    try {
+      localStorage.setItem(LS_REF_WORKSPACE, JSON.stringify(next));
+    } catch (e) {
+      if (typeof cqShowToast === 'function') cqShowToast('저장 공간이 부족할 수 있습니다.');
+    }
+  }
+
+  function refWorkspaceHasContent() {
+    const w = readRefWorkspace();
+    function hasData(s) { return String(s || '').length > 80; }
+    if (hasData(w.myDrawingDataUrl)) return true;
+    for (var i = 0; i < w.refs.length; i++) {
+      if (hasData(w.refs[i].data)) return true;
+      if (String(w.refs[i].note || '').trim().length > 0) return true;
+    }
+    return false;
+  }
+
+  function isRefWorkspaceImageFile(f) {
+    if (!f) return false;
+    var t = (f.type || '').toLowerCase();
+    if (t && /^image\/(jpeg|png|webp)$/i.test(t)) return true;
+    var n = (f.name || '').toLowerCase();
+    return /\.(jpe?g|png|webp)$/i.test(n);
+  }
+
   let refNoteSaveTimers = {};
   function saveRefNote(id, note) {
-    const list = readRefs().map(function(x) {
+    const w = readRefWorkspace();
+    const next = w.refs.map(function(x) {
       return x.id === id ? Object.assign({}, x, { note: note }) : x;
     });
-    writeRefs(list);
+    writeRefWorkspace({ refs: next });
     if ((note || '').trim().length > 0) markTabActivity('reference');
   }
   function scheduleRefNoteSave(id, value) {
@@ -4703,7 +5426,8 @@
     } catch (e) {}
     try {
       if (readPoses().length > 0) markTabActivity('pose');
-      if (readRefs().length > 0) markTabActivity('reference');
+      if (typeof refWorkspaceHasContent === 'function' && refWorkspaceHasContent()) markTabActivity('reference');
+      else if (readRefs().length > 0) markTabActivity('reference');
       if (readGallery().length > 0) markTabActivity('gallery');
     } catch (e) {}
     try {
@@ -6203,33 +6927,184 @@
     renderConceptKeywordLinks();
   }
 
+  var BASICS_SLOT_KEYS = {
+    hand: 'refHandDataUrl',
+    foot: 'refFootDataUrl',
+    face: 'refFaceDataUrl',
+    compare: 'compareDataUrl'
+  };
+
+  function basicsUpdateSlotVisual(slot, hasImg, url) {
+    var drop = document.getElementById('basics-drop-' + slot);
+    var empty = document.getElementById('basics-empty-' + slot);
+    var prev = document.getElementById('basics-preview-' + slot);
+    var img = document.getElementById('basics-img-' + slot);
+    if (!drop || !empty || !prev || !img) return;
+    if (hasImg && url) {
+      drop.classList.remove('is-empty');
+      empty.hidden = true;
+      prev.hidden = false;
+      img.src = url;
+    } else {
+      drop.classList.add('is-empty');
+      empty.hidden = false;
+      prev.hidden = true;
+      img.removeAttribute('src');
+    }
+  }
+
+  function basicsApplyBundleToUI() {
+    var d = readBasicsBundle();
+    basicsUpdateSlotVisual('hand', !!d.refHandDataUrl, d.refHandDataUrl);
+    basicsUpdateSlotVisual('foot', !!d.refFootDataUrl, d.refFootDataUrl);
+    basicsUpdateSlotVisual('face', !!d.refFaceDataUrl, d.refFaceDataUrl);
+    basicsUpdateSlotVisual('compare', !!d.compareDataUrl, d.compareDataUrl);
+    var notesEl = document.getElementById('basics-notes');
+    if (notesEl) notesEl.value = d.notes || '';
+  }
+
+  function basicsOpenLightbox(src) {
+    var lb = document.getElementById('basics-lightbox');
+    var im = document.getElementById('basics-lightbox-img');
+    if (!lb || !im || !src) return;
+    im.src = src;
+    lb.hidden = false;
+    lb.setAttribute('aria-hidden', 'false');
+  }
+
+  function basicsCloseLightbox() {
+    var lb = document.getElementById('basics-lightbox');
+    var im = document.getElementById('basics-lightbox-img');
+    if (lb) {
+      lb.hidden = true;
+      lb.setAttribute('aria-hidden', 'true');
+    }
+    if (im) im.removeAttribute('src');
+  }
+
   function initBasicsPage() {
-    const pack = readBasicsBundle();
-    const elBody = document.getElementById('basics-body');
-    const elLimbs = document.getElementById('basics-limbs');
-    const elReal = document.getElementById('basics-real');
-    const elDeform = document.getElementById('basics-deform');
-    if (elBody) elBody.value = pack.body != null ? pack.body : '';
-    if (elLimbs) elLimbs.value = pack.limbs != null ? pack.limbs : '';
-    if (elReal) elReal.value = pack.real != null ? pack.real : '';
-    if (elDeform) elDeform.value = pack.deform != null ? pack.deform : '';
+    basicsApplyBundleToUI();
+
+    var page = document.getElementById('page-basics');
+    if (page && page._basicsBound) return;
+    if (page) page._basicsBound = true;
+
+    function readFileForSlot(slot, file) {
+      if (typeof deformeReadFileAsDataURL !== 'function') return;
+      deformeReadFileAsDataURL(file, function(dataUrl) {
+        var key = BASICS_SLOT_KEYS[slot];
+        if (!key) return;
+        var patch = {};
+        patch[key] = dataUrl;
+        writeBasicsBundle(patch);
+        basicsApplyBundleToUI();
+        if (typeof markTabActivity === 'function' && typeof basicsHasStoredPractice === 'function' && basicsHasStoredPractice()) {
+          markTabActivity('basics');
+        }
+      });
+    }
+
+    function wireSlot(slot, fileId, dropId, removeId) {
+      var fileEl = document.getElementById(fileId);
+      var drop = document.getElementById(dropId);
+      var rem = document.getElementById(removeId);
+      if (!fileEl || !drop) return;
+
+      drop.addEventListener('click', function(ev) {
+        if (ev.target.closest('.basics-remove-btn')) return;
+        if (ev.target.classList.contains('basics-preview-img')) return;
+        fileEl.click();
+      });
+      drop.addEventListener('keydown', function(ev) {
+        if (ev.key === 'Enter' || ev.key === ' ') {
+          ev.preventDefault();
+          fileEl.click();
+        }
+      });
+      drop.addEventListener('dragover', function(ev) { ev.preventDefault(); });
+      drop.addEventListener('drop', function(ev) {
+        ev.preventDefault();
+        var f = ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files[0];
+        if (f) readFileForSlot(slot, f);
+      });
+      fileEl.addEventListener('change', function() {
+        var f = fileEl.files && fileEl.files[0];
+        if (f) readFileForSlot(slot, f);
+        fileEl.value = '';
+      });
+      if (rem) {
+        rem.addEventListener('click', function(ev) {
+          ev.stopPropagation();
+          var key = BASICS_SLOT_KEYS[slot];
+          if (!key) return;
+          var patch = {};
+          patch[key] = '';
+          writeBasicsBundle(patch);
+          basicsApplyBundleToUI();
+        });
+      }
+      var pv = document.getElementById('basics-preview-' + slot);
+      var imgEl = document.getElementById('basics-img-' + slot);
+      if (pv && imgEl) {
+        imgEl.addEventListener('click', function(ev) {
+          ev.stopPropagation();
+          var src = imgEl.getAttribute('src');
+          if (src) basicsOpenLightbox(src);
+        });
+      }
+    }
+
+    wireSlot('hand', 'basics-file-hand', 'basics-drop-hand', 'basics-remove-hand');
+    wireSlot('foot', 'basics-file-foot', 'basics-drop-foot', 'basics-remove-foot');
+    wireSlot('face', 'basics-file-face', 'basics-drop-face', 'basics-remove-face');
+    wireSlot('compare', 'basics-file-compare', 'basics-drop-compare', 'basics-remove-compare');
+
+    var impBtn = document.getElementById('basics-import-deforme-btn');
+    if (impBtn && !impBtn._basicsImpBound) {
+      impBtn._basicsImpBound = true;
+      impBtn.addEventListener('click', function() {
+        if (typeof readDeformeBundle !== 'function') return;
+        var d = readDeformeBundle();
+        if (!d.mineDataUrl || d.mineDataUrl.length < 64) {
+          if (typeof cqShowToast === 'function') cqShowToast('데포르메 탭에 먼저 「내 데포르메」 이미지를 올려 주세요.');
+          return;
+        }
+        writeBasicsBundle({ compareDataUrl: d.mineDataUrl });
+        basicsApplyBundleToUI();
+        if (typeof cqShowToast === 'function') cqShowToast('데포르메 탭의 이미지를 불러왔습니다.');
+      });
+    }
+
+    var lbBack = document.getElementById('basics-lightbox-backdrop');
+    var lbClose = document.getElementById('basics-lightbox-close');
+    if (lbBack && !lbBack._basicsLb) {
+      lbBack._basicsLb = true;
+      lbBack.addEventListener('click', basicsCloseLightbox);
+    }
+    if (lbClose && !lbClose._basicsLb) {
+      lbClose._basicsLb = true;
+      lbClose.addEventListener('click', basicsCloseLightbox);
+    }
 
     if (!window._basicsSaveBound) {
       window._basicsSaveBound = true;
-      const btn = document.getElementById('basics-save-btn');
+      var btn = document.getElementById('basics-save-btn');
       if (btn) {
         btn.addEventListener('click', function() {
-          const b = (document.getElementById('basics-body') && document.getElementById('basics-body').value || '').trim();
-          const l = (document.getElementById('basics-limbs') && document.getElementById('basics-limbs').value || '').trim();
-          const r = (document.getElementById('basics-real') && document.getElementById('basics-real').value || '').trim();
-          const df = (document.getElementById('basics-deform') && document.getElementById('basics-deform').value || '').trim();
-          if (b.length < 4 || l.length < 4 || r.length < 4 || df.length < 4) {
-            if (typeof cqShowToast === 'function') cqShowToast('네 칸 모두 짧게라도(4자 이상) 적어 주세요.');
+          var notes = (document.getElementById('basics-notes') && document.getElementById('basics-notes').value || '').trim();
+          var d = readBasicsBundle();
+          var hasImg = function(url) { return String(url || '').length > 80; };
+          if (notes.length < 10) {
+            if (typeof cqShowToast === 'function') cqShowToast('메모를 10자 이상 적어 주세요. (활용·셀프 피드백)');
             return;
           }
-          writeBasicsBundle({ body: b, limbs: l, real: r, deform: df });
-          markTabActivity('basics');
-          if (typeof cqShowToast === 'function') cqShowToast('기본기 메모가 저장되었습니다.');
+          if (!hasImg(d.compareDataUrl) && !hasImg(d.refHandDataUrl) && !hasImg(d.refFootDataUrl) && !hasImg(d.refFaceDataUrl)) {
+            if (typeof cqShowToast === 'function') cqShowToast('손·발·얼굴 중 하나라도 또는 「내 데포르메」에 이미지를 넣어 주세요.');
+            return;
+          }
+          writeBasicsBundle({ notes: document.getElementById('basics-notes').value || '' });
+          if (typeof markTabActivity === 'function') markTabActivity('basics');
+          if (typeof cqShowToast === 'function') cqShowToast('기본기가 저장되었습니다.');
         });
       }
     }
@@ -6295,68 +7170,310 @@
     if (typeof window._renderGallery === 'function') window._renderGallery();
   }
 
-  /* ── 레퍼런스 UI ── */
-  let refActiveTab = 'LD';
+  /* ── 레퍼런스 UI (2열 워크스페이스) ── */
+  function refWsOpenLightbox(src) {
+    var lb = document.getElementById('ref-ws-lightbox');
+    var im = document.getElementById('ref-ws-lightbox-img');
+    if (!lb || !im || !src) return;
+    im.src = src;
+    lb.hidden = false;
+    lb.setAttribute('aria-hidden', 'false');
+  }
+
+  function refWsCloseLightbox() {
+    var lb = document.getElementById('ref-ws-lightbox');
+    var im = document.getElementById('ref-ws-lightbox-img');
+    if (lb) {
+      lb.hidden = true;
+      lb.setAttribute('aria-hidden', 'true');
+    }
+    if (im) im.removeAttribute('src');
+  }
+
+  function refWsUpdateMyColumn(w) {
+    var drop = document.getElementById('ref-ws-my-drop');
+    var empty = document.getElementById('ref-ws-my-empty');
+    var preview = document.getElementById('ref-ws-my-preview');
+    var img = document.getElementById('ref-ws-my-img');
+    if (!drop || !empty || !preview || !img) return;
+    var url = w.myDrawingDataUrl;
+    if (url && String(url).length > 80) {
+      drop.classList.remove('is-empty');
+      empty.hidden = true;
+      preview.hidden = false;
+      img.src = url;
+    } else {
+      drop.classList.add('is-empty');
+      empty.hidden = false;
+      preview.hidden = true;
+      img.removeAttribute('src');
+    }
+  }
+
+  function refWorkspaceMoveBefore(fromId, beforeId) {
+    if (fromId === beforeId) return;
+    var w = readRefWorkspace();
+    var item = w.refs.find(function(r) { return r.id === fromId; });
+    if (!item) return;
+    var refs = w.refs.filter(function(r) { return r.id !== fromId; });
+    var idx = refs.findIndex(function(r) { return r.id === beforeId; });
+    if (idx === -1) refs.push(item);
+    else refs.splice(idx, 0, item);
+    writeRefWorkspace({ refs: refs });
+    window._renderReference();
+  }
+
+  function ensureRefWorkspaceUIBindOnce() {
+    var root = document.getElementById('page-reference');
+    if (!root || root._refWsUiBound) return;
+    root._refWsUiBound = true;
+
+    var myDrop = document.getElementById('ref-ws-my-drop');
+    var myFile = document.getElementById('ref-ws-my-file');
+    var myRm = document.getElementById('ref-ws-my-remove');
+    var myImg = document.getElementById('ref-ws-my-img');
+
+    if (myDrop && myFile) {
+      myDrop.addEventListener('click', function(ev) {
+        if (ev.target.closest('#ref-ws-my-remove')) return;
+        if (ev.target === myImg) return;
+        myFile.click();
+      });
+      myDrop.addEventListener('keydown', function(ev) {
+        if (ev.key === 'Enter' || ev.key === ' ') {
+          ev.preventDefault();
+          myFile.click();
+        }
+      });
+      myDrop.addEventListener('dragover', function(ev) { ev.preventDefault(); });
+      myDrop.addEventListener('drop', function(ev) {
+        ev.preventDefault();
+        var f = ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files[0];
+        if (f && isRefWorkspaceImageFile(f)) {
+          readFileAsDataURL(f).then(function(dataUrl) {
+            writeRefWorkspace({ myDrawingDataUrl: dataUrl });
+            refWsUpdateMyColumn(readRefWorkspace());
+            if (typeof markTabActivity === 'function') markTabActivity('reference');
+          }).catch(function() {});
+        } else if (f && typeof cqShowToast === 'function') {
+          cqShowToast('JPG, PNG, WEBP만 지원합니다.');
+        }
+      });
+      myFile.addEventListener('change', function() {
+        var f = myFile.files && myFile.files[0];
+        myFile.value = '';
+        if (!f || !isRefWorkspaceImageFile(f)) {
+          if (f && typeof cqShowToast === 'function') cqShowToast('JPG, PNG, WEBP만 지원합니다.');
+          return;
+        }
+        readFileAsDataURL(f).then(function(dataUrl) {
+          writeRefWorkspace({ myDrawingDataUrl: dataUrl });
+          refWsUpdateMyColumn(readRefWorkspace());
+          if (typeof markTabActivity === 'function') markTabActivity('reference');
+        }).catch(function() {});
+      });
+    }
+    if (myRm) {
+      myRm.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        writeRefWorkspace({ myDrawingDataUrl: '' });
+        refWsUpdateMyColumn(readRefWorkspace());
+      });
+    }
+    if (myImg) {
+      myImg.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        var s = myImg.getAttribute('src');
+        if (s) refWsOpenLightbox(s);
+      });
+    }
+
+    var addBtn = document.getElementById('ref-ws-add-ref');
+    if (addBtn) {
+      addBtn.addEventListener('click', function() {
+        var w = readRefWorkspace();
+        var next = w.refs.concat([{ id: uid(), data: '', note: '' }]);
+        writeRefWorkspace({ refs: next });
+        window._renderReference();
+      });
+    }
+
+    var lbBack = document.getElementById('ref-ws-lightbox-backdrop');
+    var lbClose = document.getElementById('ref-ws-lightbox-close');
+    if (lbBack) lbBack.addEventListener('click', refWsCloseLightbox);
+    if (lbClose) lbClose.addEventListener('click', refWsCloseLightbox);
+    if (!window._refWsEscBound) {
+      window._refWsEscBound = true;
+      document.addEventListener('keydown', function(ev) {
+        if (ev.key !== 'Escape') return;
+        var lb = document.getElementById('ref-ws-lightbox');
+        if (lb && !lb.hidden) refWsCloseLightbox();
+      });
+    }
+  }
 
   window._renderReference = function() {
-    const byCat = {};
-    REF_CATEGORIES.forEach(function(c) { byCat[c] = []; });
-    readRefs().forEach(item => {
-      if (byCat[item.cat]) byCat[item.cat].push(item);
-      else byCat['LD'].push(item);
-    });
-    REF_CATEGORIES.forEach(cat => {
-      const panel = document.querySelector('#page-reference [data-ref-panel="' + cat + '"]');
-      if (!panel) return;
-      panel.innerHTML = '';
-      const list = byCat[cat];
-      if (!list.length) {
-        const empty = document.createElement('div');
-        empty.className = 'ref-empty';
-        empty.textContent = '이 카테고리에 저장된 이미지가 없습니다.';
-        panel.appendChild(empty);
-        return;
-      }
-      list.forEach(item => {
-        const cell = document.createElement('div');
-        cell.className = 'ref-cell ref-cell-with-note';
-        const vis = document.createElement('div');
-        vis.className = 'ref-cell-visual';
-        const img = document.createElement('img');
-        img.src = item.data;
-        img.alt = cat;
-        const rm = document.createElement('button');
-        rm.type = 'button';
-        rm.className = 'thumb-remove';
-        rm.textContent = '×';
-        rm.setAttribute('aria-label', '이미지 삭제');
-        rm.addEventListener('click', (ev) => {
-          ev.stopPropagation();
-          const next = readRefs().filter(x => x.id !== item.id);
-          writeRefs(next);
-          window._renderReference();
+    ensureRefWorkspaceUIBindOnce();
+    var w = readRefWorkspace();
+    refWsUpdateMyColumn(w);
+
+    var listEl = document.getElementById('ref-ws-refs-list');
+    if (!listEl) return;
+
+    listEl.innerHTML = '';
+
+    w.refs.forEach(function(item) {
+      var card = document.createElement('article');
+      card.className = 'ref-ws-ref-card';
+      card.dataset.refId = item.id;
+
+      var handle = document.createElement('div');
+      handle.className = 'ref-ws-handle';
+      handle.setAttribute('draggable', 'true');
+      handle.setAttribute('aria-label', '순서 변경');
+      handle.textContent = '⠿';
+
+      var body = document.createElement('div');
+      body.className = 'ref-ws-ref-body';
+
+      var drop = document.createElement('div');
+      drop.className = 'ref-ws-ref-drop' + (item.data && String(item.data).length > 80 ? '' : ' is-empty');
+
+      var fileInp = document.createElement('input');
+      fileInp.type = 'file';
+      fileInp.setAttribute('accept', 'image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp');
+      fileInp.hidden = true;
+
+      var empty = document.createElement('div');
+      empty.className = 'ref-ws-drop-empty';
+      empty.innerHTML = '<span class="ref-ws-drop-icon" aria-hidden="true">+</span><span class="ref-ws-drop-text">레퍼런스 추가</span>';
+
+      var preview = document.createElement('div');
+      preview.className = 'ref-ws-ref-preview';
+      preview.hidden = !(item.data && String(item.data).length > 80);
+
+      var img = document.createElement('img');
+      img.className = 'ref-ws-preview-img';
+      img.alt = '참고 레퍼런스';
+      if (item.data) img.src = item.data;
+
+      var rm = document.createElement('button');
+      rm.type = 'button';
+      rm.className = 'ref-ws-remove';
+      rm.textContent = '×';
+      rm.setAttribute('aria-label', '이미지 제거');
+
+      rm.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        var cur = readRefWorkspace();
+        var refs = cur.refs.map(function(r) {
+          return r.id === item.id ? Object.assign({}, r, { data: '' }) : r;
         });
-        vis.appendChild(img);
-        vis.appendChild(rm);
-        const ta = document.createElement('textarea');
-        ta.className = 'ref-note-input';
-        ta.setAttribute('aria-label', '가져올 부분 메모');
-        ta.placeholder = '이 이미지에서 내 것으로 가져올 부분·요소·느낌을 적어 두세요.';
-        ta.value = item.note != null ? item.note : '';
-        ta.addEventListener('input', function() {
-          scheduleRefNoteSave(item.id, ta.value);
-        });
-        ta.addEventListener('blur', function() {
-          if (refNoteSaveTimers[item.id]) {
-            clearTimeout(refNoteSaveTimers[item.id]);
-            delete refNoteSaveTimers[item.id];
-          }
-          saveRefNote(item.id, ta.value);
-        });
-        cell.appendChild(vis);
-        cell.appendChild(ta);
-        panel.appendChild(cell);
+        writeRefWorkspace({ refs: refs });
+        window._renderReference();
       });
+
+      img.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        if (img.getAttribute('src')) refWsOpenLightbox(img.getAttribute('src'));
+      });
+
+      drop.addEventListener('click', function(ev) {
+        if (ev.target.closest('.ref-ws-remove')) return;
+        if (ev.target === img) return;
+        fileInp.click();
+      });
+      drop.addEventListener('dragover', function(ev) { ev.preventDefault(); });
+      drop.addEventListener('drop', function(ev) {
+        ev.preventDefault();
+        var f = ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files[0];
+        if (!f || !isRefWorkspaceImageFile(f)) {
+          if (f && typeof cqShowToast === 'function') cqShowToast('JPG, PNG, WEBP만 지원합니다.');
+          return;
+        }
+        readFileAsDataURL(f).then(function(dataUrl) {
+          var cur = readRefWorkspace();
+          var refs = cur.refs.map(function(r) {
+            return r.id === item.id ? Object.assign({}, r, { data: dataUrl }) : r;
+          });
+          writeRefWorkspace({ refs: refs });
+          window._renderReference();
+          if (typeof markTabActivity === 'function') markTabActivity('reference');
+        }).catch(function() {});
+      });
+
+      fileInp.addEventListener('change', function() {
+        var f = fileInp.files && fileInp.files[0];
+        fileInp.value = '';
+        if (!f || !isRefWorkspaceImageFile(f)) {
+          if (f && typeof cqShowToast === 'function') cqShowToast('JPG, PNG, WEBP만 지원합니다.');
+          return;
+        }
+        readFileAsDataURL(f).then(function(dataUrl) {
+          var cur = readRefWorkspace();
+          var refs = cur.refs.map(function(r) {
+            return r.id === item.id ? Object.assign({}, r, { data: dataUrl }) : r;
+          });
+          writeRefWorkspace({ refs: refs });
+          window._renderReference();
+          if (typeof markTabActivity === 'function') markTabActivity('reference');
+        }).catch(function() {});
+      });
+
+      if (item.data && String(item.data).length > 80) {
+        preview.appendChild(img);
+        preview.appendChild(rm);
+        drop.appendChild(fileInp);
+        drop.appendChild(preview);
+      } else {
+        drop.appendChild(fileInp);
+        drop.appendChild(empty);
+      }
+
+      var srcInp = document.createElement('input');
+      srcInp.type = 'text';
+      srcInp.className = 'ref-ws-src-input';
+      srcInp.placeholder = '출처 또는 참고 메모...';
+      srcInp.setAttribute('autocomplete', 'off');
+      srcInp.dataset.refId = item.id;
+      srcInp.value = item.note != null ? item.note : '';
+      srcInp.addEventListener('input', function() {
+        scheduleRefNoteSave(item.id, srcInp.value);
+      });
+      srcInp.addEventListener('blur', function() {
+        if (refNoteSaveTimers[item.id]) {
+          clearTimeout(refNoteSaveTimers[item.id]);
+          delete refNoteSaveTimers[item.id];
+        }
+        saveRefNote(item.id, srcInp.value);
+      });
+
+      body.appendChild(drop);
+      body.appendChild(srcInp);
+
+      handle.addEventListener('dragstart', function(e) {
+        e.dataTransfer.setData('text/plain', item.id);
+        e.dataTransfer.effectAllowed = 'move';
+        card.classList.add('ref-ws-card--dragging');
+      });
+      handle.addEventListener('dragend', function() {
+        card.classList.remove('ref-ws-card--dragging');
+      });
+
+      card.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+      });
+      card.addEventListener('drop', function(e) {
+        e.preventDefault();
+        var fromId = e.dataTransfer.getData('text/plain');
+        if (!fromId || fromId === item.id) return;
+        refWorkspaceMoveBefore(fromId, item.id);
+      });
+
+      card.appendChild(handle);
+      card.appendChild(body);
+      listEl.appendChild(card);
     });
   };
 
@@ -6403,17 +7520,6 @@
     });
   };
 
-  document.querySelectorAll('#page-reference .ref-cat-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const cat = btn.getAttribute('data-ref-tab');
-      refActiveTab = cat;
-      document.querySelectorAll('#page-reference .ref-cat-btn').forEach(b => b.classList.toggle('active', b === btn));
-      document.querySelectorAll('#page-reference [data-ref-panel]').forEach(p => {
-        p.style.display = p.getAttribute('data-ref-panel') === cat ? 'grid' : 'none';
-      });
-    });
-  });
-
   document.querySelectorAll('#page-pose .pose-cat-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const cat = btn.getAttribute('data-pose-tab');
@@ -6425,38 +7531,6 @@
   });
 
   (function bindRefPoseUploads() {
-    var refBtn = document.getElementById('ref-upload-btn');
-    var refInp = document.getElementById('ref-file');
-    if (refBtn && refInp) {
-      refBtn.addEventListener('click', function() { refInp.click(); });
-      refInp.addEventListener('change', function(ev) {
-        const files = ev.target.files;
-        if (!files || !files.length) return;
-        const catSel = document.getElementById('ref-cat-select');
-        const cat = catSel ? catSel.value : 'LD';
-        const imgs = Array.from(files).filter(isLikelyImageFile);
-        ev.target.value = '';
-        if (!imgs.length) return;
-        let list = readRefs();
-        let left = imgs.length;
-        imgs.forEach(function(f) {
-          const r = new FileReader();
-          r.onload = function() {
-            list.push({ id: uid(), cat: cat, data: r.result, addedAt: new Date().toISOString(), note: '' });
-            left--;
-            if (left === 0) {
-              writeRefs(list);
-              window._renderReference();
-              markTabActivity('reference');
-            }
-          };
-          r.onerror = function() { left--; if (left === 0) { writeRefs(list); window._renderReference(); } };
-          r.readAsDataURL(f);
-        });
-      });
-    } else {
-      console.warn('[venom] 레퍼런스 업로드 버튼 없음');
-    }
     var poseBtn = document.getElementById('pose-upload-btn');
     var poseInp = document.getElementById('pose-file');
     if (poseBtn && poseInp) {
