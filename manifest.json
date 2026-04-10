@@ -1,27 +1,21 @@
 {
-  "name": "기본기",
-  "short_name": "기본기",
-  "description": "드로잉 연습 & 레퍼런스 앱",
+  "name": "독초 — Venom Flower",
+  "short_name": "독초",
+  "description": "온실속의 화초 — 독하게 마음먹자. 작가 훈련 사이트.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f130a",
-  "theme_color": "#0f130a",
+  "background_color": "#0a0a08",
+  "theme_color": "#0a0a08",
   "orientation": "portrait-primary",
   "icons": [
-    { "src": "/icons/icon-72.png", "sizes": "72x72", "type": "image/png" },
-    { "src": "/icons/icon-96.png", "sizes": "96x96", "type": "image/png" },
-    { "src": "/icons/icon-128.png", "sizes": "128x128", "type": "image/png" },
-    { "src": "/icons/icon-144.png", "sizes": "144x144", "type": "image/png" },
-    { "src": "/icons/icon-152.png", "sizes": "152x152", "type": "image/png" },
     {
-      "src": "/icons/icon-192.png",
+      "src": "icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
-    { "src": "/icons/icon-384.png", "sizes": "384x384", "type": "image/png" },
     {
-      "src": "/icons/icon-512.png",
+      "src": "icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
