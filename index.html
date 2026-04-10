@@ -2,6 +2,8 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0a0a08">
   <meta name="mobile-web-app-capable" content="yes">
@@ -25,8 +27,9 @@
       --accent2: #7a9e1a;
       --accent-glow: rgba(180,196,74,0.15);
       --text: #e8e4d0;
-      --text2: #9a9680;
-      --text3: #5a5848;
+      /* 보조·캡션: 구분 유지하면서 명도 대폭 상향 (한눈에 읽히게) */
+      --text2: #cfc9b0;
+      --text3: #b8b198;
       --danger: #c44a4a;
       --font-display: 'Bebas Neue', 'Noto Sans KR', sans-serif;
       --font-body: 'Noto Sans KR', sans-serif;
@@ -427,12 +430,12 @@
       margin-bottom: 0.25rem;
     }
     .home-tool-track-note {
-      font-size: 8px;
-      color: var(--text3);
+      font-size: 10px;
+      color: var(--text2);
       letter-spacing: 0.04em;
-      line-height: 1.4;
+      line-height: 1.45;
       margin: 0 0 0.4rem;
-      opacity: 0.95;
+      opacity: 1;
     }
     .home-tool-track-prev {
       font-size: 8px;
@@ -710,8 +713,8 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .spinner-spin-hint {
-      font-size: 10px;
-      color: var(--text3);
+      font-size: 11px;
+      color: var(--text2);
       letter-spacing: 0.06em;
       min-height: 1.2em;
     }
@@ -763,10 +766,11 @@
     }
 
     .memo-hint {
-      font-size: 10px;
-      color: var(--text3);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text2);
       letter-spacing: 0.06em;
-      line-height: 1.5;
+      line-height: 1.55;
       margin-bottom: 0.5rem;
     }
 
@@ -874,7 +878,7 @@
     }
     .memo-kw-item-body { flex: 1; min-width: 0; }
     .memo-kw-item strong { color: var(--accent); font-weight: 500; }
-    .memo-kw-meta { font-size: 9px; color: var(--text3); margin-top: 2px; }
+    .memo-kw-meta { font-size: 10px; color: var(--text2); margin-top: 2px; }
     .memo-kw-item-tools {
       display: flex;
       align-items: center;
@@ -1037,8 +1041,8 @@
 
     /* ── 하단 탭바 (본문 대비: 아이콘·라벨이 잘 보이게 전용 색) ── */
     .tab-bar {
-      --tab-fg: #c9c4ae;
-      --tab-fg-hover: #e8e4d4;
+      --tab-fg: #ddd8c4;
+      --tab-fg-hover: #f5f2e6;
       border-top: 1px solid rgba(180, 170, 80, 0.22);
       display: flex;
       background: linear-gradient(180deg, #1a1912 0%, #0d0d0a 100%);
@@ -1096,10 +1100,10 @@
 
     .tab-label {
       font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
+      font-weight: 600;
+      letter-spacing: 0.1em;
       font-family: var(--font-body);
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
     }
 
     .tab-btn.active .tab-label {
@@ -1140,10 +1144,12 @@
     }
 
     .page-sub {
-      font-size: 11px;
-      color: var(--text3);
-      letter-spacing: 0.2em;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+      letter-spacing: 0.16em;
       margin-left: auto;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
     }
 
     .coming-soon {
@@ -1483,9 +1489,10 @@
       border-radius: 8px;
       border: 0.5px solid var(--border);
       background: transparent;
-      color: var(--text3);
+      color: var(--text2);
       font-family: var(--font-body);
       font-size: 12px;
+      font-weight: 500;
       letter-spacing: 0.1em;
       cursor: pointer;
       transition: all 0.2s;
@@ -1521,7 +1528,8 @@
 
     #page-basics .basics-flow {
       font-size: 11px;
-      color: var(--text3);
+      font-weight: 500;
+      color: var(--text2);
       letter-spacing: 0.06em;
       line-height: 1.55;
       margin: 0 0 0.75rem;
@@ -2136,7 +2144,7 @@
       --ds-border: #2a3318;
       --ds-border-hi: #3a4a22;
       --ds-text: #d4e8a0;
-      --ds-muted: #7a9450;
+      --ds-muted: #9bb86a;
       --ds-accent: #8fbc44;
       --ds-danger: #c0392b;
       background: var(--ds-bg-outer);
@@ -2409,8 +2417,9 @@
       margin-top: 0.5rem;
     }
     #page-design .design-roulette-hint {
-      font-size: 11px;
-      color: var(--text3);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
       letter-spacing: 0.06em;
       line-height: 1.55;
       margin: 0 0 0.65rem;
@@ -2982,9 +2991,9 @@
     .gallery-hint {
       width: 100%;
       margin: 0.35rem 0 0;
-      font-size: 10px;
+      font-size: 11px;
       line-height: 1.55;
-      color: var(--text3);
+      color: var(--text2);
       letter-spacing: 0.06em;
     }
     .gal-empty {
@@ -2992,7 +3001,7 @@
       text-align: center;
       padding: 2.5rem 1rem;
       font-size: 12px;
-      color: var(--text3);
+      color: var(--text2);
     }
 
     /* ── 캐릭터 창작 페이지 ── */
@@ -3008,7 +3017,8 @@
     }
     .char-q-label {
       font-size: 11px;
-      color: var(--text3);
+      font-weight: 500;
+      color: var(--text2);
       letter-spacing: 0.12em;
     }
     .char-q-text {
@@ -3024,11 +3034,15 @@
       gap: 0.5rem 1rem;
     }
     #page-finalpick .final-pick-header-aside {
-      font-size: 10px;
+      font-size: 11px;
+      font-weight: 500;
       letter-spacing: 0.1em;
-      color: var(--text3);
+      color: var(--text2);
       white-space: nowrap;
       align-self: center;
+    }
+    #page-finalpick .final-pick-aside-muted {
+      color: var(--text2);
     }
     #page-finalpick .final-pick-aside-sep {
       margin: 0 0.35rem;
@@ -3076,8 +3090,9 @@
     }
     #page-finalpick .final-pick-img-hint {
       margin: 0;
-      font-size: 10px;
-      color: var(--text3);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text2);
       letter-spacing: 0.1em;
     }
     #page-finalpick .final-pick-drop {
@@ -3109,7 +3124,8 @@
       text-align: center;
       padding: 0.75rem 1rem;
       font-size: 11px;
-      color: var(--text3);
+      font-weight: 500;
+      color: var(--text2);
       letter-spacing: 0.08em;
       line-height: 1.5;
       pointer-events: none;
@@ -3487,7 +3503,7 @@
 
           <div class="croquis-feedback" id="cq-feedback-panel">
             <h3>셀프 피드백</h3>
-            <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">3장을 마쳤습니다. 오늘의 느낌을 남겨두세요.</p>
+            <p style="font-size:12px;font-weight:500;color:var(--text2);letter-spacing:0.08em;">3장을 마쳤습니다. 오늘의 느낌을 남겨두세요.</p>
             <textarea id="cq-feedback-text" placeholder="비례, 라인, 연출… 메모"></textarea>
           </div>
       </div>
@@ -3590,7 +3606,7 @@
             </select>
             <input type="file" id="gal-file" accept="image/*,.heic,.heif" multiple hidden />
             <button type="button" class="btn-cq primary" id="gal-upload-btn" style="height:40px;padding:0 1rem;">이미지 업로드</button>
-            <span style="font-size:10px;color:var(--text3);letter-spacing:0.1em;">최대 30장 · 업로드 후 5분 안에만 삭제 가능 · 이후 보관(편집·삭제 불가) · JPG/PNG 등 확장자·브라우저 저장 용량에 따라 실패할 수 있음</span>
+            <span style="font-size:11px;font-weight:500;color:var(--text2);letter-spacing:0.08em;">최대 30장 · 업로드 후 5분 안에만 삭제 가능 · 이후 보관(편집·삭제 불가) · JPG/PNG 등 확장자·브라우저 저장 용량에 따라 실패할 수 있음</span>
           </div>
           <p class="gallery-hint">갤러리 30장은 이 브라우저에 모두 저장됩니다. 아래에서 5장을 고르는 것은 「작가에게 보내보기」 메일 작성용일 뿐이며, <span style="color:var(--text2);">나머지 25장도 삭제되지 않고 그대로 보관·열람</span>됩니다. 같은 통합 메뉴의 레퍼런스는 별도 저장이라 장 수 제한이 없습니다.</p>
           <div id="gallery-pick-bar" class="gallery-pick-bar" aria-live="polite">
@@ -3750,7 +3766,7 @@
             <h2 class="page-title">메모</h2>
             <span class="page-sub">메모장 · 마인드맵</span>
           </div>
-          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: Ctrl+Enter로 메모 반영, 또는 마인드맵 노드 추가 시 이 탭 활동으로 인정됩니다.</p>
+          <p style="font-size:12px;font-weight:500;color:var(--text2);letter-spacing:0.08em;">돌림판 「완료」 조건: Ctrl+Enter로 메모 반영, 또는 마인드맵 노드 추가 시 이 탭 활동으로 인정됩니다.</p>
 
           <div class="memo-split">
             <div>
@@ -3820,7 +3836,7 @@
             <div class="char-linked-preview" id="char-linked-preview" aria-label="붙인 키워드" style="margin-top:0.5rem;"></div>
           </div>
 
-          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: 이미지 추가, 질문지 작성, 메모 <strong>@</strong> 키워드 붙이기, 또는 시트 저장 반영 중 하나로 이 탭 활동이 인정됩니다.</p>
+          <p style="font-size:12px;font-weight:500;color:var(--text2);letter-spacing:0.08em;">돌림판 「완료」 조건: 이미지 추가, 질문지 작성, 메모 <strong>@</strong> 키워드 붙이기, 또는 시트 저장 반영 중 하나로 이 탭 활동이 인정됩니다.</p>
 
           <h3 class="memo-section-title">컨셉 이미지</h3>
           <p class="memo-hint">시트·전신·표정 등 참고 이미지를 넣을 수 있습니다. (최대 12장 · 언제든 삭제 가능) 일부 기기는 파일 종류(MIME)가 비어 있어도 확장자로 인식합니다. 저장이 안 되면 이미지를 더 작게(JPG) 해 보세요.</p>
@@ -4596,50 +4612,73 @@
   const CHAR_IMG_MAX = 12;
   const LS_CROQUIS_TOUCHED = 'dokcho_croquis_touched';
   const LS_FINAL_CHARACTER_PICK = 'dokcho_final_character_pick_v1';
+  const LS_FINALPICK_TEXT_MERGED = 'dokcho_finalpick_text_merged_v2';
 
-  function readFinalPickBundle() {
-    var empty = { imageDataUrl: '', workChar: '', charmPoints: '', researchNotes: '' };
+  /**
+   * 예전 최종 탭 전용 텍스트 필드 → 캐릭터 분석 저장소로 한 번만 합친 뒤,
+   * LS_FINAL_CHARACTER_PICK에는 이미지(data URL)만 남깁니다. (캐릭터 분석 탭과 동일 데이터)
+   */
+  function ensureFinalPickLegacyTextMigrationOnce() {
     try {
+      if (localStorage.getItem(LS_FINALPICK_TEXT_MERGED)) return;
       var raw = localStorage.getItem(LS_FINAL_CHARACTER_PICK);
-      if (!raw) return empty;
+      if (!raw) {
+        localStorage.setItem(LS_FINALPICK_TEXT_MERGED, '1');
+        return;
+      }
+      var imageDataUrl = '';
+      var workChar = '';
+      var charmPoints = '';
+      var researchNotes = '';
       if (raw.charAt(0) === '{') {
         var o = JSON.parse(raw);
-        if (!o || typeof o !== 'object') return empty;
-        var out = {
-          imageDataUrl: String(o.imageDataUrl != null ? o.imageDataUrl : ''),
-          workChar: String(o.workChar != null ? o.workChar : ''),
-          charmPoints: String(o.charmPoints != null ? o.charmPoints : ''),
-          researchNotes: String(o.researchNotes != null ? o.researchNotes : '')
-        };
-        if (!String(out.researchNotes || '').trim() && o.notes != null && String(o.notes).trim()) {
-          out.researchNotes = String(o.notes);
+        imageDataUrl = String(o.imageDataUrl != null ? o.imageDataUrl : '');
+        workChar = String(o.workChar != null ? o.workChar : '');
+        charmPoints = String(o.charmPoints != null ? o.charmPoints : '');
+        researchNotes = String(o.researchNotes != null ? o.researchNotes : '');
+        if (!researchNotes.trim() && o.notes != null && String(o.notes).trim()) {
+          researchNotes = String(o.notes);
         }
-        return out;
+      } else {
+        researchNotes = raw;
       }
-      return {
-        imageDataUrl: '',
-        workChar: '',
-        charmPoints: '',
-        researchNotes: raw
-      };
+      var ca = readCharacterAnalysis();
+      var hasCA =
+        (ca.characterName && String(ca.characterName).trim()) ||
+        (ca.charmGuess && String(ca.charmGuess).trim()) ||
+        (ca.researchNarrative && String(ca.researchNarrative).trim());
+      if (!hasCA && (workChar.trim() || charmPoints.trim() || researchNotes.trim())) {
+        writeCharacterAnalysis({
+          characterName: workChar,
+          charmGuess: charmPoints,
+          researchNarrative: researchNotes
+        });
+      }
+      localStorage.setItem(LS_FINAL_CHARACTER_PICK, JSON.stringify({ imageDataUrl: imageDataUrl }));
+      localStorage.setItem(LS_FINALPICK_TEXT_MERGED, '1');
     } catch (e) {
-      return empty;
+      try {
+        localStorage.setItem(LS_FINALPICK_TEXT_MERGED, '1');
+      } catch (e2) {}
     }
   }
 
-  function writeFinalPickPatch(patch) {
-    var cur = readFinalPickBundle();
-    if (patch && patch.imageDataUrl != null) cur.imageDataUrl = String(patch.imageDataUrl);
-    if (patch && patch.workChar != null) cur.workChar = String(patch.workChar);
-    if (patch && patch.charmPoints != null) cur.charmPoints = String(patch.charmPoints);
-    if (patch && patch.researchNotes != null) cur.researchNotes = String(patch.researchNotes);
+  function readFinalPickBundle() {
+    ensureFinalPickLegacyTextMigrationOnce();
     try {
-      localStorage.setItem(LS_FINAL_CHARACTER_PICK, JSON.stringify({
-        imageDataUrl: cur.imageDataUrl,
-        workChar: cur.workChar,
-        charmPoints: cur.charmPoints,
-        researchNotes: cur.researchNotes
-      }));
+      var raw = localStorage.getItem(LS_FINAL_CHARACTER_PICK);
+      if (!raw || raw.charAt(0) !== '{') return { imageDataUrl: '' };
+      var o = JSON.parse(raw);
+      if (!o || typeof o !== 'object') return { imageDataUrl: '' };
+      return { imageDataUrl: String(o.imageDataUrl != null ? o.imageDataUrl : '') };
+    } catch (e) {
+      return { imageDataUrl: '' };
+    }
+  }
+
+  function writeFinalPickImageOnly(url) {
+    try {
+      localStorage.setItem(LS_FINAL_CHARACTER_PICK, JSON.stringify({ imageDataUrl: String(url != null ? url : '') }));
     } catch (e) {
       if (typeof cqShowToast === 'function') {
         cqShowToast('저장에 실패했습니다. 이미지 용량을 줄이거나 잠시 후 다시 시도해 주세요.');
@@ -4899,11 +4938,12 @@
     } catch (e2) {}
     try {
       var fpb = readFinalPickBundle();
+      var fca = readCharacterAnalysis();
       var fpActive =
         (fpb.imageDataUrl && fpb.imageDataUrl.length > 80) ||
-        (fpb.workChar && fpb.workChar.trim()) ||
-        (fpb.charmPoints && fpb.charmPoints.trim()) ||
-        (fpb.researchNotes && fpb.researchNotes.trim());
+        (fca.characterName && String(fca.characterName).trim()) ||
+        (fca.charmGuess && String(fca.charmGuess).trim()) ||
+        (fca.researchNarrative && String(fca.researchNarrative).trim());
       if (fpActive) markTabActivity('finalpick');
     } catch (e3) {}
   }
@@ -4999,7 +5039,7 @@
       const last = dr.lastSpins[i] || '';
       const resultHtml = last
         ? escapeDesignHtml(last)
-        : '<span style="color:var(--text3)">아직 돌리지 않음</span>';
+        : '<span style="color:var(--text2);font-weight:500">아직 돌리지 않음</span>';
       return (
         '<div class="design-wheel-card">' +
         '<h4>돌림판 ' + (i + 1) + '</h4>' +
@@ -5737,7 +5777,7 @@
     host.innerHTML = '';
     if (!entries.length && !groups.length) {
       const p = document.createElement('p');
-      p.style.cssText = 'font-size:10px;color:var(--text3);letter-spacing:0.06em;';
+      p.style.cssText = 'font-size:11px;font-weight:500;color:var(--text2);letter-spacing:0.06em;';
       p.textContent = '저장된 키워드가 없습니다. @ 단어 형식으로 메모를 적은 뒤 Ctrl+Enter로 반영하세요.';
       host.appendChild(p);
       return;
@@ -5745,7 +5785,7 @@
 
     if (!entries.length) {
       const p = document.createElement('p');
-      p.style.cssText = 'font-size:10px;color:var(--text3);letter-spacing:0.06em;margin-bottom:0.5rem;';
+      p.style.cssText = 'font-size:11px;font-weight:500;color:var(--text2);letter-spacing:0.06em;margin-bottom:0.5rem;';
       p.textContent = '저장된 키워드가 없습니다. 그룹만 남아 있습니다.';
       host.appendChild(p);
     }
@@ -5782,7 +5822,7 @@
         ge.forEach(function(entry) { box.appendChild(makeEntryRow(entry)); });
       } else {
         const hint = document.createElement('p');
-        hint.style.cssText = 'font-size:10px;color:var(--text3);margin:0;padding-left:0.25rem;';
+        hint.style.cssText = 'font-size:11px;font-weight:500;color:var(--text2);margin:0;padding-left:0.25rem;';
         hint.textContent = '이 그룹에 키워드를 넣으려면 항목의 그룹 선택에서 지정하세요.';
         box.appendChild(hint);
       }
@@ -6399,6 +6439,7 @@
   }
 
   function initConceptPage() {
+    ensureFinalPickLegacyTextMigrationOnce();
     migrateCharAnalysisLegacyOnce();
     stripLegacyCharAnalysisSampleText();
     const d = readCharacterAnalysis();
@@ -6448,7 +6489,7 @@
     renderConceptKeywordLinks();
   }
 
-  function finalPickApplyBundleToUI(bundle) {
+  function finalPickApplyBundleToUI() {
     var wc = document.getElementById('final-pick-work-char');
     var ch = document.getElementById('final-pick-charm');
     var rs = document.getElementById('final-pick-research');
@@ -6456,9 +6497,11 @@
     var empty = document.getElementById('final-pick-empty');
     var prev = document.getElementById('final-pick-preview');
     var img = document.getElementById('final-pick-img');
-    if (wc) wc.value = bundle.workChar || '';
-    if (ch) ch.value = bundle.charmPoints || '';
-    if (rs) rs.value = bundle.researchNotes || '';
+    var bundle = readFinalPickBundle();
+    var d = readCharacterAnalysis();
+    if (wc) wc.value = d.characterName != null ? d.characterName : '';
+    if (ch) ch.value = d.charmGuess != null ? d.charmGuess : '';
+    if (rs) rs.value = d.researchNarrative != null ? d.researchNarrative : '';
     var url = bundle.imageDataUrl || '';
     var has = url.length > 80 && /^data:image\//i.test(url);
     if (drop && empty && prev && img) {
@@ -6479,13 +6522,15 @@
     }
   }
 
-  function finalPickMarkActivityIfNeeded(bundle) {
+  function finalPickMarkActivityIfNeeded() {
     if (typeof markTabActivity !== 'function') return;
+    var ca = readCharacterAnalysis();
+    var img = readFinalPickBundle().imageDataUrl;
     var active =
-      (bundle.imageDataUrl && bundle.imageDataUrl.length > 80) ||
-      (bundle.workChar && bundle.workChar.trim()) ||
-      (bundle.charmPoints && bundle.charmPoints.trim()) ||
-      (bundle.researchNotes && bundle.researchNotes.trim());
+      (img && img.length > 80) ||
+      (ca.characterName && String(ca.characterName).trim()) ||
+      (ca.charmGuess && String(ca.charmGuess).trim()) ||
+      (ca.researchNarrative && String(ca.researchNarrative).trim());
     if (active) markTabActivity('finalpick');
   }
 
@@ -6499,18 +6544,18 @@
     if (!wc || !ch || !rs || !fileEl || !drop) return;
 
     function persistFinalPickTexts() {
-      writeFinalPickPatch({
-        workChar: wc.value,
-        charmPoints: ch.value,
-        researchNotes: rs.value
+      writeCharacterAnalysis({
+        characterName: wc.value,
+        charmGuess: ch.value,
+        researchNarrative: rs.value
       });
-      finalPickMarkActivityIfNeeded(readFinalPickBundle());
+      finalPickMarkActivityIfNeeded();
     }
 
     function setImageDataUrl(dataUrl) {
-      writeFinalPickPatch({ imageDataUrl: dataUrl || '' });
-      finalPickApplyBundleToUI(readFinalPickBundle());
-      finalPickMarkActivityIfNeeded(readFinalPickBundle());
+      writeFinalPickImageOnly(dataUrl || '');
+      finalPickApplyBundleToUI();
+      finalPickMarkActivityIfNeeded();
     }
 
     if (!drop._finalPickBound) {
@@ -6555,7 +6600,7 @@
       rs.addEventListener('input', persistFinalPickTexts);
     }
 
-    finalPickApplyBundleToUI(readFinalPickBundle());
+    finalPickApplyBundleToUI();
   }
 
   var BASICS_SLOT_KEYS = {
