@@ -649,93 +649,96 @@
     .btn-hero.primary:hover { background: var(--accent2); border-color: var(--accent2); }
     .btn-hero:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* 돌림판 카드 (세로 · 가운데 정렬) */
-    .spinner-card {
+    /* 홈 · 1사이클 체크 (LD×3 · SD×3 · 크리쳐×1 · 스파인×3) */
+    .home-cycle-card {
       background: var(--surface);
       border: 0.5px solid var(--border);
       border-radius: 14px;
       padding: 1.35rem 1.5rem 1.5rem;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
+      align-items: stretch;
       width: 100%;
       max-width: min(100%, 560px);
       margin-left: auto;
       margin-right: auto;
-      gap: 0;
+      box-sizing: border-box;
     }
 
-    .spinner-info {
-      width: 100%;
-      margin-top: 1rem;
-    }
-
-    .spinner-label {
+    .home-cycle-card .spinner-label {
       font-size: 10px;
       letter-spacing: 0.35em;
       color: var(--text3);
       text-transform: uppercase;
-      margin-bottom: 1rem;
+      margin: 0 0 0.5rem;
+      text-align: center;
     }
 
-    .spinner-result {
-      font-family: var(--font-body);
-      font-size: 14px;
-      color: var(--text);
-      font-weight: 400;
-      min-height: 22px;
+    .practice-cycle-sub {
+      font-size: 12px;
+      color: var(--text2);
+      margin: 0 0 1rem;
+      text-align: center;
+      letter-spacing: 0.04em;
     }
 
-    .spinner-category {
-      font-size: 10px;
-      color: var(--accent2);
-      letter-spacing: 0.15em;
-      margin-top: 6px;
+    .practice-cycle-groups {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      width: 100%;
     }
 
-    .btn-spin {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border: 0.5px solid var(--border2);
-      background: transparent;
-      color: var(--accent);
-      font-size: 32px;
-      line-height: 1;
-      cursor: pointer;
-      transition: all 0.3s;
-      flex-shrink: 0;
+    .practice-cycle-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .practice-cycle-group-label {
+      min-width: 4.25rem;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text2);
+      letter-spacing: 0.06em;
+    }
+
+    .practice-cycle-checks {
+      display: flex;
+      gap: 0.55rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .practice-cycle-checks label {
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      margin: 0;
     }
 
-    .btn-spin:hover:not(:disabled) { background: var(--accent-glow); border-color: var(--accent); }
-    .btn-spin:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
+    .practice-cycle-checks input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      accent-color: var(--accent);
+      cursor: pointer;
     }
-    .btn-spin.spinning { animation: spin 0.5s ease; }
-    @keyframes spin { to { transform: rotate(360deg); } }
 
-    .spinner-spin-hint {
-      font-size: 11px;
+    .practice-cycle-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.1rem;
+      padding-top: 0.85rem;
+      border-top: 0.5px solid var(--border);
+      font-size: 12px;
       color: var(--text2);
-      letter-spacing: 0.06em;
-      min-height: 1.2em;
+      letter-spacing: 0.04em;
     }
-
-    .spinner-start-date-line {
-      width: 100%;
-      text-align: center;
-      font-size: 11px;
-      color: var(--accent2);
-      letter-spacing: 0.08em;
-      margin: 0.35rem 0 0.15rem;
-      min-height: 1.35em;
-    }
-    .spinner-start-date-line[hidden] { display: none !important; }
 
     .memo-editor {
       width: 100%;
@@ -752,6 +755,13 @@
     .memo-editor:focus {
       outline: none;
       border-color: var(--accent2);
+    }
+
+    .memo-editor-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
     }
 
     .memo-split {
@@ -900,6 +910,11 @@
       background: var(--bg2);
       color: var(--text2);
       max-width: 7rem;
+    }
+    .memo-kw-go-mm {
+      min-width: 28px;
+      font-weight: 600;
+      letter-spacing: 0;
     }
 
     .memo-future {
@@ -1260,6 +1275,35 @@
       padding: 1rem;
     }
     .croquis-image-wrap.has-img .croquis-placeholder { display: none; }
+
+    .croquis-img-remove {
+      display: none;
+      position: absolute;
+      top: 0.4rem;
+      right: 0.4rem;
+      z-index: 5;
+      width: 2rem;
+      height: 2rem;
+      padding: 0;
+      border-radius: 8px;
+      border: 0.5px solid var(--border2);
+      background: rgba(0, 0, 0, 0.72);
+      color: var(--text2);
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      letter-spacing: 0;
+      font-family: var(--font-body);
+      align-items: center;
+      justify-content: center;
+    }
+    .croquis-image-wrap.has-img .croquis-img-remove {
+      display: flex;
+    }
+    .croquis-img-remove:hover {
+      color: var(--danger);
+      border-color: var(--danger);
+    }
 
     .croquis-timer-block {
       display: flex;
@@ -3358,6 +3402,86 @@
       color: var(--text3);
       margin-top: 2px;
     }
+    /* 캐릭터 시트 · 분석 완료 스냅샷 카드 (월별 그룹) */
+    .concept-analysis-snapshots-wrap {
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 0.5px solid var(--border);
+    }
+    .concept-analysis-snapshots-wrap .memo-section-title {
+      margin-bottom: 0.35rem;
+    }
+    .concept-snapshot-group {
+      margin-top: 1.1rem;
+    }
+    .concept-snapshot-group-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin: 0 0 0.6rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 0.5px solid var(--border2);
+    }
+    .concept-snapshot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 0.65rem;
+    }
+    .concept-snapshot-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .concept-snapshot-card-thumb {
+      aspect-ratio: 4 / 3;
+      background: #0a0908;
+      position: relative;
+    }
+    .concept-snapshot-card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .concept-snapshot-card-body {
+      padding: 0.5rem 0.55rem 0.55rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      min-width: 0;
+    }
+    .concept-snapshot-card-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent2);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .concept-snapshot-card-charm {
+      font-size: 10px;
+      color: var(--text2);
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .concept-snapshot-card-time {
+      font-size: 9px;
+      color: var(--text3);
+      letter-spacing: 0.06em;
+      margin-top: 0.15rem;
+    }
+
     .char-linked-preview {
       display: flex;
       flex-wrap: wrap;
@@ -3522,15 +3646,45 @@
             <button type="button" class="btn-hero primary btn-work-main" onclick="goTab('sketch')">작업하기</button>
           </div>
 
-          <!-- 레퍼런스 돌림판 -->
-          <div class="spinner-card">
-            <p class="spinner-label">Today's Reference</p>
-            <button type="button" class="btn-spin" id="btn-spin" onclick="spinWheel()" aria-label="레퍼런스 돌림판">⟳</button>
-            <p class="spinner-start-date-line" id="spinner-start-date-line" hidden></p>
-            <div class="spinner-info">
-              <div class="spinner-result" id="spinner-result">돌림판을 돌려보세요</div>
-              <div class="spinner-category" id="spinner-cat"></div>
-              <p class="spinner-spin-hint" id="spinner-spin-hint" aria-live="polite"></p>
+          <!-- 1사이클 체크: LD 3 / SD 3 / 크리쳐 1 / 스파인 3 = 10 -->
+          <div id="home-practice-cycle-card" class="home-cycle-card" aria-label="연습 1사이클 체크">
+            <p class="spinner-label">1사이클 체크</p>
+            <p class="practice-cycle-sub">LD 3 · SD 3 · 크리쳐 1 · 스파인 3 — 10칸 모두 체크 시 1사이클</p>
+            <div class="practice-cycle-groups">
+              <div class="practice-cycle-group">
+                <span class="practice-cycle-group-label">LD</span>
+                <div class="practice-cycle-checks">
+                  <label><input type="checkbox" data-cycle-i="0" aria-label="LD 1" /></label>
+                  <label><input type="checkbox" data-cycle-i="1" aria-label="LD 2" /></label>
+                  <label><input type="checkbox" data-cycle-i="2" aria-label="LD 3" /></label>
+                </div>
+              </div>
+              <div class="practice-cycle-group">
+                <span class="practice-cycle-group-label">SD</span>
+                <div class="practice-cycle-checks">
+                  <label><input type="checkbox" data-cycle-i="3" aria-label="SD 1" /></label>
+                  <label><input type="checkbox" data-cycle-i="4" aria-label="SD 2" /></label>
+                  <label><input type="checkbox" data-cycle-i="5" aria-label="SD 3" /></label>
+                </div>
+              </div>
+              <div class="practice-cycle-group">
+                <span class="practice-cycle-group-label">크리쳐</span>
+                <div class="practice-cycle-checks">
+                  <label><input type="checkbox" data-cycle-i="6" aria-label="크리쳐 1" /></label>
+                </div>
+              </div>
+              <div class="practice-cycle-group">
+                <span class="practice-cycle-group-label">스파인</span>
+                <div class="practice-cycle-checks">
+                  <label><input type="checkbox" data-cycle-i="7" aria-label="스파인 1" /></label>
+                  <label><input type="checkbox" data-cycle-i="8" aria-label="스파인 2" /></label>
+                  <label><input type="checkbox" data-cycle-i="9" aria-label="스파인 3" /></label>
+                </div>
+              </div>
+            </div>
+            <div class="practice-cycle-footer">
+              <span id="practice-cycle-progress">진행 0 / 10</span>
+              <span id="practice-cycle-count">오늘 완료 사이클 0회</span>
             </div>
           </div>
 
@@ -3609,6 +3763,7 @@
           <div class="croquis-image-wrap" id="croquis-image-wrap">
             <p class="croquis-placeholder">이미지 업로드 또는 랜덤으로 불러오세요</p>
             <img id="croquis-img" alt="크로키 참고" />
+            <button type="button" class="croquis-img-remove" id="cq-remove-img" aria-label="이미지 제거" title="이미지 제거">×</button>
           </div>
 
           <div class="croquis-timer-block">
@@ -3910,7 +4065,10 @@
               <h3 class="memo-section-title">일반 메모장</h3>
               <p class="memo-hint"><strong>@</strong>와 키워드를 <strong>붙여</strong> 씁니다 (띄어쓰기 없음). 키워드는 <strong>.</strong> 앞까지이거나, 공백·다음 <strong>@</strong>·줄 끝에서 끝납니다. 예: <code style="color:var(--accent2);">@로랑.</code> → 키워드 <code style="color:var(--accent2);">로랑</code>. 같은 저장 안 같은 단어는 한 번만 저장되며, 너무 긴 토큰은 제외됩니다.</p>
               <p class="memo-hint"><strong>Enter</strong> 또는 <strong>Shift+Enter</strong> → 줄바꿈 · <strong>Ctrl+Enter</strong> 또는 <strong>⌘+Enter</strong> → 메모 반영(로컬)</p>
-              <textarea id="memo-editor" class="memo-editor" placeholder="자유 메모…&#10;예: @로랑. 오늘은 @레이. 만났다 (Ctrl+Enter 로 반영)"></textarea>
+              <div class="memo-editor-actions">
+                <textarea id="memo-editor" class="memo-editor" placeholder="자유 메모…&#10;예: @로랑. 오늘은 @레이. 만났다 (Ctrl+Enter 로 반영)"></textarea>
+                <button type="button" class="btn-cq primary" id="memo-persist-btn" style="align-self:flex-start;height:40px;padding:0 1rem;font-size:12px;margin-top:0.65rem;">메모 반영 · @키워드 저장</button>
+              </div>
               <div class="memo-keyword-thread" id="memo-keyword-thread" aria-label="저장된 키워드 스레드">
                 <div class="memo-kw-label">KEYWORD THREAD</div>
                 <div class="memo-kw-toolbar">
@@ -4040,6 +4198,12 @@
               <label class="char-q-label" for="char-f-extra">자유 메모</label>
               <textarea id="char-f-extra" class="memo-editor char-q-text" rows="3" placeholder="그 밖에 남기고 싶은 설정…"></textarea>
             </div>
+          </div>
+
+          <div id="concept-analysis-snapshots-wrap" class="concept-analysis-snapshots-wrap" hidden aria-label="분석 완료 기록">
+            <h3 class="memo-section-title">분석 완료 기록</h3>
+            <p class="memo-hint">캐릭터 분석 탭에서 <strong>분석 완료</strong>를 누를 때마다 아래에 카드로 쌓입니다. 별도 파일이 아니라 이 기기 분석 데이터와 같은 저장소에 붙습니다.</p>
+            <div id="concept-analysis-snapshots-root"></div>
           </div>
         </div>
       </div>
@@ -4393,6 +4557,101 @@
   }
   function isCharacterAnalysisComplete() {
     return !!readCharacterAnalysis().completed;
+  }
+
+  const CONCEPT_SNAPSHOT_MAX = 60;
+
+  function readCharacterAnalysisSnapshots() {
+    var d = readCharacterAnalysis();
+    if (!Array.isArray(d.snapshots)) return [];
+    return d.snapshots.filter(function(x) {
+      return x && typeof x === 'object' && x.id;
+    });
+  }
+
+  function renderConceptAnalysisSnapshotCards() {
+    var wrap = document.getElementById('concept-analysis-snapshots-wrap');
+    var host = document.getElementById('concept-analysis-snapshots-root');
+    if (!host) return;
+    var snaps = readCharacterAnalysisSnapshots();
+    host.innerHTML = '';
+    if (!wrap) return;
+    if (!snaps.length) {
+      wrap.hidden = true;
+      return;
+    }
+    wrap.hidden = false;
+    var groups = {};
+    snaps.forEach(function(s) {
+      var key = '0000-00';
+      try {
+        var d0 = new Date(s.at);
+        if (!isNaN(d0.getTime())) key = d0.toISOString().slice(0, 7);
+      } catch (e) {}
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(s);
+    });
+    var order = Object.keys(groups).sort().reverse();
+    order.forEach(function(ym) {
+      var label = ym;
+      try {
+        var p = ym.split('-');
+        label = p[0] + '년 ' + String(parseInt(p[1], 10)) + '월';
+      } catch (e2) {}
+      var section = document.createElement('section');
+      section.className = 'concept-snapshot-group';
+      var h = document.createElement('h4');
+      h.className = 'concept-snapshot-group-title';
+      h.textContent = label;
+      section.appendChild(h);
+      var grid = document.createElement('div');
+      grid.className = 'concept-snapshot-grid';
+      groups[ym].slice().reverse().forEach(function(s) {
+        var card = document.createElement('article');
+        card.className = 'concept-snapshot-card';
+        var url = s.analysisImageDataUrl != null ? String(s.analysisImageDataUrl) : '';
+        var hasImg = url.length > 80 && /^data:image\//i.test(url);
+        if (hasImg) {
+          var ph = document.createElement('div');
+          ph.className = 'concept-snapshot-card-thumb';
+          var im = document.createElement('img');
+          im.alt = '';
+          im.src = url;
+          ph.appendChild(im);
+          card.appendChild(ph);
+        }
+        var body = document.createElement('div');
+        body.className = 'concept-snapshot-card-body';
+        var t = document.createElement('div');
+        t.className = 'concept-snapshot-card-name';
+        t.textContent = (s.characterName && String(s.characterName).trim()) || '(이름 없음)';
+        body.appendChild(t);
+        var ch = document.createElement('div');
+        ch.className = 'concept-snapshot-card-charm';
+        var cg = s.charmGuess != null ? String(s.charmGuess) : '';
+        ch.textContent = cg.length > 140 ? cg.slice(0, 140) + '…' : cg;
+        body.appendChild(ch);
+        var ti = document.createElement('time');
+        ti.className = 'concept-snapshot-card-time';
+        try {
+          var dt2 = new Date(s.at);
+          ti.dateTime = s.at;
+          ti.textContent =
+            dt2.getFullYear() + '.' +
+            String(dt2.getMonth() + 1).padStart(2, '0') + '.' +
+            String(dt2.getDate()).padStart(2, '0') + ' ' +
+            String(dt2.getHours()).padStart(2, '0') + ':' +
+            String(dt2.getMinutes()).padStart(2, '0');
+        } catch (e3) {
+          ti.textContent = '';
+        }
+        body.appendChild(ti);
+        card.appendChild(body);
+        grid.appendChild(card);
+      });
+      section.appendChild(grid);
+      host.appendChild(section);
+    });
   }
 
   const LS_BASICS = 'dokcho_basics_practice';
@@ -4755,13 +5014,13 @@
     if (name === 'home') {
       if (typeof initHomeToolTrack === 'function') initHomeToolTrack();
       if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
+      if (typeof initHomePracticeCycle === 'function') initHomePracticeCycle();
+      if (typeof refreshHomePracticeCycle === 'function') refreshHomePracticeCycle();
     }
   }
 
-  /* ── 레퍼런스 돌림판 (표시: 카테고리명만) · 포즈/레퍼/갤러리 분류와 동일 ── */
+  /* ── 레퍼런스 카테고리 · 포즈/레퍼/갤러리 분류와 동일 ── */
   const WORK_IMAGE_CATEGORIES = ['LD', 'SD', '스파인', '연출', '동세', '감정(표정)', '크리쳐 디자인'];
-  const SPINNER_CATEGORY_POOL = WORK_IMAGE_CATEGORIES;
-  let lastSpinCat = '';
 
   const LS_TAB_ACTIVITY = 'dokcho_tab_activity';
   const LS_MEMO_BODY = 'dokcho_memo_body';
@@ -4862,54 +5121,85 @@
     localStorage.setItem(LS_TAB_ACTIVITY, JSON.stringify(o));
   }
 
-  function updateSpinnerButtonState() {
-    const btn = document.getElementById('btn-spin');
-    if (!btn) return;
-    btn.disabled = false;
-  }
-
-  function setSpinnerHint(msg) {
-    const el = document.getElementById('spinner-spin-hint');
-    if (el) el.textContent = msg || '';
-  }
-
   function setCroquisTouched() {
     try { localStorage.setItem(LS_CROQUIS_TOUCHED, '1'); } catch (e) {}
     markTabActivity('croquis');
   }
 
-  function spinWheel() {
-    const btn = document.getElementById('btn-spin');
-    const resultEl = document.getElementById('spinner-result');
-    if (!btn || !resultEl) return;
-    const catEl = document.getElementById('spinner-cat');
-    const line = document.getElementById('spinner-start-date-line');
+  /* ── 홈 · 1사이클 체크 (10칸, KST 일자 기준) ── */
+  const LS_HOME_PRACTICE_CYCLE = 'dokcho_home_practice_cycle_v1';
+  const PRACTICE_CYCLE_SLOT_COUNT = 10;
 
-    setSpinnerHint('');
-    btn.classList.add('spinning');
-    setTimeout(function() { btn.classList.remove('spinning'); }, 500);
-
-    let cat;
-    let guard = 0;
-    do {
-      cat = SPINNER_CATEGORY_POOL[Math.floor(Math.random() * SPINNER_CATEGORY_POOL.length)];
-      guard++;
-    } while (cat === lastSpinCat && SPINNER_CATEGORY_POOL.length > 1 && guard < 16);
-    lastSpinCat = cat;
-
-    resultEl.style.opacity = '0';
-    setTimeout(function() {
-      resultEl.textContent = cat;
-      if (catEl) catEl.textContent = '';
-      resultEl.style.opacity = '1';
-      resultEl.style.transition = 'opacity 0.3s';
-    }, 150);
-
-    if (line) {
-      line.hidden = true;
-      line.textContent = '';
+  function readPracticeCycleState() {
+    const day = ymdKSTForTools();
+    try {
+      const o = JSON.parse(localStorage.getItem(LS_HOME_PRACTICE_CYCLE) || 'null');
+      if (!o || typeof o !== 'object' || o.dayKST !== day) {
+        return { dayKST: day, slots: Array(PRACTICE_CYCLE_SLOT_COUNT).fill(false), cycles: 0 };
+      }
+      var slots = Array.isArray(o.slots) ? o.slots.map(function(x) { return !!x; }) : [];
+      while (slots.length < PRACTICE_CYCLE_SLOT_COUNT) slots.push(false);
+      if (slots.length > PRACTICE_CYCLE_SLOT_COUNT) slots = slots.slice(0, PRACTICE_CYCLE_SLOT_COUNT);
+      var cycles = typeof o.cycles === 'number' && !isNaN(o.cycles) ? Math.max(0, o.cycles) : 0;
+      return { dayKST: day, slots: slots, cycles: cycles };
+    } catch (e) {
+      return { dayKST: day, slots: Array(PRACTICE_CYCLE_SLOT_COUNT).fill(false), cycles: 0 };
     }
-    updateSpinnerButtonState();
+  }
+
+  function writePracticeCycleState(st) {
+    try {
+      localStorage.setItem(LS_HOME_PRACTICE_CYCLE, JSON.stringify({
+        dayKST: st.dayKST,
+        slots: st.slots,
+        cycles: st.cycles
+      }));
+    } catch (e) {}
+  }
+
+  function applyPracticeCycleToUI(st) {
+    const card = document.getElementById('home-practice-cycle-card');
+    if (!card) return;
+    var n = 0;
+    for (var i = 0; i < PRACTICE_CYCLE_SLOT_COUNT; i++) {
+      var cb = card.querySelector('[data-cycle-i="' + i + '"]');
+      if (cb) {
+        cb.checked = !!st.slots[i];
+        if (st.slots[i]) n++;
+      }
+    }
+    var prog = document.getElementById('practice-cycle-progress');
+    var cnt = document.getElementById('practice-cycle-count');
+    if (prog) prog.textContent = '진행 ' + n + ' / ' + PRACTICE_CYCLE_SLOT_COUNT;
+    if (cnt) cnt.textContent = '오늘 완료 사이클 ' + st.cycles + '회';
+  }
+
+  function refreshHomePracticeCycle() {
+    applyPracticeCycleToUI(readPracticeCycleState());
+  }
+
+  function initHomePracticeCycle() {
+    const card = document.getElementById('home-practice-cycle-card');
+    if (!card || card._practiceCycleInit) return;
+    card._practiceCycleInit = true;
+    card.addEventListener('change', function(ev) {
+      var t = ev.target;
+      if (!t || t.type !== 'checkbox' || !t.hasAttribute('data-cycle-i')) return;
+      var i = parseInt(t.getAttribute('data-cycle-i'), 10);
+      if (isNaN(i) || i < 0 || i >= PRACTICE_CYCLE_SLOT_COUNT) return;
+      var st = readPracticeCycleState();
+      st.slots[i] = t.checked;
+      if (st.slots.every(function(x) { return x; })) {
+        st.cycles += 1;
+        st.slots = Array(PRACTICE_CYCLE_SLOT_COUNT).fill(false);
+        if (typeof cqShowToast === 'function') {
+          cqShowToast('1 사이클 완료 · 오늘 ' + st.cycles + '회');
+        }
+      }
+      writePracticeCycleState(st);
+      applyPracticeCycleToUI(st);
+    });
+    refreshHomePracticeCycle();
   }
 
   /* ── 레퍼런스 / 갤러리 / 크로키 (localStorage + Firebase 연동) ── */
@@ -5882,6 +6172,22 @@
     renderKeywordThread();
   }
 
+  /** 저장된 키워드 행의 > — 메모 탭 마인드맵 주제 입력(#mm-input)으로 이동 */
+  function memoKwGoToMindmapInput() {
+    if (typeof goTab === 'function') goTab('memo');
+    setTimeout(function() {
+      var inp = document.getElementById('mm-input');
+      var row = document.querySelector('.mm-input-row');
+      if (row) {
+        try { row.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { row.scrollIntoView(); }
+      }
+      if (inp) {
+        try { inp.focus({ preventScroll: true }); } catch (e2) { inp.focus(); }
+        try { inp.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e3) { inp.scrollIntoView(); }
+      }
+    }, 0);
+  }
+
   function renderKeywordThread() {
     const host = document.getElementById('memo-keyword-list');
     if (!host) return;
@@ -5936,6 +6242,17 @@
       rm.title = '이 키워드 제거';
       rm.addEventListener('click', function() { memoKwRemoveEntry(entry.id); });
       tools.appendChild(rm);
+      const goMm = document.createElement('button');
+      goMm.type = 'button';
+      goMm.className = 'memo-kw-icon-btn memo-kw-go-mm';
+      goMm.textContent = '>';
+      goMm.title = '마인드맵 주제 입력으로 이동';
+      goMm.setAttribute('aria-label', '마인드맵 주제 입력으로 이동');
+      goMm.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        memoKwGoToMindmapInput();
+      });
+      tools.appendChild(goMm);
       row.appendChild(tools);
       return row;
     }
@@ -6061,27 +6378,39 @@
     if (memoHasStoredContent()) markTabActivity('memo');
   }
 
+  function persistMemoBodyToStorageOnly() {
+    const ed = document.getElementById('memo-editor');
+    if (!ed) return;
+    try {
+      localStorage.setItem(LS_MEMO_BODY, ed.value);
+    } catch (e) {}
+    if (String(ed.value || '').trim()) markMemoTabIfNeeded();
+  }
+
   function persistMemoFromUI() {
     const ed = document.getElementById('memo-editor');
     if (!ed) return;
     try {
       localStorage.setItem(LS_MEMO_BODY, ed.value);
     } catch (e) {}
+    var kwAdded = false;
     const found = extractAtKeywords(ed.value);
     if (found.length) {
       const b = readMemoKeywordBundle();
-      let added = false;
       found.forEach(function(f) {
         if (b.entries.some(function(e) { return e.word === f.word; })) return;
         b.entries.push({ id: uid(), word: f.word, at: f.at, groupId: null });
-        added = true;
+        kwAdded = true;
       });
-      if (added) {
+      if (kwAdded) {
         writeMemoKeywordBundle(b);
         renderKeywordThread();
       }
     }
     markMemoTabIfNeeded();
+    if (typeof cqShowToast === 'function') {
+      cqShowToast(kwAdded ? '메모 반영 · @키워드를 저장했습니다' : '메모 본문을 저장했습니다');
+    }
   }
 
   function updateMmFocusLabel() {
@@ -6706,14 +7035,30 @@
             }
             return;
           }
+          var prev = readCharacterAnalysis();
+          var img = prev.analysisImageDataUrl != null ? String(prev.analysisImageDataUrl) : '';
+          var snaps = Array.isArray(prev.snapshots) ? prev.snapshots.slice() : [];
+          snaps.push({
+            id: uid(),
+            at: new Date().toISOString(),
+            characterName: name,
+            charmGuess: charm,
+            researchNarrative: res,
+            analysisImageDataUrl: img
+          });
+          if (snaps.length > CONCEPT_SNAPSHOT_MAX) snaps = snaps.slice(-CONCEPT_SNAPSHOT_MAX);
           writeCharacterAnalysis({
             completed: true,
             characterName: name,
             charmGuess: charm,
-            researchNarrative: res
+            researchNarrative: res,
+            snapshots: snaps
           });
           markTabActivity('characterAnalysis');
-          if (typeof cqShowToast === 'function') cqShowToast('캐릭터 분석이 저장되었습니다. 「캐릭터 시트」 탭에서 이어가세요.');
+          if (typeof renderConceptAnalysisSnapshotCards === 'function') renderConceptAnalysisSnapshotCards();
+          if (typeof cqShowToast === 'function') {
+            cqShowToast('분석이 반영되었습니다. 「캐릭터 시트」 하단 기록 카드에서 확인할 수 있습니다.');
+          }
         });
       }
     }
@@ -6731,6 +7076,7 @@
     });
     renderCharacterImages();
     renderConceptKeywordLinks();
+    if (typeof renderConceptAnalysisSnapshotCards === 'function') renderConceptAnalysisSnapshotCards();
   }
 
   function finalPickApplyBundleToUI() {
@@ -7055,6 +7401,37 @@
       try {
         ed.value = localStorage.getItem(LS_MEMO_BODY) || '';
       } catch (e) {}
+      if (!ed._memoPersistKeyBound) {
+        ed._memoPersistKeyBound = true;
+        ed.addEventListener('keydown', function(ev) {
+          var isEnter = ev.key === 'Enter' || ev.keyCode === 13;
+          if (!isEnter) return;
+          if (!(ev.ctrlKey || ev.metaKey)) return;
+          ev.preventDefault();
+          if (typeof persistMemoFromUI === 'function') persistMemoFromUI();
+        });
+      }
+      if (!ed._memoBodyAutosaveBound) {
+        ed._memoBodyAutosaveBound = true;
+        var memoBodySaveTimer = null;
+        ed.addEventListener('input', function() {
+          if (memoBodySaveTimer) clearTimeout(memoBodySaveTimer);
+          memoBodySaveTimer = setTimeout(function() {
+            if (typeof persistMemoBodyToStorageOnly === 'function') persistMemoBodyToStorageOnly();
+          }, 500);
+        });
+        ed.addEventListener('blur', function() {
+          if (memoBodySaveTimer) clearTimeout(memoBodySaveTimer);
+          if (typeof persistMemoBodyToStorageOnly === 'function') persistMemoBodyToStorageOnly();
+        });
+      }
+    }
+    var persistBtn = document.getElementById('memo-persist-btn');
+    if (persistBtn && !persistBtn._memoPersistClickBound) {
+      persistBtn._memoPersistClickBound = true;
+      persistBtn.addEventListener('click', function() {
+        if (typeof persistMemoFromUI === 'function') persistMemoFromUI();
+      });
     }
     renderKeywordThread();
     const md = readMindmapData();
@@ -7076,16 +7453,6 @@
           if (ev.key === 'Enter') {
             ev.preventDefault();
             memoKwAddGroup();
-          }
-        });
-      }
-      const memoEd = document.getElementById('memo-editor');
-      if (memoEd) {
-        memoEd.addEventListener('keydown', function(ev) {
-          if (ev.key !== 'Enter') return;
-          if (ev.ctrlKey || ev.metaKey) {
-            ev.preventDefault();
-            if (typeof persistMemoFromUI === 'function') persistMemoFromUI();
           }
         });
       }
@@ -7921,6 +8288,17 @@
     } else cqDup.textContent = '';
   }
 
+  /** 업로드·랜덤으로 잘못 고른 참고 이미지 제거 (진행 장수·피드백 단계는 유지) */
+  function cqClearCurrentImage() {
+    if (!cqImg || !cqWrap) return;
+    cqStopTimer();
+    cqResetTimerOnly();
+    cqImg.removeAttribute('src');
+    cqWrap.classList.remove('has-img');
+    cqCurrentRefId = null;
+    if (cqDup) cqDup.textContent = '';
+  }
+
   function cqAdvanceRound() {
     if (cqCompleted >= 3) return;
     cqCompleted++;
@@ -8008,6 +8386,13 @@
     }
     var cqRand = document.getElementById('cq-random-btn');
     if (cqRand) cqRand.addEventListener('click', cqPickRandomPose);
+    var cqRm = document.getElementById('cq-remove-img');
+    if (cqRm) {
+      cqRm.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        cqClearCurrentImage();
+      });
+    }
     var cqSt = document.getElementById('cq-start');
     var cqPs = document.getElementById('cq-pause');
     var cqRs = document.getElementById('cq-reset');
@@ -8109,6 +8494,8 @@
   if (typeof initMergedSubTabBars === 'function') initMergedSubTabBars();
   if (typeof initHomeToolTrack === 'function') initHomeToolTrack();
   if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
+  if (typeof initHomePracticeCycle === 'function') initHomePracticeCycle();
+  if (typeof refreshHomePracticeCycle === 'function') refreshHomePracticeCycle();
   startGalleryTicker();
 
   const LS_MONTHLY_ATTENDANCE = 'dokcho_monthly_attendance_v1';
@@ -8250,6 +8637,8 @@
       if (typeof initMergedSubTabBars === 'function') initMergedSubTabBars();
       if (typeof initHomeToolTrack === 'function') initHomeToolTrack();
       if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
+      if (typeof initHomePracticeCycle === 'function') initHomePracticeCycle();
+      if (typeof refreshHomePracticeCycle === 'function') refreshHomePracticeCycle();
     }, 400);
   }
 </script>
