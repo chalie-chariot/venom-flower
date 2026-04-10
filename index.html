@@ -3792,13 +3792,13 @@
               <h2 class="page-title">캐릭터 분석</h2>
             </div>
 
-            <label class="char-q-label" for="char-an-subculture">작품·캐릭터 (검색 키워드)</label>
+            <label class="char-q-label" for="char-an-subculture">이름 · 캐릭터 (검색 키워드)</label>
             <input type="text" id="char-an-subculture" class="char-an-input" autocomplete="off" />
 
-            <label class="char-q-label" for="char-an-charm">예상 매력·호감 포인트</label>
+            <label class="char-q-label" for="char-an-charm">작품 제목 · 요점 포인트</label>
             <textarea id="char-an-charm" class="memo-editor char-q-text" rows="4"></textarea>
 
-            <label class="char-q-label" for="char-an-research">검색 후 정리 — 서사 · 성격 · 설정</label>
+            <label class="char-q-label" for="char-an-research">성격 및 특징 · 서사 · 관계 · 설정</label>
             <textarea id="char-an-research" class="memo-editor char-q-text" rows="6"></textarea>
 
             <button type="button" class="btn-cq primary" id="char-analysis-save-btn" style="align-self:flex-start;height:44px;padding:0 1.25rem;margin-top:1rem;">분석 완료</button>
@@ -3871,7 +3871,7 @@
           <div class="page-header final-pick-page-header">
             <div>
               <h2 class="page-title">최종 캐릭터 선정</h2>
-              <span class="page-sub">왼쪽 이미지 1장 · 오른쪽은 캐릭터 분석과 동일 항목 · 이 기기에만 저장</span>
+              <span class="page-sub">왼쪽 이미지 1장 · 오른쪽은 「캐릭터 분석」탭과 동일 3칸 · 이 기기에만 저장</span>
             </div>
             <div class="final-pick-header-aside">
               <span class="final-pick-aside-muted">작성 전 주의</span>
@@ -3902,11 +3902,11 @@
                 </div>
               </div>
               <div class="final-pick-col final-pick-col--fields char-analysis-panel">
-                <label class="char-q-label" for="final-pick-work-char">작품·캐릭터 (검색 키워드)</label>
+                <label class="char-q-label" for="final-pick-work-char">이름 · 캐릭터 (검색 키워드)</label>
                 <input type="text" id="final-pick-work-char" class="char-an-input" autocomplete="off" />
-                <label class="char-q-label" for="final-pick-charm">예상 매력·호감 포인트</label>
+                <label class="char-q-label" for="final-pick-charm">작품 제목 · 요점 포인트</label>
                 <textarea id="final-pick-charm" class="memo-editor char-q-text" rows="4"></textarea>
-                <label class="char-q-label" for="final-pick-research">검색 후 정리 — 서사 · 성격 · 설정</label>
+                <label class="char-q-label" for="final-pick-research">성격 및 특징 · 서사 · 관계 · 설정</label>
                 <textarea id="final-pick-research" class="memo-editor char-q-text" rows="6"></textarea>
               </div>
             </div>
@@ -6419,7 +6419,7 @@
           const res = (document.getElementById('char-an-research') && document.getElementById('char-an-research').value || '').trim();
           if (!name || !charm || !res) {
             if (typeof cqShowToast === 'function') {
-              cqShowToast('작품·캐릭터, 예상 매력, 검색 후 정리를 모두 채워 주세요.');
+              cqShowToast('이름·캐릭터, 작품 제목·요점, 성격·서사 항목을 모두 채워 주세요.');
             }
             return;
           }
