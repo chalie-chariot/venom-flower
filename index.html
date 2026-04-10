@@ -709,128 +709,6 @@
     .btn-spin.spinning { animation: spin 0.5s ease; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .spinner-gate {
-      width: 100%;
-      margin-top: 0.75rem;
-      padding-top: 0.85rem;
-      border-top: 0.5px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      text-align: left;
-    }
-    .spinner-gate-date-line {
-      font-size: 11px;
-      color: var(--accent2);
-      letter-spacing: 0.06em;
-      line-height: 1.45;
-    }
-    .spinner-gate-date-line[hidden] { display: none !important; }
-    .spinner-gate-input-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
-    .spinner-gate-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      width: 100%;
-    }
-    @media (max-width: 520px) {
-      .spinner-gate-cards {
-        grid-template-columns: 1fr;
-      }
-    }
-    .spinner-gate-card {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      text-align: left;
-      min-height: 118px;
-      padding: 1rem 1.1rem 1.05rem;
-      border-radius: 12px;
-      border: 0.5px solid var(--border);
-      background: linear-gradient(165deg, rgba(22, 26, 14, 0.95) 0%, rgba(14, 16, 10, 0.88) 100%);
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.22);
-      cursor: pointer;
-      font-family: var(--font-body);
-      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s, background 0.2s;
-    }
-    .spinner-gate-card:hover:not(:disabled) {
-      border-color: var(--border2);
-      box-shadow: 0 6px 28px rgba(0, 0, 0, 0.28);
-      transform: translateY(-1px);
-    }
-    .spinner-gate-card:focus {
-      outline: none;
-    }
-    .spinner-gate-card:focus-visible {
-      box-shadow: 0 0 0 2px rgba(122, 158, 26, 0.45), 0 6px 28px rgba(0, 0, 0, 0.25);
-    }
-    .spinner-gate-card.is-active {
-      border-color: var(--accent);
-      background: linear-gradient(165deg, rgba(40, 48, 22, 0.98) 0%, rgba(22, 28, 12, 0.95) 100%);
-      box-shadow: 0 0 0 1px rgba(122, 158, 26, 0.35), 0 8px 32px rgba(0, 0, 0, 0.3);
-    }
-    .spinner-gate-card.is-active .spinner-gate-card-badge {
-      background: rgba(122, 158, 26, 0.22);
-      color: var(--accent2);
-    }
-    .spinner-gate-card--routine.is-active .spinner-gate-card-badge--accent {
-      background: rgba(122, 158, 26, 0.28);
-      color: var(--accent);
-    }
-    .spinner-gate-card:disabled,
-    .spinner-gate-card.is-locked {
-      opacity: 0.42;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-    .spinner-gate-card:disabled:hover,
-    .spinner-gate-card.is-locked:hover {
-      border-color: var(--border);
-      transform: none;
-    }
-    .spinner-gate-card-badge {
-      display: inline-block;
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text3);
-      padding: 4px 8px;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 0.5px solid var(--border);
-      margin-bottom: 0.5rem;
-    }
-    .spinner-gate-card-badge--accent {
-      color: var(--accent2);
-      border-color: rgba(122, 158, 26, 0.35);
-    }
-    .spinner-gate-card-headline {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
-      letter-spacing: 0.02em;
-      margin-bottom: 0.35rem;
-      line-height: 1.25;
-    }
-    .spinner-gate-card-desc {
-      font-size: 11px;
-      color: var(--text3);
-      line-height: 1.5;
-      letter-spacing: 0.03em;
-    }
     .spinner-spin-hint {
       font-size: 10px;
       color: var(--text3);
@@ -1185,7 +1063,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    .tab-btn:hover:not(:disabled):not(.tab-btn-locked) {
+    .tab-btn:hover:not(:disabled) {
       color: var(--tab-fg-hover);
     }
 
@@ -1193,14 +1071,6 @@
       color: var(--accent);
       text-shadow: 0 0 14px var(--accent-glow);
     }
-
-    .tab-btn.tab-btn-locked {
-      opacity: 0.42;
-      cursor: not-allowed;
-      filter: grayscale(0.4);
-      pointer-events: none;
-    }
-    .tab-btn.tab-btn-locked .tab-label { letter-spacing: 0.08em; }
 
     .tab-btn.active::before {
       content: '';
@@ -1243,196 +1113,6 @@
       line-height: 1.2;
       text-align: center;
       max-width: 100%;
-    }
-
-    /* ── 탭 순서 작업 완료 독 ── */
-    .tab-work-dock {
-      flex-shrink: 0;
-      padding: 0.65rem 1rem 0.5rem;
-      background: linear-gradient(180deg, rgba(24, 22, 18, 0.98), var(--bg2));
-      border-top: 0.5px solid var(--border);
-      transition: opacity 0.25s ease, transform 0.25s ease;
-    }
-    .tab-work-dock.is-hidden {
-      display: none;
-    }
-    .tab-work-dock-inner {
-      max-width: 36rem;
-      margin: 0 auto;
-    }
-    .tab-work-dock-hint {
-      font-size: 10px;
-      color: var(--text3);
-      letter-spacing: 0.06em;
-      line-height: 1.45;
-      margin: 0 0 0.5rem;
-    }
-    .tab-work-dock-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .tab-work-complete-label {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      cursor: pointer;
-      user-select: none;
-    }
-    .tab-work-complete-label input {
-      position: absolute;
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    .tab-work-check-frame {
-      width: 30px;
-      height: 30px;
-      flex-shrink: 0;
-      border: 2px solid var(--border2);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--bg3);
-      transition: border-color 0.2s, box-shadow 0.25s, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s;
-    }
-    .tab-work-check-svg {
-      width: 18px;
-      height: 18px;
-      color: var(--accent);
-    }
-    .tab-work-check-path {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      transition: stroke-dashoffset 0.45s ease-out;
-    }
-    .tab-work-dock--pulse .tab-work-check-frame {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px var(--accent-glow), 0 0 18px rgba(200, 170, 90, 0.2);
-      animation: tabWorkDockPulse 1.6s ease-in-out infinite;
-    }
-    @keyframes tabWorkDockPulse {
-      0%, 100% { box-shadow: 0 0 0 1px var(--accent-glow), 0 0 12px rgba(200, 170, 90, 0.15); }
-      50% { box-shadow: 0 0 0 2px var(--accent-glow), 0 0 22px rgba(200, 170, 90, 0.28); }
-    }
-    @keyframes tabWorkDockIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .tab-work-dock:not(.is-hidden):not(.tab-work-dock--blocked-msg) {
-      animation: tabWorkDockIn 0.4s ease-out both;
-    }
-    .tab-work-dock--waiting .tab-work-dock-actions {
-      opacity: 0.55;
-    }
-    .tab-work-dock--waiting .tab-work-complete-label {
-      cursor: not-allowed;
-    }
-    .tab-work-dock--blocked-msg .tab-work-dock-actions {
-      display: none;
-    }
-    .tab-work-dock--blocked-msg {
-      animation: tabWorkDockWarn 0.35s ease-out;
-    }
-    @keyframes tabWorkDockWarn {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-4px); }
-      75% { transform: translateX(4px); }
-    }
-    .tab-work-complete-title {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--accent2);
-      letter-spacing: 0.12em;
-      transition: color 0.2s ease, text-shadow 0.2s ease;
-    }
-    .tab-work-dock--ready .tab-work-complete-title {
-      color: #fff176;
-      text-shadow: 0 0 14px rgba(255, 241, 118, 0.35);
-    }
-    .tab-work-dock--done .tab-work-check-frame {
-      background: rgba(180, 150, 70, 0.12);
-      border-color: var(--accent);
-      transform: scale(1.08);
-    }
-    .tab-work-dock--done .tab-work-check-path {
-      stroke-dashoffset: 0;
-    }
-
-    /* ── 픽시브 업로드 게이트 (마지막 탭 완료 시) ── */
-    .pixiv-upload-gate {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 120;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      box-sizing: border-box;
-    }
-    .pixiv-upload-gate.is-open {
-      display: flex;
-    }
-    .pixiv-upload-gate-backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.78);
-      backdrop-filter: blur(4px);
-    }
-    .pixiv-upload-gate-panel {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 22rem;
-      padding: 1.25rem 1.35rem;
-      background: var(--bg2);
-      border: 0.5px solid var(--border);
-      border-radius: 12px;
-      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5);
-    }
-    .pixiv-upload-gate-title {
-      margin: 0 0 0.6rem;
-      font-size: 14px;
-      letter-spacing: 0.12em;
-      color: var(--accent2);
-    }
-    .pixiv-upload-gate-desc {
-      margin: 0 0 0.75rem;
-      font-size: 11px;
-      line-height: 1.55;
-      color: var(--text2);
-      letter-spacing: 0.06em;
-    }
-    .pixiv-upload-gate-warn {
-      font-size: 10px;
-      color: #c99;
-      margin: 0 0 0.75rem;
-    }
-    a.pixiv-upload-gate-openlink {
-      display: inline-flex;
-      margin-bottom: 1rem;
-      text-decoration: none;
-    }
-    .pixiv-upload-confirm-label {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.55rem;
-      font-size: 11px;
-      color: var(--text2);
-      letter-spacing: 0.05em;
-      line-height: 1.5;
-      cursor: pointer;
-      user-select: none;
-      margin-bottom: 0.85rem;
-    }
-    .pixiv-upload-confirm-label input {
-      margin-top: 0.2rem;
-      accent-color: var(--accent);
-      flex-shrink: 0;
-    }
-    #pixiv-upload-gate-cancel {
-      width: 100%;
     }
 
     /* ── 서브 페이지 공통 ── */
@@ -3559,23 +3239,7 @@
             <div class="spinner-info">
               <div class="spinner-result" id="spinner-result">돌림판을 돌려보세요</div>
               <div class="spinner-category" id="spinner-cat"></div>
-              <div class="spinner-gate" id="spinner-gate">
-                <div class="spinner-gate-cards">
-                  <button type="button" class="spinner-gate-card spinner-gate-card--start" id="spinner-gate-card-start" aria-pressed="false">
-                    <span class="spinner-gate-card-badge">시작</span>
-                    <span class="spinner-gate-card-headline">작업 시작</span>
-                    <span class="spinner-gate-card-desc">지금 작업을 시작했음을 기록합니다. 돌림판과 함께 오늘의 시작 날짜가 찍힙니다.</span>
-                  </button>
-                  <button type="button" class="spinner-gate-card spinner-gate-card--routine is-locked" id="spinner-gate-card-routine" aria-pressed="false" disabled>
-                    <span class="spinner-gate-card-badge spinner-gate-card-badge--accent">완료</span>
-                    <span class="spinner-gate-card-headline">루틴 완료</span>
-                    <span class="spinner-gate-card-desc">크로키·레퍼·갤러리·디자인·메모·캐릭터 분석·캐릭터 시트 탭에서 활동이 인정되면 누를 수 있습니다.</span>
-                  </button>
-                </div>
-                <input type="checkbox" id="spinner-check-start" class="spinner-gate-input-hidden" tabindex="-1" aria-hidden="true" />
-                <input type="checkbox" id="spinner-check-routine" class="spinner-gate-input-hidden" tabindex="-1" aria-hidden="true" disabled />
-                <p class="spinner-spin-hint" id="spinner-spin-hint" aria-live="polite"></p>
-              </div>
+              <p class="spinner-spin-hint" id="spinner-spin-hint" aria-live="polite"></p>
             </div>
           </div>
 
@@ -3948,7 +3612,7 @@
             <h2 class="page-title">메모</h2>
             <span class="page-sub">메모장 · 마인드맵</span>
           </div>
-          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: Ctrl+Enter로 메모 반영, 하단 「작업 완료」, 또는 마인드맵 노드 추가 시 이 탭 활동으로 인정됩니다.</p>
+          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: Ctrl+Enter로 메모 반영, 또는 마인드맵 노드 추가 시 이 탭 활동으로 인정됩니다.</p>
 
           <div class="memo-split">
             <div>
@@ -3999,10 +3663,6 @@
             <label class="char-q-label" for="char-an-research">검색 후 정리 — 서사 · 성격 · 설정</label>
             <textarea id="char-an-research" class="memo-editor char-q-text" rows="6"></textarea>
 
-            <label class="char-an-row" style="display:flex;align-items:flex-start;gap:0.5rem;margin-top:0.75rem;cursor:pointer;">
-              <input type="checkbox" id="char-an-fanart" aria-label="팬아트·이미지 검색 확인" />
-            </label>
-
             <button type="button" class="btn-cq primary" id="char-analysis-save-btn" style="align-self:flex-start;height:44px;padding:0 1.25rem;margin-top:1rem;">분석 완료</button>
       </div>
       </div>
@@ -4022,7 +3682,7 @@
             <div class="char-linked-preview" id="char-linked-preview" aria-label="붙인 키워드" style="margin-top:0.5rem;"></div>
           </div>
 
-          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: 이미지 추가, 질문지 작성, 메모 <strong>@</strong> 키워드 붙이기, 또는 하단 「작업 완료」로 시트 반영 중 하나로 이 탭 활동이 인정됩니다.</p>
+          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: 이미지 추가, 질문지 작성, 메모 <strong>@</strong> 키워드 붙이기, 또는 시트 저장 반영 중 하나로 이 탭 활동이 인정됩니다.</p>
 
           <h3 class="memo-section-title">컨셉 이미지</h3>
           <p class="memo-hint">시트·전신·표정 등 참고 이미지를 넣을 수 있습니다. (최대 12장 · 언제든 삭제 가능) 일부 기기는 파일 종류(MIME)가 비어 있어도 확장자로 인식합니다. 저장이 안 되면 이미지를 더 작게(JPG) 해 보세요.</p>
@@ -4069,24 +3729,6 @@
 
     </div>
 
-    <!-- 탭 순서: 작업 완료 체크 (홈→크로키→… 순으로 다음 탭 잠금 해제) -->
-    <div id="tab-work-complete-dock" class="tab-work-dock is-hidden" aria-live="polite">
-      <div class="tab-work-dock-inner">
-        <p class="tab-work-dock-hint" id="tab-work-dock-hint"></p>
-        <div class="tab-work-dock-actions" id="tab-work-dock-actions">
-          <label class="tab-work-complete-label" id="tab-work-complete-label">
-            <input type="checkbox" id="tab-work-complete-cb" autocomplete="off" />
-            <span class="tab-work-check-frame" aria-hidden="true">
-              <svg class="tab-work-check-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path class="tab-work-check-path" d="M6 12L10 16L18 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" pathLength="1" />
-              </svg>
-            </span>
-            <span class="tab-work-complete-title" id="tab-work-complete-title">작업 완료</span>
-          </label>
-        </div>
-      </div>
-    </div>
-
     <!-- ── 하단 탭바 ── -->
     <nav class="tab-bar">
       <button class="tab-btn active" id="tab-home" onclick="goTab('home')">
@@ -4118,22 +3760,6 @@
         <span class="tab-label">캐릭터 시트</span>
       </button>
     </nav>
-
-    <!-- 마지막 탭 작업 완료 시: 픽시브 업로드 확인 (체크해야 1사이클 완료) -->
-    <div id="pixiv-upload-gate" class="pixiv-upload-gate" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="pixiv-upload-gate-title">
-      <div class="pixiv-upload-gate-backdrop" id="pixiv-upload-gate-backdrop" tabindex="-1"></div>
-      <div class="pixiv-upload-gate-panel">
-        <h2 class="pixiv-upload-gate-title" id="pixiv-upload-gate-title">픽시브 업로드</h2>
-        <p class="pixiv-upload-gate-desc" id="pixiv-upload-gate-desc">새 탭에서 픽시브를 열었습니다. 확인 후 아래를 체크해야 이번 1사이클이 완료됩니다.</p>
-        <p class="pixiv-upload-gate-warn" id="pixiv-upload-gate-popup-hint" hidden></p>
-        <a class="btn-cq primary pixiv-upload-gate-openlink" id="pixiv-upload-gate-openlink" href="https://www.pixiv.net/" target="_blank" rel="noopener noreferrer">픽시브 열기</a>
-        <label class="pixiv-upload-confirm-label" for="pixiv-upload-confirm-cb">
-          <input type="checkbox" id="pixiv-upload-confirm-cb" autocomplete="off" />
-          <span>픽시브를 확인했다 (체크해야 다음 1사이클 진행)</span>
-        </label>
-        <button type="button" class="btn-cq" id="pixiv-upload-gate-cancel">아직 안 함 · 닫기</button>
-      </div>
-    </div>
 
   </div>
 </div>
@@ -4378,20 +4004,11 @@
     }
   }
 
-  /* ── 탭 순서 잠금 (홈→크로키·포즈→…→캐릭터 분석→캐릭터 시트) 레퍼·갤러리·메모는 항상 열림 ── */
-  const TAB_ORDER = ['home', 'sketch', 'refgallery', 'design', 'memo', 'concept', 'charsheet'];
-  /** 홈은 순서 잠금에 포함하지 않음 — 레퍼·갤러리·메모는 체인 밖(항상 열림) */
-  const TAB_WORK_CHAIN = ['sketch', 'design', 'concept', 'charsheet'];
-  const LS_TAB_CHAIN = 'dokcho_tab_chain';
+  const LS_CHAR_ANALYSIS = 'dokcho_character_analysis';
+  const LS_CONCEPT_SUB = 'dokcho_merge_concept_sub';
   const LS_SKETCH_SUB = 'dokcho_merge_sketch_sub';
   const LS_REF_SUB = 'dokcho_merge_ref_sub';
   const LS_MERGED_TABS_MIGRATION = 'dokcho_merged_tabs_v1';
-  const TAB_CHAIN_LABELS = {
-    home: '홈', sketch: '크로키·포즈', refgallery: '레퍼런스·갤러리', design: '디자인', memo: '메모', concept: '캐릭터 분석', charsheet: '캐릭터 시트'
-  };
-
-  const LS_CHAR_ANALYSIS = 'dokcho_character_analysis';
-  const LS_CONCEPT_SUB = 'dokcho_merge_concept_sub';
 
   function readCharacterAnalysis() {
     try {
@@ -4476,450 +4093,6 @@
 
   function basicsHasStoredPractice() {
     return basicsFrontierReadyFromUI();
-  }
-
-  (function migrateMergedTabChainOnce() {
-    try {
-      if (localStorage.getItem(LS_MERGED_TABS_MIGRATION)) return;
-      localStorage.removeItem(LS_TAB_CHAIN);
-      localStorage.setItem(LS_MERGED_TABS_MIGRATION, '1');
-    } catch (e) {}
-  })();
-  (function migrateTabChainBasicsV1() {
-    try {
-      if (localStorage.getItem('dokcho_tab_chain_basics_v1')) return;
-      localStorage.removeItem(LS_TAB_CHAIN);
-      localStorage.setItem('dokcho_tab_chain_basics_v1', '1');
-    } catch (e) {}
-  })();
-  (function migrateTabChainDesignV1() {
-    try {
-      if (localStorage.getItem('dokcho_tab_chain_migrated_design_v1')) return;
-      localStorage.removeItem(LS_TAB_CHAIN);
-      localStorage.setItem('dokcho_tab_chain_migrated_design_v1', '1');
-    } catch (e) {}
-  })();
-  (function migrateTabChainDeformeV1() {
-    try {
-      if (localStorage.getItem('dokcho_tab_chain_migrated_deforme_v1')) return;
-      localStorage.removeItem(LS_TAB_CHAIN);
-      localStorage.setItem('dokcho_tab_chain_migrated_deforme_v1', '1');
-    } catch (e) {}
-  })();
-  (function migrateTabChainV4OpenRefMemo() {
-    try {
-      if (localStorage.getItem('dokcho_chain_v4_ref_memo_open')) return;
-      localStorage.removeItem(LS_TAB_CHAIN);
-      localStorage.setItem('dokcho_chain_v4_ref_memo_open', '1');
-    } catch (e) {}
-  })();
-  /* 마지막 탭 완료 시 새 탭으로 열 픽시브 URL (필요 시 변경) */
-  const PIXIV_UPLOAD_URL = 'https://www.pixiv.net/';
-
-  function readTabChain() {
-    try {
-      const o = JSON.parse(localStorage.getItem(LS_TAB_CHAIN) || '{}');
-      let arr = Array.isArray(o.checked) ? o.checked.slice() : [];
-      var changed = false;
-      while (arr.length && arr[0] === 'home') {
-        arr = arr.slice(1);
-        changed = true;
-      }
-      var allowed = { sketch: 1, design: 1, concept: 1, charsheet: 1 };
-      var filtered = arr.filter(function(x) { return allowed[x]; });
-      if (filtered.length !== arr.length) {
-        arr = filtered;
-        changed = true;
-      }
-      if (changed) writeTabChain(arr);
-      return arr;
-    } catch (e) { return []; }
-  }
-
-  function writeTabChain(checked) {
-    localStorage.setItem(LS_TAB_CHAIN, JSON.stringify({ checked: checked }));
-  }
-
-  function tabChainMaxUnlockedIndex() {
-    /* 체인이 비어도 home + 첫 작업 탭(인덱스 1)까지 허용 */
-    return readTabChain().length + 1;
-  }
-
-  function canSwitchToTab(name) {
-    if (name === 'refgallery' || name === 'memo') return true;
-    const i = TAB_ORDER.indexOf(name);
-    if (i === -1) return true;
-    return i <= tabChainMaxUnlockedIndex();
-  }
-
-  function getFrontierTab() {
-    const c = readTabChain();
-    if (c.length >= TAB_WORK_CHAIN.length) return null;
-    return TAB_WORK_CHAIN[c.length];
-  }
-
-  function isTabWorkReady(name) {
-    if (name === 'home') return true;
-    const o = readTabActivity();
-    if (name === 'sketch') {
-      return !!(o.croquis && o.pose);
-    }
-    if (name === 'refgallery') {
-      return !!(o.reference && o.gallery);
-    }
-    if (name === 'design') {
-      return !!o.design;
-    }
-    if (name === 'memo') {
-      return !!(o.memo || (typeof memoHasStoredContent === 'function' && memoHasStoredContent()));
-    }
-    if (name === 'concept') {
-      return typeof isCharacterAnalysisComplete === 'function' && isCharacterAnalysisComplete();
-    }
-    if (name === 'charsheet') {
-      if (typeof isCharacterAnalysisComplete === 'function' && !isCharacterAnalysisComplete()) return false;
-      return !!(o.concept || (typeof conceptHasStoredContent === 'function' && conceptHasStoredContent()));
-    }
-    return !!o[name];
-  }
-
-  function getTabWorkIncompleteReason(name) {
-    if (!name) return '완료 조건을 확인할 수 없습니다.';
-    var o = readTabActivity();
-    if (name === 'sketch') {
-      if (!o.croquis) return '크로키 탭에서 활동을 기록해 주세요.';
-      if (!o.pose) return '포즈 탭에서 활동을 기록해 주세요.';
-      return '';
-    }
-    if (name === 'refgallery') {
-      if (!o.reference) return '레퍼런스 탭 활동을 기록해 주세요.';
-      if (!o.gallery) return '갤러리 탭 활동을 기록해 주세요.';
-      return '';
-    }
-    if (name === 'design') {
-      if (!o.design) return '디자인 탭 활동을 기록해 주세요.';
-      return '';
-    }
-    if (name === 'memo') {
-      if (!o.memo && !(typeof memoHasStoredContent === 'function' && memoHasStoredContent())) {
-        return '메모 탭 내용을 작성해 주세요.';
-      }
-      return '';
-    }
-    if (name === 'concept') {
-      if (typeof isCharacterAnalysisComplete === 'function' && !isCharacterAnalysisComplete()) {
-        return '캐릭터 분석 항목(작품·매력·정리·팬아트 확인)을 모두 채워 주세요.';
-      }
-      return '';
-    }
-    if (name === 'charsheet') {
-      if (typeof isCharacterAnalysisComplete === 'function' && !isCharacterAnalysisComplete()) {
-        return '먼저 캐릭터 분석을 완료해 주세요.';
-      }
-      if (!o.concept && !(typeof conceptHasStoredContent === 'function' && conceptHasStoredContent())) {
-        return '캐릭터 시트(이미지·질문지·키워드 등)를 채워 주세요.';
-      }
-      return '';
-    }
-    return '이 탭의 완료 조건을 아직 충족하지 못했습니다.';
-  }
-
-  function updateTabButtonLocks() {
-    const maxI = tabChainMaxUnlockedIndex();
-    TAB_ORDER.forEach(function(tabName, i) {
-      const btn = document.getElementById('tab-' + tabName);
-      if (!btn) return;
-      const alwaysOpen = tabName === 'refgallery' || tabName === 'memo';
-      const locked = !alwaysOpen && i > maxI;
-      btn.classList.toggle('tab-btn-locked', locked);
-      btn.disabled = locked;
-      if (locked) btn.setAttribute('aria-disabled', 'true');
-      else btn.removeAttribute('aria-disabled');
-    });
-  }
-
-  function refreshTabCompleteDock() {
-    const dock = document.getElementById('tab-work-complete-dock');
-    if (!dock) return;
-    const main = document.getElementById('screen-main');
-    if (!main || main.classList.contains('hidden')) {
-      dock.classList.add('is-hidden');
-      return;
-    }
-    if (dock.classList.contains('tab-work-dock--blocked-msg')) return;
-
-    const activePage = document.querySelector('#screen-main .page.active');
-    const activeName = activePage && activePage.id && activePage.id.indexOf('page-') === 0
-      ? activePage.id.slice(5)
-      : 'home';
-    const frontier = getFrontierTab();
-    const cb = document.getElementById('tab-work-complete-cb');
-    const hint = document.getElementById('tab-work-dock-hint');
-    const title = document.getElementById('tab-work-complete-title');
-
-    if (frontier === null) {
-      dock.classList.add('is-hidden');
-      if (cb) { cb.checked = false; cb.disabled = true; }
-      return;
-    }
-
-    if (activeName === 'home') {
-      dock.classList.add('is-hidden');
-      if (cb) { cb.checked = false; cb.disabled = true; }
-      return;
-    }
-
-    if (activeName !== frontier) {
-      dock.classList.add('is-hidden');
-      return;
-    }
-
-    const ready = isTabWorkReady(frontier);
-    const label = TAB_CHAIN_LABELS[frontier] || frontier;
-    dock.classList.remove('is-hidden');
-    dock.classList.toggle('tab-work-dock--pulse', ready);
-    dock.classList.toggle('tab-work-dock--waiting', !ready);
-    dock.classList.toggle('tab-work-dock--ready', ready);
-    if (hint) {
-      if (ready && frontier === 'charsheet') {
-        hint.textContent = '마지막 단계입니다. 체크 시 캐릭터 시트가 저장되고, 픽시브가 새 탭에서 열립니다. 확인 창에서 체크해야 이번 1사이클이 완료됩니다.';
-      } else if (ready) {
-        hint.textContent = '「' + label + '」에서 할 일을 마쳤다면 아래를 체크하세요. 체크 한 번에 편집 내용 저장과 다음 탭 열기가 함께 적용됩니다.';
-      } else {
-        hint.textContent = '「' + label + '」에서 아직 인정된 작업이 없습니다. (기존과 같이 각 탭 활동을 한 뒤 이 메시지가 바뀝니다.)';
-      }
-    }
-    if (title) title.textContent = '작업 완료 — ' + label;
-    if (cb) {
-      cb.checked = false;
-      cb.disabled = !ready;
-    }
-  }
-
-  function showTabChainBlockedMessage() {
-    const dock = document.getElementById('tab-work-complete-dock');
-    const hint = document.getElementById('tab-work-dock-hint');
-    const frontier = getFrontierTab();
-    if (!dock || !hint) return;
-    const label = frontier ? (TAB_CHAIN_LABELS[frontier] || frontier) : '';
-    dock.classList.remove('is-hidden');
-    dock.classList.remove('tab-work-dock--pulse', 'tab-work-dock--waiting', 'tab-work-dock--ready');
-    dock.classList.add('tab-work-dock--blocked-msg');
-    hint.textContent = frontier
-      ? '현재는 「' + label + '」 단계까지 열려 있습니다. 먼저 그 탭에서 작업을 완료한 뒤 순서대로 진행해 주세요.'
-      : '순서대로 모든 탭을 완료했습니다.';
-    setTimeout(function() {
-      dock.classList.remove('tab-work-dock--blocked-msg');
-      refreshTabCompleteDock();
-    }, 2600);
-  }
-
-  async function recordFullTrainingCycleComplete() {
-    try {
-      if (typeof archiveToolTrackOnCycleComplete === 'function') archiveToolTrackOnCycleComplete();
-    } catch (e0) { console.warn('도구 기록 아카이브', e0); }
-    try {
-      const d = { ...(window._stats || {}) };
-      const next = (Number(d.streak) || 0) + 1;
-      if (typeof window._saveStats === 'function') {
-        await window._saveStats({ streak: next });
-      } else {
-        d.streak = next;
-        window._stats = d;
-        try { localStorage.setItem('dokcho_stats', JSON.stringify(d)); } catch (err) {}
-        const el = document.getElementById('streak-count');
-        if (el) el.textContent = String(next);
-      }
-    } catch (err) { console.warn('훈련일 저장 실패', err); }
-    try {
-      if (typeof markAttendanceToday === 'function') markAttendanceToday();
-    } catch (e) {}
-  }
-
-  function openPixivUploadGate() {
-    const gate = document.getElementById('pixiv-upload-gate');
-    const link = document.getElementById('pixiv-upload-gate-openlink');
-    const hint = document.getElementById('pixiv-upload-gate-popup-hint');
-    const confirmCb = document.getElementById('pixiv-upload-confirm-cb');
-    if (!gate) return;
-    if (link) link.href = PIXIV_UPLOAD_URL;
-    if (confirmCb) {
-      confirmCb.checked = false;
-      confirmCb.disabled = false;
-    }
-    if (hint) {
-      var w = null;
-      try {
-        w = window.open(PIXIV_UPLOAD_URL, '_blank', 'noopener,noreferrer');
-      } catch (e) { w = null; }
-      if (!w) {
-        hint.hidden = false;
-        hint.textContent = '팝업이 차단된 것 같습니다. 아래 버튼으로 픽시브를 여세요.';
-      } else {
-        hint.hidden = true;
-        hint.textContent = '';
-      }
-    }
-    gate.classList.add('is-open');
-    gate.setAttribute('aria-hidden', 'false');
-    document.documentElement.style.overflow = 'hidden';
-  }
-
-  function closePixivUploadGate() {
-    const gate = document.getElementById('pixiv-upload-gate');
-    const confirmCb = document.getElementById('pixiv-upload-confirm-cb');
-    if (gate) {
-      gate.classList.remove('is-open');
-      gate.setAttribute('aria-hidden', 'true');
-    }
-    if (confirmCb) {
-      confirmCb.checked = false;
-      confirmCb.disabled = false;
-    }
-    document.documentElement.style.overflow = '';
-  }
-
-  async function finishConceptCycleAfterPixiv() {
-    const frontier = getFrontierTab();
-    if (frontier !== 'charsheet' || !isTabWorkReady('charsheet')) return;
-    var c = readTabChain().slice();
-    if (c.length !== TAB_WORK_CHAIN.length - 1 || TAB_WORK_CHAIN[c.length] !== 'charsheet') return;
-    c.push('charsheet');
-    writeTabChain([]);
-    await recordFullTrainingCycleComplete();
-    closePixivUploadGate();
-    resetUiAfterFullCycleComplete();
-    if (typeof cqShowToast === 'function') cqShowToast('「절대 만족하지마세요」', 6800);
-    const dock = document.getElementById('tab-work-complete-dock');
-    if (dock) dock.classList.remove('tab-work-dock--done');
-    const cb2 = document.getElementById('tab-work-complete-cb');
-    if (cb2) { cb2.checked = false; cb2.disabled = false; }
-    updateTabButtonLocks();
-    refreshTabCompleteDock();
-    if (typeof goTab === 'function') goTab('home');
-  }
-
-  function initPixivUploadGateUI() {
-    const confirmCb = document.getElementById('pixiv-upload-confirm-cb');
-    const cancelBtn = document.getElementById('pixiv-upload-gate-cancel');
-    const backdrop = document.getElementById('pixiv-upload-gate-backdrop');
-    const link = document.getElementById('pixiv-upload-gate-openlink');
-    if (link) link.href = PIXIV_UPLOAD_URL;
-    if (!confirmCb || confirmCb._pixivGateBound) return;
-    confirmCb._pixivGateBound = true;
-    confirmCb.addEventListener('change', async function() {
-      if (!this.checked) return;
-      this.disabled = true;
-      try {
-        await finishConceptCycleAfterPixiv();
-      } finally {
-        this.disabled = false;
-        this.checked = false;
-      }
-    });
-    function onCancel() {
-      closePixivUploadGate();
-    }
-    if (cancelBtn) cancelBtn.addEventListener('click', onCancel);
-    if (backdrop) backdrop.addEventListener('click', onCancel);
-    document.addEventListener('keydown', function(ev) {
-      const gate = document.getElementById('pixiv-upload-gate');
-      if (!gate || !gate.classList.contains('is-open') || ev.key !== 'Escape') return;
-      ev.preventDefault();
-      onCancel();
-    });
-  }
-
-  async function flushFrontierPersist(frontier) {
-    if (frontier === 'sketch') {
-      if (typeof commitCroquisFeedbackSaveCore === 'function') {
-        await commitCroquisFeedbackSaveCore();
-      }
-      return null;
-    }
-    if (frontier === 'concept') {
-      return null;
-    }
-    if (frontier === 'charsheet') {
-      try {
-        if (typeof mergeFormIntoSheet === 'function' && typeof writeCharacterSheet === 'function' && typeof readCharacterSheet === 'function') {
-          var s = readCharacterSheet();
-          mergeFormIntoSheet(s);
-          writeCharacterSheet(s);
-          if (typeof renderLinkedKeywordPreview === 'function') renderLinkedKeywordPreview();
-        }
-      } catch (e2) {
-        return '캐릭터 시트를 저장하지 못했습니다.';
-      }
-      return null;
-    }
-    return null;
-  }
-
-  function initTabWorkChainUI() {
-    const cb = document.getElementById('tab-work-complete-cb');
-    const lbl = document.getElementById('tab-work-complete-label');
-    if (!cb || cb._tabChainBound) return;
-    cb._tabChainBound = true;
-    if (lbl && !lbl._tabChainIncompleteToastBound) {
-      lbl._tabChainIncompleteToastBound = true;
-      lbl.addEventListener('click', function(ev) {
-        if (!cb.disabled) return;
-        var frontier = typeof getFrontierTab === 'function' ? getFrontierTab() : null;
-        if (!frontier) return;
-        var msg = typeof getTabWorkIncompleteReason === 'function' ? getTabWorkIncompleteReason(frontier) : '';
-        if (msg && typeof cqShowToast === 'function') {
-          ev.preventDefault();
-          cqShowToast(msg);
-        }
-      }, true);
-    }
-    cb.addEventListener('change', async function() {
-      if (!this.checked || this.disabled) return;
-      const frontier = getFrontierTab();
-      if (!frontier || !isTabWorkReady(frontier)) {
-        this.checked = false;
-        return;
-      }
-      const dock = document.getElementById('tab-work-complete-dock');
-      const c = readTabChain().slice();
-      if (c.length >= TAB_WORK_CHAIN.length || TAB_WORK_CHAIN[c.length] !== frontier) {
-        this.checked = false;
-        return;
-      }
-      const persistErr = await flushFrontierPersist(frontier);
-      if (persistErr) {
-        if (typeof cqShowToast === 'function') cqShowToast(persistErr);
-        this.checked = false;
-        return;
-      }
-      if (frontier === 'charsheet') {
-        this.checked = false;
-        openPixivUploadGate();
-        return;
-      }
-      this.disabled = true;
-      if (dock) dock.classList.add('tab-work-dock--done');
-      setTimeout(async function() {
-        c.push(frontier);
-        writeTabChain(c);
-        var fullCycle = c.length >= TAB_WORK_CHAIN.length;
-        if (fullCycle) {
-          await recordFullTrainingCycleComplete();
-          writeTabChain([]);
-          resetUiAfterFullCycleComplete();
-          if (typeof cqShowToast === 'function') cqShowToast('「절대 만족하지마세요」', 6800);
-        }
-        if (dock) dock.classList.remove('tab-work-dock--done');
-        const cb2 = document.getElementById('tab-work-complete-cb');
-        if (cb2) { cb2.checked = false; cb2.disabled = false; }
-        updateTabButtonLocks();
-        refreshTabCompleteDock();
-        if (fullCycle && typeof goTab === 'function') goTab('home');
-      }, 620);
-    });
-    updateTabButtonLocks();
-    refreshTabCompleteDock();
   }
 
   /* ── 홈 · 도구 사용 시각 (오늘 KST, localStorage) ── */
@@ -5144,10 +4317,9 @@
 
   function updateConceptCreateLockUI() {
     var btnC = document.getElementById('concept-sub-create');
-    var unlocked = isCharacterAnalysisComplete();
     if (btnC) {
-      btnC.disabled = !unlocked;
-      btnC.setAttribute('aria-disabled', unlocked ? 'false' : 'true');
+      btnC.disabled = false;
+      btnC.setAttribute('aria-disabled', 'false');
     }
   }
 
@@ -5157,12 +4329,6 @@
     var bA = document.getElementById('concept-sub-analysis');
     var bC = document.getElementById('concept-sub-create');
     if (!panA || !panC) return;
-    if (which === 'create' && !isCharacterAnalysisComplete()) {
-      if (typeof cqShowToast === 'function') {
-        cqShowToast('먼저 「캐릭터 분석」을 완료해 주세요.');
-      }
-      which = 'analysis';
-    }
     var showA = which === 'analysis';
     panA.style.display = showA ? 'block' : 'none';
     panC.style.display = showA ? 'none' : 'block';
@@ -5191,30 +4357,8 @@
     });
   }
 
-  /** 1사이클 완료 직후: 통합 서브메뉴·디자인 패널만 초기(데이터·누적·이미지는 유지) */
-  function resetUiAfterFullCycleComplete() {
-    try {
-      if (typeof refWsCloseLightbox === 'function') refWsCloseLightbox();
-    } catch (e2) {}
-    try {
-      localStorage.setItem(LS_SKETCH_SUB, 'croquis');
-      localStorage.setItem(LS_REF_SUB, 'reference');
-      localStorage.setItem(LS_CONCEPT_SUB, 'analysis');
-    } catch (e3) {}
-    if (typeof showSketchSub === 'function') showSketchSub('croquis');
-    if (typeof showRefgalSub === 'function') showRefgalSub('reference');
-    if (typeof switchDesignDsTab === 'function') switchDesignDsTab('overview');
-    try {
-      window.scrollTo(0, 0);
-    } catch (e4) {}
-  }
-
   /* ── 탭 전환 ── */
   function goTab(name) {
-    if (typeof canSwitchToTab === 'function' && !canSwitchToTab(name)) {
-      if (typeof showTabChainBlockedMessage === 'function') showTabChainBlockedMessage();
-      return;
-    }
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     const page = document.getElementById('page-' + name);
@@ -5241,8 +4385,6 @@
       if (typeof initHomeToolTrack === 'function') initHomeToolTrack();
       if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
     }
-    if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
-    if (typeof updateTabButtonLocks === 'function') updateTabButtonLocks();
   }
 
   /* ── 레퍼런스 돌림판 (표시: 카테고리명만) · 포즈/레퍼/갤러리 분류와 동일 ── */
@@ -5262,11 +4404,6 @@
   const CHAR_IMG_MAX = 12;
   const LS_CROQUIS_TOUCHED = 'dokcho_croquis_touched';
 
-  function formatSpinnerDateOnly(d) {
-    const w = '일월화수목금토'[d.getDay()] + '요일';
-    return d.getFullYear() + '년 ' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 (' + w + ')';
-  }
-
   function readTabActivity() {
     try {
       const o = JSON.parse(localStorage.getItem(LS_TAB_ACTIVITY) || '{}');
@@ -5278,44 +4415,6 @@
     const o = readTabActivity();
     o[key] = true;
     localStorage.setItem(LS_TAB_ACTIVITY, JSON.stringify(o));
-    if (typeof updateRoutineCheckboxAvailability === 'function') updateRoutineCheckboxAvailability();
-    if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
-  }
-
-  function allTabsHaveActivity() {
-    const o = readTabActivity();
-    return !!(o.croquis && o.pose && o.reference && o.gallery && o.design && o.memo && o.characterAnalysis && o.concept);
-  }
-
-  function syncSpinnerGateCards() {
-    const cs = document.getElementById('spinner-check-start');
-    const cr = document.getElementById('spinner-check-routine');
-    const cardS = document.getElementById('spinner-gate-card-start');
-    const cardR = document.getElementById('spinner-gate-card-routine');
-    if (cardS && cs) {
-      cardS.classList.toggle('is-active', !!cs.checked);
-      cardS.setAttribute('aria-pressed', cs.checked ? 'true' : 'false');
-    }
-    if (cardR && cr) {
-      cardR.disabled = !!cr.disabled;
-      cardR.classList.toggle('is-locked', !!cr.disabled);
-      const on = !!cr.checked && !cr.disabled;
-      cardR.classList.toggle('is-active', on);
-      cardR.setAttribute('aria-pressed', on ? 'true' : 'false');
-    }
-  }
-
-  function updateRoutineCheckboxAvailability() {
-    const cbR = document.getElementById('spinner-check-routine');
-    if (!cbR) return;
-    if (allTabsHaveActivity()) {
-      cbR.disabled = false;
-    } else {
-      cbR.checked = false;
-      cbR.disabled = true;
-    }
-    syncSpinnerGateCards();
-    updateSpinnerButtonState();
   }
 
   function updateSpinnerButtonState() {
@@ -5334,64 +4433,12 @@
     markTabActivity('croquis');
   }
 
-  (function initSpinnerGate() {
-    const cbStart = document.getElementById('spinner-check-start');
-    const cbR = document.getElementById('spinner-check-routine');
-    const line = document.getElementById('spinner-start-date-line');
-    const cardS = document.getElementById('spinner-gate-card-start');
-    const cardR = document.getElementById('spinner-gate-card-routine');
-    const spinRefresh = () => {
-      syncSpinnerGateCards();
-      updateSpinnerButtonState();
-      setSpinnerHint('');
-    };
-    function toggleCheckbox(cb) {
-      if (!cb || cb.disabled) return;
-      cb.checked = !cb.checked;
-      cb.dispatchEvent(new Event('change', { bubbles: true }));
-    }
-    if (cardS && cbStart) {
-      cardS.addEventListener('click', function() {
-        toggleCheckbox(cbStart);
-      });
-    }
-    if (cardR && cbR) {
-      cardR.addEventListener('click', function() {
-        if (cbR.disabled) return;
-        toggleCheckbox(cbR);
-      });
-    }
-    if (cbStart) {
-      cbStart.addEventListener('change', () => {
-        if (cbStart.checked) {
-          if (line) {
-            line.hidden = false;
-            line.textContent = '시작 날짜: ' + formatSpinnerDateOnly(new Date());
-          }
-        } else {
-          if (line) {
-            line.hidden = true;
-            line.textContent = '';
-          }
-          if (cbR) cbR.checked = false;
-        }
-        spinRefresh();
-      });
-    }
-    if (cbR) cbR.addEventListener('change', spinRefresh);
-    updateRoutineCheckboxAvailability();
-    updateSpinnerButtonState();
-    syncSpinnerGateCards();
-  })();
-
   function spinWheel() {
     const btn = document.getElementById('btn-spin');
     const resultEl = document.getElementById('spinner-result');
     if (!btn || !resultEl) return;
     const catEl = document.getElementById('spinner-cat');
     const line = document.getElementById('spinner-start-date-line');
-    const cbStart = document.getElementById('spinner-check-start');
-    const cbR = document.getElementById('spinner-check-routine');
 
     setSpinnerHint('');
     btn.classList.add('spinning');
@@ -5417,11 +4464,7 @@
       line.hidden = true;
       line.textContent = '';
     }
-    if (cbStart) cbStart.checked = false;
-    if (cbR) cbR.checked = false;
-    updateRoutineCheckboxAvailability();
     updateSpinnerButtonState();
-    syncSpinnerGateCards();
   }
 
   /* ── 레퍼런스 / 갤러리 / 크로키 (localStorage + Firebase 연동) ── */
@@ -5611,8 +4654,6 @@
         if (dbits && dbits.some(function(x) { return x; })) markTabActivity('design');
       }
     } catch (e2) {}
-    if (typeof updateRoutineCheckboxAvailability === 'function') updateRoutineCheckboxAvailability();
-    if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
   }
 
   const LS_DESIGN_ROULETTE = 'dokcho_design_roulette';
@@ -6445,7 +5486,7 @@
     if (!entries.length && !groups.length) {
       const p = document.createElement('p');
       p.style.cssText = 'font-size:10px;color:var(--text3);letter-spacing:0.06em;';
-      p.textContent = '저장된 키워드가 없습니다. @ 단어 형식으로 메모를 적은 뒤 Ctrl+Enter 또는 하단 「작업 완료」로 반영하세요.';
+      p.textContent = '저장된 키워드가 없습니다. @ 단어 형식으로 메모를 적은 뒤 Ctrl+Enter로 반영하세요.';
       host.appendChild(p);
       return;
     }
@@ -7082,7 +6123,6 @@
           characterName: '',
           charmGuess: '',
           researchNarrative: '',
-          fanartConfirmed: true,
           legacyAuto: true
         });
         markTabActivity('characterAnalysis');
@@ -7113,11 +6153,9 @@
     const elName = document.getElementById('char-an-subculture');
     const elCharm = document.getElementById('char-an-charm');
     const elRes = document.getElementById('char-an-research');
-    const elFan = document.getElementById('char-an-fanart');
     if (elName) elName.value = d.characterName != null ? d.characterName : '';
     if (elCharm) elCharm.value = d.charmGuess != null ? d.charmGuess : '';
     if (elRes) elRes.value = d.researchNarrative != null ? d.researchNarrative : '';
-    if (elFan) elFan.checked = !!d.fanartConfirmed;
 
     if (!window._charAnalysisSaveBound) {
       window._charAnalysisSaveBound = true;
@@ -7127,10 +6165,9 @@
           const name = (document.getElementById('char-an-subculture') && document.getElementById('char-an-subculture').value || '').trim();
           const charm = (document.getElementById('char-an-charm') && document.getElementById('char-an-charm').value || '').trim();
           const res = (document.getElementById('char-an-research') && document.getElementById('char-an-research').value || '').trim();
-          const fan = document.getElementById('char-an-fanart') && document.getElementById('char-an-fanart').checked;
-          if (!name || !charm || !res || !fan) {
+          if (!name || !charm || !res) {
             if (typeof cqShowToast === 'function') {
-              cqShowToast('작품·캐릭터, 예상 매력, 검색 후 정리, 팬아트 확인까지 모두 채워 주세요.');
+              cqShowToast('작품·캐릭터, 예상 매력, 검색 후 정리를 모두 채워 주세요.');
             }
             return;
           }
@@ -7138,8 +6175,7 @@
             completed: true,
             characterName: name,
             charmGuess: charm,
-            researchNarrative: res,
-            fanartConfirmed: true
+            researchNarrative: res
           });
           markTabActivity('characterAnalysis');
           if (typeof cqShowToast === 'function') cqShowToast('캐릭터 분석이 저장되었습니다. 「캐릭터 시트」 탭에서 이어가세요.');
@@ -7200,7 +6236,6 @@
           writeBasicsBundle(patch);
         }
         basicsUpdateSlotVisual(slot, false, '');
-        if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
       };
       img.src = url;
     } else {
@@ -7251,14 +6286,6 @@
     if (page && page._basicsBound) return;
     if (page) page._basicsBound = true;
 
-    var notesDockEl = document.getElementById('basics-notes');
-    if (notesDockEl && !notesDockEl._tabDockRefreshBound) {
-      notesDockEl._tabDockRefreshBound = true;
-      notesDockEl.addEventListener('input', function() {
-        if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
-      });
-    }
-
     function readFileForSlot(slot, file) {
       if (typeof deformeReadFileAsDataURL !== 'function') return;
       deformeReadFileAsDataURL(file, function(dataUrl) {
@@ -7268,7 +6295,6 @@
         patch[key] = dataUrl;
         writeBasicsBundle(patch);
         basicsApplyBundleToUI();
-        if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
         if (typeof markTabActivity === 'function' && typeof basicsHasStoredPractice === 'function' && basicsHasStoredPractice()) {
           markTabActivity('basics');
         }
@@ -7313,7 +6339,6 @@
           patch[key] = '';
           writeBasicsBundle(patch);
           basicsApplyBundleToUI();
-          if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
         });
       }
       var pv = document.getElementById('basics-preview-' + slot);
@@ -7356,7 +6381,6 @@
         }
         writeBasicsBundle({ compareDataUrl: d.mineDataUrl });
         basicsApplyBundleToUI();
-        if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
         if (typeof cqShowToast === 'function') cqShowToast('데포르메 탭의 이미지를 불러왔습니다.');
       });
     }
@@ -8431,9 +7455,7 @@
   initMemoPage();
   initConceptPage();
   if (typeof initCharsheetPage === 'function') initCharsheetPage();
-  if (typeof initTabWorkChainUI === 'function') initTabWorkChainUI();
   if (typeof initMergedSubTabBars === 'function') initMergedSubTabBars();
-  if (typeof initPixivUploadGateUI === 'function') initPixivUploadGateUI();
   if (typeof initHomeToolTrack === 'function') initHomeToolTrack();
   if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
   startGalleryTicker();
@@ -8574,16 +7596,9 @@
       if (typeof initMemoPage === 'function') initMemoPage();
       if (typeof initConceptPage === 'function') initConceptPage();
       if (typeof initCharsheetPage === 'function') initCharsheetPage();
-      var ap = document.querySelector('#screen-main .page.active');
-      var an = ap && ap.id && ap.id.indexOf('page-') === 0 ? ap.id.slice(5) : 'home';
-      if (typeof canSwitchToTab === 'function' && !canSwitchToTab(an) && typeof goTab === 'function') goTab('home');
-      if (typeof initTabWorkChainUI === 'function') initTabWorkChainUI();
       if (typeof initMergedSubTabBars === 'function') initMergedSubTabBars();
-      if (typeof initPixivUploadGateUI === 'function') initPixivUploadGateUI();
       if (typeof initHomeToolTrack === 'function') initHomeToolTrack();
       if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
-      if (typeof updateTabButtonLocks === 'function') updateTabButtonLocks();
-      if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
     }, 400);
   }
 </script>
