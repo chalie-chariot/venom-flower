@@ -3336,7 +3336,8 @@
       font-size: 13px;
     }
     /* 캐릭터 창작: @ 키워드 — 헤더 고정 */
-    #page-concept .char-kw-header-card {
+    #page-concept .char-kw-header-card,
+    #page-charsheet .char-kw-header-card {
       position: sticky;
       top: 0;
       z-index: 6;
@@ -3346,7 +3347,8 @@
       border-bottom: 0.5px solid var(--border);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
     }
-    #page-concept .char-kw-header-card .memo-hint {
+    #page-concept .char-kw-header-card .memo-hint,
+    #page-charsheet .char-kw-header-card .memo-hint {
       margin-bottom: 0.45rem;
     }
 
@@ -3546,7 +3548,7 @@
           </div>
 
           <div class="home-work-cta">
-            <button type="button" class="btn-hero primary btn-work-main" onclick="goTab('basics')">작업하기</button>
+            <button type="button" class="btn-hero primary btn-work-main" onclick="goTab('sketch')">작업하기</button>
           </div>
 
           <!-- 레퍼런스 돌림판 -->
@@ -3567,7 +3569,7 @@
                   <button type="button" class="spinner-gate-card spinner-gate-card--routine is-locked" id="spinner-gate-card-routine" aria-pressed="false" disabled>
                     <span class="spinner-gate-card-badge spinner-gate-card-badge--accent">완료</span>
                     <span class="spinner-gate-card-headline">루틴 완료</span>
-                    <span class="spinner-gate-card-desc">기본기·크로키·데포르메·레퍼·갤러리·디자인·메모·분석·창작 탭에서 활동이 인정되면 누를 수 있습니다.</span>
+                    <span class="spinner-gate-card-desc">크로키·레퍼·갤러리·디자인·메모·캐릭터 분석·캐릭터 시트 탭에서 활동이 인정되면 누를 수 있습니다.</span>
                   </button>
                 </div>
                 <input type="checkbox" id="spinner-check-start" class="spinner-gate-input-hidden" tabindex="-1" aria-hidden="true" />
@@ -3625,95 +3627,6 @@
         </div>
       </div>
 
-      <!-- ── 기본기 ── -->
-      <div id="page-basics" class="page">
-        <div class="page-wrap">
-          <div class="page-header">
-            <h2 class="page-title">기본기</h2>
-            <span class="page-sub">샘플 대조 · 데포르메 비교 · 메모</span>
-          </div>
-          <p class="basics-flow"><strong>왼쪽</strong>에 손·발·얼굴 <strong>참고 샘플</strong>을 두고, <strong>오른쪽</strong>에 같은 연습 맥락의 <strong>내 데포르메</strong>를 올려 나란히 비교합니다. 아래 칸에는 <strong>어디에 쓰면 좋을지</strong>, <strong>셀프 피드백</strong> 등을 자유롭게 적습니다.</p>
-
-          <div class="basics-compare-grid">
-            <div class="basics-card" aria-label="참고 샘플">
-              <div class="basics-card-title">참고 샘플</div>
-              <p class="basics-card-hint">손 · 발 · 얼굴 레퍼런스 이미지를 각각 넣습니다. (탭하거나 파일을 끌어다 놓기)</p>
-              <div class="basics-ref-stack">
-                <div>
-                  <div class="basics-ref-slot-label">손</div>
-                  <div class="basics-drop is-empty" id="basics-drop-hand" tabindex="0" role="button" aria-label="손 참고 이미지">
-                    <input type="file" id="basics-file-hand" class="basics-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
-                    <div class="basics-drop-empty" id="basics-empty-hand">
-                      <button type="button" class="basics-add-btn" data-basics-add="hand" aria-label="손 참고 이미지 추가">+</button>
-                    </div>
-                    <div class="basics-preview-wrap" id="basics-preview-hand" hidden>
-                      <img id="basics-img-hand" class="basics-preview-img" alt="손 참고" />
-                      <button type="button" class="basics-remove-btn" id="basics-remove-hand" aria-label="손 이미지 제거">×</button>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div class="basics-ref-slot-label">발</div>
-                  <div class="basics-drop is-empty" id="basics-drop-foot" tabindex="0" role="button" aria-label="발 참고 이미지">
-                    <input type="file" id="basics-file-foot" class="basics-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
-                    <div class="basics-drop-empty" id="basics-empty-foot">
-                      <button type="button" class="basics-add-btn" data-basics-add="foot" aria-label="발 참고 이미지 추가">+</button>
-                    </div>
-                    <div class="basics-preview-wrap" id="basics-preview-foot" hidden>
-                      <img id="basics-img-foot" class="basics-preview-img" alt="발 참고" />
-                      <button type="button" class="basics-remove-btn" id="basics-remove-foot" aria-label="발 이미지 제거">×</button>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div class="basics-ref-slot-label">얼굴</div>
-                  <div class="basics-drop is-empty" id="basics-drop-face" tabindex="0" role="button" aria-label="얼굴 참고 이미지">
-                    <input type="file" id="basics-file-face" class="basics-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
-                    <div class="basics-drop-empty" id="basics-empty-face">
-                      <button type="button" class="basics-add-btn" data-basics-add="face" aria-label="얼굴 참고 이미지 추가">+</button>
-                    </div>
-                    <div class="basics-preview-wrap" id="basics-preview-face" hidden>
-                      <img id="basics-img-face" class="basics-preview-img" alt="얼굴 참고" />
-                      <button type="button" class="basics-remove-btn" id="basics-remove-face" aria-label="얼굴 이미지 제거">×</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="basics-card" aria-label="내 데포르메 비교">
-              <div class="basics-card-title basics-card-title--mine">내 데포르메 (비교)</div>
-              <p class="basics-card-hint">왼쪽 샘플과 같은 연습에서 그린 데포르메 그림을 올려 비교합니다.</p>
-              <div class="basics-import-row">
-                <button type="button" class="basics-import-btn" id="basics-import-deforme-btn">데포르메 탭 이미지 불러오기</button>
-              </div>
-              <div class="basics-drop basics-drop--wide is-empty" id="basics-drop-compare" tabindex="0" role="button" aria-label="내 데포르메 이미지">
-                <input type="file" id="basics-file-compare" class="basics-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
-                <div class="basics-drop-empty" id="basics-empty-compare">
-                  <button type="button" class="basics-add-btn" data-basics-add="compare" aria-label="내 데포르메 이미지 추가">+</button>
-                </div>
-                <div class="basics-preview-wrap" id="basics-preview-compare" hidden>
-                  <img id="basics-img-compare" class="basics-preview-img" alt="내 데포르메" />
-                  <button type="button" class="basics-remove-btn" id="basics-remove-compare" aria-label="비교 이미지 제거">×</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="basics-editor-block">
-            <label class="basics-editor-label" for="basics-notes">활용 · 셀프 피드백 메모</label>
-            <textarea id="basics-notes" class="basics-notes" rows="10" placeholder="어디에 쓰기 좋을지, 잘된 점, 고칠 점, 비교 소감 등을 길게 적어 보세요…"></textarea>
-          </div>
-        </div>
-
-        <div id="basics-lightbox" class="basics-lightbox" hidden aria-hidden="true">
-          <button type="button" class="basics-lightbox-backdrop" id="basics-lightbox-backdrop" aria-label="닫기"></button>
-          <div class="basics-lightbox-inner">
-            <button type="button" class="basics-lightbox-close" id="basics-lightbox-close" aria-label="닫기">×</button>
-            <img id="basics-lightbox-img" class="basics-lightbox-img" alt="" />
-          </div>
-        </div>
-      </div>
 
       <!-- ── 크로키 · 포즈 (통합 탭) ── -->
       <div id="page-sketch" class="page">
@@ -3814,65 +3727,6 @@
           <div id="pose-panel-creature" class="ref-grid" data-pose-panel="크리쳐 디자인" style="display:none;"></div>
       </div>
 
-        </div>
-      </div>
-
-      <!-- ── 데포르메 ── -->
-      <div id="page-deforme" class="page">
-        <div class="page-wrap deforme-page-wrap">
-          <div class="page-header">
-            <h2 class="page-title">데포르메</h2>
-            <span class="page-sub">샘플 비교 · 셀프 피드백</span>
-          </div>
-
-          <div class="deforme-compare">
-            <div class="deforme-card" data-deforme-side="sample">
-              <div class="deforme-card-label deforme-card-label--sub">샘플</div>
-              <div class="deforme-drop is-empty" id="deforme-drop-sample" tabindex="0" role="button" aria-label="샘플 이미지 업로드">
-                <input type="file" id="deforme-file-sample" class="deforme-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
-                <div class="deforme-drop-empty" id="deforme-empty-sample">
-                  <button type="button" class="deforme-add-btn" data-deforme-add="sample" aria-label="샘플 이미지 추가">+</button>
-                </div>
-                <div class="deforme-preview-wrap" id="deforme-preview-sample" hidden>
-                  <img id="deforme-img-sample" class="deforme-preview-img" alt="샘플" />
-                  <button type="button" class="deforme-remove-btn" id="deforme-remove-sample" aria-label="샘플 이미지 제거">×</button>
-                </div>
-              </div>
-              <input type="text" class="deforme-foot-input" id="deforme-sample-note" placeholder="출처 또는 참고 메모..." autocomplete="off" />
-            </div>
-            <div class="deforme-card" data-deforme-side="mine">
-              <div class="deforme-card-label deforme-card-label--accent">내 데포르메</div>
-              <div class="deforme-drop is-empty" id="deforme-drop-mine" tabindex="0" role="button" aria-label="내 데포르메 이미지 업로드">
-                <input type="file" id="deforme-file-mine" class="deforme-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
-                <div class="deforme-drop-empty" id="deforme-empty-mine">
-                  <button type="button" class="deforme-add-btn" data-deforme-add="mine" aria-label="내 데포르메 이미지 추가">+</button>
-                </div>
-                <div class="deforme-preview-wrap" id="deforme-preview-mine" hidden>
-                  <img id="deforme-img-mine" class="deforme-preview-img" alt="내 데포르메" />
-                  <button type="button" class="deforme-remove-btn" id="deforme-remove-mine" aria-label="내 이미지 제거">×</button>
-                </div>
-              </div>
-              <div class="deforme-mine-foot">
-                <span class="deforme-date" id="deforme-date-display"></span>
-                <input type="text" class="deforme-foot-input deforme-foot-input--mine" id="deforme-mine-filename" placeholder="파일명 또는 메모..." autocomplete="off" />
-              </div>
-            </div>
-          </div>
-
-          <div class="deforme-editor-block">
-            <label class="deforme-editor-label" for="deforme-memo">셀프 피드백 &amp; 활용 메모</label>
-            <textarea id="deforme-memo" class="deforme-memo" rows="6" placeholder="어디에 활용할 수 있는지, 잘된 점, 고칠 점 등 자유롭게 적어보세요..."></textarea>
-            <div class="deforme-editor-actions">
-              <span class="deforme-char-count" id="deforme-char-count">0자</span>
-            </div>
-          </div>
-        </div>
-        <div id="deforme-lightbox" class="deforme-lightbox" hidden aria-hidden="true">
-          <button type="button" class="deforme-lightbox-backdrop" id="deforme-lightbox-backdrop" aria-label="닫기"></button>
-          <div class="deforme-lightbox-inner">
-            <button type="button" class="deforme-lightbox-close" id="deforme-lightbox-close" aria-label="닫기">×</button>
-            <img id="deforme-lightbox-img" class="deforme-lightbox-img" alt="" />
-          </div>
         </div>
       </div>
 
@@ -4110,7 +3964,7 @@
                 </div>
                 <div id="memo-keyword-list"></div>
               </div>
-              <p class="memo-future">저장된 <strong>@</strong> 키워드는 <strong>분석·창작</strong> 탭의 창작 화면에서 캐릭터 메모로 붙일 수 있습니다.</p>
+              <p class="memo-future">저장된 <strong>@</strong> 키워드는 <strong>캐릭터 시트</strong> 탭에서 캐릭터 메모로 붙일 수 있습니다.</p>
             </div>
 
             <div>
@@ -4129,15 +3983,9 @@
         </div>
       </div>
 
-      <!-- ── 캐릭터 분석 · 창작 (통합 탭) ── -->
+      <!-- ── 캐릭터 분석 ── -->
       <div id="page-concept" class="page">
-        <div class="page-wrap">
-          <div class="merge-subtab-bar" role="tablist" aria-label="캐릭터 분석 · 창작">
-            <button type="button" class="merge-subtab-btn active" id="concept-sub-analysis" data-concept-sub="analysis" role="tab">캐릭터 분석</button>
-            <button type="button" class="merge-subtab-btn" id="concept-sub-create" data-concept-sub="create" role="tab" disabled aria-disabled="true">캐릭터 창작</button>
-          </div>
-
-          <div id="concept-panel-analysis" class="merge-sub-panel char-analysis-panel">
+        <div class="page-wrap char-analysis-panel">
             <div class="page-header">
               <h2 class="page-title">캐릭터 분석</h2>
             </div>
@@ -4155,12 +4003,15 @@
               <input type="checkbox" id="char-an-fanart" aria-label="팬아트·이미지 검색 확인" />
             </label>
 
-            <button type="button" class="btn-cq primary" id="char-analysis-save-btn" style="align-self:flex-start;height:44px;padding:0 1.25rem;margin-top:1rem;">분석 완료 · 창작 탭 열기</button>
-          </div>
+            <button type="button" class="btn-cq primary" id="char-analysis-save-btn" style="align-self:flex-start;height:44px;padding:0 1.25rem;margin-top:1rem;">분석 완료</button>
+      </div>
+      </div>
 
-          <div id="concept-panel-create" class="merge-sub-panel" style="display:none">
+      <!-- ── 캐릭터 시트 (창작·질문지) ── -->
+      <div id="page-charsheet" class="page">
+        <div class="page-wrap">
           <div class="page-header">
-            <h2 class="page-title">캐릭터 창작</h2>
+            <h2 class="page-title">캐릭터 시트</h2>
             <span class="page-sub">이미지 · 질문지 · 메모 키워드</span>
           </div>
 
@@ -4213,8 +4064,6 @@
               <textarea id="char-f-extra" class="memo-editor char-q-text" rows="3" placeholder="그 밖에 남기고 싶은 설정…"></textarea>
             </div>
           </div>
-
-          </div>
         </div>
       </div>
 
@@ -4244,17 +4093,9 @@
         <span class="tab-icon">⌂</span>
         <span class="tab-label">홈</span>
       </button>
-      <button class="tab-btn" id="tab-basics" onclick="goTab('basics')">
-        <span class="tab-icon">◇</span>
-        <span class="tab-label">기본기</span>
-      </button>
       <button class="tab-btn" id="tab-sketch" onclick="goTab('sketch')">
         <span class="tab-icon">✏</span>
         <span class="tab-label">크로키·포즈</span>
-      </button>
-      <button class="tab-btn" id="tab-deforme" onclick="goTab('deforme')">
-        <span class="tab-icon">⧉</span>
-        <span class="tab-label">데포르메</span>
       </button>
       <button class="tab-btn" id="tab-refgallery" onclick="goTab('refgallery')">
         <span class="tab-icon">◈</span>
@@ -4270,7 +4111,11 @@
       </button>
       <button class="tab-btn" id="tab-concept" onclick="goTab('concept')">
         <span class="tab-icon">✧</span>
-        <span class="tab-label">분석·창작</span>
+        <span class="tab-label">캐릭터 분석</span>
+      </button>
+      <button class="tab-btn" id="tab-charsheet" onclick="goTab('charsheet')">
+        <span class="tab-icon">▣</span>
+        <span class="tab-label">캐릭터 시트</span>
       </button>
     </nav>
 
@@ -4533,16 +4378,16 @@
     }
   }
 
-  /* ── 탭 순서 잠금 (홈→기본기→크로키·포즈→데포르메→레퍼런스·갤러리→디자인→메모→캐릭터 분석·창작) ── */
-  const TAB_ORDER = ['home', 'basics', 'sketch', 'deforme', 'refgallery', 'design', 'memo', 'concept'];
-  /** 홈은 순서 잠금에 포함하지 않음 — 첫 작업 단계는 basics */
-  const TAB_WORK_CHAIN = ['basics', 'sketch', 'deforme', 'refgallery', 'design', 'memo', 'concept'];
+  /* ── 탭 순서 잠금 (홈→크로키·포즈→…→캐릭터 분석→캐릭터 시트) 레퍼·갤러리·메모는 항상 열림 ── */
+  const TAB_ORDER = ['home', 'sketch', 'refgallery', 'design', 'memo', 'concept', 'charsheet'];
+  /** 홈은 순서 잠금에 포함하지 않음 — 레퍼·갤러리·메모는 체인 밖(항상 열림) */
+  const TAB_WORK_CHAIN = ['sketch', 'design', 'concept', 'charsheet'];
   const LS_TAB_CHAIN = 'dokcho_tab_chain';
   const LS_SKETCH_SUB = 'dokcho_merge_sketch_sub';
   const LS_REF_SUB = 'dokcho_merge_ref_sub';
   const LS_MERGED_TABS_MIGRATION = 'dokcho_merged_tabs_v1';
   const TAB_CHAIN_LABELS = {
-    home: '홈', basics: '기본기', sketch: '크로키·포즈', deforme: '데포르메', refgallery: '레퍼런스·갤러리', design: '디자인', memo: '메모', concept: '캐릭터 분석·창작'
+    home: '홈', sketch: '크로키·포즈', refgallery: '레퍼런스·갤러리', design: '디자인', memo: '메모', concept: '캐릭터 분석', charsheet: '캐릭터 시트'
   };
 
   const LS_CHAR_ANALYSIS = 'dokcho_character_analysis';
@@ -4661,6 +4506,13 @@
       localStorage.setItem('dokcho_tab_chain_migrated_deforme_v1', '1');
     } catch (e) {}
   })();
+  (function migrateTabChainV4OpenRefMemo() {
+    try {
+      if (localStorage.getItem('dokcho_chain_v4_ref_memo_open')) return;
+      localStorage.removeItem(LS_TAB_CHAIN);
+      localStorage.setItem('dokcho_chain_v4_ref_memo_open', '1');
+    } catch (e) {}
+  })();
   /* 마지막 탭 완료 시 새 탭으로 열 픽시브 URL (필요 시 변경) */
   const PIXIV_UPLOAD_URL = 'https://www.pixiv.net/';
 
@@ -4673,6 +4525,12 @@
         arr = arr.slice(1);
         changed = true;
       }
+      var allowed = { sketch: 1, design: 1, concept: 1, charsheet: 1 };
+      var filtered = arr.filter(function(x) { return allowed[x]; });
+      if (filtered.length !== arr.length) {
+        arr = filtered;
+        changed = true;
+      }
       if (changed) writeTabChain(arr);
       return arr;
     } catch (e) { return []; }
@@ -4683,11 +4541,12 @@
   }
 
   function tabChainMaxUnlockedIndex() {
-    /* 체인이 비어도 home + basics(인덱스 1)까지 허용 */
+    /* 체인이 비어도 home + 첫 작업 탭(인덱스 1)까지 허용 */
     return readTabChain().length + 1;
   }
 
   function canSwitchToTab(name) {
+    if (name === 'refgallery' || name === 'memo') return true;
     const i = TAB_ORDER.indexOf(name);
     if (i === -1) return true;
     return i <= tabChainMaxUnlockedIndex();
@@ -4702,14 +4561,8 @@
   function isTabWorkReady(name) {
     if (name === 'home') return true;
     const o = readTabActivity();
-    if (name === 'basics') {
-      return typeof basicsFrontierReadyFromUI === 'function' && basicsFrontierReadyFromUI();
-    }
     if (name === 'sketch') {
       return !!(o.croquis && o.pose);
-    }
-    if (name === 'deforme') {
-      return typeof deformeHasWork === 'function' && deformeHasWork();
     }
     if (name === 'refgallery') {
       return !!(o.reference && o.gallery);
@@ -4721,7 +4574,10 @@
       return !!(o.memo || (typeof memoHasStoredContent === 'function' && memoHasStoredContent()));
     }
     if (name === 'concept') {
-      if (!isCharacterAnalysisComplete()) return false;
+      return typeof isCharacterAnalysisComplete === 'function' && isCharacterAnalysisComplete();
+    }
+    if (name === 'charsheet') {
+      if (typeof isCharacterAnalysisComplete === 'function' && !isCharacterAnalysisComplete()) return false;
       return !!(o.concept || (typeof conceptHasStoredContent === 'function' && conceptHasStoredContent()));
     }
     return !!o[name];
@@ -4729,24 +4585,10 @@
 
   function getTabWorkIncompleteReason(name) {
     if (!name) return '완료 조건을 확인할 수 없습니다.';
-    if (name === 'basics') {
-      var n = basicsEffectiveNotesTrimmed();
-      if (n.length < 10) return '셀프 피드백 메모를 10자 이상 적어 주세요.';
-      var d = readBasicsBundle();
-      var hasImg = function(url) { return String(url || '').length > 80; };
-      if (!hasImg(d.compareDataUrl) && !hasImg(d.refHandDataUrl) && !hasImg(d.refFootDataUrl) && !hasImg(d.refFaceDataUrl)) {
-        return '「내 데포르메」 또는 손·발·얼굴 참고 이미지를 하나 이상 넣어 주세요.';
-      }
-      return '';
-    }
     var o = readTabActivity();
     if (name === 'sketch') {
       if (!o.croquis) return '크로키 탭에서 활동을 기록해 주세요.';
       if (!o.pose) return '포즈 탭에서 활동을 기록해 주세요.';
-      return '';
-    }
-    if (name === 'deforme') {
-      if (typeof deformeHasWork === 'function' && !deformeHasWork()) return '데포르메 탭에서 필요한 작업을 완료해 주세요.';
       return '';
     }
     if (name === 'refgallery') {
@@ -4766,10 +4608,16 @@
     }
     if (name === 'concept') {
       if (typeof isCharacterAnalysisComplete === 'function' && !isCharacterAnalysisComplete()) {
-        return '캐릭터 분석을 모두 완료해 주세요.';
+        return '캐릭터 분석 항목(작품·매력·정리·팬아트 확인)을 모두 채워 주세요.';
+      }
+      return '';
+    }
+    if (name === 'charsheet') {
+      if (typeof isCharacterAnalysisComplete === 'function' && !isCharacterAnalysisComplete()) {
+        return '먼저 캐릭터 분석을 완료해 주세요.';
       }
       if (!o.concept && !(typeof conceptHasStoredContent === 'function' && conceptHasStoredContent())) {
-        return '컨셉 탭 내용을 작성해 주세요.';
+        return '캐릭터 시트(이미지·질문지·키워드 등)를 채워 주세요.';
       }
       return '';
     }
@@ -4781,7 +4629,8 @@
     TAB_ORDER.forEach(function(tabName, i) {
       const btn = document.getElementById('tab-' + tabName);
       if (!btn) return;
-      const locked = i > maxI;
+      const alwaysOpen = tabName === 'refgallery' || tabName === 'memo';
+      const locked = !alwaysOpen && i > maxI;
       btn.classList.toggle('tab-btn-locked', locked);
       btn.disabled = locked;
       if (locked) btn.setAttribute('aria-disabled', 'true');
@@ -4832,7 +4681,7 @@
     dock.classList.toggle('tab-work-dock--waiting', !ready);
     dock.classList.toggle('tab-work-dock--ready', ready);
     if (hint) {
-      if (ready && frontier === 'concept') {
+      if (ready && frontier === 'charsheet') {
         hint.textContent = '마지막 단계입니다. 체크 시 캐릭터 시트가 저장되고, 픽시브가 새 탭에서 열립니다. 확인 창에서 체크해야 이번 1사이클이 완료됩니다.';
       } else if (ready) {
         hint.textContent = '「' + label + '」에서 할 일을 마쳤다면 아래를 체크하세요. 체크 한 번에 편집 내용 저장과 다음 탭 열기가 함께 적용됩니다.';
@@ -4932,10 +4781,10 @@
 
   async function finishConceptCycleAfterPixiv() {
     const frontier = getFrontierTab();
-    if (frontier !== 'concept' || !isTabWorkReady('concept')) return;
+    if (frontier !== 'charsheet' || !isTabWorkReady('charsheet')) return;
     var c = readTabChain().slice();
-    if (c.length !== TAB_WORK_CHAIN.length - 1 || TAB_WORK_CHAIN[c.length] !== 'concept') return;
-    c.push('concept');
+    if (c.length !== TAB_WORK_CHAIN.length - 1 || TAB_WORK_CHAIN[c.length] !== 'charsheet') return;
+    c.push('charsheet');
     writeTabChain([]);
     await recordFullTrainingCycleComplete();
     closePixivUploadGate();
@@ -4982,34 +4831,16 @@
   }
 
   async function flushFrontierPersist(frontier) {
-    if (frontier === 'basics') {
-      var notesEl = document.getElementById('basics-notes');
-      var notes = (notesEl && notesEl.value || '').trim();
-      var d = readBasicsBundle();
-      function hasImg(url) { return String(url || '').length > 80; }
-      if (notes.length < 10) return '메모를 10자 이상 적어 주세요. (활용·셀프 피드백)';
-      if (!hasImg(d.compareDataUrl) && !hasImg(d.refHandDataUrl) && !hasImg(d.refFootDataUrl) && !hasImg(d.refFaceDataUrl)) {
-        return '손·발·얼굴 중 하나라도 또는 「내 데포르메」에 이미지를 넣어 주세요.';
-      }
-      writeBasicsBundle({ notes: notesEl ? notesEl.value || '' : '' });
-      if (typeof markTabActivity === 'function') markTabActivity('basics');
-      return null;
-    }
-    if (frontier === 'deforme') {
-      if (typeof deformePersistFromUI === 'function') deformePersistFromUI();
-      return null;
-    }
     if (frontier === 'sketch') {
       if (typeof commitCroquisFeedbackSaveCore === 'function') {
         await commitCroquisFeedbackSaveCore();
       }
       return null;
     }
-    if (frontier === 'memo') {
-      if (typeof persistMemoFromUI === 'function') persistMemoFromUI();
+    if (frontier === 'concept') {
       return null;
     }
-    if (frontier === 'concept') {
+    if (frontier === 'charsheet') {
       try {
         if (typeof mergeFormIntoSheet === 'function' && typeof writeCharacterSheet === 'function' && typeof readCharacterSheet === 'function') {
           var s = readCharacterSheet();
@@ -5062,7 +4893,7 @@
         this.checked = false;
         return;
       }
-      if (frontier === 'concept') {
+      if (frontier === 'charsheet') {
         this.checked = false;
         openPixivUploadGate();
         return;
@@ -5358,28 +5189,10 @@
         if (w) showRefgalSub(w);
       });
     });
-    document.querySelectorAll('[data-concept-sub]').forEach(function(btn) {
-      if (btn._mergeBound) return;
-      btn._mergeBound = true;
-      btn.addEventListener('click', function() {
-        var w = btn.getAttribute('data-concept-sub');
-        if (w === 'create' && !isCharacterAnalysisComplete()) {
-          if (typeof cqShowToast === 'function') cqShowToast('먼저 「캐릭터 분석」을 완료해 주세요.');
-          return;
-        }
-        if (w) showConceptSub(w);
-      });
-    });
   }
 
   /** 1사이클 완료 직후: 통합 서브메뉴·디자인 패널만 초기(데이터·누적·이미지는 유지) */
   function resetUiAfterFullCycleComplete() {
-    try {
-      if (typeof basicsCloseLightbox === 'function') basicsCloseLightbox();
-    } catch (e0) {}
-    try {
-      if (typeof deformeCloseLightbox === 'function') deformeCloseLightbox();
-    } catch (e1) {}
     try {
       if (typeof refWsCloseLightbox === 'function') refWsCloseLightbox();
     } catch (e2) {}
@@ -5390,7 +5203,6 @@
     } catch (e3) {}
     if (typeof showSketchSub === 'function') showSketchSub('croquis');
     if (typeof showRefgalSub === 'function') showRefgalSub('reference');
-    if (typeof showConceptSub === 'function') showConceptSub('analysis');
     if (typeof switchDesignDsTab === 'function') switchDesignDsTab('overview');
     try {
       window.scrollTo(0, 0);
@@ -5416,22 +5228,19 @@
       showRefgalSub(readStoredRefSub());
     }
     if (name === 'design' && typeof initDesignPage === 'function') initDesignPage();
-    if (name === 'deforme' && typeof initDeformePage === 'function') initDeformePage();
-    if (name === 'basics' && typeof initBasicsPage === 'function') initBasicsPage();
     if (name === 'memo' && typeof initMemoPage === 'function') initMemoPage();
     if (name === 'concept') {
       if (typeof migrateCharAnalysisLegacyOnce === 'function') migrateCharAnalysisLegacyOnce();
       if (typeof initConceptPage === 'function') initConceptPage();
-      if (typeof updateConceptCreateLockUI === 'function') updateConceptCreateLockUI();
-      var csub = readStoredConceptSub();
-      if (csub === 'create' && !isCharacterAnalysisComplete()) csub = 'analysis';
-      showConceptSub(csub);
+    }
+    if (name === 'charsheet') {
+      if (typeof migrateCharAnalysisLegacyOnce === 'function') migrateCharAnalysisLegacyOnce();
+      if (typeof initCharsheetPage === 'function') initCharsheetPage();
     }
     if (name === 'home') {
       if (typeof initHomeToolTrack === 'function') initHomeToolTrack();
       if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
     }
-    if (name !== 'deforme' && typeof deformeCloseLightbox === 'function') deformeCloseLightbox();
     if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
     if (typeof updateTabButtonLocks === 'function') updateTabButtonLocks();
   }
@@ -5475,7 +5284,7 @@
 
   function allTabsHaveActivity() {
     const o = readTabActivity();
-    return !!(o.basics && o.croquis && o.pose && o.deforme && o.reference && o.gallery && o.design && o.memo && o.characterAnalysis && o.concept);
+    return !!(o.croquis && o.pose && o.reference && o.gallery && o.design && o.memo && o.characterAnalysis && o.concept);
   }
 
   function syncSpinnerGateCards() {
@@ -5793,9 +5602,6 @@
       if (typeof isCharacterAnalysisComplete === 'function' && isCharacterAnalysisComplete()) markTabActivity('characterAnalysis');
     } catch (e) {}
     try {
-      if (typeof basicsHasStoredPractice === 'function' && basicsHasStoredPractice()) markTabActivity('basics');
-    } catch (e) {}
-    try {
       const dr = typeof readDesignRoulette === 'function' ? readDesignRoulette() : null;
       if (dr && dr.touched) markTabActivity('design');
     } catch (e) {}
@@ -5805,9 +5611,6 @@
         if (dbits && dbits.some(function(x) { return x; })) markTabActivity('design');
       }
     } catch (e2) {}
-    try {
-      if (typeof deformeHasWork === 'function' && deformeHasWork()) markTabActivity('deforme');
-    } catch (e3) {}
     if (typeof updateRoutineCheckboxAvailability === 'function') updateRoutineCheckboxAvailability();
     if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
   }
@@ -6497,7 +6300,11 @@
 
   function memoKwRefreshConceptIfOpen() {
     const pageConcept = document.getElementById('page-concept');
-    if (pageConcept && pageConcept.classList.contains('active') && typeof renderConceptKeywordLinks === 'function') {
+    const pageSheet = document.getElementById('page-charsheet');
+    var open =
+      (pageConcept && pageConcept.classList.contains('active')) ||
+      (pageSheet && pageSheet.classList.contains('active'));
+    if (open && typeof renderConceptKeywordLinks === 'function') {
       renderConceptKeywordLinks();
     }
   }
@@ -7335,15 +7142,15 @@
             fanartConfirmed: true
           });
           markTabActivity('characterAnalysis');
-          if (typeof updateConceptCreateLockUI === 'function') updateConceptCreateLockUI();
-          if (typeof cqShowToast === 'function') cqShowToast('캐릭터 창작 탭이 열렸습니다.');
-          if (typeof showConceptSub === 'function') showConceptSub('create');
+          if (typeof cqShowToast === 'function') cqShowToast('캐릭터 분석이 저장되었습니다. 「캐릭터 시트」 탭에서 이어가세요.');
         });
       }
     }
+  }
 
-    if (typeof updateConceptCreateLockUI === 'function') updateConceptCreateLockUI();
-
+  function initCharsheetPage() {
+    migrateCharAnalysisLegacyOnce();
+    stripLegacyCharAnalysisSampleText();
     const s = readCharacterSheet();
     CHAR_FIELD_KEYS.forEach(function(k) {
       const el = document.getElementById('char-f-' + k);
@@ -8621,9 +8428,9 @@
   window._renderGallery();
   if (typeof window._renderPose === 'function') window._renderPose();
   syncTabActivityFromData();
-  if (typeof initBasicsPage === 'function') initBasicsPage();
   initMemoPage();
   initConceptPage();
+  if (typeof initCharsheetPage === 'function') initCharsheetPage();
   if (typeof initTabWorkChainUI === 'function') initTabWorkChainUI();
   if (typeof initMergedSubTabBars === 'function') initMergedSubTabBars();
   if (typeof initPixivUploadGateUI === 'function') initPixivUploadGateUI();
@@ -8764,9 +8571,9 @@
       if (typeof window._renderPose === 'function') window._renderPose();
       if (typeof window._renderGallery === 'function') window._renderGallery();
       if (typeof syncTabActivityFromData === 'function') syncTabActivityFromData();
-      if (typeof initBasicsPage === 'function') initBasicsPage();
       if (typeof initMemoPage === 'function') initMemoPage();
       if (typeof initConceptPage === 'function') initConceptPage();
+      if (typeof initCharsheetPage === 'function') initCharsheetPage();
       var ap = document.querySelector('#screen-main .page.active');
       var an = ap && ap.id && ap.id.indexOf('page-') === 0 ? ap.id.slice(5) : 'home';
       if (typeof canSwitchToTab === 'function' && !canSwitchToTab(an) && typeof goTab === 'function') goTab('home');
