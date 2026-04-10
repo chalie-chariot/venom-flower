@@ -3016,7 +3016,7 @@
       font-size: 13px;
     }
 
-    /* ── 최종 캐릭터 선정 (그룹: 이미지 1 + 선정 이유) ── */
+    /* ── 최종 캐릭터 선정 (1/2 이미지 | 1/2 캐릭터 분석 동일 3칸) ── */
     #page-finalpick .final-pick-page-header {
       flex-wrap: wrap;
       align-items: flex-start;
@@ -3046,10 +3046,33 @@
       padding: 1rem 1.15rem 1.15rem;
       max-width: 100%;
     }
-    #page-finalpick .final-pick-group-inner {
+    #page-finalpick .final-pick-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem 1.15rem;
+      align-items: stretch;
+    }
+    @media (max-width: 720px) {
+      #page-finalpick .final-pick-split {
+        grid-template-columns: 1fr;
+      }
+    }
+    #page-finalpick .final-pick-col--image {
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
+      gap: 0.5rem;
+      min-height: 0;
+    }
+    #page-finalpick .final-pick-col--image .final-pick-drop {
+      flex: 1;
+      min-height: 220px;
+      max-height: none;
+    }
+    #page-finalpick .final-pick-col--fields {
+      min-width: 0;
+    }
+    #page-finalpick .final-pick-col--fields .char-q-label:first-child {
+      margin-top: 0;
     }
     #page-finalpick .final-pick-img-hint {
       margin: 0;
@@ -3061,7 +3084,7 @@
       position: relative;
       width: 100%;
       min-height: 140px;
-      max-height: 260px;
+      max-height: none;
       border: 1px solid rgba(196, 182, 101, 0.45);
       border-radius: 8px;
       background: rgba(12, 11, 9, 0.65);
@@ -3107,7 +3130,7 @@
     }
     #page-finalpick .final-pick-preview-box img {
       width: 100%;
-      max-height: 260px;
+      max-height: min(52vh, 420px);
       object-fit: contain;
       display: block;
       vertical-align: bottom;
@@ -3130,22 +3153,6 @@
       color: var(--accent2);
       border-color: var(--accent);
     }
-    #page-finalpick .final-pick-notes {
-      min-height: 12rem;
-      width: 100%;
-      box-sizing: border-box;
-      border: 1px solid rgba(196, 182, 101, 0.42);
-      background: rgba(8, 7, 6, 0.55);
-    }
-    #page-finalpick .final-pick-notes:focus {
-      border-color: rgba(214, 198, 120, 0.65);
-      box-shadow: 0 0 0 1px rgba(196, 182, 101, 0.15);
-      outline: none;
-    }
-    #page-finalpick .final-pick-reason-label {
-      margin-top: 0.1rem;
-    }
-
     /* 캐릭터 창작: @ 키워드 — 헤더 고정 */
     #page-concept .char-kw-header-card,
     #page-charsheet .char-kw-header-card {
@@ -3864,7 +3871,7 @@
           <div class="page-header final-pick-page-header">
             <div>
               <h2 class="page-title">최종 캐릭터 선정</h2>
-              <span class="page-sub">최종안 시각 1장과 선정 이유 · 이 기기에만 저장</span>
+              <span class="page-sub">왼쪽 이미지 1장 · 오른쪽은 캐릭터 분석과 동일 항목 · 이 기기에만 저장</span>
             </div>
             <div class="final-pick-header-aside">
               <span class="final-pick-aside-muted">작성 전 주의</span>
@@ -3873,8 +3880,8 @@
             </div>
           </div>
           <div class="final-pick-group" aria-label="최종 캐릭터 선정">
-            <div class="final-pick-group-inner">
-              <div class="final-pick-image-block">
+            <div class="final-pick-split">
+              <div class="final-pick-col final-pick-col--image">
                 <p class="final-pick-img-hint">최종 캐릭터 이미지 1장</p>
                 <input type="file" id="final-pick-file" accept="image/*,.heic,.heif" hidden />
                 <div
@@ -3894,13 +3901,14 @@
                   </div>
                 </div>
               </div>
-              <label class="char-q-label final-pick-reason-label" for="final-pick-notes">선정 이유</label>
-              <textarea
-                id="final-pick-notes"
-                class="memo-editor char-q-text final-pick-notes"
-                rows="14"
-                placeholder="최종 후보, 선정 이유, 연출·의상·성격에서 고른 포인트…"
-              ></textarea>
+              <div class="final-pick-col final-pick-col--fields char-analysis-panel">
+                <label class="char-q-label" for="final-pick-work-char">작품·캐릭터 (검색 키워드)</label>
+                <input type="text" id="final-pick-work-char" class="char-an-input" autocomplete="off" />
+                <label class="char-q-label" for="final-pick-charm">예상 매력·호감 포인트</label>
+                <textarea id="final-pick-charm" class="memo-editor char-q-text" rows="4"></textarea>
+                <label class="char-q-label" for="final-pick-research">검색 후 정리 — 서사 · 성격 · 설정</label>
+                <textarea id="final-pick-research" class="memo-editor char-q-text" rows="6"></textarea>
+              </div>
             </div>
           </div>
         </div>
@@ -4590,30 +4598,48 @@
   const LS_FINAL_CHARACTER_PICK = 'dokcho_final_character_pick_v1';
 
   function readFinalPickBundle() {
+    var empty = { imageDataUrl: '', workChar: '', charmPoints: '', researchNotes: '' };
     try {
       var raw = localStorage.getItem(LS_FINAL_CHARACTER_PICK);
-      if (!raw) return { notes: '', imageDataUrl: '' };
+      if (!raw) return empty;
       if (raw.charAt(0) === '{') {
         var o = JSON.parse(raw);
-        if (o && typeof o === 'object') {
-          return {
-            notes: String(o.notes != null ? o.notes : ''),
-            imageDataUrl: String(o.imageDataUrl != null ? o.imageDataUrl : '')
-          };
+        if (!o || typeof o !== 'object') return empty;
+        var out = {
+          imageDataUrl: String(o.imageDataUrl != null ? o.imageDataUrl : ''),
+          workChar: String(o.workChar != null ? o.workChar : ''),
+          charmPoints: String(o.charmPoints != null ? o.charmPoints : ''),
+          researchNotes: String(o.researchNotes != null ? o.researchNotes : '')
+        };
+        if (!String(out.researchNotes || '').trim() && o.notes != null && String(o.notes).trim()) {
+          out.researchNotes = String(o.notes);
         }
+        return out;
       }
-      return { notes: raw, imageDataUrl: '' };
+      return {
+        imageDataUrl: '',
+        workChar: '',
+        charmPoints: '',
+        researchNotes: raw
+      };
     } catch (e) {
-      return { notes: '', imageDataUrl: '' };
+      return empty;
     }
   }
 
   function writeFinalPickPatch(patch) {
     var cur = readFinalPickBundle();
-    if (patch && patch.notes != null) cur.notes = String(patch.notes);
     if (patch && patch.imageDataUrl != null) cur.imageDataUrl = String(patch.imageDataUrl);
+    if (patch && patch.workChar != null) cur.workChar = String(patch.workChar);
+    if (patch && patch.charmPoints != null) cur.charmPoints = String(patch.charmPoints);
+    if (patch && patch.researchNotes != null) cur.researchNotes = String(patch.researchNotes);
     try {
-      localStorage.setItem(LS_FINAL_CHARACTER_PICK, JSON.stringify(cur));
+      localStorage.setItem(LS_FINAL_CHARACTER_PICK, JSON.stringify({
+        imageDataUrl: cur.imageDataUrl,
+        workChar: cur.workChar,
+        charmPoints: cur.charmPoints,
+        researchNotes: cur.researchNotes
+      }));
     } catch (e) {
       if (typeof cqShowToast === 'function') {
         cqShowToast('저장에 실패했습니다. 이미지 용량을 줄이거나 잠시 후 다시 시도해 주세요.');
@@ -4873,9 +4899,12 @@
     } catch (e2) {}
     try {
       var fpb = readFinalPickBundle();
-      if ((fpb.notes && fpb.notes.trim()) || (fpb.imageDataUrl && fpb.imageDataUrl.length > 80)) {
-        markTabActivity('finalpick');
-      }
+      var fpActive =
+        (fpb.imageDataUrl && fpb.imageDataUrl.length > 80) ||
+        (fpb.workChar && fpb.workChar.trim()) ||
+        (fpb.charmPoints && fpb.charmPoints.trim()) ||
+        (fpb.researchNotes && fpb.researchNotes.trim());
+      if (fpActive) markTabActivity('finalpick');
     } catch (e3) {}
   }
 
@@ -6420,12 +6449,16 @@
   }
 
   function finalPickApplyBundleToUI(bundle) {
-    var ta = document.getElementById('final-pick-notes');
+    var wc = document.getElementById('final-pick-work-char');
+    var ch = document.getElementById('final-pick-charm');
+    var rs = document.getElementById('final-pick-research');
     var drop = document.getElementById('final-pick-drop');
     var empty = document.getElementById('final-pick-empty');
     var prev = document.getElementById('final-pick-preview');
     var img = document.getElementById('final-pick-img');
-    if (ta) ta.value = bundle.notes || '';
+    if (wc) wc.value = bundle.workChar || '';
+    if (ch) ch.value = bundle.charmPoints || '';
+    if (rs) rs.value = bundle.researchNotes || '';
     var url = bundle.imageDataUrl || '';
     var has = url.length > 80 && /^data:image\//i.test(url);
     if (drop && empty && prev && img) {
@@ -6448,17 +6481,31 @@
 
   function finalPickMarkActivityIfNeeded(bundle) {
     if (typeof markTabActivity !== 'function') return;
-    if ((bundle.notes && bundle.notes.trim()) || (bundle.imageDataUrl && bundle.imageDataUrl.length > 80)) {
-      markTabActivity('finalpick');
-    }
+    var active =
+      (bundle.imageDataUrl && bundle.imageDataUrl.length > 80) ||
+      (bundle.workChar && bundle.workChar.trim()) ||
+      (bundle.charmPoints && bundle.charmPoints.trim()) ||
+      (bundle.researchNotes && bundle.researchNotes.trim());
+    if (active) markTabActivity('finalpick');
   }
 
   function initFinalPickPage() {
-    var ta = document.getElementById('final-pick-notes');
+    var wc = document.getElementById('final-pick-work-char');
+    var ch = document.getElementById('final-pick-charm');
+    var rs = document.getElementById('final-pick-research');
     var fileEl = document.getElementById('final-pick-file');
     var drop = document.getElementById('final-pick-drop');
     var rem = document.getElementById('final-pick-remove');
-    if (!ta || !fileEl || !drop) return;
+    if (!wc || !ch || !rs || !fileEl || !drop) return;
+
+    function persistFinalPickTexts() {
+      writeFinalPickPatch({
+        workChar: wc.value,
+        charmPoints: ch.value,
+        researchNotes: rs.value
+      });
+      finalPickMarkActivityIfNeeded(readFinalPickBundle());
+    }
 
     function setImageDataUrl(dataUrl) {
       writeFinalPickPatch({ imageDataUrl: dataUrl || '' });
@@ -6503,10 +6550,9 @@
           setImageDataUrl('');
         });
       }
-      ta.addEventListener('input', function() {
-        writeFinalPickPatch({ notes: ta.value });
-        finalPickMarkActivityIfNeeded(readFinalPickBundle());
-      });
+      wc.addEventListener('input', persistFinalPickTexts);
+      ch.addEventListener('input', persistFinalPickTexts);
+      rs.addEventListener('input', persistFinalPickTexts);
     }
 
     finalPickApplyBundleToUI(readFinalPickBundle());
