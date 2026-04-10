@@ -1325,7 +1325,9 @@
     }
     .tab-work-dock--waiting .tab-work-dock-actions {
       opacity: 0.55;
-      pointer-events: none;
+    }
+    .tab-work-dock--waiting .tab-work-complete-label {
+      cursor: not-allowed;
     }
     .tab-work-dock--blocked-msg .tab-work-dock-actions {
       display: none;
@@ -1343,6 +1345,11 @@
       font-weight: 500;
       color: var(--accent2);
       letter-spacing: 0.12em;
+      transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
+    .tab-work-dock--ready .tab-work-complete-title {
+      color: #fff176;
+      text-shadow: 0 0 14px rgba(255, 241, 118, 0.35);
     }
     .tab-work-dock--done .tab-work-check-frame {
       background: rgba(180, 150, 70, 0.12);
@@ -4404,13 +4411,27 @@
     }
   }
 
-  function basicsHasStoredPractice() {
-    const d = readBasicsBundle();
-    const n = String(d.notes || '').trim();
-    if (n.length >= 40) return true;
+  /** 기본기 탭이 열려 있을 때는 textarea, 아니면 저장된 번들의 메모를 사용 */
+  function basicsEffectiveNotesTrimmed() {
+    var page = document.getElementById('page-basics');
+    var el = document.getElementById('basics-notes');
+    if (page && page.classList.contains('active') && el) {
+      return String(el.value || '').trim();
+    }
+    return String(readBasicsBundle().notes || '').trim();
+  }
+
+  /** flushFrontierPersist('basics')와 동일: 메모 10자 이상 + 이미지 슬롯 1곳 이상 */
+  function basicsFrontierReadyFromUI() {
+    var n = basicsEffectiveNotesTrimmed();
     if (n.length < 10) return false;
-    const hasImg = function(url) { return String(url || '').length > 80; };
+    var d = readBasicsBundle();
+    var hasImg = function(url) { return String(url || '').length > 80; };
     return hasImg(d.compareDataUrl) || hasImg(d.refHandDataUrl) || hasImg(d.refFootDataUrl) || hasImg(d.refFaceDataUrl);
+  }
+
+  function basicsHasStoredPractice() {
+    return basicsFrontierReadyFromUI();
   }
 
   (function migrateMergedTabChainOnce() {
@@ -4483,7 +4504,7 @@
     if (name === 'home') return true;
     const o = readTabActivity();
     if (name === 'basics') {
-      return typeof basicsHasStoredPractice === 'function' && basicsHasStoredPractice();
+      return typeof basicsFrontierReadyFromUI === 'function' && basicsFrontierReadyFromUI();
     }
     if (name === 'sketch') {
       return !!(o.croquis && o.pose);
@@ -4505,6 +4526,55 @@
       return !!(o.concept || (typeof conceptHasStoredContent === 'function' && conceptHasStoredContent()));
     }
     return !!o[name];
+  }
+
+  function getTabWorkIncompleteReason(name) {
+    if (!name) return '완료 조건을 확인할 수 없습니다.';
+    if (name === 'basics') {
+      var n = basicsEffectiveNotesTrimmed();
+      if (n.length < 10) return '셀프 피드백 메모를 10자 이상 적어 주세요.';
+      var d = readBasicsBundle();
+      var hasImg = function(url) { return String(url || '').length > 80; };
+      if (!hasImg(d.compareDataUrl) && !hasImg(d.refHandDataUrl) && !hasImg(d.refFootDataUrl) && !hasImg(d.refFaceDataUrl)) {
+        return '「내 데포르메」 또는 손·발·얼굴 참고 이미지를 하나 이상 넣어 주세요.';
+      }
+      return '';
+    }
+    var o = readTabActivity();
+    if (name === 'sketch') {
+      if (!o.croquis) return '크로키 탭에서 활동을 기록해 주세요.';
+      if (!o.pose) return '포즈 탭에서 활동을 기록해 주세요.';
+      return '';
+    }
+    if (name === 'deforme') {
+      if (typeof deformeHasWork === 'function' && !deformeHasWork()) return '데포르메 탭에서 필요한 작업을 완료해 주세요.';
+      return '';
+    }
+    if (name === 'refgallery') {
+      if (!o.reference) return '레퍼런스 탭 활동을 기록해 주세요.';
+      if (!o.gallery) return '갤러리 탭 활동을 기록해 주세요.';
+      return '';
+    }
+    if (name === 'design') {
+      if (!o.design) return '디자인 탭 활동을 기록해 주세요.';
+      return '';
+    }
+    if (name === 'memo') {
+      if (!o.memo && !(typeof memoHasStoredContent === 'function' && memoHasStoredContent())) {
+        return '메모 탭 내용을 작성해 주세요.';
+      }
+      return '';
+    }
+    if (name === 'concept') {
+      if (typeof isCharacterAnalysisComplete === 'function' && !isCharacterAnalysisComplete()) {
+        return '캐릭터 분석을 모두 완료해 주세요.';
+      }
+      if (!o.concept && !(typeof conceptHasStoredContent === 'function' && conceptHasStoredContent())) {
+        return '컨셉 탭 내용을 작성해 주세요.';
+      }
+      return '';
+    }
+    return '이 탭의 완료 조건을 아직 충족하지 못했습니다.';
   }
 
   function updateTabButtonLocks() {
@@ -4561,6 +4631,7 @@
     dock.classList.remove('is-hidden');
     dock.classList.toggle('tab-work-dock--pulse', ready);
     dock.classList.toggle('tab-work-dock--waiting', !ready);
+    dock.classList.toggle('tab-work-dock--ready', ready);
     if (hint) {
       if (ready && frontier === 'concept') {
         hint.textContent = '마지막 단계입니다. 체크 시 캐릭터 시트가 저장되고, 픽시브 업로드 페이지가 열립니다. 업로드 확인 창에서 체크해야 이번 1사이클이 완료됩니다.';
@@ -4584,7 +4655,7 @@
     if (!dock || !hint) return;
     const label = frontier ? (TAB_CHAIN_LABELS[frontier] || frontier) : '';
     dock.classList.remove('is-hidden');
-    dock.classList.remove('tab-work-dock--pulse', 'tab-work-dock--waiting');
+    dock.classList.remove('tab-work-dock--pulse', 'tab-work-dock--waiting', 'tab-work-dock--ready');
     dock.classList.add('tab-work-dock--blocked-msg');
     hint.textContent = frontier
       ? '현재는 「' + label + '」 단계까지 열려 있습니다. 먼저 그 탭에서 작업을 완료한 뒤 순서대로 진행해 주세요.'
@@ -4755,8 +4826,22 @@
 
   function initTabWorkChainUI() {
     const cb = document.getElementById('tab-work-complete-cb');
+    const lbl = document.getElementById('tab-work-complete-label');
     if (!cb || cb._tabChainBound) return;
     cb._tabChainBound = true;
+    if (lbl && !lbl._tabChainIncompleteToastBound) {
+      lbl._tabChainIncompleteToastBound = true;
+      lbl.addEventListener('click', function(ev) {
+        if (!cb.disabled) return;
+        var frontier = typeof getFrontierTab === 'function' ? getFrontierTab() : null;
+        if (!frontier) return;
+        var msg = typeof getTabWorkIncompleteReason === 'function' ? getTabWorkIncompleteReason(frontier) : '';
+        if (msg && typeof cqShowToast === 'function') {
+          ev.preventDefault();
+          cqShowToast(msg);
+        }
+      }, true);
+    }
     cb.addEventListener('change', async function() {
       if (!this.checked || this.disabled) return;
       const frontier = getFrontierTab();
@@ -7049,6 +7134,14 @@
     if (page && page._basicsBound) return;
     if (page) page._basicsBound = true;
 
+    var notesDockEl = document.getElementById('basics-notes');
+    if (notesDockEl && !notesDockEl._tabDockRefreshBound) {
+      notesDockEl._tabDockRefreshBound = true;
+      notesDockEl.addEventListener('input', function() {
+        if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
+      });
+    }
+
     function readFileForSlot(slot, file) {
       if (typeof deformeReadFileAsDataURL !== 'function') return;
       deformeReadFileAsDataURL(file, function(dataUrl) {
@@ -7058,6 +7151,7 @@
         patch[key] = dataUrl;
         writeBasicsBundle(patch);
         basicsApplyBundleToUI();
+        if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
         if (typeof markTabActivity === 'function' && typeof basicsHasStoredPractice === 'function' && basicsHasStoredPractice()) {
           markTabActivity('basics');
         }
@@ -7101,6 +7195,7 @@
           patch[key] = '';
           writeBasicsBundle(patch);
           basicsApplyBundleToUI();
+          if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
         });
       }
       var pv = document.getElementById('basics-preview-' + slot);
@@ -7131,6 +7226,7 @@
         }
         writeBasicsBundle({ compareDataUrl: d.mineDataUrl });
         basicsApplyBundleToUI();
+        if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
         if (typeof cqShowToast === 'function') cqShowToast('데포르메 탭의 이미지를 불러왔습니다.');
       });
     }
