@@ -78,8 +78,15 @@
        INTRO 화면
     ════════════════════════ */
     #screen-intro {
-      padding: 2rem;
+      padding: max(1.25rem, env(safe-area-inset-top)) max(1.25rem, env(safe-area-inset-right))
+        max(1.25rem, env(safe-area-inset-bottom)) max(1.25rem, env(safe-area-inset-left));
       gap: 0;
+      /* 세로로 콘텐츠가 길 때 중앙 정렬만 하면 달력·시작 버튼이 뷰포트 밖으로 잘림 */
+      justify-content: flex-start;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
     }
 
     .intro-header {
@@ -3393,6 +3400,7 @@
     /* ── 모바일 ── */
     @media (max-width: 600px) {
       .intro-title { font-size: clamp(4rem, 22vw, 6rem); }
+      #screen-intro .intro-header { margin-bottom: 1.5rem; }
       .today-bar { gap: 0.5rem; }
       .today-num { font-size: 1.8rem; }
     }
