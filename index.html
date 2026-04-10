@@ -1938,10 +1938,8 @@
     #page-basics .basics-drop-empty {
       flex: 1;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
       pointer-events: none;
       padding: 12px;
       min-height: 88px;
@@ -1950,25 +1948,34 @@
     #page-basics .basics-drop-empty[hidden] {
       display: none !important;
     }
-    #page-basics .basics-drop-icon {
+    #page-basics .basics-add-btn {
+      pointer-events: auto;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border: 1px dashed rgba(180, 170, 80, 0.45);
+      border-radius: 50%;
+      background: rgba(20, 18, 14, 0.75);
+      color: var(--accent2);
+      font-family: var(--font-body);
+      font-size: 26px;
+      font-weight: 300;
+      line-height: 1;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 1px dashed rgba(180, 170, 80, 0.35);
-      background: rgba(20, 18, 14, 0.65);
-      font-size: 28px;
-      font-weight: 300;
-      color: var(--accent2);
-      line-height: 1;
+      transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
     }
-    #page-basics .basics-drop-text {
-      font-size: 10px;
-      color: var(--text3);
-      text-align: center;
-      letter-spacing: 0.04em;
+    #page-basics .basics-add-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(20, 18, 14, 0.95);
+      box-shadow: 0 0 0 1px rgba(180, 196, 74, 0.15);
+    }
+    #page-basics .basics-add-btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(180, 196, 74, 0.4);
     }
     #page-basics .basics-preview-wrap {
       position: relative;
@@ -2178,21 +2185,38 @@
     }
     #page-deforme .deforme-drop-empty {
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 6px;
       pointer-events: none;
     }
-    #page-deforme .deforme-drop-icon {
-      font-size: 28px;
+    #page-deforme .deforme-add-btn {
+      pointer-events: auto;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border: 1px dashed var(--df-border-hi, #3a4a22);
+      border-radius: 50%;
+      background: rgba(28, 34, 17, 0.65);
+      color: var(--df-accent, #8fbc44);
+      font-family: var(--font-body);
+      font-size: 26px;
       font-weight: 300;
-      color: var(--df-muted, #7a9450);
       line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
     }
-    #page-deforme .deforme-drop-text {
-      font-size: 12px;
-      color: var(--df-muted, #7a9450);
+    #page-deforme .deforme-add-btn:hover {
+      border-color: var(--df-accent, #8fbc44);
+      color: var(--df-text, #d4e8a0);
+      background: rgba(28, 34, 17, 0.95);
+      box-shadow: 0 0 0 1px rgba(143, 188, 68, 0.2);
+    }
+    #page-deforme .deforme-add-btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(143, 188, 68, 0.45);
     }
     #page-deforme .deforme-preview-wrap {
       position: relative;
@@ -2749,22 +2773,39 @@
     }
     #page-reference .ref-ws-drop-empty {
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 6px;
       pointer-events: none;
       padding: 12px;
     }
-    #page-reference .ref-ws-drop-icon {
-      font-size: 28px;
+    #page-reference .ref-ws-slot-add-btn {
+      pointer-events: auto;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border: 1px dashed var(--rw-border-hi, #3a4a22);
+      border-radius: 50%;
+      background: rgba(22, 26, 14, 0.75);
+      color: var(--rw-accent, #8fbc44);
+      font-family: var(--font-body);
+      font-size: 26px;
       font-weight: 300;
-      color: var(--rw-muted);
       line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
     }
-    #page-reference .ref-ws-drop-text {
-      font-size: 12px;
-      color: var(--rw-muted);
+    #page-reference .ref-ws-slot-add-btn:hover {
+      border-color: var(--rw-accent, #8fbc44);
+      color: var(--rw-text, #d4e8a0);
+      background: rgba(22, 26, 14, 0.95);
+      box-shadow: 0 0 0 1px rgba(143, 188, 68, 0.2);
+    }
+    #page-reference .ref-ws-slot-add-btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(143, 188, 68, 0.45);
     }
     #page-reference .ref-ws-preview {
       position: relative;
@@ -3537,8 +3578,7 @@
                   <div class="basics-drop is-empty" id="basics-drop-hand" tabindex="0" role="button" aria-label="손 참고 이미지">
                     <input type="file" id="basics-file-hand" class="basics-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
                     <div class="basics-drop-empty" id="basics-empty-hand">
-                      <span class="basics-drop-icon" aria-hidden="true">+</span>
-                      <span class="basics-drop-text">이미지 추가</span>
+                      <button type="button" class="basics-add-btn" data-basics-add="hand" aria-label="손 참고 이미지 추가">+</button>
                     </div>
                     <div class="basics-preview-wrap" id="basics-preview-hand" hidden>
                       <img id="basics-img-hand" class="basics-preview-img" alt="손 참고" />
@@ -3551,8 +3591,7 @@
                   <div class="basics-drop is-empty" id="basics-drop-foot" tabindex="0" role="button" aria-label="발 참고 이미지">
                     <input type="file" id="basics-file-foot" class="basics-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
                     <div class="basics-drop-empty" id="basics-empty-foot">
-                      <span class="basics-drop-icon" aria-hidden="true">+</span>
-                      <span class="basics-drop-text">이미지 추가</span>
+                      <button type="button" class="basics-add-btn" data-basics-add="foot" aria-label="발 참고 이미지 추가">+</button>
                     </div>
                     <div class="basics-preview-wrap" id="basics-preview-foot" hidden>
                       <img id="basics-img-foot" class="basics-preview-img" alt="발 참고" />
@@ -3565,8 +3604,7 @@
                   <div class="basics-drop is-empty" id="basics-drop-face" tabindex="0" role="button" aria-label="얼굴 참고 이미지">
                     <input type="file" id="basics-file-face" class="basics-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
                     <div class="basics-drop-empty" id="basics-empty-face">
-                      <span class="basics-drop-icon" aria-hidden="true">+</span>
-                      <span class="basics-drop-text">이미지 추가</span>
+                      <button type="button" class="basics-add-btn" data-basics-add="face" aria-label="얼굴 참고 이미지 추가">+</button>
                     </div>
                     <div class="basics-preview-wrap" id="basics-preview-face" hidden>
                       <img id="basics-img-face" class="basics-preview-img" alt="얼굴 참고" />
@@ -3586,8 +3624,7 @@
               <div class="basics-drop basics-drop--wide is-empty" id="basics-drop-compare" tabindex="0" role="button" aria-label="내 데포르메 이미지">
                 <input type="file" id="basics-file-compare" class="basics-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
                 <div class="basics-drop-empty" id="basics-empty-compare">
-                  <span class="basics-drop-icon" aria-hidden="true">+</span>
-                  <span class="basics-drop-text">내 데포르메 이미지 추가</span>
+                  <button type="button" class="basics-add-btn" data-basics-add="compare" aria-label="내 데포르메 이미지 추가">+</button>
                 </div>
                 <div class="basics-preview-wrap" id="basics-preview-compare" hidden>
                   <img id="basics-img-compare" class="basics-preview-img" alt="내 데포르메" />
@@ -3728,8 +3765,7 @@
               <div class="deforme-drop is-empty" id="deforme-drop-sample" tabindex="0" role="button" aria-label="샘플 이미지 업로드">
                 <input type="file" id="deforme-file-sample" class="deforme-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
                 <div class="deforme-drop-empty" id="deforme-empty-sample">
-                  <span class="deforme-drop-icon" aria-hidden="true">+</span>
-                  <span class="deforme-drop-text">샘플 이미지 추가</span>
+                  <button type="button" class="deforme-add-btn" data-deforme-add="sample" aria-label="샘플 이미지 추가">+</button>
                 </div>
                 <div class="deforme-preview-wrap" id="deforme-preview-sample" hidden>
                   <img id="deforme-img-sample" class="deforme-preview-img" alt="샘플" />
@@ -3743,8 +3779,7 @@
               <div class="deforme-drop is-empty" id="deforme-drop-mine" tabindex="0" role="button" aria-label="내 데포르메 이미지 업로드">
                 <input type="file" id="deforme-file-mine" class="deforme-file-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
                 <div class="deforme-drop-empty" id="deforme-empty-mine">
-                  <span class="deforme-drop-icon" aria-hidden="true">+</span>
-                  <span class="deforme-drop-text">내 데포르메 이미지 추가</span>
+                  <button type="button" class="deforme-add-btn" data-deforme-add="mine" aria-label="내 데포르메 이미지 추가">+</button>
                 </div>
                 <div class="deforme-preview-wrap" id="deforme-preview-mine" hidden>
                   <img id="deforme-img-mine" class="deforme-preview-img" alt="내 데포르메" />
@@ -3793,8 +3828,7 @@
               <div class="ref-ws-drop is-empty" id="ref-ws-my-drop" tabindex="0" role="button" aria-label="내 그림 업로드">
                 <input type="file" id="ref-ws-my-file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
                 <div class="ref-ws-drop-empty" id="ref-ws-my-empty">
-                  <span class="ref-ws-drop-icon" aria-hidden="true">+</span>
-                  <span class="ref-ws-drop-text">그림 추가</span>
+                  <button type="button" class="ref-ws-slot-add-btn" id="ref-ws-my-add-btn" aria-label="내 그림 추가">+</button>
                 </div>
                 <div class="ref-ws-preview" id="ref-ws-my-preview" hidden>
                   <img id="ref-ws-my-img" class="ref-ws-preview-img" alt="내 그림" />
@@ -6027,12 +6061,28 @@
     var prev = document.getElementById(side === 'sample' ? 'deforme-preview-sample' : 'deforme-preview-mine');
     var img = document.getElementById(side === 'sample' ? 'deforme-img-sample' : 'deforme-img-mine');
     if (!drop || !empty || !prev || !img) return;
-    if (hasImg && url) {
+    var ok = !!(hasImg && url && String(url).trim().length > 0);
+    if (ok) {
       drop.classList.remove('is-empty');
       empty.hidden = true;
       prev.hidden = false;
+      img.onload = function() {
+        img.onerror = null;
+      };
+      img.onerror = function() {
+        img.onerror = null;
+        img.onload = null;
+        img.removeAttribute('src');
+        var full = deformeGatherStateFromUI();
+        if (side === 'sample') full.sampleDataUrl = '';
+        else full.mineDataUrl = '';
+        writeDeformeBundle(full);
+        deformeUpdateDropUI(side, false, '');
+      };
       img.src = url;
     } else {
+      img.onerror = null;
+      img.onload = null;
       drop.classList.add('is-empty');
       empty.hidden = false;
       prev.hidden = true;
@@ -6141,6 +6191,7 @@
 
       drop.addEventListener('click', function(ev) {
         if (ev.target.closest('.deforme-remove-btn')) return;
+        if (ev.target.closest('.deforme-add-btn')) return;
         if (ev.target.classList.contains('deforme-preview-img')) return;
         fileEl.click();
       });
@@ -6189,6 +6240,18 @@
 
     wireSide('sample', 'deforme-file-sample', 'deforme-drop-sample', 'deforme-remove-sample');
     wireSide('mine', 'deforme-file-mine', 'deforme-drop-mine', 'deforme-remove-mine');
+
+    document.querySelectorAll('.deforme-add-btn').forEach(function(btn) {
+      if (btn._deformeAddBound) return;
+      btn._deformeAddBound = true;
+      btn.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        var s = btn.getAttribute('data-deforme-add');
+        var fid = s === 'mine' ? 'deforme-file-mine' : 'deforme-file-sample';
+        var fe = document.getElementById(fid);
+        if (fe) fe.click();
+      });
+    });
 
     var sn = document.getElementById('deforme-sample-note');
     var mf = document.getElementById('deforme-mine-filename');
@@ -7136,6 +7199,7 @@
     var prev = document.getElementById('basics-preview-' + slot);
     var img = document.getElementById('basics-img-' + slot);
     if (!drop || !empty || !prev || !img) return;
+    var key = BASICS_SLOT_KEYS[slot];
     var ok = hasImg && basicsIsValidImageDataUrl(url);
     if (ok) {
       drop.classList.remove('is-empty');
@@ -7143,8 +7207,25 @@
       empty.hidden = true;
       prev.removeAttribute('hidden');
       prev.hidden = false;
+      img.onload = function() {
+        img.onerror = null;
+      };
+      img.onerror = function() {
+        img.onerror = null;
+        img.onload = null;
+        img.removeAttribute('src');
+        if (key) {
+          var patch = {};
+          patch[key] = '';
+          writeBasicsBundle(patch);
+        }
+        basicsUpdateSlotVisual(slot, false, '');
+        if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
+      };
       img.src = url;
     } else {
+      img.onerror = null;
+      img.onload = null;
       drop.classList.add('is-empty');
       img.removeAttribute('src');
       prev.setAttribute('hidden', '');
@@ -7222,6 +7303,7 @@
 
       drop.addEventListener('click', function(ev) {
         if (ev.target.closest('.basics-remove-btn')) return;
+        if (ev.target.closest('.basics-add-btn')) return;
         if (ev.target.classList.contains('basics-preview-img')) return;
         fileEl.click();
       });
@@ -7269,6 +7351,18 @@
     wireSlot('foot', 'basics-file-foot', 'basics-drop-foot', 'basics-remove-foot');
     wireSlot('face', 'basics-file-face', 'basics-drop-face', 'basics-remove-face');
     wireSlot('compare', 'basics-file-compare', 'basics-drop-compare', 'basics-remove-compare');
+
+    document.querySelectorAll('#page-basics .basics-add-btn').forEach(function(btn) {
+      if (btn._basicsAddBound) return;
+      btn._basicsAddBound = true;
+      btn.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        var slot = btn.getAttribute('data-basics-add');
+        var fid = slot ? 'basics-file-' + slot : '';
+        var fe = fid ? document.getElementById(fid) : null;
+        if (fe) fe.click();
+      });
+    });
 
     var impBtn = document.getElementById('basics-import-deforme-btn');
     if (impBtn && !impBtn._basicsImpBound) {
@@ -7390,8 +7484,20 @@
       drop.classList.remove('is-empty');
       empty.hidden = true;
       preview.hidden = false;
+      img.onload = function() {
+        img.onerror = null;
+      };
+      img.onerror = function() {
+        img.onerror = null;
+        img.onload = null;
+        img.removeAttribute('src');
+        writeRefWorkspace({ myDrawingDataUrl: '' });
+        refWsUpdateMyColumn(readRefWorkspace());
+      };
       img.src = url;
     } else {
+      img.onerror = null;
+      img.onload = null;
       drop.classList.add('is-empty');
       empty.hidden = false;
       preview.hidden = true;
@@ -7425,6 +7531,7 @@
     if (myDrop && myFile) {
       myDrop.addEventListener('click', function(ev) {
         if (ev.target.closest('#ref-ws-my-remove')) return;
+        if (ev.target.closest('.ref-ws-slot-add-btn')) return;
         if (ev.target === myImg) return;
         myFile.click();
       });
@@ -7461,6 +7568,14 @@
           if (typeof markTabActivity === 'function') markTabActivity('reference');
         }).catch(function() {});
       });
+      var myAddBtn = document.getElementById('ref-ws-my-add-btn');
+      if (myAddBtn && !myAddBtn._refWsMyAddBound) {
+        myAddBtn._refWsMyAddBound = true;
+        myAddBtn.addEventListener('click', function(ev) {
+          ev.stopPropagation();
+          myFile.click();
+        });
+      }
     }
     if (myRm) {
       myRm.addEventListener('click', function(ev) {
@@ -7535,7 +7650,7 @@
 
       var empty = document.createElement('div');
       empty.className = 'ref-ws-drop-empty';
-      empty.innerHTML = '<span class="ref-ws-drop-icon" aria-hidden="true">+</span><span class="ref-ws-drop-text">레퍼런스 추가</span>';
+      empty.innerHTML = '<button type="button" class="ref-ws-slot-add-btn" aria-label="레퍼런스 이미지 추가">+</button>';
 
       var preview = document.createElement('div');
       preview.className = 'ref-ws-ref-preview';
@@ -7544,7 +7659,23 @@
       var img = document.createElement('img');
       img.className = 'ref-ws-preview-img';
       img.alt = '참고 레퍼런스';
-      if (item.data) img.src = item.data;
+      if (item.data) {
+        img.onload = function() {
+          img.onerror = null;
+        };
+        img.onerror = function() {
+          img.onerror = null;
+          img.onload = null;
+          img.removeAttribute('src');
+          var cur = readRefWorkspace();
+          var refs = cur.refs.map(function(r) {
+            return r.id === item.id ? Object.assign({}, r, { data: '' }) : r;
+          });
+          writeRefWorkspace({ refs: refs });
+          window._renderReference();
+        };
+        img.src = item.data;
+      }
 
       var rm = document.createElement('button');
       rm.type = 'button';
@@ -7569,6 +7700,7 @@
 
       drop.addEventListener('click', function(ev) {
         if (ev.target.closest('.ref-ws-remove')) return;
+        if (ev.target.closest('.ref-ws-slot-add-btn')) return;
         if (ev.target === img) return;
         fileInp.click();
       });
@@ -7617,6 +7749,14 @@
       } else {
         drop.appendChild(fileInp);
         drop.appendChild(empty);
+      }
+
+      var refSlotAddBtn = drop.querySelector('.ref-ws-slot-add-btn');
+      if (refSlotAddBtn) {
+        refSlotAddBtn.addEventListener('click', function(ev) {
+          ev.stopPropagation();
+          fileInp.click();
+        });
       }
 
       var srcInp = document.createElement('input');
