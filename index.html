@@ -649,7 +649,7 @@
     .btn-hero.primary:hover { background: var(--accent2); border-color: var(--accent2); }
     .btn-hero:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* 홈 · 1사이클 체크 (LD×3 · SD×3 · 크리쳐×1 · 스파인×3) */
+    /* 홈 · 1사이클 체크 (15칸 · 크로키+도형화 2사이클 후 활성) */
     .home-cycle-card {
       background: var(--surface);
       border: 0.5px solid var(--border);
@@ -724,6 +724,25 @@
       height: 22px;
       accent-color: var(--accent);
       cursor: pointer;
+    }
+
+    .home-cycle-card.home-cycle-card--gate-locked {
+      opacity: 0.88;
+    }
+    .home-cycle-card.home-cycle-card--gate-locked .practice-cycle-checks label {
+      cursor: not-allowed;
+    }
+    .home-cycle-card.home-cycle-card--gate-locked .practice-cycle-checks input[type="checkbox"]:disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+    .practice-cycle-gate-hint {
+      font-size: 11px;
+      color: var(--text3);
+      margin: -0.25rem 0 0.9rem;
+      text-align: center;
+      letter-spacing: 0.03em;
+      line-height: 1.5;
     }
 
     .practice-cycle-footer {
@@ -3660,44 +3679,65 @@
             <button type="button" class="btn-hero primary btn-work-main" onclick="goTab('sketch')">작업하기</button>
           </div>
 
-          <!-- 1사이클 체크: LD 3 / SD 3 / 크리쳐 1 / 스파인 3 = 10 -->
+          <!-- 1사이클 체크 15칸 — 크로키+도형화 훈련 2사이클 완료 후 체크 가능 -->
           <div id="home-practice-cycle-card" class="home-cycle-card" aria-label="연습 1사이클 체크">
             <p class="spinner-label">1사이클 체크</p>
-            <p class="practice-cycle-sub">LD 3 · SD 3 · 크리쳐 1 · 스파인 3 — 10칸 모두 체크 시 1사이클</p>
+            <p class="practice-cycle-sub">LD 3 · SD 3 · 크리쳐 2 · 스파인 3 · 얼굴 2 · 분위기 1 · 연출 1 — 각 줄마다 앞칸부터 순서대로만 체크 · 15칸 모두 채우면 1사이클</p>
+            <p id="practice-cycle-gate-hint" class="practice-cycle-gate-hint">크로키·도형화 탭에서 훈련 2사이클(2분→20분 ×2)을 마친 뒤에 체크할 수 있습니다.</p>
             <div class="practice-cycle-groups">
               <div class="practice-cycle-group">
                 <span class="practice-cycle-group-label">LD</span>
                 <div class="practice-cycle-checks">
-                  <label><input type="checkbox" data-cycle-i="0" aria-label="LD 1" /></label>
-                  <label><input type="checkbox" data-cycle-i="1" aria-label="LD 2" /></label>
-                  <label><input type="checkbox" data-cycle-i="2" aria-label="LD 3" /></label>
+                  <label><input type="checkbox" data-cycle-i="0" aria-label="LD 1" disabled /></label>
+                  <label><input type="checkbox" data-cycle-i="1" aria-label="LD 2" disabled /></label>
+                  <label><input type="checkbox" data-cycle-i="2" aria-label="LD 3" disabled /></label>
                 </div>
               </div>
               <div class="practice-cycle-group">
                 <span class="practice-cycle-group-label">SD</span>
                 <div class="practice-cycle-checks">
-                  <label><input type="checkbox" data-cycle-i="3" aria-label="SD 1" /></label>
-                  <label><input type="checkbox" data-cycle-i="4" aria-label="SD 2" /></label>
-                  <label><input type="checkbox" data-cycle-i="5" aria-label="SD 3" /></label>
+                  <label><input type="checkbox" data-cycle-i="3" aria-label="SD 1" disabled /></label>
+                  <label><input type="checkbox" data-cycle-i="4" aria-label="SD 2" disabled /></label>
+                  <label><input type="checkbox" data-cycle-i="5" aria-label="SD 3" disabled /></label>
                 </div>
               </div>
               <div class="practice-cycle-group">
                 <span class="practice-cycle-group-label">크리쳐</span>
                 <div class="practice-cycle-checks">
-                  <label><input type="checkbox" data-cycle-i="6" aria-label="크리쳐 1" /></label>
+                  <label><input type="checkbox" data-cycle-i="6" aria-label="크리쳐 1" disabled /></label>
+                  <label><input type="checkbox" data-cycle-i="7" aria-label="크리쳐 2" disabled /></label>
                 </div>
               </div>
               <div class="practice-cycle-group">
                 <span class="practice-cycle-group-label">스파인</span>
                 <div class="practice-cycle-checks">
-                  <label><input type="checkbox" data-cycle-i="7" aria-label="스파인 1" /></label>
-                  <label><input type="checkbox" data-cycle-i="8" aria-label="스파인 2" /></label>
-                  <label><input type="checkbox" data-cycle-i="9" aria-label="스파인 3" /></label>
+                  <label><input type="checkbox" data-cycle-i="8" aria-label="스파인 1" disabled /></label>
+                  <label><input type="checkbox" data-cycle-i="9" aria-label="스파인 2" disabled /></label>
+                  <label><input type="checkbox" data-cycle-i="10" aria-label="스파인 3" disabled /></label>
+                </div>
+              </div>
+              <div class="practice-cycle-group">
+                <span class="practice-cycle-group-label">얼굴</span>
+                <div class="practice-cycle-checks">
+                  <label><input type="checkbox" data-cycle-i="11" aria-label="얼굴 1" disabled /></label>
+                  <label><input type="checkbox" data-cycle-i="12" aria-label="얼굴 2" disabled /></label>
+                </div>
+              </div>
+              <div class="practice-cycle-group">
+                <span class="practice-cycle-group-label">분위기</span>
+                <div class="practice-cycle-checks">
+                  <label><input type="checkbox" data-cycle-i="13" aria-label="분위기 1" disabled /></label>
+                </div>
+              </div>
+              <div class="practice-cycle-group">
+                <span class="practice-cycle-group-label">연출</span>
+                <div class="practice-cycle-checks">
+                  <label><input type="checkbox" data-cycle-i="14" aria-label="연출 1" disabled /></label>
                 </div>
               </div>
             </div>
             <div class="practice-cycle-footer">
-              <span id="practice-cycle-progress">진행 0 / 10</span>
+              <span id="practice-cycle-progress">진행 0 / 15</span>
               <span id="practice-cycle-count">오늘 완료 사이클 0회</span>
             </div>
           </div>
@@ -4701,6 +4741,7 @@
       b.classList.toggle('tab-btn--gate-locked', !u);
       b.setAttribute('aria-disabled', u ? 'false' : 'true');
     });
+    if (typeof refreshHomePracticeCycle === 'function') refreshHomePracticeCycle();
   }
   const LS_REF_SUB = 'dokcho_merge_ref_sub';
   const LS_MERGED_TABS_MIGRATION = 'dokcho_merged_tabs_v1';
@@ -5358,9 +5399,63 @@
     markTabActivity('croquis');
   }
 
-  /* ── 홈 · 1사이클 체크 (10칸, KST 일자 기준) ── */
+  /* ── 홈 · 1사이클 체크 (15칸, KST 일자 기준 · 크로키+도형화 2사이클 후에만 체크 가능) ── */
   const LS_HOME_PRACTICE_CYCLE = 'dokcho_home_practice_cycle_v1';
-  const PRACTICE_CYCLE_SLOT_COUNT = 10;
+  const PRACTICE_CYCLE_SLOT_COUNT = 15;
+  /** LD, SD, 크리쳐, 스파인, 얼굴, 분위기, 연출 — 각 그룹 안에서는 앞칸부터만 체크 가능 */
+  const PRACTICE_CYCLE_GROUPS = [
+    [0, 2], [3, 5], [6, 7], [8, 10], [11, 12], [13, 13], [14, 14]
+  ];
+
+  function practiceCycleGroupBounds(slotIndex) {
+    var gi, g;
+    for (gi = 0; gi < PRACTICE_CYCLE_GROUPS.length; gi++) {
+      g = PRACTICE_CYCLE_GROUPS[gi];
+      if (slotIndex >= g[0] && slotIndex <= g[1]) return { start: g[0], end: g[1] };
+    }
+    return null;
+  }
+
+  function practiceCycleSlotInteractable(gateOk, slots, slotIndex) {
+    if (!gateOk) return false;
+    var b = practiceCycleGroupBounds(slotIndex);
+    if (!b) return false;
+    var j;
+    for (j = b.start; j < slotIndex; j++) {
+      if (!slots[j]) return false;
+    }
+    return true;
+  }
+
+  function normalizePracticeCycleSequentialSlots(slots) {
+    var gi, b, j, firstFalse, k;
+    for (gi = 0; gi < PRACTICE_CYCLE_GROUPS.length; gi++) {
+      b = PRACTICE_CYCLE_GROUPS[gi];
+      firstFalse = -1;
+      for (j = b[0]; j <= b[1]; j++) {
+        if (!slots[j]) {
+          firstFalse = j;
+          break;
+        }
+      }
+      if (firstFalse >= 0) {
+        for (k = firstFalse + 1; k <= b[1]; k++) slots[k] = false;
+      }
+    }
+    return slots;
+  }
+
+  function migratePracticeCycleSlotsIf10(slots) {
+    if (!Array.isArray(slots) || slots.length !== 10) return slots;
+    var m = Array(PRACTICE_CYCLE_SLOT_COUNT).fill(false);
+    var i;
+    for (i = 0; i < 6; i++) m[i] = !!slots[i];
+    m[6] = !!slots[6];
+    m[8] = !!slots[7];
+    m[9] = !!slots[8];
+    m[10] = !!slots[9];
+    return m;
+  }
 
   function readPracticeCycleState() {
     const day = ymdKSTForTools();
@@ -5370,9 +5465,11 @@
         return { dayKST: day, slots: Array(PRACTICE_CYCLE_SLOT_COUNT).fill(false), cycles: 0 };
       }
       var slots = Array.isArray(o.slots) ? o.slots.map(function(x) { return !!x; }) : [];
+      slots = migratePracticeCycleSlotsIf10(slots);
       while (slots.length < PRACTICE_CYCLE_SLOT_COUNT) slots.push(false);
       if (slots.length > PRACTICE_CYCLE_SLOT_COUNT) slots = slots.slice(0, PRACTICE_CYCLE_SLOT_COUNT);
       var cycles = typeof o.cycles === 'number' && !isNaN(o.cycles) ? Math.max(0, o.cycles) : 0;
+      normalizePracticeCycleSequentialSlots(slots);
       return { dayKST: day, slots: slots, cycles: cycles };
     } catch (e) {
       return { dayKST: day, slots: Array(PRACTICE_CYCLE_SLOT_COUNT).fill(false), cycles: 0 };
@@ -5392,11 +5489,19 @@
   function applyPracticeCycleToUI(st) {
     const card = document.getElementById('home-practice-cycle-card');
     if (!card) return;
+    var gateOk = typeof isSketchTrainingUnlocked === 'function' && isSketchTrainingUnlocked();
+    card.classList.toggle('home-cycle-card--gate-locked', !gateOk);
+    var hint = document.getElementById('practice-cycle-gate-hint');
+    if (hint) {
+      if (gateOk) hint.setAttribute('hidden', '');
+      else hint.removeAttribute('hidden');
+    }
     var n = 0;
     for (var i = 0; i < PRACTICE_CYCLE_SLOT_COUNT; i++) {
       var cb = card.querySelector('[data-cycle-i="' + i + '"]');
       if (cb) {
         cb.checked = !!st.slots[i];
+        cb.disabled = !practiceCycleSlotInteractable(gateOk, st.slots, i);
         if (st.slots[i]) n++;
       }
     }
@@ -5417,10 +5522,35 @@
     card.addEventListener('change', function(ev) {
       var t = ev.target;
       if (!t || t.type !== 'checkbox' || !t.hasAttribute('data-cycle-i')) return;
+      if (typeof isSketchTrainingUnlocked === 'function' && !isSketchTrainingUnlocked()) {
+        t.checked = false;
+        if (typeof cqShowToast === 'function') {
+          cqShowToast('크로키·도형화 훈련 2사이클을 먼저 완료해 주세요.');
+        }
+        return;
+      }
       var i = parseInt(t.getAttribute('data-cycle-i'), 10);
       if (isNaN(i) || i < 0 || i >= PRACTICE_CYCLE_SLOT_COUNT) return;
       var st = readPracticeCycleState();
-      st.slots[i] = t.checked;
+      var gb = practiceCycleGroupBounds(i);
+      if (!gb) return;
+      if (t.checked) {
+        var pj;
+        for (pj = gb.start; pj < i; pj++) {
+          if (!st.slots[pj]) {
+            t.checked = false;
+            if (typeof cqShowToast === 'function') {
+              cqShowToast('같은 줄에서 앞 칸부터 순서대로 체크해 주세요.');
+            }
+            return;
+          }
+        }
+        st.slots[i] = true;
+      } else {
+        st.slots[i] = false;
+        var pk;
+        for (pk = i + 1; pk <= gb.end; pk++) st.slots[pk] = false;
+      }
       if (st.slots.every(function(x) { return x; })) {
         st.cycles += 1;
         st.slots = Array(PRACTICE_CYCLE_SLOT_COUNT).fill(false);
@@ -8806,7 +8936,7 @@
     if (typeof cqUpdateDots === 'function') cqUpdateDots();
     if (typeof cqShowToast === 'function') {
       if (n >= 2) {
-        cqShowToast('훈련 2사이클 완료! 갤러리·디자인·메모 등 다른 탭을 쓸 수 있습니다.');
+        cqShowToast('훈련 2사이클 완료! 홈의 1사이클 체크·갤러리·디자인·메모 등을 쓸 수 있습니다.');
       } else {
         cqShowToast('1사이클 완료 (' + n + '/2). 크로키 2분을 다시 진행하세요.');
       }
