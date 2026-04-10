@@ -1863,27 +1863,46 @@
       border: 1px dashed rgba(180, 170, 80, 0.28);
       background: rgba(0, 0, 0, 0.2);
       display: flex;
-      align-items: center;
-      justify-content: center;
+      align-items: stretch;
+      justify-content: stretch;
     }
     #page-basics .basics-drop:not(.is-empty) {
       border: 0.5px solid var(--border);
       background: var(--surface);
       overflow: hidden;
     }
+    /* [hidden]보다 구체성 높은 display:flex 때문에 깨진 이미지가 보이던 문제 방지 */
+    #page-basics .basics-preview-wrap[hidden],
+    #page-basics .basics-drop.is-empty .basics-preview-wrap {
+      display: none !important;
+    }
     #page-basics .basics-drop-empty {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 8px;
       pointer-events: none;
-      padding: 8px;
+      padding: 12px;
+      min-height: 88px;
+      box-sizing: border-box;
+    }
+    #page-basics .basics-drop-empty[hidden] {
+      display: none !important;
     }
     #page-basics .basics-drop-icon {
-      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px dashed rgba(180, 170, 80, 0.35);
+      background: rgba(20, 18, 14, 0.65);
+      font-size: 28px;
       font-weight: 300;
-      color: var(--text3);
+      color: var(--accent2);
       line-height: 1;
     }
     #page-basics .basics-drop-text {
@@ -1984,13 +2003,6 @@
       outline: none;
       border-color: var(--border2);
       box-shadow: 0 0 0 1px rgba(180, 196, 74, 0.12);
-    }
-    #page-basics .basics-save-row {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 10px;
-      margin-top: 0.75rem;
     }
     #page-basics .basics-lightbox {
       position: fixed;
@@ -2230,21 +2242,6 @@
     #page-deforme .deforme-char-count {
       font-size: 12px;
       color: var(--df-muted, #7a9450);
-    }
-    #page-deforme .deforme-save-btn {
-      background: transparent;
-      border: 0.5px solid var(--df-border-hi, #3a4a22);
-      border-radius: 4px;
-      padding: 4px 12px;
-      font-size: 12px;
-      font-family: var(--font-body);
-      color: var(--df-muted, #7a9450);
-      cursor: pointer;
-      transition: border-color 0.15s, color 0.15s;
-    }
-    #page-deforme .deforme-save-btn:hover {
-      border-color: var(--df-accent, #8fbc44);
-      color: var(--df-text, #d4e8a0);
     }
     #page-deforme .deforme-lightbox {
       position: fixed;
@@ -3545,9 +3542,6 @@
             <label class="basics-editor-label" for="basics-notes">활용 · 셀프 피드백 메모</label>
             <textarea id="basics-notes" class="basics-notes" rows="10" placeholder="어디에 쓰기 좋을지, 잘된 점, 고칠 점, 비교 소감 등을 길게 적어 보세요…"></textarea>
           </div>
-          <div class="basics-save-row">
-            <button type="button" class="btn-cq primary" id="basics-save-btn">기본기 저장</button>
-          </div>
         </div>
 
         <div id="basics-lightbox" class="basics-lightbox" hidden aria-hidden="true">
@@ -3614,7 +3608,6 @@
             <h3>셀프 피드백</h3>
             <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">3장을 마쳤습니다. 오늘의 느낌을 남겨두세요.</p>
             <textarea id="cq-feedback-text" placeholder="비례, 라인, 연출… 메모"></textarea>
-            <button type="button" class="btn-save-fb" id="cq-feedback-save">피드백 저장</button>
           </div>
       </div>
 
@@ -3707,7 +3700,6 @@
             <textarea id="deforme-memo" class="deforme-memo" rows="6" placeholder="어디에 활용할 수 있는지, 잘된 점, 고칠 점 등 자유롭게 적어보세요..."></textarea>
             <div class="deforme-editor-actions">
               <span class="deforme-char-count" id="deforme-char-count">0자</span>
-              <button type="button" class="deforme-save-btn" id="deforme-save-btn">저장</button>
             </div>
           </div>
         </div>
@@ -3935,14 +3927,14 @@
             <h2 class="page-title">메모</h2>
             <span class="page-sub">메모장 · 마인드맵</span>
           </div>
-          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: 메모 저장 또는 마인드맵 노드 추가 시 이 탭 활동으로 인정됩니다.</p>
+          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: Ctrl+Enter로 메모 반영, 하단 「작업 완료」, 또는 마인드맵 노드 추가 시 이 탭 활동으로 인정됩니다.</p>
 
           <div class="memo-split">
             <div>
               <h3 class="memo-section-title">일반 메모장</h3>
               <p class="memo-hint"><strong>@</strong>와 키워드를 <strong>붙여</strong> 씁니다 (띄어쓰기 없음). 키워드는 <strong>.</strong> 앞까지이거나, 공백·다음 <strong>@</strong>·줄 끝에서 끝납니다. 예: <code style="color:var(--accent2);">@로랑.</code> → 키워드 <code style="color:var(--accent2);">로랑</code>. 같은 저장 안 같은 단어는 한 번만 저장되며, 너무 긴 토큰은 제외됩니다.</p>
-              <p class="memo-hint"><strong>Enter</strong> 또는 <strong>Shift+Enter</strong> → 줄바꿈 · <strong>Ctrl+Enter</strong> 또는 <strong>⌘+Enter</strong> → 메모장 저장</p>
-              <textarea id="memo-editor" class="memo-editor" placeholder="자유 메모…&#10;예: @로랑. 오늘은 @레이. 만났다 (Ctrl+Enter 로 저장)"></textarea>
+              <p class="memo-hint"><strong>Enter</strong> 또는 <strong>Shift+Enter</strong> → 줄바꿈 · <strong>Ctrl+Enter</strong> 또는 <strong>⌘+Enter</strong> → 메모 반영(로컬)</p>
+              <textarea id="memo-editor" class="memo-editor" placeholder="자유 메모…&#10;예: @로랑. 오늘은 @레이. 만났다 (Ctrl+Enter 로 반영)"></textarea>
               <div class="memo-keyword-thread" id="memo-keyword-thread" aria-label="저장된 키워드 스레드">
                 <div class="memo-kw-label">KEYWORD THREAD</div>
                 <div class="memo-kw-toolbar">
@@ -3967,7 +3959,6 @@
             </div>
           </div>
 
-          <button type="button" class="btn-cq primary" id="memo-save-btn" style="align-self:flex-end;height:40px;padding:0 1.25rem;margin-top:0.5rem;">메모장 저장</button>
         </div>
       </div>
 
@@ -4016,7 +4007,7 @@
             <div class="char-linked-preview" id="char-linked-preview" aria-label="붙인 키워드" style="margin-top:0.5rem;"></div>
           </div>
 
-          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: 이미지 추가, 질문지 작성, 메모 <strong>@</strong> 키워드 붙이기, 또는 「캐릭터 저장」 중 하나로 이 탭 활동이 인정됩니다.</p>
+          <p style="font-size:11px;color:var(--text3);letter-spacing:0.08em;">돌림판 「완료」 조건: 이미지 추가, 질문지 작성, 메모 <strong>@</strong> 키워드 붙이기, 또는 하단 「작업 완료」로 시트 반영 중 하나로 이 탭 활동이 인정됩니다.</p>
 
           <h3 class="memo-section-title">컨셉 이미지</h3>
           <p class="memo-hint">시트·전신·표정 등 참고 이미지를 넣을 수 있습니다. (최대 12장 · 언제든 삭제 가능) 일부 기기는 파일 종류(MIME)가 비어 있어도 확장자로 인식합니다. 저장이 안 되면 이미지를 더 작게(JPG) 해 보세요.</p>
@@ -4059,7 +4050,6 @@
             </div>
           </div>
 
-          <button type="button" class="btn-cq primary" id="concept-save-btn" style="align-self:flex-end;height:40px;padding:0 1.25rem;">캐릭터 저장</button>
           </div>
         </div>
       </div>
@@ -4573,9 +4563,9 @@
     dock.classList.toggle('tab-work-dock--waiting', !ready);
     if (hint) {
       if (ready && frontier === 'concept') {
-        hint.textContent = '마지막 단계입니다. 체크하면 픽시브 업로드 페이지가 열리고, 업로드 확인 창에서 체크해야 이번 1사이클이 완료됩니다.';
+        hint.textContent = '마지막 단계입니다. 체크 시 캐릭터 시트가 저장되고, 픽시브 업로드 페이지가 열립니다. 업로드 확인 창에서 체크해야 이번 1사이클이 완료됩니다.';
       } else if (ready) {
-        hint.textContent = '「' + label + '」에서 할 일을 마쳤다면 아래를 체크하세요. 체크 후에만 다음 탭으로 이동할 수 있습니다.';
+        hint.textContent = '「' + label + '」에서 할 일을 마쳤다면 아래를 체크하세요. 체크 한 번에 편집 내용 저장과 다음 탭 열기가 함께 적용됩니다.';
       } else {
         hint.textContent = '「' + label + '」에서 아직 인정된 작업이 없습니다. (기존과 같이 각 탭 활동을 한 뒤 이 메시지가 바뀝니다.)';
       }
@@ -4719,11 +4709,55 @@
     });
   }
 
+  async function flushFrontierPersist(frontier) {
+    if (frontier === 'basics') {
+      var notesEl = document.getElementById('basics-notes');
+      var notes = (notesEl && notesEl.value || '').trim();
+      var d = readBasicsBundle();
+      function hasImg(url) { return String(url || '').length > 80; }
+      if (notes.length < 10) return '메모를 10자 이상 적어 주세요. (활용·셀프 피드백)';
+      if (!hasImg(d.compareDataUrl) && !hasImg(d.refHandDataUrl) && !hasImg(d.refFootDataUrl) && !hasImg(d.refFaceDataUrl)) {
+        return '손·발·얼굴 중 하나라도 또는 「내 데포르메」에 이미지를 넣어 주세요.';
+      }
+      writeBasicsBundle({ notes: notesEl ? notesEl.value || '' : '' });
+      if (typeof markTabActivity === 'function') markTabActivity('basics');
+      return null;
+    }
+    if (frontier === 'deforme') {
+      if (typeof deformePersistFromUI === 'function') deformePersistFromUI();
+      return null;
+    }
+    if (frontier === 'sketch') {
+      if (typeof commitCroquisFeedbackSaveCore === 'function') {
+        await commitCroquisFeedbackSaveCore();
+      }
+      return null;
+    }
+    if (frontier === 'memo') {
+      if (typeof persistMemoFromUI === 'function') persistMemoFromUI();
+      return null;
+    }
+    if (frontier === 'concept') {
+      try {
+        if (typeof mergeFormIntoSheet === 'function' && typeof writeCharacterSheet === 'function' && typeof readCharacterSheet === 'function') {
+          var s = readCharacterSheet();
+          mergeFormIntoSheet(s);
+          writeCharacterSheet(s);
+          if (typeof renderLinkedKeywordPreview === 'function') renderLinkedKeywordPreview();
+        }
+      } catch (e2) {
+        return '캐릭터 시트를 저장하지 못했습니다.';
+      }
+      return null;
+    }
+    return null;
+  }
+
   function initTabWorkChainUI() {
     const cb = document.getElementById('tab-work-complete-cb');
     if (!cb || cb._tabChainBound) return;
     cb._tabChainBound = true;
-    cb.addEventListener('change', function() {
+    cb.addEventListener('change', async function() {
       if (!this.checked || this.disabled) return;
       const frontier = getFrontierTab();
       if (!frontier || !isTabWorkReady(frontier)) {
@@ -4733,6 +4767,12 @@
       const dock = document.getElementById('tab-work-complete-dock');
       const c = readTabChain().slice();
       if (c.length >= TAB_WORK_CHAIN.length || TAB_WORK_CHAIN[c.length] !== frontier) {
+        this.checked = false;
+        return;
+      }
+      const persistErr = await flushFrontierPersist(frontier);
+      if (persistErr) {
+        if (typeof cqShowToast === 'function') cqShowToast(persistErr);
         this.checked = false;
         return;
       }
@@ -6022,20 +6062,6 @@
       });
     }
 
-    var sv = document.getElementById('deforme-save-btn');
-    if (sv) {
-      sv.addEventListener('click', function() {
-        deformePersistFromUI();
-        var prev = sv.textContent;
-        sv.textContent = '저장됨 ✓';
-        sv.disabled = true;
-        setTimeout(function() {
-          sv.textContent = prev;
-          sv.disabled = false;
-        }, 1600);
-      });
-    }
-
     var lbClose = document.getElementById('deforme-lightbox-close');
     var lbBack = document.getElementById('deforme-lightbox-backdrop');
     if (lbClose) lbClose.addEventListener('click', deformeCloseLightbox);
@@ -6251,7 +6277,7 @@
     if (!entries.length && !groups.length) {
       const p = document.createElement('p');
       p.style.cssText = 'font-size:10px;color:var(--text3);letter-spacing:0.06em;';
-      p.textContent = '저장된 키워드가 없습니다. @ 단어 형식으로 메모 후 「메모장 저장」을 누르세요.';
+      p.textContent = '저장된 키워드가 없습니다. @ 단어 형식으로 메모를 적은 뒤 Ctrl+Enter 또는 하단 「작업 완료」로 반영하세요.';
       host.appendChild(p);
       return;
     }
@@ -6366,6 +6392,29 @@
 
   function markMemoTabIfNeeded() {
     if (memoHasStoredContent()) markTabActivity('memo');
+  }
+
+  function persistMemoFromUI() {
+    const ed = document.getElementById('memo-editor');
+    if (!ed) return;
+    try {
+      localStorage.setItem(LS_MEMO_BODY, ed.value);
+    } catch (e) {}
+    const found = extractAtKeywords(ed.value);
+    if (found.length) {
+      const b = readMemoKeywordBundle();
+      let added = false;
+      found.forEach(function(f) {
+        if (b.entries.some(function(e) { return e.word === f.word; })) return;
+        b.entries.push({ id: uid(), word: f.word, at: f.at, groupId: null });
+        added = true;
+      });
+      if (added) {
+        writeMemoKeywordBundle(b);
+        renderKeywordThread();
+      }
+    }
+    markMemoTabIfNeeded();
   }
 
   function updateMmFocusLabel() {
@@ -6934,22 +6983,33 @@
     compare: 'compareDataUrl'
   };
 
+  function basicsIsValidImageDataUrl(url) {
+    if (url == null || typeof url !== 'string') return false;
+    var s = url.trim();
+    return s.length > 80 && /^data:image\/(jpeg|png|webp)/i.test(s);
+  }
+
   function basicsUpdateSlotVisual(slot, hasImg, url) {
     var drop = document.getElementById('basics-drop-' + slot);
     var empty = document.getElementById('basics-empty-' + slot);
     var prev = document.getElementById('basics-preview-' + slot);
     var img = document.getElementById('basics-img-' + slot);
     if (!drop || !empty || !prev || !img) return;
-    if (hasImg && url) {
+    var ok = hasImg && basicsIsValidImageDataUrl(url);
+    if (ok) {
       drop.classList.remove('is-empty');
+      empty.setAttribute('hidden', '');
       empty.hidden = true;
+      prev.removeAttribute('hidden');
       prev.hidden = false;
       img.src = url;
     } else {
       drop.classList.add('is-empty');
-      empty.hidden = false;
-      prev.hidden = true;
       img.removeAttribute('src');
+      prev.setAttribute('hidden', '');
+      prev.hidden = true;
+      empty.removeAttribute('hidden');
+      empty.hidden = false;
     }
   }
 
@@ -7086,28 +7146,6 @@
       lbClose.addEventListener('click', basicsCloseLightbox);
     }
 
-    if (!window._basicsSaveBound) {
-      window._basicsSaveBound = true;
-      var btn = document.getElementById('basics-save-btn');
-      if (btn) {
-        btn.addEventListener('click', function() {
-          var notes = (document.getElementById('basics-notes') && document.getElementById('basics-notes').value || '').trim();
-          var d = readBasicsBundle();
-          var hasImg = function(url) { return String(url || '').length > 80; };
-          if (notes.length < 10) {
-            if (typeof cqShowToast === 'function') cqShowToast('메모를 10자 이상 적어 주세요. (활용·셀프 피드백)');
-            return;
-          }
-          if (!hasImg(d.compareDataUrl) && !hasImg(d.refHandDataUrl) && !hasImg(d.refFootDataUrl) && !hasImg(d.refFaceDataUrl)) {
-            if (typeof cqShowToast === 'function') cqShowToast('손·발·얼굴 중 하나라도 또는 「내 데포르메」에 이미지를 넣어 주세요.');
-            return;
-          }
-          writeBasicsBundle({ notes: document.getElementById('basics-notes').value || '' });
-          if (typeof markTabActivity === 'function') markTabActivity('basics');
-          if (typeof cqShowToast === 'function') cqShowToast('기본기가 저장되었습니다.');
-        });
-      }
-    }
   }
 
   function initMemoPage() {
@@ -7146,8 +7184,7 @@
           if (ev.key !== 'Enter') return;
           if (ev.ctrlKey || ev.metaKey) {
             ev.preventDefault();
-            const saveBtn = document.getElementById('memo-save-btn');
-            if (saveBtn) saveBtn.click();
+            if (typeof persistMemoFromUI === 'function') persistMemoFromUI();
           }
         });
       }
@@ -7944,6 +7981,34 @@
     }
   }
 
+  async function commitCroquisFeedbackSaveCore() {
+    if (!cqFbPanel || !cqFbText || !cqFbPanel.classList.contains('visible')) return;
+    const text = (cqFbText.value || '').trim();
+    const today = new Date();
+    const dateStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+    const entry = { date: dateStr, text: text || '(내용 없음)', savedAt: today.toISOString() };
+    const list = readFeedbackList();
+    list.push(entry);
+    localStorage.setItem(LS_FB, JSON.stringify(list));
+    if (typeof window._bumpCroquisCounts === 'function') await window._bumpCroquisCounts(3);
+    cqRefPickCounts = {};
+    cqCompleted = 0;
+    cqFbText.value = '';
+    cqFbPanel.classList.remove('visible');
+    cqResetTimerOnly();
+    cqUpdateDots();
+    var cs = document.getElementById('cq-start');
+    var cp = document.getElementById('cq-pause');
+    var cr = document.getElementById('cq-reset');
+    var cn = document.getElementById('cq-next');
+    if (cs) cs.disabled = false;
+    if (cp) cp.disabled = false;
+    if (cr) cr.disabled = false;
+    if (cn) cn.disabled = false;
+    if (typeof cqShowToast === 'function') cqShowToast('피드백이 저장되었습니다.');
+    if (typeof setCroquisTouched === 'function') setCroquisTouched();
+  }
+
   function cqPickRandomPose() {
     const all = readPoses();
     if (!all.length) {
@@ -7996,67 +8061,7 @@
       cqStopTimer();
       cqAdvanceRound();
     });
-    var cqFbs = document.getElementById('cq-feedback-save');
-    if (!cqFbs) {
-      console.warn('[venom] 크로키 피드백 버튼 없음');
-      return;
-    }
-    cqFbs.addEventListener('click', async () => {
-    const text = (cqFbText.value || '').trim();
-    const today = new Date();
-    const dateStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
-    const entry = { date: dateStr, text: text || '(내용 없음)', savedAt: today.toISOString() };
-    const list = readFeedbackList();
-    list.push(entry);
-    localStorage.setItem(LS_FB, JSON.stringify(list));
-    if (typeof window._bumpCroquisCounts === 'function') await window._bumpCroquisCounts(3);
-    cqRefPickCounts = {};
-    cqCompleted = 0;
-    cqFbText.value = '';
-    cqFbPanel.classList.remove('visible');
-    cqResetTimerOnly();
-    cqUpdateDots();
-    document.getElementById('cq-start').disabled = false;
-    document.getElementById('cq-pause').disabled = false;
-    document.getElementById('cq-reset').disabled = false;
-    document.getElementById('cq-next').disabled = false;
-    cqShowToast('피드백이 저장되었습니다.');
-    setCroquisTouched();
-    });
   })();
-
-  var memoSaveBtn = document.getElementById('memo-save-btn');
-  if (memoSaveBtn) memoSaveBtn.addEventListener('click', function() {
-    const ed = document.getElementById('memo-editor');
-    if (!ed) return;
-    try {
-      localStorage.setItem(LS_MEMO_BODY, ed.value);
-    } catch (e) {}
-    const found = extractAtKeywords(ed.value);
-    if (found.length) {
-      const b = readMemoKeywordBundle();
-      let added = false;
-      found.forEach(function(f) {
-        if (b.entries.some(function(e) { return e.word === f.word; })) return;
-        b.entries.push({ id: uid(), word: f.word, at: f.at, groupId: null });
-        added = true;
-      });
-      if (added) {
-        writeMemoKeywordBundle(b);
-        renderKeywordThread();
-      }
-    }
-    markMemoTabIfNeeded();
-  });
-
-  var conceptSaveBtn = document.getElementById('concept-save-btn');
-  if (conceptSaveBtn) conceptSaveBtn.addEventListener('click', function() {
-    const s = readCharacterSheet();
-    mergeFormIntoSheet(s);
-    writeCharacterSheet(s);
-    renderLinkedKeywordPreview();
-    if (characterSheetHasContent(s)) markTabActivity('concept');
-  });
 
   (function bindConceptUpload() {
     var charBtn = document.getElementById('char-upload-btn');
