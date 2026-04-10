@@ -1133,6 +1133,15 @@
       text-shadow: 0 0 8px rgba(180, 196, 74, 0.25), 0 1px 2px rgba(0, 0, 0, 0.45);
     }
 
+    .tab-btn.tab-btn--gate-locked {
+      opacity: 0.38;
+      filter: grayscale(0.35);
+      cursor: not-allowed;
+    }
+    .tab-btn.tab-btn--gate-locked:hover {
+      color: var(--tab-fg);
+    }
+
     .tab-label-long {
       font-size: 7px;
       letter-spacing: 0.06em;
@@ -3611,7 +3620,7 @@
       <div aria-hidden="true"></div>
       <div class="header-streak-col">
         <div class="header-streak" id="streak-count">0</div>
-        <div class="header-streak-motto" aria-label="훈련일">
+        <div class="header-streak-motto" aria-label="전체 탭 1사이클 완료 횟수">
           <span class="header-streak-motto-en">just do it , and then some</span>
           <span class="header-streak-motto-ko">그냥 해라 , 그리고 좀 더 해라</span>
         </div>
@@ -3630,17 +3639,22 @@
           <div class="today-bar">
             <div class="today-card">
               <div class="today-num" id="today-croquis">0</div>
-              <div class="today-label">오늘 크로키</div>
+              <div class="today-label">컨셉아트 &amp; 설정</div>
             </div>
             <div class="today-card">
               <div class="today-num" id="total-croquis">0</div>
-              <div class="today-label">누적 총계</div>
+              <div class="today-label">캐릭터 수</div>
             </div>
             <div class="today-card">
               <div class="today-num" id="total-works">0</div>
-              <div class="today-label">업로드 수</div>
+              <div class="today-label">픽시브 업로드 수</div>
             </div>
           </div>
+
+          <p class="home-pixiv-row" style="text-align:center;margin:0 0 0.75rem;font-size:11px;font-weight:500;color:var(--text2);letter-spacing:0.06em;">
+            <a href="https://www.pixiv.net/" target="_blank" rel="noopener noreferrer" id="home-pixiv-link" class="btn-cq" style="display:inline-flex;height:36px;align-items:center;padding:0 1rem;font-size:12px;text-decoration:none;box-sizing:border-box;">픽시브 열기</a>
+            <span style="display:block;margin-top:0.35rem;">탭할 때마다 「픽시브 업로드 수」에 1씩 누적됩니다.</span>
+          </p>
 
           <div class="home-work-cta">
             <button type="button" class="btn-hero primary btn-work-main" onclick="goTab('sketch')">작업하기</button>
@@ -3740,15 +3754,16 @@
       <!-- ── 크로키 · 포즈 (통합 탭) ── -->
       <div id="page-sketch" class="page">
         <div class="page-wrap">
-          <div class="merge-subtab-bar" role="tablist" aria-label="크로키 · 포즈">
+          <div class="merge-subtab-bar" role="tablist" aria-label="크로키 · 도형화 · 포즈">
             <button type="button" class="merge-subtab-btn active" id="sketch-sub-croquis" data-sketch-sub="croquis" role="tab">크로키</button>
+            <button type="button" class="merge-subtab-btn" id="sketch-sub-geometric" data-sketch-sub="geometric" role="tab">도형화</button>
             <button type="button" class="merge-subtab-btn" id="sketch-sub-pose" data-sketch-sub="pose" role="tab">포즈</button>
           </div>
       <div id="page-croquis" class="croquis-body merge-sub-panel">
           <div class="page-header croquis-page-header">
             <div class="croquis-header-left">
               <h2 class="page-title">크로키</h2>
-              <span class="page-sub">2분 · 3장</span>
+              <span class="page-sub">2분 · 훈련 2사이클 전 1장→도형화 20분 · 이후 3장</span>
             </div>
             <div class="croquis-header-actions">
               <input type="file" id="cq-file" accept="image/*" hidden />
@@ -3798,6 +3813,45 @@
             <p style="font-size:12px;font-weight:500;color:var(--text2);letter-spacing:0.08em;">3장을 마쳤습니다. 오늘의 느낌을 남겨두세요.</p>
             <textarea id="cq-feedback-text" placeholder="비례, 라인, 연출… 메모"></textarea>
           </div>
+      </div>
+
+      <div id="page-geometric" class="croquis-body merge-sub-panel" style="display:none">
+          <div class="page-header croquis-page-header">
+            <div class="croquis-header-left">
+              <h2 class="page-title">도형화</h2>
+              <span class="page-sub">동일 참고 · 20분 · 크로키 2분과 합쳐 1사이클</span>
+            </div>
+            <div class="croquis-header-actions">
+              <input type="file" id="gq-file" accept="image/*" hidden />
+              <button type="button" class="btn-cq" id="gq-upload-btn">이미지 업로드</button>
+              <button type="button" class="btn-cq" id="gq-random-btn">랜덤</button>
+            </div>
+          </div>
+          <div class="croquis-dup-row">
+            <span class="croquis-dup" id="gq-dup-info"></span>
+          </div>
+          <div class="croquis-image-wrap" id="gq-image-wrap">
+            <p class="croquis-placeholder">크로키에서 넘어온 참고가 없으면 업로드 또는 랜덤</p>
+            <img id="gq-img" alt="도형화 참고" />
+            <button type="button" class="croquis-img-remove" id="gq-remove-img" aria-label="이미지 제거" title="이미지 제거">×</button>
+          </div>
+          <div class="croquis-timer-block">
+            <svg class="croquis-ring-svg" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="croquis-ring-bg" cx="60" cy="60" r="52" />
+              <circle id="gq-ring-progress" class="croquis-ring-fg" cx="60" cy="60" r="52"
+                stroke-dasharray="326.73" stroke-dashoffset="0" />
+            </svg>
+            <div class="croquis-time-stack">
+              <span class="croquis-time-num" id="gq-time-display">20:00</span>
+              <span class="croquis-time-label">REMAINING</span>
+            </div>
+          </div>
+          <div class="croquis-btns">
+            <button type="button" class="btn-cq primary" id="gq-start">시작</button>
+            <button type="button" class="btn-cq" id="gq-pause">일시정지</button>
+            <button type="button" class="btn-cq" id="gq-reset">리셋</button>
+          </div>
+          <p class="croquis-toast" id="gq-toast" style="min-height:0;opacity:0;pointer-events:none" aria-hidden="true"></p>
       </div>
 
       <!-- ── 포즈 패널 (통합 탭 내) ── -->
@@ -4310,33 +4364,42 @@
   import { getFirestore, doc, getDoc, setDoc, updateDoc, increment }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  const LS_FRESH_LAUNCH_FLAG = 'dokcho_launch_zero_cycle_v1';
+  const LS_FRESH_LAUNCH_FLAG = 'dokcho_launch_zero_cycle_v2';
   const SESS_FSYNC_FIRESTORE_ZERO = '_dokcho_sync_firestore_zero';
 
-  (function dokchoLaunchZeroCycleReset() {
+  const ZERO_STATS = {
+    todayCroquis: 0,
+    totalCroquis: 0,
+    totalWorks: 0,
+    feedbackCount: 0,
+    streak: 0,
+    lastDate: '',
+    globalCycleCount: 0,
+    conceptArtSendTotal: 0,
+    charSheetImagesThisCycle: 0,
+    pixivOpenCount: 0
+  };
+
+  function dokchoWipeAllLocalAppData() {
+    var toRemove = [];
+    var i;
+    for (i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (!k) continue;
+      if (k.indexOf('dokcho_') === 0 || k.indexOf('__dokcho_') === 0) toRemove.push(k);
+    }
+    for (i = 0; i < toRemove.length; i++) {
+      try { localStorage.removeItem(toRemove[i]); } catch (e) {}
+    }
     try {
-      if (localStorage.getItem(LS_FRESH_LAUNCH_FLAG)) return;
-      var toRemove = [];
-      var i;
-      for (i = 0; i < localStorage.length; i++) {
-        var k = localStorage.key(i);
-        if (k && k.indexOf('dokcho_') === 0) toRemove.push(k);
+      for (i = sessionStorage.length - 1; i >= 0; i--) {
+        var sk = sessionStorage.key(i);
+        if (sk && sk.indexOf('_dokcho_') !== -1) sessionStorage.removeItem(sk);
       }
-      for (i = 0; i < toRemove.length; i++) {
-        try { localStorage.removeItem(toRemove[i]); } catch (e) {}
-      }
-      localStorage.setItem('dokcho_stats', JSON.stringify({
-        todayCroquis: 0,
-        totalCroquis: 0,
-        totalWorks: 0,
-        feedbackCount: 0,
-        streak: 0,
-        lastDate: ''
-      }));
-      localStorage.setItem(LS_FRESH_LAUNCH_FLAG, '1');
-      try { sessionStorage.setItem(SESS_FSYNC_FIRESTORE_ZERO, '1'); } catch (e2) {}
-    } catch (e) {}
-  })();
+    } catch (e2) {}
+    localStorage.setItem('dokcho_stats', JSON.stringify(ZERO_STATS));
+    localStorage.setItem(LS_FRESH_LAUNCH_FLAG, '1');
+  }
 
   const firebaseConfig = {
     apiKey: "AIzaSyDfBgTwawlVt3PD-HAttHoPp-Ehm5uLa2c",
@@ -4392,13 +4455,12 @@
       const ref = doc(db, "users", "dokcho");
       const snap = await getDoc(ref);
       const needFbZero = sessionStorage.getItem(SESS_FSYNC_FIRESTORE_ZERO) === '1';
-      const ZERO_STATS = { todayCroquis:0, totalCroquis:0, totalWorks:0, feedbackCount:0, streak:0, lastDate:'' };
       if (snap.exists()) {
         let d = snap.data();
         if (needFbZero) {
           try {
-            await setDoc(ref, ZERO_STATS, { merge: true });
-            d = { ...d, ...ZERO_STATS };
+            await setDoc(ref, ZERO_STATS);
+            d = { ...ZERO_STATS };
             localStorage.setItem('dokcho_stats', JSON.stringify(d));
           } catch (e) { console.warn('Firestore 0사이클 동기화 실패', e); }
           try { sessionStorage.removeItem(SESS_FSYNC_FIRESTORE_ZERO); } catch (e) {}
@@ -4406,10 +4468,9 @@
         window._stats = d;
         updateUI(d);
       } else {
-        const init = { todayCroquis:0, totalCroquis:0, totalWorks:0, feedbackCount:0, streak:0, lastDate:'' };
-        await setDoc(ref, init);
-        window._stats = init;
-        updateUI(init);
+        await setDoc(ref, ZERO_STATS);
+        window._stats = { ...ZERO_STATS };
+        updateUI(ZERO_STATS);
         if (needFbZero) {
           try { sessionStorage.removeItem(SESS_FSYNC_FIRESTORE_ZERO); } catch (e) {}
         }
@@ -4419,18 +4480,19 @@
 
   function loadLocalStats() {
     const saved = JSON.parse(localStorage.getItem('dokcho_stats') || '{}');
-    const d = { todayCroquis:0, totalCroquis:0, totalWorks:0, feedbackCount:0, streak:0, lastDate:'', ...saved };
+    const d = { todayCroquis:0, totalCroquis:0, totalWorks:0, feedbackCount:0, streak:0, lastDate:'', globalCycleCount:0, conceptArtSendTotal:0, charSheetImagesThisCycle:0, pixivOpenCount:0, ...saved };
     window._stats = d;
     updateUI(d);
   }
 
   function updateUI(d) {
     const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
-    set('today-croquis', d.todayCroquis || 0);
-    set('total-croquis', d.totalCroquis || 0);
-    set('total-works', d.totalWorks || 0);
+    const topCycle = d.globalCycleCount != null && d.globalCycleCount !== '' ? d.globalCycleCount : (d.streak || 0);
+    set('streak-count', topCycle);
+    set('today-croquis', d.conceptArtSendTotal || 0);
+    set('total-croquis', d.charSheetImagesThisCycle || 0);
+    set('total-works', d.pixivOpenCount || 0);
     set('feedback-count', d.feedbackCount || 0);
-    set('streak-count', d.streak || 0);
   }
 
   window._saveStats = async function(updates) {
@@ -4451,53 +4513,114 @@
     return k.toISOString().slice(0, 10);
   }
 
-  window._bumpCroquisCounts = async function(n) {
-    const today = ymdKST();
+  window._bumpCroquisCounts = async function(_n) {
+    /* 홈 상단 카드는 컨셉아트·캐릭터(시트)·픽시브로 대체됨 */
+    return;
+  };
+
+  window._bumpGalleryUploads = async function(_n) {
+    /* 갤러리 장 수는 홈 카드에 반영하지 않음 */
+    return;
+  };
+
+  window._bumpConceptArtSend = async function(n) {
+    const add = Math.max(0, Number(n) || 0);
+    if (!add) return;
     let d = { ...(window._stats || {}) };
-    if (d.lastDate !== today) {
-      d.todayCroquis = 0;
-      d.lastDate = today;
-    }
-    d.todayCroquis = (d.todayCroquis || 0) + n;
-    d.totalCroquis = (d.totalCroquis || 0) + n;
+    d.conceptArtSendTotal = (d.conceptArtSendTotal || 0) + add;
     window._stats = d;
     localStorage.setItem('dokcho_stats', JSON.stringify(d));
     updateUI(d);
     if (window._db) {
       try {
         const ref = doc(window._db, "users", "dokcho");
-        const snap = await getDoc(ref);
-        const remote = snap.exists() ? snap.data() : {};
-        const rToday = !remote.lastDate || remote.lastDate !== today;
-        if (rToday) {
-          await updateDoc(ref, {
-            lastDate: today,
-            todayCroquis: n,
-            totalCroquis: increment(n)
-          });
-        } else {
-          await updateDoc(ref, {
-            todayCroquis: increment(n),
-            totalCroquis: increment(n)
-          });
-        }
-      } catch(e) { console.warn("Firebase 크로키 카운트 실패", e); }
+        await updateDoc(ref, { conceptArtSendTotal: increment(add) });
+      } catch(e) { console.warn("Firebase conceptArtSendTotal 실패", e); }
     }
   };
 
-  window._bumpGalleryUploads = async function(n) {
+  window._bumpCharSheetCycleImages = async function(n) {
+    const add = Math.max(0, Number(n) || 0);
+    if (!add) return;
     let d = { ...(window._stats || {}) };
-    d.totalWorks = (d.totalWorks || 0) + n;
+    d.charSheetImagesThisCycle = (d.charSheetImagesThisCycle || 0) + add;
     window._stats = d;
     localStorage.setItem('dokcho_stats', JSON.stringify(d));
     updateUI(d);
     if (window._db) {
       try {
         const ref = doc(window._db, "users", "dokcho");
-        await updateDoc(ref, { totalWorks: increment(n) });
-      } catch(e) { console.warn("Firebase 갤러리 카운트 실패", e); }
+        await updateDoc(ref, { charSheetImagesThisCycle: increment(add) });
+      } catch(e) { console.warn("Firebase charSheetImagesThisCycle 실패", e); }
     }
   };
+
+  window._bumpPixivOpen = async function() {
+    let d = { ...(window._stats || {}) };
+    d.pixivOpenCount = (d.pixivOpenCount || 0) + 1;
+    window._stats = d;
+    localStorage.setItem('dokcho_stats', JSON.stringify(d));
+    updateUI(d);
+    if (window._db) {
+      try {
+        const ref = doc(window._db, "users", "dokcho");
+        await updateDoc(ref, { pixivOpenCount: increment(1) });
+      } catch(e) { console.warn("Firebase pixivOpenCount 실패", e); }
+    }
+  };
+
+  window._dokchoFullReset = async function() {
+    try {
+      dokchoWipeAllLocalAppData();
+      window._stats = { ...ZERO_STATS };
+      updateUI(ZERO_STATS);
+      if (window._db) {
+        try {
+          await setDoc(doc(window._db, 'users', 'dokcho'), ZERO_STATS);
+        } catch (e) { console.warn('Firestore 전체 초기화 실패', e); }
+      }
+    } catch (e) { console.warn('_dokchoFullReset', e); }
+  };
+</script>
+<!-- 로컬 초기화는 UI 스크립트보다 먼저 실행되어야 함 (모듈 스크립트는 파싱 완료 후 실행됨) -->
+<script>
+(function dokchoLaunchZeroBeforeUi() {
+  try {
+    var LS_FRESH = 'dokcho_launch_zero_cycle_v2';
+    var SESS_FB0 = '_dokcho_sync_firestore_zero';
+    var ZERO = { todayCroquis:0, totalCroquis:0, totalWorks:0, feedbackCount:0, streak:0, lastDate:'',
+      globalCycleCount:0, conceptArtSendTotal:0, charSheetImagesThisCycle:0, pixivOpenCount:0 };
+    function wipe() {
+      var toRemove = [], i, k;
+      for (i = 0; i < localStorage.length; i++) {
+        k = localStorage.key(i);
+        if (k && (k.indexOf('dokcho_') === 0 || k.indexOf('__dokcho_') === 0)) toRemove.push(k);
+      }
+      for (i = 0; i < toRemove.length; i++) { try { localStorage.removeItem(toRemove[i]); } catch (e) {} }
+      try {
+        for (i = sessionStorage.length - 1; i >= 0; i--) {
+          k = sessionStorage.key(i);
+          if (k && k.indexOf('_dokcho_') !== -1) sessionStorage.removeItem(k);
+        }
+      } catch (e2) {}
+      localStorage.setItem('dokcho_stats', JSON.stringify(ZERO));
+      localStorage.setItem(LS_FRESH, '1');
+    }
+    var urlParams = typeof location !== 'undefined' ? new URLSearchParams(location.search) : null;
+    var urlWantsReset = urlParams && urlParams.get('dokcho_reset') === '1';
+    if (urlWantsReset) {
+      try {
+        urlParams.delete('dokcho_reset');
+        var q = urlParams.toString();
+        history.replaceState(null, '', location.pathname + (q ? '?' + q : '') + location.hash);
+      } catch (e0) {}
+    }
+    if (urlWantsReset || !localStorage.getItem(LS_FRESH)) {
+      wipe();
+      try { sessionStorage.setItem(SESS_FB0, '1'); } catch (e3) {}
+    }
+  } catch (e) {}
+})();
 </script>
 
 <!-- ══════════════════════════
@@ -4541,6 +4664,44 @@
   const LS_CHAR_ANALYSIS = 'dokcho_character_analysis';
   const LS_CONCEPT_SUB = 'dokcho_merge_concept_sub';
   const LS_SKETCH_SUB = 'dokcho_merge_sketch_sub';
+  const LS_SKETCH_TRAINING_GATE = 'dokcho_sketch_training_gate_v1';
+  const SKETCH_GATE_TABS = ['refgallery', 'design', 'memo', 'concept', 'charsheet', 'finalpick'];
+
+  function readSketchTrainingGate() {
+    try {
+      var o = JSON.parse(localStorage.getItem(LS_SKETCH_TRAINING_GATE) || '{}');
+      return o && typeof o === 'object' ? o : {};
+    } catch (e) { return {}; }
+  }
+  function writeSketchTrainingGate(partial) {
+    var prev = readSketchTrainingGate();
+    var next = Object.assign({}, prev, partial);
+    try {
+      localStorage.setItem(LS_SKETCH_TRAINING_GATE, JSON.stringify(next));
+    } catch (e) {}
+  }
+  function isSketchTrainingUnlocked() {
+    return (readSketchTrainingGate().cycles || 0) >= 2;
+  }
+  function migrateSketchTrainingGateOnce() {
+    try {
+      if (localStorage.getItem('dokcho_sketch_gate_boot_v1')) return;
+      localStorage.setItem('dokcho_sketch_gate_boot_v1', '1');
+      var st = JSON.parse(localStorage.getItem('dokcho_stats') || '{}');
+      if ((st.totalCroquis || 0) > 0 || localStorage.getItem('dokcho_croquis_touched') === '1') {
+        writeSketchTrainingGate({ cycles: 2 });
+      }
+    } catch (e) {}
+  }
+  function refreshSketchTrainingGateUI() {
+    var u = isSketchTrainingUnlocked();
+    SKETCH_GATE_TABS.forEach(function(name) {
+      var b = document.getElementById('tab-' + name);
+      if (!b) return;
+      b.classList.toggle('tab-btn--gate-locked', !u);
+      b.setAttribute('aria-disabled', u ? 'false' : 'true');
+    });
+  }
   const LS_REF_SUB = 'dokcho_merge_ref_sub';
   const LS_MERGED_TABS_MIGRATION = 'dokcho_merged_tabs_v1';
 
@@ -4896,7 +5057,9 @@
   function readStoredSketchSub() {
     try {
       var v = localStorage.getItem(LS_SKETCH_SUB);
-      return v === 'pose' ? 'pose' : 'croquis';
+      if (v === 'pose') return 'pose';
+      if (v === 'geometric') return 'geometric';
+      return 'croquis';
     } catch (e) { return 'croquis'; }
   }
   function readStoredRefSub() {
@@ -4908,17 +5071,21 @@
 
   function showSketchSub(which) {
     var croq = document.getElementById('page-croquis');
+    var geom = document.getElementById('page-geometric');
     var pose = document.getElementById('page-pose');
     var bC = document.getElementById('sketch-sub-croquis');
+    var bG = document.getElementById('sketch-sub-geometric');
     var bP = document.getElementById('sketch-sub-pose');
     if (!croq || !pose) return;
-    var showC = which === 'croquis';
-    croq.style.display = showC ? 'flex' : 'none';
-    pose.style.display = showC ? 'none' : 'block';
-    if (bC) bC.classList.toggle('active', showC);
-    if (bP) bP.classList.toggle('active', !showC);
-    try { localStorage.setItem(LS_SKETCH_SUB, which); } catch (e) {}
-    if (!showC && typeof window._renderPose === 'function') window._renderPose();
+    var w = which === 'pose' ? 'pose' : which === 'geometric' ? 'geometric' : 'croquis';
+    croq.style.display = w === 'croquis' ? 'flex' : 'none';
+    if (geom) geom.style.display = w === 'geometric' ? 'flex' : 'none';
+    pose.style.display = w === 'pose' ? 'block' : 'none';
+    if (bC) bC.classList.toggle('active', w === 'croquis');
+    if (bG) bG.classList.toggle('active', w === 'geometric');
+    if (bP) bP.classList.toggle('active', w === 'pose');
+    try { localStorage.setItem(LS_SKETCH_SUB, w); } catch (e) {}
+    if (w === 'pose' && typeof window._renderPose === 'function') window._renderPose();
   }
 
   function showRefgalSub(which) {
@@ -4967,7 +5134,62 @@
     if (!showA && typeof initConceptPage === 'function') initConceptPage();
   }
 
+  const LS_FULL_CYCLE_VISITED = 'dokcho_full_cycle_tabs_v1';
+  const FULL_CYCLE_TAB_KEYS = ['home', 'sketch', 'refgallery', 'design', 'memo', 'concept', 'charsheet', 'finalpick'];
+
+  function readFullCycleVisitState() {
+    try {
+      var o = JSON.parse(localStorage.getItem(LS_FULL_CYCLE_VISITED) || '{}');
+      if (!o || typeof o !== 'object') return { visited: {} };
+      if (!o.visited || typeof o.visited !== 'object') o.visited = {};
+      return o;
+    } catch (e) { return { visited: {} }; }
+  }
+  function writeFullCycleVisitState(o) {
+    try { localStorage.setItem(LS_FULL_CYCLE_VISITED, JSON.stringify(o)); } catch (e) {}
+  }
+
+  function tryCompleteFullAppCycle() {
+    var st = readFullCycleVisitState();
+    var all = FULL_CYCLE_TAB_KEYS.every(function(k) { return st.visited[k]; });
+    if (!all) return;
+    var cur = 0;
+    if (window._stats && window._stats.globalCycleCount != null && window._stats.globalCycleCount !== '') {
+      var p = parseInt(window._stats.globalCycleCount, 10);
+      if (!isNaN(p)) cur = p;
+    }
+    var next = cur + 1;
+    if (typeof window._saveStats === 'function') {
+      window._saveStats({ globalCycleCount: next, charSheetImagesThisCycle: 0 });
+    }
+    writeFullCycleVisitState({ visited: {} });
+    if (typeof cqShowToast === 'function') {
+      cqShowToast('하단 8개 탭을 한 바퀴 방문했습니다 · 전체 사이클 ' + next + '회 (캐릭터 수는 새 사이클부터 0부터)');
+    }
+  }
+
+  function recordTabVisitForFullCycle(tabName) {
+    if (FULL_CYCLE_TAB_KEYS.indexOf(tabName) < 0) return;
+    var st = readFullCycleVisitState();
+    st.visited[tabName] = true;
+    writeFullCycleVisitState(st);
+    tryCompleteFullAppCycle();
+  }
+
+  function bindHomePixivLinkOnce() {
+    var a = document.getElementById('home-pixiv-link');
+    if (!a || a._pixivBound) return;
+    a._pixivBound = true;
+    a.addEventListener('click', function() {
+      if (typeof window._bumpPixivOpen === 'function') {
+        try { window._bumpPixivOpen(); } catch (e) {}
+      }
+    });
+  }
+
   function initMergedSubTabBars() {
+    if (typeof migrateSketchTrainingGateOnce === 'function') migrateSketchTrainingGateOnce();
+    if (typeof refreshSketchTrainingGateUI === 'function') refreshSketchTrainingGateUI();
     document.querySelectorAll('[data-sketch-sub]').forEach(function(btn) {
       if (btn._mergeBound) return;
       btn._mergeBound = true;
@@ -4988,6 +5210,14 @@
 
   /* ── 탭 전환 ── */
   function goTab(name) {
+    if (typeof isSketchTrainingUnlocked === 'function' && !isSketchTrainingUnlocked()) {
+      if (SKETCH_GATE_TABS.indexOf(name) >= 0) {
+        if (typeof cqShowToast === 'function') {
+          cqShowToast('크로키 2분 → 도형화 20분 훈련을 2사이클 완료한 뒤 이용할 수 있습니다.');
+        }
+        return;
+      }
+    }
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     const page = document.getElementById('page-' + name);
@@ -5016,7 +5246,9 @@
       if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
       if (typeof initHomePracticeCycle === 'function') initHomePracticeCycle();
       if (typeof refreshHomePracticeCycle === 'function') refreshHomePracticeCycle();
+      if (typeof bindHomePixivLinkOnce === 'function') bindHomePixivLinkOnce();
     }
+    recordTabVisitForFullCycle(name);
   }
 
   /* ── 레퍼런스 카테고리 · 포즈/레퍼/갤러리 분류와 동일 ── */
@@ -5210,6 +5442,7 @@
   const LS_GAL_GROUPS = 'dokcho_gallery_groups_done';
   const LS_FB  = 'dokcho_croquis_feedback';
   const CROQUIS_SEC = 120;
+  const GEOMETRIC_SEC = 1200;
   const RING_R = 52;
   const RING_LEN = 2 * Math.PI * RING_R;
   const GAL_MAX = 30;
@@ -6387,6 +6620,22 @@
     if (String(ed.value || '').trim()) markMemoTabIfNeeded();
   }
 
+  function scrollMemoKeywordThreadIntoView() {
+    var el = document.getElementById('memo-keyword-thread');
+    if (!el) return;
+    try {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (e) {
+      el.scrollIntoView();
+    }
+    if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
+    try {
+      el.focus({ preventScroll: true });
+    } catch (e2) {
+      try { el.focus(); } catch (e3) {}
+    }
+  }
+
   function persistMemoFromUI() {
     const ed = document.getElementById('memo-editor');
     if (!ed) return;
@@ -6408,8 +6657,9 @@
       }
     }
     markMemoTabIfNeeded();
-    if (typeof cqShowToast === 'function') {
-      cqShowToast(kwAdded ? '메모 반영 · @키워드를 저장했습니다' : '메모 본문을 저장했습니다');
+    if (typeof scrollMemoKeywordThreadIntoView === 'function') scrollMemoKeywordThreadIntoView();
+    if (kwAdded && typeof cqShowToast === 'function') {
+      cqShowToast('메모 반영 · @키워드를 저장했습니다');
     }
   }
 
@@ -8183,6 +8433,9 @@
     if (sendBtn) {
       sendBtn.addEventListener('click', function() {
         if (galleryPickedIds.size !== GAL_PICK_MAX) return;
+        if (typeof window._bumpConceptArtSend === 'function') {
+          try { window._bumpConceptArtSend(GAL_PICK_MAX); } catch (e) {}
+        }
         var subj = encodeURIComponent('[독초] 갤러리 선정 5장 — 김도훈 작가님께');
         var body = encodeURIComponent('독초 앱 갤러리에서 작품 5장을 선택했습니다.\n(필요하면 이 메일에 이미지를 첨부하거나 링크를 적어 보내 주세요.)');
         window.location.href = 'mailto:?subject=' + subj + '&body=' + body;
@@ -8223,12 +8476,18 @@
     cqTimeEl.classList.toggle('warn', warn);
   }
 
+  function cqSessionRoundsMax() {
+    return typeof isSketchTrainingUnlocked === 'function' && isSketchTrainingUnlocked() ? 3 : 1;
+  }
+
   function cqUpdateDots() {
+    var maxR = typeof cqSessionRoundsMax === 'function' ? cqSessionRoundsMax() : 3;
     for (let i = 0; i < 3; i++) {
       const d = document.getElementById('cq-dot-' + i);
       if (!d) continue;
+      d.style.display = i < maxR ? '' : 'none';
       d.classList.remove('done', 'current');
-      if (cqCompleted >= 3) d.classList.add('done');
+      if (cqCompleted >= maxR) d.classList.add('done');
       else if (i < cqCompleted) d.classList.add('done');
       else if (i === cqCompleted) d.classList.add('current');
     }
@@ -8257,7 +8516,8 @@
   }
 
   function cqStartTimer() {
-    if (cqCompleted >= 3) return;
+    var maxR = typeof cqSessionRoundsMax === 'function' ? cqSessionRoundsMax() : 3;
+    if (cqCompleted >= maxR) return;
     if (!cqWrap || !cqWrap.classList.contains('has-img')) {
       cqShowToast('먼저 이미지를 불러오세요.');
       return;
@@ -8300,15 +8560,26 @@
   }
 
   function cqAdvanceRound() {
-    if (cqCompleted >= 3) return;
+    var maxR = typeof cqSessionRoundsMax === 'function' ? cqSessionRoundsMax() : 3;
+    if (cqCompleted >= maxR) return;
+    var snapSrc = cqImg && cqImg.getAttribute('src') ? cqImg.src : '';
     cqCompleted++;
     cqUpdateDots();
     cqResetTimerOnly();
-    cqImg.src = '';
+    cqImg.removeAttribute('src');
     cqWrap.classList.remove('has-img');
     cqCurrentRefId = null;
     cqDup.textContent = '';
-    if (cqCompleted >= 3) {
+    if (cqCompleted >= maxR) {
+      if (typeof isSketchTrainingUnlocked === 'function' && !isSketchTrainingUnlocked()) {
+        cqStopTimer();
+        cqCompleted = 0;
+        cqUpdateDots();
+        writeSketchTrainingGate({ pendingCroquisGeometric: true });
+        if (snapSrc && typeof gqSetImage === 'function') gqSetImage(snapSrc, null);
+        if (typeof sketchHandoffToGeometric === 'function') sketchHandoffToGeometric();
+        return;
+      }
       cqFbPanel.classList.add('visible');
       cqFbText.focus();
       document.getElementById('cq-start').disabled = true;
@@ -8401,11 +8672,203 @@
     if (cqPs) cqPs.addEventListener('click', cqPauseTimer);
     if (cqRs) cqRs.addEventListener('click', cqResetTimerOnly);
     if (cqNx) cqNx.addEventListener('click', function() {
-      if (cqCompleted >= 3) return;
+      var maxR = typeof cqSessionRoundsMax === 'function' ? cqSessionRoundsMax() : 3;
+      if (cqCompleted >= maxR) return;
       cqStopTimer();
       cqAdvanceRound();
     });
   })();
+
+  /* ── 도형화 (20분 · 훈련 사이클) ── */
+  function sketchHandoffToGeometric() {
+    showSketchSub('geometric');
+    geoPrepareAfterCroquisHandoff();
+  }
+
+  const gqRing = document.getElementById('gq-ring-progress');
+  const gqTimeEl = document.getElementById('gq-time-display');
+  const gqImg = document.getElementById('gq-img');
+  const gqWrap = document.getElementById('gq-image-wrap');
+  const gqDup = document.getElementById('gq-dup-info');
+
+  let gqRemaining = GEOMETRIC_SEC;
+  let gqTimerId = null;
+  let gqRunning = false;
+  let gqCurrentRefId = null;
+  let gqRefPickCounts = {};
+
+  function gqFmt(sec) {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return m + ':' + String(s).padStart(2, '0');
+  }
+
+  function gqUpdateRing() {
+    if (!gqRing || !gqTimeEl) return;
+    const p = gqRemaining / GEOMETRIC_SEC;
+    gqRing.style.strokeDasharray = String(RING_LEN);
+    gqRing.style.strokeDashoffset = String(RING_LEN * (1 - p));
+    const warn = gqRemaining <= 120 && gqRemaining > 0;
+    gqRing.classList.toggle('warn', warn);
+    gqTimeEl.textContent = gqFmt(gqRemaining);
+    gqTimeEl.classList.toggle('warn', warn);
+  }
+
+  function gqStopTimer() {
+    if (gqTimerId) {
+      clearInterval(gqTimerId);
+      gqTimerId = null;
+    }
+    gqRunning = false;
+  }
+
+  function gqTick() {
+    if (gqRemaining <= 0) {
+      gqStopTimer();
+      geoOnTrainingTimerComplete();
+      return;
+    }
+    gqRemaining--;
+    gqUpdateRing();
+    if (gqRemaining <= 0) {
+      gqStopTimer();
+      geoOnTrainingTimerComplete();
+    }
+  }
+
+  function gqStartTimer() {
+    if (!gqWrap || !gqWrap.classList.contains('has-img')) {
+      if (typeof cqShowToast === 'function') cqShowToast('먼저 참고 이미지를 불러오세요.');
+      return;
+    }
+    gqStopTimer();
+    gqRunning = true;
+    gqTimerId = setInterval(gqTick, 1000);
+  }
+
+  function gqPauseTimer() {
+    if (!gqRunning) return;
+    gqStopTimer();
+  }
+
+  function gqResetTimerOnly() {
+    gqStopTimer();
+    gqRemaining = GEOMETRIC_SEC;
+    gqUpdateRing();
+  }
+
+  function gqSetImage(src, refId) {
+    if (!gqImg || !gqWrap) return;
+    gqImg.src = src;
+    gqWrap.classList.add('has-img');
+    gqCurrentRefId = refId || null;
+    if (gqCurrentRefId && gqRefPickCounts[gqCurrentRefId] != null) {
+      gqDup.innerHTML = '동일 레퍼런스 <strong>' + gqRefPickCounts[gqCurrentRefId] + '</strong> / 5';
+    } else if (gqDup) gqDup.textContent = '';
+  }
+
+  function gqClearCurrentImage() {
+    if (!gqImg || !gqWrap) return;
+    gqStopTimer();
+    gqResetTimerOnly();
+    gqImg.removeAttribute('src');
+    gqWrap.classList.remove('has-img');
+    gqCurrentRefId = null;
+    if (gqDup) gqDup.textContent = '';
+  }
+
+  function geoPrepareAfterCroquisHandoff() {
+    gqStopTimer();
+    gqRemaining = GEOMETRIC_SEC;
+    gqUpdateRing();
+    if (typeof cqShowToast === 'function') {
+      cqShowToast('도형화 탭으로 넘어왔습니다. 20분 · 시작을 눌러 주세요.');
+    }
+  }
+
+  function geoOnTrainingTimerComplete() {
+    var g = readSketchTrainingGate();
+    if (!isSketchTrainingUnlocked() && !g.pendingCroquisGeometric) {
+      gqStopTimer();
+      gqRemaining = GEOMETRIC_SEC;
+      gqUpdateRing();
+      if (typeof cqShowToast === 'function') {
+        cqShowToast('크로키 2분을 먼저 끝낸 뒤에만 도형화 20분이 1사이클로 인정됩니다.');
+      }
+      return;
+    }
+    var n = (g.cycles || 0) + 1;
+    if (n > 2) n = 2;
+    writeSketchTrainingGate({ cycles: n, pendingCroquisGeometric: false });
+    gqClearCurrentImage();
+    if (typeof refreshSketchTrainingGateUI === 'function') refreshSketchTrainingGateUI();
+    showSketchSub('croquis');
+    if (typeof cqUpdateDots === 'function') cqUpdateDots();
+    if (typeof cqShowToast === 'function') {
+      if (n >= 2) {
+        cqShowToast('훈련 2사이클 완료! 갤러리·디자인·메모 등 다른 탭을 쓸 수 있습니다.');
+      } else {
+        cqShowToast('1사이클 완료 (' + n + '/2). 크로키 2분을 다시 진행하세요.');
+      }
+    }
+  }
+
+  function gqPickRandomPose() {
+    const all = readPoses();
+    if (!all.length) {
+      if (typeof cqShowToast === 'function') cqShowToast('포즈 탭에 크로키용 이미지를 먼저 추가하세요.');
+      return;
+    }
+    let pool = all.filter(function(it) { return (gqRefPickCounts[it.id] || 0) < 5; });
+    if (!pool.length) {
+      gqRefPickCounts = {};
+      pool = all.slice();
+    }
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    gqRefPickCounts[pick.id] = (gqRefPickCounts[pick.id] || 0) + 1;
+    gqSetImage(pick.data, pick.id);
+    if (typeof setCroquisTouched === 'function') setCroquisTouched();
+  }
+
+  (function bindGeometricControls() {
+    var gqUp = document.getElementById('gq-upload-btn');
+    var gqFi = document.getElementById('gq-file');
+    if (gqUp && gqFi) {
+      gqUp.addEventListener('click', function() { gqFi.click(); });
+      gqFi.addEventListener('change', function(ev) {
+        var inp = ev.target;
+        var f = inp.files && inp.files[0];
+        if (!f || !isLikelyImageFile(f)) {
+          inp.value = '';
+          return;
+        }
+        inp.value = '';
+        var r = new FileReader();
+        r.onload = function() {
+          gqSetImage(r.result, null);
+          if (typeof setCroquisTouched === 'function') setCroquisTouched();
+        };
+        r.readAsDataURL(f);
+      });
+    }
+    var gqRand = document.getElementById('gq-random-btn');
+    if (gqRand) gqRand.addEventListener('click', gqPickRandomPose);
+    var gqRm = document.getElementById('gq-remove-img');
+    if (gqRm) {
+      gqRm.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        gqClearCurrentImage();
+      });
+    }
+    var gqSt = document.getElementById('gq-start');
+    var gqPs = document.getElementById('gq-pause');
+    var gqRs = document.getElementById('gq-reset');
+    if (gqSt) gqSt.addEventListener('click', gqStartTimer);
+    if (gqPs) gqPs.addEventListener('click', gqPauseTimer);
+    if (gqRs) gqRs.addEventListener('click', gqResetTimerOnly);
+  })();
+
+  gqUpdateRing();
 
   (function bindConceptUpload() {
     var charBtn = document.getElementById('char-upload-btn');
@@ -8473,6 +8936,10 @@
         if (typeof cqShowToast === 'function') cqShowToast('브라우저 저장 한도를 초과했습니다. 이미지를 더 작게(JPG 등) 줄인 뒤 다시 시도해 주세요.');
         return;
       }
+      var addedSheets = arr.length - beforeImgCount;
+      if (addedSheets > 0 && typeof window._bumpCharSheetCycleImages === 'function') {
+        try { await window._bumpCharSheetCycleImages(addedSheets); } catch (e1) {}
+      }
       renderCharacterImages();
       if (characterSheetHasContent(s)) markTabActivity('concept');
     } catch (err) {
@@ -8496,6 +8963,7 @@
   if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
   if (typeof initHomePracticeCycle === 'function') initHomePracticeCycle();
   if (typeof refreshHomePracticeCycle === 'function') refreshHomePracticeCycle();
+  if (typeof bindHomePixivLinkOnce === 'function') bindHomePixivLinkOnce();
   startGalleryTicker();
 
   const LS_MONTHLY_ATTENDANCE = 'dokcho_monthly_attendance_v1';
@@ -8639,6 +9107,8 @@
       if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
       if (typeof initHomePracticeCycle === 'function') initHomePracticeCycle();
       if (typeof refreshHomePracticeCycle === 'function') refreshHomePracticeCycle();
+      if (typeof bindHomePixivLinkOnce === 'function') bindHomePixivLinkOnce();
+      if (typeof recordTabVisitForFullCycle === 'function') recordTabVisitForFullCycle('home');
     }, 400);
   }
 </script>
