@@ -1157,11 +1157,14 @@
       border-left: 0.5px solid var(--border);
     }
 
-    /* ── 하단 탭바 ── */
+    /* ── 하단 탭바 (본문 대비: 아이콘·라벨이 잘 보이게 전용 색) ── */
     .tab-bar {
-      border-top: 0.5px solid var(--border);
+      --tab-fg: #c9c4ae;
+      --tab-fg-hover: #e8e4d4;
+      border-top: 1px solid rgba(180, 170, 80, 0.22);
       display: flex;
-      background: var(--bg2);
+      background: linear-gradient(180deg, #1a1912 0%, #0d0d0a 100%);
+      box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.35);
     }
 
     .tab-btn {
@@ -1176,17 +1179,25 @@
       background: none;
       border: none;
       cursor: pointer;
-      transition: all 0.2s;
-      color: var(--text3);
+      transition: color 0.2s ease, filter 0.2s ease;
+      color: var(--tab-fg);
       position: relative;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .tab-btn.active { color: var(--accent); }
+    .tab-btn:hover:not(:disabled):not(.tab-btn-locked) {
+      color: var(--tab-fg-hover);
+    }
+
+    .tab-btn.active {
+      color: var(--accent);
+      text-shadow: 0 0 14px var(--accent-glow);
+    }
 
     .tab-btn.tab-btn-locked {
-      opacity: 0.38;
+      opacity: 0.42;
       cursor: not-allowed;
-      filter: grayscale(0.35);
+      filter: grayscale(0.4);
       pointer-events: none;
     }
     .tab-btn.tab-btn-locked .tab-label { letter-spacing: 0.08em; }
@@ -1195,22 +1206,35 @@
       content: '';
       position: absolute;
       top: 0;
-      left: 20%;
-      right: 20%;
-      height: 1.5px;
-      background: var(--accent);
-      border-radius: 0 0 2px 2px;
+      left: 18%;
+      right: 18%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      border-radius: 0 0 3px 3px;
+      box-shadow: 0 0 10px rgba(180, 196, 74, 0.45);
     }
 
     .tab-icon {
-      font-size: 18px;
+      font-size: 19px;
       line-height: 1;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+    }
+
+    .tab-btn.active .tab-icon {
+      text-shadow: 0 0 10px rgba(180, 196, 74, 0.35), 0 1px 2px rgba(0, 0, 0, 0.5);
     }
 
     .tab-label {
-      font-size: 9px;
-      letter-spacing: 0.15em;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
       font-family: var(--font-body);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+    }
+
+    .tab-btn.active .tab-label {
+      font-weight: 600;
+      text-shadow: 0 0 8px rgba(180, 196, 74, 0.25), 0 1px 2px rgba(0, 0, 0, 0.45);
     }
 
     .tab-label-long {
@@ -1654,16 +1678,18 @@
       bottom: calc(4.75rem + env(safe-area-inset-bottom));
       z-index: 99999;
       max-width: min(22rem, calc(100vw - 2rem));
-      padding: 0.55rem 1rem;
-      background: rgba(22, 20, 16, 0.96);
-      border: 0.5px solid var(--border);
+      padding: 0.65rem 1.15rem;
+      background: rgba(8, 6, 4, 0.97);
+      border: 1px solid rgba(255, 214, 160, 0.45);
       border-radius: 10px;
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
-      font-size: 12px;
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      font-size: 14px;
+      font-weight: 600;
       line-height: 1.45;
-      color: var(--danger);
-      letter-spacing: 0.04em;
+      color: #ffe8c8;
+      letter-spacing: 0.02em;
       text-align: center;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
       pointer-events: none;
       opacity: 0;
       visibility: hidden;
@@ -3722,6 +3748,8 @@
 
   /* ── 탭 순서 잠금 (홈→기본기→크로키·포즈→데포르메→레퍼런스·갤러리→디자인→메모→캐릭터 분석·창작) ── */
   const TAB_ORDER = ['home', 'basics', 'sketch', 'deforme', 'refgallery', 'design', 'memo', 'concept'];
+  /** 홈은 순서 잠금에 포함하지 않음 — 첫 작업 단계는 basics */
+  const TAB_WORK_CHAIN = ['basics', 'sketch', 'deforme', 'refgallery', 'design', 'memo', 'concept'];
   const LS_TAB_CHAIN = 'dokcho_tab_chain';
   const LS_SKETCH_SUB = 'dokcho_merge_sketch_sub';
   const LS_REF_SUB = 'dokcho_merge_ref_sub';
@@ -3800,7 +3828,14 @@
   function readTabChain() {
     try {
       const o = JSON.parse(localStorage.getItem(LS_TAB_CHAIN) || '{}');
-      return Array.isArray(o.checked) ? o.checked : [];
+      let arr = Array.isArray(o.checked) ? o.checked.slice() : [];
+      var changed = false;
+      while (arr.length && arr[0] === 'home') {
+        arr = arr.slice(1);
+        changed = true;
+      }
+      if (changed) writeTabChain(arr);
+      return arr;
     } catch (e) { return []; }
   }
 
@@ -3809,7 +3844,8 @@
   }
 
   function tabChainMaxUnlockedIndex() {
-    return readTabChain().length;
+    /* 체인이 비어도 home + basics(인덱스 1)까지 허용 */
+    return readTabChain().length + 1;
   }
 
   function canSwitchToTab(name) {
@@ -3820,8 +3856,8 @@
 
   function getFrontierTab() {
     const c = readTabChain();
-    if (c.length >= TAB_ORDER.length) return null;
-    return TAB_ORDER[c.length];
+    if (c.length >= TAB_WORK_CHAIN.length) return null;
+    return TAB_WORK_CHAIN[c.length];
   }
 
   function isTabWorkReady(name) {
@@ -3932,7 +3968,7 @@
     dock.classList.remove('tab-work-dock--pulse', 'tab-work-dock--waiting');
     dock.classList.add('tab-work-dock--blocked-msg');
     hint.textContent = frontier
-      ? '먼저 「' + label + '」에서 작업을 마친 뒤, 아래 「작업 완료」를 체크해야 다음 탭이 열립니다.'
+      ? '현재는 「' + label + '」 단계까지 열려 있습니다. 먼저 그 탭에서 작업을 완료한 뒤 순서대로 진행해 주세요.'
       : '순서대로 모든 탭을 완료했습니다.';
     setTimeout(function() {
       dock.classList.remove('tab-work-dock--blocked-msg');
@@ -4009,7 +4045,7 @@
     const frontier = getFrontierTab();
     if (frontier !== 'concept' || !isTabWorkReady('concept')) return;
     var c = readTabChain().slice();
-    if (c.length >= TAB_ORDER.length || TAB_ORDER[c.length] !== 'concept') return;
+    if (c.length !== TAB_WORK_CHAIN.length - 1 || TAB_WORK_CHAIN[c.length] !== 'concept') return;
     c.push('concept');
     writeTabChain([]);
     await recordFullTrainingCycleComplete();
@@ -4067,7 +4103,7 @@
       }
       const dock = document.getElementById('tab-work-complete-dock');
       const c = readTabChain().slice();
-      if (c.length >= TAB_ORDER.length || TAB_ORDER[c.length] !== frontier) {
+      if (c.length >= TAB_WORK_CHAIN.length || TAB_WORK_CHAIN[c.length] !== frontier) {
         this.checked = false;
         return;
       }
@@ -4081,7 +4117,7 @@
       setTimeout(async function() {
         c.push(frontier);
         writeTabChain(c);
-        var fullCycle = c.length >= TAB_ORDER.length;
+        var fullCycle = c.length >= TAB_WORK_CHAIN.length;
         if (fullCycle) {
           await recordFullTrainingCycleComplete();
           writeTabChain([]);
