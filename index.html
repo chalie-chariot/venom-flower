@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0a0a08">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="독초">
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <title>독초 — Venom Flower</title>
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0f130a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <!-- iOS Safari 전용 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="기본기" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <title>기본기</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -2227,6 +2230,10 @@
       align-items: center;
       justify-content: center;
     }
+    #page-deforme .deforme-preview-wrap[hidden],
+    #page-deforme .deforme-drop.is-empty .deforme-preview-wrap {
+      display: none !important;
+    }
     #page-deforme .deforme-preview-img {
       max-width: 100%;
       max-height: 100%;
@@ -2380,15 +2387,29 @@
 
     #page-design .design-wheel-list {
       display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin: 0.75rem 0 1rem;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin: 0.75rem 0 0;
+      align-items: stretch;
+      justify-content: space-between;
+    }
+    @media (max-width: 720px) {
+      #page-design .design-wheel-list {
+        flex-direction: column;
+      }
     }
     .design-wheel-card {
+      flex: 1 1 0;
+      min-width: min(100%, 200px);
+      max-width: 100%;
       border: 0.5px solid var(--border);
       border-radius: 10px;
       padding: 0.75rem 0.85rem;
       background: rgba(14, 12, 10, 0.55);
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
     }
     .design-wheel-card h4 {
       margin: 0 0 0.4rem;
@@ -2409,6 +2430,10 @@
       color: var(--text3);
       letter-spacing: 0.06em;
       margin-bottom: 0.45rem;
+    }
+    .design-wheel-card .btn-cq.primary {
+      margin-top: auto;
+      align-self: flex-start;
     }
     .design-add-row {
       display: flex;
@@ -2706,6 +2731,29 @@
     #page-design .design-roulette-block {
       margin-top: 0.5rem;
     }
+    #page-design .design-roulette-hint {
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.06em;
+      line-height: 1.55;
+      margin: 0 0 0.65rem;
+    }
+    #page-design .design-roulette-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.65rem;
+    }
+    #page-design .design-roulette-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    #page-design .design-keyword-panel {
+      margin-bottom: 0.35rem;
+    }
 
     /* ── 레퍼런스 워크스페이스 (2열: 내 그림 | 참고 레퍼런스) ── */
     #page-reference .ref-ws {
@@ -2807,6 +2855,9 @@
       outline: none;
       box-shadow: 0 0 0 2px rgba(143, 188, 68, 0.45);
     }
+    #page-reference .ref-ws-drop-empty[hidden] {
+      display: none !important;
+    }
     #page-reference .ref-ws-preview {
       position: relative;
       width: 100%;
@@ -2815,6 +2866,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+    /* [hidden]보다 display:flex가 이기면 빈 img 깨짐 아이콘이 보임 — 기본기와 동일 */
+    #page-reference .ref-ws-preview[hidden],
+    #page-reference .ref-ws-drop.is-empty .ref-ws-preview {
+      display: none !important;
     }
     #page-reference .ref-ws-preview-img {
       max-width: 100%;
@@ -2912,6 +2968,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+    #page-reference .ref-ws-ref-preview[hidden],
+    #page-reference .ref-ws-ref-drop.is-empty .ref-ws-ref-preview {
+      display: none !important;
     }
     #page-reference .ref-ws-ref-preview .ref-ws-preview-img {
       max-height: 200px;
@@ -3295,19 +3355,28 @@
 
     .char-kw-pick-area {
       display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      align-content: flex-start;
+      gap: 0.5rem 1rem;
       padding: 0.75rem;
       border: 0.5px solid var(--border);
       border-radius: 8px;
       background: var(--bg3);
-      max-height: 200px;
+      max-height: 220px;
       overflow-y: auto;
+    }
+    .char-kw-pick-area > .memo-hint {
+      flex: 1 1 100%;
+      width: 100%;
     }
     .char-kw-pick {
       display: flex;
       align-items: flex-start;
       gap: 0.5rem;
+      flex: 0 1 auto;
+      max-width: 100%;
       font-size: 11px;
       color: var(--text2);
       cursor: pointer;
@@ -4001,18 +4070,22 @@
           </div>
 
           <div class="design-roulette-block">
-            <p style="font-size:11px;color:var(--text3);letter-spacing:0.06em;line-height:1.55;margin:0 0 0.75rem;">시드 키워드는 목록을 <strong style="color:var(--text2);font-weight:500;">절반으로 나눠</strong> 두 개의 풀에 넣었습니다. 돌림판을 추가하면 빈 풀이 생기며, 아래에서 키워드를 넣을 풀을 고른 뒤 반영하면 됩니다.</p>
-            <div id="design-wheels-root" class="design-wheel-list" aria-live="polite"></div>
-            <button type="button" class="btn-cq" id="design-add-wheel-btn" style="height:38px;padding:0 1rem;font-size:12px;">+ 돌림판 추가</button>
-
-            <h3 class="memo-section-title" style="margin-top:1.25rem;">키워드 추가</h3>
+            <p class="design-roulette-hint">시드 키워드는 목록을 <strong style="color:var(--text2);font-weight:500;">세 덩이로 나눠</strong> 돌림판 1·2·3 풀에 넣습니다. 돌림판은 <strong style="color:var(--text2);font-weight:500;">3개 고정</strong>입니다.</p>
+            <div class="design-roulette-toolbar">
+              <div class="design-roulette-actions">
+                <button type="button" class="btn-cq" id="design-btn-keyword-add" style="height:38px;padding:0 1rem;font-size:12px;">키워드 추가</button>
+                <button type="button" class="btn-cq primary" id="design-add-keywords-btn" style="height:38px;padding:0 1rem;font-size:12px;">반영</button>
+              </div>
+            </div>
+            <div class="design-keyword-panel">
             <p class="memo-hint">쉼표 또는 줄바꿈으로 여러 개를 한 번에 넣을 수 있습니다. 선택한 풀에 이어 붙습니다.</p>
             <div class="design-add-row">
               <label for="design-pool-select" class="memo-hint" style="margin:0;">대상 풀</label>
               <select id="design-pool-select" aria-label="키워드를 넣을 돌림판 풀"></select>
             </div>
             <textarea id="design-keyword-batch" class="memo-editor char-q-text" rows="4" placeholder="예: 레이스, 메카 니, 네온 사인"></textarea>
-            <button type="button" class="btn-cq primary" id="design-add-keywords-btn" style="height:40px;padding:0 1rem;margin-top:0.5rem;">키워드 반영</button>
+            </div>
+            <div id="design-wheels-root" class="design-wheel-list" aria-live="polite"></div>
           </div>
         </div>
       </div>
@@ -4070,22 +4143,19 @@
           <div id="concept-panel-analysis" class="merge-sub-panel char-analysis-panel">
             <div class="page-header">
               <h2 class="page-title">캐릭터 분석</h2>
-              <span class="page-sub">타작품 캐릭터 · 검색 후 정리</span>
             </div>
-            <p style="font-size:11px;color:var(--text3);letter-spacing:0.06em;line-height:1.55;">시중 서브컬처·상업작 등 <strong>이미 존재하는 캐릭터</strong>를 정합니다. 먼저 매력을 예상해 적고, 검색으로 서사·성격 등을 확인한 뒤 팬아트·이미지 검색까지 확인하면 창작 탭이 열립니다.</p>
 
             <label class="char-q-label" for="char-an-subculture">작품·캐릭터 (검색 키워드)</label>
-            <input type="text" id="char-an-subculture" class="char-an-input" placeholder="예: ○○ 게임 ○○, 애니 ○○ ○○" autocomplete="off" />
+            <input type="text" id="char-an-subculture" class="char-an-input" autocomplete="off" />
 
             <label class="char-q-label" for="char-an-charm">예상 매력·호감 포인트</label>
-            <textarea id="char-an-charm" class="memo-editor char-q-text" rows="4" placeholder="검색 전: 이 캐릭터가 왜 끌릴지 추측해 보세요. (비주얼, 성격, 관계, 밈 등)"></textarea>
+            <textarea id="char-an-charm" class="memo-editor char-q-text" rows="4"></textarea>
 
             <label class="char-q-label" for="char-an-research">검색 후 정리 — 서사 · 성격 · 설정</label>
-            <textarea id="char-an-research" class="memo-editor char-q-text" rows="6" placeholder="검색 후 공식 설정·위키·감상 등을 바탕으로 정밀히 정리하세요."></textarea>
+            <textarea id="char-an-research" class="memo-editor char-q-text" rows="6"></textarea>
 
             <label class="char-an-row" style="display:flex;align-items:flex-start;gap:0.5rem;margin-top:0.75rem;cursor:pointer;">
-              <input type="checkbox" id="char-an-fanart" />
-              <span style="font-size:12px;color:var(--text2);line-height:1.5;">팬아트·이미지 검색을 해 보았고, 시각적 특징·인기 묘사 등을 확인했다</span>
+              <input type="checkbox" id="char-an-fanart" aria-label="팬아트·이미지 검색 확인" />
             </label>
 
             <button type="button" class="btn-cq primary" id="char-analysis-save-btn" style="align-self:flex-start;height:44px;padding:0 1.25rem;margin-top:1rem;">분석 완료 · 창작 탭 열기</button>
@@ -4212,12 +4282,12 @@
       <div class="pixiv-upload-gate-backdrop" id="pixiv-upload-gate-backdrop" tabindex="-1"></div>
       <div class="pixiv-upload-gate-panel">
         <h2 class="pixiv-upload-gate-title" id="pixiv-upload-gate-title">픽시브 업로드</h2>
-        <p class="pixiv-upload-gate-desc" id="pixiv-upload-gate-desc">새 탭에서 픽시브 업로드 페이지를 열었습니다. 업로드를 마친 뒤 아래를 체크해야 이번 1사이클이 완료됩니다.</p>
+        <p class="pixiv-upload-gate-desc" id="pixiv-upload-gate-desc">새 탭에서 픽시브를 열었습니다. 확인 후 아래를 체크해야 이번 1사이클이 완료됩니다.</p>
         <p class="pixiv-upload-gate-warn" id="pixiv-upload-gate-popup-hint" hidden></p>
-        <a class="btn-cq primary pixiv-upload-gate-openlink" id="pixiv-upload-gate-openlink" href="https://www.pixiv.net/illustration/create/draft" target="_blank" rel="noopener noreferrer">픽시브 업로드 페이지 열기</a>
+        <a class="btn-cq primary pixiv-upload-gate-openlink" id="pixiv-upload-gate-openlink" href="https://www.pixiv.net/" target="_blank" rel="noopener noreferrer">픽시브 열기</a>
         <label class="pixiv-upload-confirm-label" for="pixiv-upload-confirm-cb">
           <input type="checkbox" id="pixiv-upload-confirm-cb" autocomplete="off" />
-          <span>픽시브 업로드를 마쳤다 (체크해야 다음 1사이클 진행)</span>
+          <span>픽시브를 확인했다 (체크해야 다음 1사이클 진행)</span>
         </label>
         <button type="button" class="btn-cq" id="pixiv-upload-gate-cancel">아직 안 함 · 닫기</button>
       </div>
@@ -4237,6 +4307,34 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, doc, getDoc, setDoc, updateDoc, increment }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const LS_FRESH_LAUNCH_FLAG = 'dokcho_launch_zero_cycle_v1';
+  const SESS_FSYNC_FIRESTORE_ZERO = '_dokcho_sync_firestore_zero';
+
+  (function dokchoLaunchZeroCycleReset() {
+    try {
+      if (localStorage.getItem(LS_FRESH_LAUNCH_FLAG)) return;
+      var toRemove = [];
+      var i;
+      for (i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf('dokcho_') === 0) toRemove.push(k);
+      }
+      for (i = 0; i < toRemove.length; i++) {
+        try { localStorage.removeItem(toRemove[i]); } catch (e) {}
+      }
+      localStorage.setItem('dokcho_stats', JSON.stringify({
+        todayCroquis: 0,
+        totalCroquis: 0,
+        totalWorks: 0,
+        feedbackCount: 0,
+        streak: 0,
+        lastDate: ''
+      }));
+      localStorage.setItem(LS_FRESH_LAUNCH_FLAG, '1');
+      try { sessionStorage.setItem(SESS_FSYNC_FIRESTORE_ZERO, '1'); } catch (e2) {}
+    } catch (e) {}
+  })();
 
   const firebaseConfig = {
     apiKey: "AIzaSyDfBgTwawlVt3PD-HAttHoPp-Ehm5uLa2c",
@@ -4291,8 +4389,18 @@
     try {
       const ref = doc(db, "users", "dokcho");
       const snap = await getDoc(ref);
+      const needFbZero = sessionStorage.getItem(SESS_FSYNC_FIRESTORE_ZERO) === '1';
+      const ZERO_STATS = { todayCroquis:0, totalCroquis:0, totalWorks:0, feedbackCount:0, streak:0, lastDate:'' };
       if (snap.exists()) {
-        const d = snap.data();
+        let d = snap.data();
+        if (needFbZero) {
+          try {
+            await setDoc(ref, ZERO_STATS, { merge: true });
+            d = { ...d, ...ZERO_STATS };
+            localStorage.setItem('dokcho_stats', JSON.stringify(d));
+          } catch (e) { console.warn('Firestore 0사이클 동기화 실패', e); }
+          try { sessionStorage.removeItem(SESS_FSYNC_FIRESTORE_ZERO); } catch (e) {}
+        }
         window._stats = d;
         updateUI(d);
       } else {
@@ -4300,6 +4408,9 @@
         await setDoc(ref, init);
         window._stats = init;
         updateUI(init);
+        if (needFbZero) {
+          try { sessionStorage.removeItem(SESS_FSYNC_FIRESTORE_ZERO); } catch (e) {}
+        }
       }
     } catch(e) { loadLocalStats(); }
   }
@@ -4400,8 +4511,9 @@
 
   /* 전역 토스트 — 스크립트 최상단에 두어 항상 동작 (#app-toast는 </body> 직전) */
   var __cqToastTimer = null;
-  function cqShowToast(msg) {
+  function cqShowToast(msg, durationMs) {
     var text = msg != null ? String(msg) : '';
+    var ms = durationMs != null && !isNaN(Number(durationMs)) ? Math.max(1200, Number(durationMs)) : 4500;
     if (__cqToastTimer) {
       clearTimeout(__cqToastTimer);
       __cqToastTimer = null;
@@ -4416,7 +4528,7 @@
         el.classList.remove('is-visible');
         el.setAttribute('aria-hidden', 'true');
         __cqToastTimer = null;
-      }, 4500);
+      }, ms);
     }
     try { console.info('[venom]', text); } catch (e) {}
     if (text && !el) {
@@ -4552,8 +4664,8 @@
       localStorage.setItem('dokcho_tab_chain_migrated_deforme_v1', '1');
     } catch (e) {}
   })();
-  /* 마지막 탭 완료 시 새 탭으로 열 픽시브 업로드 URL (필요 시 변경) */
-  const PIXIV_UPLOAD_URL = 'https://www.pixiv.net/illustration/create/draft';
+  /* 마지막 탭 완료 시 새 탭으로 열 픽시브 URL (필요 시 변경) */
+  const PIXIV_UPLOAD_URL = 'https://www.pixiv.net/';
 
   function readTabChain() {
     try {
@@ -4724,7 +4836,7 @@
     dock.classList.toggle('tab-work-dock--ready', ready);
     if (hint) {
       if (ready && frontier === 'concept') {
-        hint.textContent = '마지막 단계입니다. 체크 시 캐릭터 시트가 저장되고, 픽시브 업로드 페이지가 열립니다. 업로드 확인 창에서 체크해야 이번 1사이클이 완료됩니다.';
+        hint.textContent = '마지막 단계입니다. 체크 시 캐릭터 시트가 저장되고, 픽시브가 새 탭에서 열립니다. 확인 창에서 체크해야 이번 1사이클이 완료됩니다.';
       } else if (ready) {
         hint.textContent = '「' + label + '」에서 할 일을 마쳤다면 아래를 체크하세요. 체크 한 번에 편집 내용 저장과 다음 탭 열기가 함께 적용됩니다.';
       } else {
@@ -4796,7 +4908,7 @@
       } catch (e) { w = null; }
       if (!w) {
         hint.hidden = false;
-        hint.textContent = '팝업이 차단된 것 같습니다. 아래 버튼으로 픽시브 업로드 페이지를 여세요.';
+        hint.textContent = '팝업이 차단된 것 같습니다. 아래 버튼으로 픽시브를 여세요.';
       } else {
         hint.hidden = true;
         hint.textContent = '';
@@ -4830,6 +4942,8 @@
     writeTabChain([]);
     await recordFullTrainingCycleComplete();
     closePixivUploadGate();
+    resetUiAfterFullCycleComplete();
+    if (typeof cqShowToast === 'function') cqShowToast('「절대 만족하지마세요」', 6800);
     const dock = document.getElementById('tab-work-complete-dock');
     if (dock) dock.classList.remove('tab-work-dock--done');
     const cb2 = document.getElementById('tab-work-complete-cb');
@@ -4965,6 +5079,8 @@
         if (fullCycle) {
           await recordFullTrainingCycleComplete();
           writeTabChain([]);
+          resetUiAfterFullCycleComplete();
+          if (typeof cqShowToast === 'function') cqShowToast('「절대 만족하지마세요」', 6800);
         }
         if (dock) dock.classList.remove('tab-work-dock--done');
         const cb2 = document.getElementById('tab-work-complete-cb');
@@ -5257,6 +5373,31 @@
         if (w) showConceptSub(w);
       });
     });
+  }
+
+  /** 1사이클 완료 직후: 통합 서브메뉴·디자인 패널만 초기(데이터·누적·이미지는 유지) */
+  function resetUiAfterFullCycleComplete() {
+    try {
+      if (typeof basicsCloseLightbox === 'function') basicsCloseLightbox();
+    } catch (e0) {}
+    try {
+      if (typeof deformeCloseLightbox === 'function') deformeCloseLightbox();
+    } catch (e1) {}
+    try {
+      if (typeof refWsCloseLightbox === 'function') refWsCloseLightbox();
+    } catch (e2) {}
+    try {
+      localStorage.setItem(LS_SKETCH_SUB, 'croquis');
+      localStorage.setItem(LS_REF_SUB, 'reference');
+      localStorage.setItem(LS_CONCEPT_SUB, 'analysis');
+    } catch (e3) {}
+    if (typeof showSketchSub === 'function') showSketchSub('croquis');
+    if (typeof showRefgalSub === 'function') showRefgalSub('reference');
+    if (typeof showConceptSub === 'function') showConceptSub('analysis');
+    if (typeof switchDesignDsTab === 'function') switchDesignDsTab('overview');
+    try {
+      window.scrollTo(0, 0);
+    } catch (e4) {}
   }
 
   /* ── 탭 전환 ── */
@@ -5689,9 +5830,11 @@
 
   function buildDefaultDesignPools() {
     const seed = parseDesignSeed();
-    if (seed.length === 0) return [[], []];
-    const mid = Math.ceil(seed.length / 2);
-    return [seed.slice(0, mid), seed.slice(mid)];
+    if (seed.length === 0) return [[], [], []];
+    const n = seed.length;
+    const i1 = Math.ceil(n / 3);
+    const i2 = Math.ceil((n * 2) / 3);
+    return [seed.slice(0, i1), seed.slice(i1, i2), seed.slice(i2)];
   }
 
   function readDesignRoulette() {
@@ -5715,6 +5858,8 @@
     localStorage.setItem(LS_DESIGN_ROULETTE, JSON.stringify(o));
   }
 
+  const DESIGN_WHEEL_COUNT = 3;
+
   function ensureDesignRouletteInit() {
     let dr = readDesignRoulette();
     if (!dr) {
@@ -5723,6 +5868,24 @@
       writeDesignRoulette(dr);
       return dr;
     }
+    var changed = false;
+    while (dr.pools.length < DESIGN_WHEEL_COUNT) {
+      dr.pools.push([]);
+      changed = true;
+    }
+    if (dr.pools.length > DESIGN_WHEEL_COUNT) {
+      dr.pools = dr.pools.slice(0, DESIGN_WHEEL_COUNT);
+      changed = true;
+    }
+    while (dr.lastSpins.length < DESIGN_WHEEL_COUNT) {
+      dr.lastSpins.push('');
+      changed = true;
+    }
+    if (dr.lastSpins.length > DESIGN_WHEEL_COUNT) {
+      dr.lastSpins = dr.lastSpins.slice(0, DESIGN_WHEEL_COUNT);
+      changed = true;
+    }
+    if (changed) writeDesignRoulette(dr);
     return dr;
   }
 
@@ -5780,15 +5943,6 @@
     writeDesignRoulette(dr);
     markTabActivity('design');
     renderDesignWheels();
-  }
-
-  function designAddWheel() {
-    const dr = ensureDesignRouletteInit();
-    dr.pools.push([]);
-    dr.lastSpins.push('');
-    writeDesignRoulette(dr);
-    renderDesignWheels();
-    fillDesignPoolSelect();
   }
 
   function designAddKeywordsFromUI() {
@@ -6282,11 +6436,17 @@
     fillDesignPoolSelect();
     bindDesignWheelClicks();
     initDesignDsUI();
-    const addWheel = document.getElementById('design-add-wheel-btn');
+    const kwAdd = document.getElementById('design-btn-keyword-add');
     const addKw = document.getElementById('design-add-keywords-btn');
-    if (addWheel && !addWheel._designBound) {
-      addWheel._designBound = true;
-      addWheel.addEventListener('click', designAddWheel);
+    if (kwAdd && !kwAdd._designKwFocusBound) {
+      kwAdd._designKwFocusBound = true;
+      kwAdd.addEventListener('click', function() {
+        var ta = document.getElementById('design-keyword-batch');
+        if (ta) {
+          ta.focus();
+          try { ta.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) { ta.scrollIntoView(); }
+        }
+      });
     }
     if (addKw && !addKw._designBound) {
       addKw._designBound = true;
@@ -7115,9 +7275,9 @@
       if (typeof conceptHasStoredContent === 'function' && conceptHasStoredContent()) {
         writeCharacterAnalysis({
           completed: true,
-          characterName: '(기존 캐릭터 시트)',
-          charmGuess: '기존 데이터로 자동 인정되었습니다.',
-          researchNarrative: '캐릭터 분석 단계 도입 이전에 저장된 창작 데이터가 있습니다.',
+          characterName: '',
+          charmGuess: '',
+          researchNarrative: '',
           fanartConfirmed: true,
           legacyAuto: true
         });
@@ -7127,8 +7287,24 @@
     } catch (e) {}
   }
 
+  function stripLegacyCharAnalysisSampleText() {
+    var d = readCharacterAnalysis();
+    var patch = {};
+    var badName = '(기존 캐릭터 시트)';
+    var badCharm = ['기존 데이터로 자동 인정되었습니다.', '기존 데이터로 자동 안정되었습니다.'];
+    var badRes = [
+      '캐릭터 분석 단계 도입 이전에 저장된 창작 데이터가 있습니다.',
+      '캐릭터 분석 단계 도입 이전에 저장된 감각 데이터가 있습니다.'
+    ];
+    if (d.characterName === badName) patch.characterName = '';
+    if (badCharm.indexOf(d.charmGuess) >= 0) patch.charmGuess = '';
+    if (badRes.indexOf(d.researchNarrative) >= 0) patch.researchNarrative = '';
+    if (Object.keys(patch).length) writeCharacterAnalysis(patch);
+  }
+
   function initConceptPage() {
     migrateCharAnalysisLegacyOnce();
+    stripLegacyCharAnalysisSampleText();
     const d = readCharacterAnalysis();
     const elName = document.getElementById('char-an-subculture');
     const elCharm = document.getElementById('char-an-charm');
@@ -7473,6 +7649,12 @@
     if (im) im.removeAttribute('src');
   }
 
+  function refWsIsValidImageDataUrl(url) {
+    if (url == null || typeof url !== 'string') return false;
+    var s = url.trim();
+    return s.length > 80 && /^data:image\/(jpeg|png|webp)/i.test(s);
+  }
+
   function refWsUpdateMyColumn(w) {
     var drop = document.getElementById('ref-ws-my-drop');
     var empty = document.getElementById('ref-ws-my-empty');
@@ -7480,7 +7662,12 @@
     var img = document.getElementById('ref-ws-my-img');
     if (!drop || !empty || !preview || !img) return;
     var url = w.myDrawingDataUrl;
-    if (url && String(url).length > 80) {
+    if (url && String(url).length > 0 && !refWsIsValidImageDataUrl(url)) {
+      writeRefWorkspace({ myDrawingDataUrl: '' });
+      refWsUpdateMyColumn(readRefWorkspace());
+      return;
+    }
+    if (refWsIsValidImageDataUrl(url)) {
       drop.classList.remove('is-empty');
       empty.hidden = true;
       preview.hidden = false;
@@ -7641,7 +7828,8 @@
       body.className = 'ref-ws-ref-body';
 
       var drop = document.createElement('div');
-      drop.className = 'ref-ws-ref-drop' + (item.data && String(item.data).length > 80 ? '' : ' is-empty');
+      var hasRefPic = refWsIsValidImageDataUrl(item.data);
+      drop.className = 'ref-ws-ref-drop' + (hasRefPic ? '' : ' is-empty');
 
       var fileInp = document.createElement('input');
       fileInp.type = 'file';
@@ -7654,12 +7842,12 @@
 
       var preview = document.createElement('div');
       preview.className = 'ref-ws-ref-preview';
-      preview.hidden = !(item.data && String(item.data).length > 80);
+      preview.hidden = !hasRefPic;
 
       var img = document.createElement('img');
       img.className = 'ref-ws-preview-img';
       img.alt = '참고 레퍼런스';
-      if (item.data) {
+      if (hasRefPic) {
         img.onload = function() {
           img.onerror = null;
         };
@@ -7741,7 +7929,7 @@
         }).catch(function() {});
       });
 
-      if (item.data && String(item.data).length > 80) {
+      if (hasRefPic) {
         preview.appendChild(img);
         preview.appendChild(rm);
         drop.appendChild(fileInp);
@@ -8593,6 +8781,21 @@
       if (typeof updateTabButtonLocks === 'function') updateTabButtonLocks();
       if (typeof refreshTabCompleteDock === 'function') refreshTabCompleteDock();
     }, 400);
+  }
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(function (reg) {
+          console.log('SW registered:', reg.scope);
+        })
+        .catch(function (err) {
+          console.error('SW registration failed:', err);
+        });
+    });
   }
 </script>
 
