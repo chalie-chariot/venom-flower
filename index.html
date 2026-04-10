@@ -3015,6 +3015,137 @@
       min-height: 3.25rem;
       font-size: 13px;
     }
+
+    /* ── 최종 캐릭터 선정 (그룹: 이미지 1 + 선정 이유) ── */
+    #page-finalpick .final-pick-page-header {
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem 1rem;
+    }
+    #page-finalpick .final-pick-header-aside {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--text3);
+      white-space: nowrap;
+      align-self: center;
+    }
+    #page-finalpick .final-pick-aside-sep {
+      margin: 0 0.35rem;
+      opacity: 0.5;
+    }
+    #page-finalpick .final-pick-aside-strong {
+      color: var(--accent2);
+      font-weight: 500;
+    }
+    #page-finalpick .final-pick-group {
+      border: 1px solid rgba(196, 182, 101, 0.55);
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.28);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+      padding: 1rem 1.15rem 1.15rem;
+      max-width: 100%;
+    }
+    #page-finalpick .final-pick-group-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    #page-finalpick .final-pick-img-hint {
+      margin: 0;
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+    }
+    #page-finalpick .final-pick-drop {
+      position: relative;
+      width: 100%;
+      min-height: 140px;
+      max-height: 260px;
+      border: 1px solid rgba(196, 182, 101, 0.45);
+      border-radius: 8px;
+      background: rgba(12, 11, 9, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    #page-finalpick .final-pick-drop:hover,
+    #page-finalpick .final-pick-drop:focus-visible {
+      border-color: rgba(214, 198, 120, 0.75);
+      box-shadow: 0 0 0 1px rgba(196, 182, 101, 0.2);
+    }
+    #page-finalpick .final-pick-drop.is-filled {
+      min-height: 0;
+      max-height: none;
+      cursor: pointer;
+    }
+    #page-finalpick .final-pick-empty-ui {
+      text-align: center;
+      padding: 0.75rem 1rem;
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.08em;
+      line-height: 1.5;
+      pointer-events: none;
+    }
+    #page-finalpick .final-pick-empty-ui strong {
+      display: block;
+      color: var(--accent2);
+      font-weight: 500;
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.12em;
+    }
+    #page-finalpick .final-pick-preview-box {
+      position: relative;
+      width: 100%;
+      border-radius: 7px;
+      overflow: hidden;
+      background: #0a0908;
+    }
+    #page-finalpick .final-pick-preview-box img {
+      width: 100%;
+      max-height: 260px;
+      object-fit: contain;
+      display: block;
+      vertical-align: bottom;
+    }
+    #page-finalpick .final-pick-remove-btn {
+      position: absolute;
+      top: 0.35rem;
+      right: 0.35rem;
+      font-size: 10px;
+      padding: 0.3rem 0.55rem;
+      border-radius: 6px;
+      border: 0.5px solid var(--border2);
+      background: rgba(0, 0, 0, 0.72);
+      color: var(--text2);
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      font-family: var(--font-body);
+    }
+    #page-finalpick .final-pick-remove-btn:hover {
+      color: var(--accent2);
+      border-color: var(--accent);
+    }
+    #page-finalpick .final-pick-notes {
+      min-height: 12rem;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid rgba(196, 182, 101, 0.42);
+      background: rgba(8, 7, 6, 0.55);
+    }
+    #page-finalpick .final-pick-notes:focus {
+      border-color: rgba(214, 198, 120, 0.65);
+      box-shadow: 0 0 0 1px rgba(196, 182, 101, 0.15);
+      outline: none;
+    }
+    #page-finalpick .final-pick-reason-label {
+      margin-top: 0.1rem;
+    }
+
     /* 캐릭터 창작: @ 키워드 — 헤더 고정 */
     #page-concept .char-kw-header-card,
     #page-charsheet .char-kw-header-card {
@@ -3730,13 +3861,48 @@
       <!-- ── 최종 캐릭터 선정 ── -->
       <div id="page-finalpick" class="page">
         <div class="page-wrap">
-          <div class="page-header">
-            <h2 class="page-title">최종 캐릭터 선정</h2>
-            <span class="page-sub">확정 전 후보 정리 · 메모</span>
+          <div class="page-header final-pick-page-header">
+            <div>
+              <h2 class="page-title">최종 캐릭터 선정</h2>
+              <span class="page-sub">최종안 시각 1장과 선정 이유 · 이 기기에만 저장</span>
+            </div>
+            <div class="final-pick-header-aside">
+              <span class="final-pick-aside-muted">작성 전 주의</span>
+              <span class="final-pick-aside-sep" aria-hidden="true">·</span>
+              <span class="final-pick-aside-strong">자동 저장</span>
+            </div>
           </div>
-          <p class="memo-hint">여러 컨셉 중 최종으로 가져갈 캐릭터를 정하고, 근거나 조건을 짧게 적어 두면 이후 작업에서 헷갈리지 않습니다. 이 메모는 이 기기 브라우저에만 저장됩니다.</p>
-          <label class="char-q-label" for="final-pick-notes">선정 메모</label>
-          <textarea id="final-pick-notes" class="memo-editor char-q-text" rows="10" placeholder="최종 후보, 결정 이유, 연출·의상·성격에서 고른 포인트…"></textarea>
+          <div class="final-pick-group" aria-label="최종 캐릭터 선정">
+            <div class="final-pick-group-inner">
+              <div class="final-pick-image-block">
+                <p class="final-pick-img-hint">최종 캐릭터 이미지 1장</p>
+                <input type="file" id="final-pick-file" accept="image/*,.heic,.heif" hidden />
+                <div
+                  class="final-pick-drop"
+                  id="final-pick-drop"
+                  role="button"
+                  tabindex="0"
+                  aria-label="이미지 1장 선택 또는 끌어 넣기"
+                >
+                  <div class="final-pick-empty-ui" id="final-pick-empty">
+                    <strong>이미지 추가</strong>
+                    탭하거나 파일을 끌어 넣기 · JPG, PNG, WEBP
+                  </div>
+                  <div class="final-pick-preview-box" id="final-pick-preview" hidden>
+                    <img id="final-pick-img" alt="최종 캐릭터" />
+                    <button type="button" class="final-pick-remove-btn" id="final-pick-remove">삭제</button>
+                  </div>
+                </div>
+              </div>
+              <label class="char-q-label final-pick-reason-label" for="final-pick-notes">선정 이유</label>
+              <textarea
+                id="final-pick-notes"
+                class="memo-editor char-q-text final-pick-notes"
+                rows="14"
+                placeholder="최종 후보, 선정 이유, 연출·의상·성격에서 고른 포인트…"
+              ></textarea>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -3774,7 +3940,7 @@
       </button>
       <button class="tab-btn" id="tab-finalpick" onclick="goTab('finalpick')">
         <span class="tab-icon">★</span>
-        <span class="tab-label tab-label-long">최종 캐릭터 선정</span>
+        <span class="tab-label">최종</span>
       </button>
     </nav>
 
@@ -4423,6 +4589,38 @@
   const LS_CROQUIS_TOUCHED = 'dokcho_croquis_touched';
   const LS_FINAL_CHARACTER_PICK = 'dokcho_final_character_pick_v1';
 
+  function readFinalPickBundle() {
+    try {
+      var raw = localStorage.getItem(LS_FINAL_CHARACTER_PICK);
+      if (!raw) return { notes: '', imageDataUrl: '' };
+      if (raw.charAt(0) === '{') {
+        var o = JSON.parse(raw);
+        if (o && typeof o === 'object') {
+          return {
+            notes: String(o.notes != null ? o.notes : ''),
+            imageDataUrl: String(o.imageDataUrl != null ? o.imageDataUrl : '')
+          };
+        }
+      }
+      return { notes: raw, imageDataUrl: '' };
+    } catch (e) {
+      return { notes: '', imageDataUrl: '' };
+    }
+  }
+
+  function writeFinalPickPatch(patch) {
+    var cur = readFinalPickBundle();
+    if (patch && patch.notes != null) cur.notes = String(patch.notes);
+    if (patch && patch.imageDataUrl != null) cur.imageDataUrl = String(patch.imageDataUrl);
+    try {
+      localStorage.setItem(LS_FINAL_CHARACTER_PICK, JSON.stringify(cur));
+    } catch (e) {
+      if (typeof cqShowToast === 'function') {
+        cqShowToast('저장에 실패했습니다. 이미지 용량을 줄이거나 잠시 후 다시 시도해 주세요.');
+      }
+    }
+  }
+
   function readTabActivity() {
     try {
       const o = JSON.parse(localStorage.getItem(LS_TAB_ACTIVITY) || '{}');
@@ -4674,8 +4872,10 @@
       }
     } catch (e2) {}
     try {
-      var fp = localStorage.getItem(LS_FINAL_CHARACTER_PICK);
-      if (fp && String(fp).trim()) markTabActivity('finalpick');
+      var fpb = readFinalPickBundle();
+      if ((fpb.notes && fpb.notes.trim()) || (fpb.imageDataUrl && fpb.imageDataUrl.length > 80)) {
+        markTabActivity('finalpick');
+      }
     } catch (e3) {}
   }
 
@@ -6219,25 +6419,97 @@
     renderConceptKeywordLinks();
   }
 
+  function finalPickApplyBundleToUI(bundle) {
+    var ta = document.getElementById('final-pick-notes');
+    var drop = document.getElementById('final-pick-drop');
+    var empty = document.getElementById('final-pick-empty');
+    var prev = document.getElementById('final-pick-preview');
+    var img = document.getElementById('final-pick-img');
+    if (ta) ta.value = bundle.notes || '';
+    var url = bundle.imageDataUrl || '';
+    var has = url.length > 80 && /^data:image\//i.test(url);
+    if (drop && empty && prev && img) {
+      drop.classList.toggle('is-filled', has);
+      if (has) {
+        empty.setAttribute('hidden', '');
+        empty.hidden = true;
+        prev.removeAttribute('hidden');
+        prev.hidden = false;
+        img.src = url;
+      } else {
+        empty.removeAttribute('hidden');
+        empty.hidden = false;
+        prev.setAttribute('hidden', '');
+        prev.hidden = true;
+        img.removeAttribute('src');
+      }
+    }
+  }
+
+  function finalPickMarkActivityIfNeeded(bundle) {
+    if (typeof markTabActivity !== 'function') return;
+    if ((bundle.notes && bundle.notes.trim()) || (bundle.imageDataUrl && bundle.imageDataUrl.length > 80)) {
+      markTabActivity('finalpick');
+    }
+  }
+
   function initFinalPickPage() {
     var ta = document.getElementById('final-pick-notes');
-    if (!ta) return;
-    if (!ta._finalPickBound) {
-      ta._finalPickBound = true;
-      try {
-        ta.value = localStorage.getItem(LS_FINAL_CHARACTER_PICK) || '';
-      } catch (e) {}
-      ta.addEventListener('input', function() {
-        try {
-          localStorage.setItem(LS_FINAL_CHARACTER_PICK, ta.value);
-        } catch (e2) {}
-        if (typeof markTabActivity === 'function' && ta.value.trim()) markTabActivity('finalpick');
-      });
-    } else {
-      try {
-        ta.value = localStorage.getItem(LS_FINAL_CHARACTER_PICK) || '';
-      } catch (e3) {}
+    var fileEl = document.getElementById('final-pick-file');
+    var drop = document.getElementById('final-pick-drop');
+    var rem = document.getElementById('final-pick-remove');
+    if (!ta || !fileEl || !drop) return;
+
+    function setImageDataUrl(dataUrl) {
+      writeFinalPickPatch({ imageDataUrl: dataUrl || '' });
+      finalPickApplyBundleToUI(readFinalPickBundle());
+      finalPickMarkActivityIfNeeded(readFinalPickBundle());
     }
+
+    if (!drop._finalPickBound) {
+      drop._finalPickBound = true;
+      drop.addEventListener('click', function(ev) {
+        if (ev.target.closest('.final-pick-remove-btn')) return;
+        fileEl.click();
+      });
+      drop.addEventListener('keydown', function(ev) {
+        if (ev.key === 'Enter' || ev.key === ' ') {
+          ev.preventDefault();
+          fileEl.click();
+        }
+      });
+      drop.addEventListener('dragover', function(ev) { ev.preventDefault(); });
+      drop.addEventListener('drop', function(ev) {
+        ev.preventDefault();
+        var f = ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files[0];
+        if (f && typeof deformeReadFileAsDataURL === 'function') {
+          deformeReadFileAsDataURL(f, function(url) { setImageDataUrl(url); });
+        }
+      });
+      fileEl.addEventListener('change', function() {
+        var f = fileEl.files && fileEl.files[0];
+        if (f && typeof deformeReadFileAsDataURL === 'function') {
+          deformeReadFileAsDataURL(f, function(url) {
+            setImageDataUrl(url);
+            fileEl.value = '';
+          });
+        } else {
+          fileEl.value = '';
+        }
+      });
+      if (rem) {
+        rem.addEventListener('click', function(ev) {
+          ev.stopPropagation();
+          setImageDataUrl('');
+        });
+      }
+      ta.addEventListener('input', function() {
+        writeFinalPickPatch({ notes: ta.value });
+        finalPickMarkActivityIfNeeded(readFinalPickBundle());
+      });
+    }
+
+    finalPickApplyBundleToUI(readFinalPickBundle());
   }
 
   var BASICS_SLOT_KEYS = {
