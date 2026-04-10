@@ -3026,6 +3026,135 @@
       font-size: 13px;
     }
 
+    /* ── 캐릭터 분석 탭: 1/2 참고 이미지 | 1/2 입력 (라벨 대비 강화) ── */
+    #page-concept .concept-analysis-group {
+      border: 1px solid rgba(196, 182, 101, 0.55);
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.32);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+      padding: 1rem 1.15rem 1.15rem;
+      max-width: 100%;
+    }
+    #page-concept .concept-analysis-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem 1.15rem;
+      align-items: stretch;
+    }
+    @media (max-width: 720px) {
+      #page-concept .concept-analysis-split {
+        grid-template-columns: 1fr;
+      }
+    }
+    #page-concept .concept-analysis-col--image {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      min-height: 0;
+    }
+    #page-concept .concept-analysis-col--image .concept-an-drop {
+      flex: 1;
+      min-height: 200px;
+      max-height: none;
+    }
+    #page-concept .concept-analysis-col--fields {
+      min-width: 0;
+    }
+    #page-concept .concept-analysis-col--fields .char-q-label:first-child {
+      margin-top: 0;
+    }
+    #page-concept .concept-analysis-img-hint {
+      margin: 0;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent2);
+      letter-spacing: 0.1em;
+      text-shadow: 0 0 12px rgba(122, 158, 26, 0.25);
+    }
+    #page-concept .concept-an-drop {
+      position: relative;
+      width: 100%;
+      min-height: 140px;
+      border: 1px solid rgba(196, 182, 101, 0.55);
+      border-radius: 8px;
+      background: rgba(12, 11, 9, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    #page-concept .concept-an-drop:hover,
+    #page-concept .concept-an-drop:focus-visible {
+      border-color: rgba(214, 198, 120, 0.85);
+      box-shadow: 0 0 0 1px rgba(196, 182, 101, 0.28);
+    }
+    #page-concept .concept-an-drop.is-filled {
+      min-height: 0;
+      cursor: pointer;
+    }
+    #page-concept .concept-an-empty {
+      text-align: center;
+      padding: 0.75rem 1rem;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text2);
+      letter-spacing: 0.08em;
+      line-height: 1.5;
+      pointer-events: none;
+    }
+    #page-concept .concept-an-empty strong {
+      display: block;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.12em;
+    }
+    #page-concept .concept-an-preview {
+      position: relative;
+      width: 100%;
+      border-radius: 7px;
+      overflow: hidden;
+      background: #0a0908;
+    }
+    #page-concept .concept-an-preview img {
+      width: 100%;
+      max-height: min(52vh, 420px);
+      object-fit: contain;
+      display: block;
+    }
+    #page-concept .concept-an-remove {
+      position: absolute;
+      top: 0.35rem;
+      right: 0.35rem;
+      font-size: 10px;
+      padding: 0.3rem 0.55rem;
+      border-radius: 6px;
+      border: 0.5px solid var(--border2);
+      background: rgba(0, 0, 0, 0.72);
+      color: var(--text2);
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      font-family: var(--font-body);
+    }
+    #page-concept .concept-an-remove:hover {
+      color: var(--accent2);
+      border-color: var(--accent);
+    }
+    #page-concept .char-analysis-panel .char-q-label {
+      color: #ebe6cc;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+    #page-finalpick .final-pick-col--fields .char-q-label {
+      color: #ebe6cc;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+
     /* ── 최종 캐릭터 선정 (1/2 이미지 | 1/2 캐릭터 분석 동일 3칸) ── */
     #page-finalpick .final-pick-page-header {
       flex-wrap: wrap;
@@ -3801,23 +3930,49 @@
         </div>
       </div>
 
-      <!-- ── 캐릭터 분석 ── -->
+      <!-- ── 캐릭터 분석 (1/2 참고 이미지 | 1/2 입력 3칸) ── -->
       <div id="page-concept" class="page">
         <div class="page-wrap char-analysis-panel">
             <div class="page-header">
               <h2 class="page-title">캐릭터 분석</h2>
             </div>
 
-            <label class="char-q-label" for="char-an-subculture">이름 · 캐릭터 (검색 키워드)</label>
-            <input type="text" id="char-an-subculture" class="char-an-input" autocomplete="off" />
+            <div class="concept-analysis-group">
+              <div class="concept-analysis-split">
+                <div class="concept-analysis-col concept-analysis-col--image">
+                  <p class="concept-analysis-img-hint">참고 이미지 1장</p>
+                  <input type="file" id="concept-an-file" accept="image/*,.heic,.heif" hidden />
+                  <div
+                    class="concept-an-drop"
+                    id="concept-an-drop"
+                    role="button"
+                    tabindex="0"
+                    aria-label="참고 이미지 1장 선택 또는 끌어 넣기"
+                  >
+                    <div class="concept-an-empty" id="concept-an-empty">
+                      <strong>이미지 추가</strong>
+                      탭하거나 끌어 넣기 · JPG, PNG, WEBP
+                    </div>
+                    <div class="concept-an-preview" id="concept-an-preview" hidden>
+                      <img id="concept-an-img" alt="참고 이미지" />
+                      <button type="button" class="concept-an-remove" id="concept-an-remove">삭제</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="concept-analysis-col concept-analysis-col--fields">
+                  <label class="char-q-label" for="char-an-subculture">이름 · 캐릭터 (검색 키워드)</label>
+                  <input type="text" id="char-an-subculture" class="char-an-input" autocomplete="off" />
 
-            <label class="char-q-label" for="char-an-charm">작품 제목 · 요점 포인트</label>
-            <textarea id="char-an-charm" class="memo-editor char-q-text" rows="4"></textarea>
+                  <label class="char-q-label" for="char-an-charm">작품 제목 · 요점 포인트</label>
+                  <textarea id="char-an-charm" class="memo-editor char-q-text" rows="4"></textarea>
 
-            <label class="char-q-label" for="char-an-research">성격 및 특징 · 서사 · 관계 · 설정</label>
-            <textarea id="char-an-research" class="memo-editor char-q-text" rows="6"></textarea>
+                  <label class="char-q-label" for="char-an-research">성격 및 특징 · 서사 · 관계 · 설정</label>
+                  <textarea id="char-an-research" class="memo-editor char-q-text" rows="6"></textarea>
 
-            <button type="button" class="btn-cq primary" id="char-analysis-save-btn" style="align-self:flex-start;height:44px;padding:0 1.25rem;margin-top:1rem;">분석 완료</button>
+                  <button type="button" class="btn-cq primary" id="char-analysis-save-btn" style="align-self:flex-start;height:44px;padding:0 1.25rem;margin-top:1rem;">분석 완료</button>
+                </div>
+              </div>
+            </div>
       </div>
       </div>
 
@@ -4924,7 +5079,10 @@
       if (typeof conceptHasStoredContent === 'function' && conceptHasStoredContent()) markTabActivity('concept');
     } catch (e) {}
     try {
-      if (typeof isCharacterAnalysisComplete === 'function' && isCharacterAnalysisComplete()) markTabActivity('characterAnalysis');
+      var caSync = readCharacterAnalysis();
+      var caDone = typeof isCharacterAnalysisComplete === 'function' && isCharacterAnalysisComplete();
+      var caImg = caSync && caSync.analysisImageDataUrl && String(caSync.analysisImageDataUrl).length > 80;
+      if (caDone || caImg) markTabActivity('characterAnalysis');
     } catch (e) {}
     try {
       const dr = typeof readDesignRoulette === 'function' ? readDesignRoulette() : null;
@@ -6438,6 +6596,82 @@
     if (Object.keys(patch).length) writeCharacterAnalysis(patch);
   }
 
+  function conceptApplyAnalysisImageToUI() {
+    var drop = document.getElementById('concept-an-drop');
+    var empty = document.getElementById('concept-an-empty');
+    var prev = document.getElementById('concept-an-preview');
+    var img = document.getElementById('concept-an-img');
+    if (!drop || !empty || !prev || !img) return;
+    var d = readCharacterAnalysis();
+    var url = d && d.analysisImageDataUrl ? String(d.analysisImageDataUrl) : '';
+    var has = url.length > 80 && /^data:image\//i.test(url);
+    drop.classList.toggle('is-filled', has);
+    if (has) {
+      empty.setAttribute('hidden', '');
+      empty.hidden = true;
+      prev.removeAttribute('hidden');
+      prev.hidden = false;
+      img.src = url;
+    } else {
+      empty.removeAttribute('hidden');
+      empty.hidden = false;
+      prev.setAttribute('hidden', '');
+      prev.hidden = true;
+      img.removeAttribute('src');
+    }
+  }
+
+  function initConceptAnalysisImage() {
+    var fileEl = document.getElementById('concept-an-file');
+    var drop = document.getElementById('concept-an-drop');
+    var rem = document.getElementById('concept-an-remove');
+    if (!fileEl || !drop) return;
+    function setAnalysisImageUrl(u) {
+      writeCharacterAnalysis({ analysisImageDataUrl: u || '' });
+      conceptApplyAnalysisImageToUI();
+      if (typeof markTabActivity === 'function') markTabActivity('characterAnalysis');
+    }
+    if (!drop._conceptImgBound) {
+      drop._conceptImgBound = true;
+      drop.addEventListener('click', function(ev) {
+        if (ev.target.closest('.concept-an-remove')) return;
+        fileEl.click();
+      });
+      drop.addEventListener('keydown', function(ev) {
+        if (ev.key === 'Enter' || ev.key === ' ') {
+          ev.preventDefault();
+          fileEl.click();
+        }
+      });
+      drop.addEventListener('dragover', function(ev) { ev.preventDefault(); });
+      drop.addEventListener('drop', function(ev) {
+        ev.preventDefault();
+        var f = ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files[0];
+        if (f && typeof deformeReadFileAsDataURL === 'function') {
+          deformeReadFileAsDataURL(f, function(url) { setAnalysisImageUrl(url); });
+        }
+      });
+      fileEl.addEventListener('change', function() {
+        var f = fileEl.files && fileEl.files[0];
+        if (f && typeof deformeReadFileAsDataURL === 'function') {
+          deformeReadFileAsDataURL(f, function(url) {
+            setAnalysisImageUrl(url);
+            fileEl.value = '';
+          });
+        } else {
+          fileEl.value = '';
+        }
+      });
+      if (rem) {
+        rem.addEventListener('click', function(ev) {
+          ev.stopPropagation();
+          setAnalysisImageUrl('');
+        });
+      }
+    }
+    conceptApplyAnalysisImageToUI();
+  }
+
   function initConceptPage() {
     ensureFinalPickLegacyTextMigrationOnce();
     migrateCharAnalysisLegacyOnce();
@@ -6475,6 +6709,8 @@
         });
       }
     }
+
+    initConceptAnalysisImage();
   }
 
   function initCharsheetPage() {
