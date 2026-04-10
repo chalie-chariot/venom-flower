@@ -1486,12 +1486,63 @@
       letter-spacing: 0.1em;
     }
 
-    /* ── 크로키 페이지 ── */
-    .croquis-body { display: flex; flex-direction: column; gap: 1rem; flex: 1; min-height: 0; }
+    /* ── 크로키 페이지 (1920×1080 기준 맞춤) ── */
+    .croquis-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      flex: 1;
+      min-height: 0;
+      max-width: 1920px;
+      width: 100%;
+      margin-inline: auto;
+      box-sizing: border-box;
+    }
+    .croquis-page-header.page-header {
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem 1rem;
+      padding-bottom: 0.75rem;
+    }
+    .croquis-header-left {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem 1rem;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+    .croquis-page-header .page-sub {
+      margin-left: 0;
+    }
+    .croquis-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-shrink: 0;
+    }
+    .croquis-header-actions .btn-cq {
+      height: 34px;
+      padding: 0 0.75rem;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+    }
+    .croquis-dup-row {
+      display: flex;
+      justify-content: flex-end;
+      min-height: 1em;
+      margin: -0.25rem 0 0;
+    }
+    .croquis-dup-row .croquis-dup {
+      margin-left: 0;
+    }
     .croquis-image-wrap {
       position: relative;
-      width: 100%;
-      aspect-ratio: 4/3;
+      width: min(100%, 1920px, calc((100vh - 15rem) * 16 / 9));
+      max-width: 1920px;
+      aspect-ratio: 16 / 9;
+      max-height: min(1080px, calc(100vh - 15rem));
+      margin-inline: auto;
       background: var(--bg3);
       border: 0.5px solid var(--border);
       border-radius: 10px;
@@ -1499,6 +1550,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      box-sizing: border-box;
     }
     .croquis-image-wrap img {
       max-width: 100%;
@@ -1520,12 +1572,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 1.25rem;
+      gap: 1rem;
       flex-wrap: wrap;
     }
     .croquis-ring-svg {
-      width: 140px;
-      height: 140px;
+      width: min(100px, 18vw);
+      height: min(100px, 18vw);
       transform: rotate(-90deg);
       flex-shrink: 0;
     }
@@ -1546,7 +1598,7 @@
     }
     .croquis-time-num {
       font-family: var(--font-display);
-      font-size: 3rem;
+      font-size: clamp(1.75rem, 4vw, 2.35rem);
       color: var(--accent);
       line-height: 1;
       letter-spacing: 0.04em;
@@ -3568,9 +3620,19 @@
             <button type="button" class="merge-subtab-btn" id="sketch-sub-pose" data-sketch-sub="pose" role="tab">포즈</button>
           </div>
       <div id="page-croquis" class="croquis-body merge-sub-panel">
-          <div class="page-header">
-            <h2 class="page-title">크로키</h2>
-            <span class="page-sub">2분 · 3장</span>
+          <div class="page-header croquis-page-header">
+            <div class="croquis-header-left">
+              <h2 class="page-title">크로키</h2>
+              <span class="page-sub">2분 · 3장</span>
+            </div>
+            <div class="croquis-header-actions">
+              <input type="file" id="cq-file" accept="image/*" hidden />
+              <button type="button" class="btn-cq" id="cq-upload-btn">이미지 업로드</button>
+              <button type="button" class="btn-cq" id="cq-random-btn">랜덤</button>
+            </div>
+          </div>
+          <div class="croquis-dup-row">
+            <span class="croquis-dup" id="cq-dup-info"></span>
           </div>
 
           <div class="croquis-image-wrap" id="croquis-image-wrap">
@@ -3597,12 +3659,6 @@
             <button type="button" class="btn-cq" id="cq-next">다음</button>
           </div>
 
-          <div class="croquis-load-row">
-            <input type="file" id="cq-file" accept="image/*" hidden />
-            <button type="button" class="btn-cq" id="cq-upload-btn" style="flex:0 0 auto;padding:0 1rem;height:40px;">이미지 업로드</button>
-            <button type="button" class="btn-cq" id="cq-random-btn" style="flex:0 0 auto;padding:0 1rem;height:40px;">랜덤</button>
-            <span class="croquis-dup" id="cq-dup-info"></span>
-          </div>
           <p class="croquis-toast" id="cq-toast"></p>
 
           <div class="croquis-dots-row" aria-label="진행 3장">
