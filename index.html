@@ -3727,6 +3727,19 @@
         </div>
       </div>
 
+      <!-- ── 최종 캐릭터 선정 ── -->
+      <div id="page-finalpick" class="page">
+        <div class="page-wrap">
+          <div class="page-header">
+            <h2 class="page-title">최종 캐릭터 선정</h2>
+            <span class="page-sub">확정 전 후보 정리 · 메모</span>
+          </div>
+          <p class="memo-hint">여러 컨셉 중 최종으로 가져갈 캐릭터를 정하고, 근거나 조건을 짧게 적어 두면 이후 작업에서 헷갈리지 않습니다. 이 메모는 이 기기 브라우저에만 저장됩니다.</p>
+          <label class="char-q-label" for="final-pick-notes">선정 메모</label>
+          <textarea id="final-pick-notes" class="memo-editor char-q-text" rows="10" placeholder="최종 후보, 결정 이유, 연출·의상·성격에서 고른 포인트…"></textarea>
+        </div>
+      </div>
+
     </div>
 
     <!-- ── 하단 탭바 ── -->
@@ -3741,7 +3754,7 @@
       </button>
       <button class="tab-btn" id="tab-refgallery" onclick="goTab('refgallery')">
         <span class="tab-icon">◈</span>
-        <span class="tab-label">레퍼·갤러리</span>
+        <span class="tab-label">갤러리</span>
       </button>
       <button class="tab-btn" id="tab-design" onclick="goTab('design')">
         <span class="tab-icon">◎</span>
@@ -3758,6 +3771,10 @@
       <button class="tab-btn" id="tab-charsheet" onclick="goTab('charsheet')">
         <span class="tab-icon">▣</span>
         <span class="tab-label">캐릭터 시트</span>
+      </button>
+      <button class="tab-btn" id="tab-finalpick" onclick="goTab('finalpick')">
+        <span class="tab-icon">★</span>
+        <span class="tab-label tab-label-long">최종 캐릭터 선정</span>
       </button>
     </nav>
 
@@ -4381,6 +4398,7 @@
       if (typeof migrateCharAnalysisLegacyOnce === 'function') migrateCharAnalysisLegacyOnce();
       if (typeof initCharsheetPage === 'function') initCharsheetPage();
     }
+    if (name === 'finalpick' && typeof initFinalPickPage === 'function') initFinalPickPage();
     if (name === 'home') {
       if (typeof initHomeToolTrack === 'function') initHomeToolTrack();
       if (typeof refreshHomeToolTrackPanel === 'function') refreshHomeToolTrackPanel();
@@ -4403,6 +4421,7 @@
   const CHAR_FIELD_KEYS = ['name', 'look', 'personality', 'ability', 'story', 'relation', 'extra'];
   const CHAR_IMG_MAX = 12;
   const LS_CROQUIS_TOUCHED = 'dokcho_croquis_touched';
+  const LS_FINAL_CHARACTER_PICK = 'dokcho_final_character_pick_v1';
 
   function readTabActivity() {
     try {
@@ -4654,6 +4673,10 @@
         if (dbits && dbits.some(function(x) { return x; })) markTabActivity('design');
       }
     } catch (e2) {}
+    try {
+      var fp = localStorage.getItem(LS_FINAL_CHARACTER_PICK);
+      if (fp && String(fp).trim()) markTabActivity('finalpick');
+    } catch (e3) {}
   }
 
   const LS_DESIGN_ROULETTE = 'dokcho_design_roulette';
@@ -6194,6 +6217,27 @@
     });
     renderCharacterImages();
     renderConceptKeywordLinks();
+  }
+
+  function initFinalPickPage() {
+    var ta = document.getElementById('final-pick-notes');
+    if (!ta) return;
+    if (!ta._finalPickBound) {
+      ta._finalPickBound = true;
+      try {
+        ta.value = localStorage.getItem(LS_FINAL_CHARACTER_PICK) || '';
+      } catch (e) {}
+      ta.addEventListener('input', function() {
+        try {
+          localStorage.setItem(LS_FINAL_CHARACTER_PICK, ta.value);
+        } catch (e2) {}
+        if (typeof markTabActivity === 'function' && ta.value.trim()) markTabActivity('finalpick');
+      });
+    } else {
+      try {
+        ta.value = localStorage.getItem(LS_FINAL_CHARACTER_PICK) || '';
+      } catch (e3) {}
+    }
   }
 
   var BASICS_SLOT_KEYS = {
