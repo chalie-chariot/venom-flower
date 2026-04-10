@@ -650,7 +650,7 @@
       align-items: center;
       text-align: center;
       width: 100%;
-      max-width: 440px;
+      max-width: min(100%, 560px);
       margin-left: auto;
       margin-right: auto;
       gap: 0;
@@ -716,7 +716,7 @@
       border-top: 0.5px solid var(--border);
       display: flex;
       flex-direction: column;
-      gap: 0.55rem;
+      gap: 0.75rem;
       text-align: left;
     }
     .spinner-gate-date-line {
@@ -726,20 +726,110 @@
       line-height: 1.45;
     }
     .spinner-gate-date-line[hidden] { display: none !important; }
-    .spinner-check-label {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.5rem;
-      font-size: 11px;
-      color: var(--text2);
-      line-height: 1.4;
-      cursor: pointer;
-      letter-spacing: 0.04em;
+    .spinner-gate-input-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
-    .spinner-check-label input {
-      margin-top: 2px;
-      accent-color: var(--accent);
-      flex-shrink: 0;
+    .spinner-gate-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+    }
+    @media (max-width: 520px) {
+      .spinner-gate-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+    .spinner-gate-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      min-height: 118px;
+      padding: 1rem 1.1rem 1.05rem;
+      border-radius: 12px;
+      border: 0.5px solid var(--border);
+      background: linear-gradient(165deg, rgba(22, 26, 14, 0.95) 0%, rgba(14, 16, 10, 0.88) 100%);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.22);
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s, background 0.2s;
+    }
+    .spinner-gate-card:hover:not(:disabled) {
+      border-color: var(--border2);
+      box-shadow: 0 6px 28px rgba(0, 0, 0, 0.28);
+      transform: translateY(-1px);
+    }
+    .spinner-gate-card:focus {
+      outline: none;
+    }
+    .spinner-gate-card:focus-visible {
+      box-shadow: 0 0 0 2px rgba(122, 158, 26, 0.45), 0 6px 28px rgba(0, 0, 0, 0.25);
+    }
+    .spinner-gate-card.is-active {
+      border-color: var(--accent);
+      background: linear-gradient(165deg, rgba(40, 48, 22, 0.98) 0%, rgba(22, 28, 12, 0.95) 100%);
+      box-shadow: 0 0 0 1px rgba(122, 158, 26, 0.35), 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    .spinner-gate-card.is-active .spinner-gate-card-badge {
+      background: rgba(122, 158, 26, 0.22);
+      color: var(--accent2);
+    }
+    .spinner-gate-card--routine.is-active .spinner-gate-card-badge--accent {
+      background: rgba(122, 158, 26, 0.28);
+      color: var(--accent);
+    }
+    .spinner-gate-card:disabled,
+    .spinner-gate-card.is-locked {
+      opacity: 0.42;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .spinner-gate-card:disabled:hover,
+    .spinner-gate-card.is-locked:hover {
+      border-color: var(--border);
+      transform: none;
+    }
+    .spinner-gate-card-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text3);
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 0.5px solid var(--border);
+      margin-bottom: 0.5rem;
+    }
+    .spinner-gate-card-badge--accent {
+      color: var(--accent2);
+      border-color: rgba(122, 158, 26, 0.35);
+    }
+    .spinner-gate-card-headline {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.02em;
+      margin-bottom: 0.35rem;
+      line-height: 1.25;
+    }
+    .spinner-gate-card-desc {
+      font-size: 11px;
+      color: var(--text3);
+      line-height: 1.5;
+      letter-spacing: 0.03em;
     }
     .spinner-spin-hint {
       font-size: 10px;
@@ -758,13 +848,6 @@
       min-height: 1.35em;
     }
     .spinner-start-date-line[hidden] { display: none !important; }
-
-    .spinner-check-label.is-locked {
-      opacity: 0.38;
-    }
-    .spinner-check-label.is-locked input {
-      cursor: not-allowed;
-    }
 
     .memo-editor {
       width: 100%;
@@ -2761,14 +2844,20 @@
               <div class="spinner-result" id="spinner-result">돌림판을 돌려보세요</div>
               <div class="spinner-category" id="spinner-cat"></div>
               <div class="spinner-gate" id="spinner-gate">
-                <label class="spinner-check-label">
-                  <input type="checkbox" id="spinner-check-start" />
-                  <span>시작 — 지금 작업을 시작했습니다</span>
-                </label>
-                <label class="spinner-check-label is-locked" id="spinner-label-routine">
-                  <input type="checkbox" id="spinner-check-routine" disabled />
-                  <span>완료 — 작업 루틴을 끝까지 마쳤습니다 (기본기·크로키·포즈·데포르메·레퍼·갤러리·디자인·메모·캐릭터 분석·창작 — 통합 탭 안에서 각각 활동 후 활성)</span>
-                </label>
+                <div class="spinner-gate-cards">
+                  <button type="button" class="spinner-gate-card spinner-gate-card--start" id="spinner-gate-card-start" aria-pressed="false">
+                    <span class="spinner-gate-card-badge">시작</span>
+                    <span class="spinner-gate-card-headline">작업 시작</span>
+                    <span class="spinner-gate-card-desc">지금 작업을 시작했음을 기록합니다. 돌림판과 함께 오늘의 시작 날짜가 찍힙니다.</span>
+                  </button>
+                  <button type="button" class="spinner-gate-card spinner-gate-card--routine is-locked" id="spinner-gate-card-routine" aria-pressed="false" disabled>
+                    <span class="spinner-gate-card-badge spinner-gate-card-badge--accent">완료</span>
+                    <span class="spinner-gate-card-headline">루틴 완료</span>
+                    <span class="spinner-gate-card-desc">기본기·크로키·데포르메·레퍼·갤러리·디자인·메모·분석·창작 탭에서 활동이 인정되면 누를 수 있습니다.</span>
+                  </button>
+                </div>
+                <input type="checkbox" id="spinner-check-start" class="spinner-gate-input-hidden" tabindex="-1" aria-hidden="true" />
+                <input type="checkbox" id="spinner-check-routine" class="spinner-gate-input-hidden" tabindex="-1" aria-hidden="true" disabled />
                 <p class="spinner-spin-hint" id="spinner-spin-hint" aria-live="polite"></p>
               </div>
             </div>
@@ -3801,6 +3890,12 @@
       return;
     }
 
+    if (activeName === 'home') {
+      dock.classList.add('is-hidden');
+      if (cb) { cb.checked = false; cb.disabled = true; }
+      return;
+    }
+
     if (activeName !== frontier) {
       dock.classList.add('is-hidden');
       return;
@@ -4350,31 +4445,41 @@
     return !!(o.basics && o.croquis && o.pose && o.deforme && o.reference && o.gallery && o.design && o.memo && o.characterAnalysis && o.concept);
   }
 
-  function routineEffective() {
-    const cbR = document.getElementById('spinner-check-routine');
-    return !!(cbR && cbR.checked && !cbR.disabled);
+  function syncSpinnerGateCards() {
+    const cs = document.getElementById('spinner-check-start');
+    const cr = document.getElementById('spinner-check-routine');
+    const cardS = document.getElementById('spinner-gate-card-start');
+    const cardR = document.getElementById('spinner-gate-card-routine');
+    if (cardS && cs) {
+      cardS.classList.toggle('is-active', !!cs.checked);
+      cardS.setAttribute('aria-pressed', cs.checked ? 'true' : 'false');
+    }
+    if (cardR && cr) {
+      cardR.disabled = !!cr.disabled;
+      cardR.classList.toggle('is-locked', !!cr.disabled);
+      const on = !!cr.checked && !cr.disabled;
+      cardR.classList.toggle('is-active', on);
+      cardR.setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
   }
 
   function updateRoutineCheckboxAvailability() {
     const cbR = document.getElementById('spinner-check-routine');
-    const lab = document.getElementById('spinner-label-routine');
-    if (!cbR || !lab) return;
+    if (!cbR) return;
     if (allTabsHaveActivity()) {
       cbR.disabled = false;
-      lab.classList.remove('is-locked');
     } else {
       cbR.checked = false;
       cbR.disabled = true;
-      lab.classList.add('is-locked');
     }
+    syncSpinnerGateCards();
     updateSpinnerButtonState();
   }
 
   function updateSpinnerButtonState() {
     const btn = document.getElementById('btn-spin');
-    const cbStart = document.getElementById('spinner-check-start');
-    if (!btn || !cbStart) return;
-    btn.disabled = !(cbStart.checked && routineEffective());
+    if (!btn) return;
+    btn.disabled = false;
   }
 
   function setSpinnerHint(msg) {
@@ -4391,10 +4496,29 @@
     const cbStart = document.getElementById('spinner-check-start');
     const cbR = document.getElementById('spinner-check-routine');
     const line = document.getElementById('spinner-start-date-line');
+    const cardS = document.getElementById('spinner-gate-card-start');
+    const cardR = document.getElementById('spinner-gate-card-routine');
     const spinRefresh = () => {
+      syncSpinnerGateCards();
       updateSpinnerButtonState();
       setSpinnerHint('');
     };
+    function toggleCheckbox(cb) {
+      if (!cb || cb.disabled) return;
+      cb.checked = !cb.checked;
+      cb.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    if (cardS && cbStart) {
+      cardS.addEventListener('click', function() {
+        toggleCheckbox(cbStart);
+      });
+    }
+    if (cardR && cbR) {
+      cardR.addEventListener('click', function() {
+        if (cbR.disabled) return;
+        toggleCheckbox(cbR);
+      });
+    }
     if (cbStart) {
       cbStart.addEventListener('change', () => {
         if (cbStart.checked) {
@@ -4415,31 +4539,17 @@
     if (cbR) cbR.addEventListener('change', spinRefresh);
     updateRoutineCheckboxAvailability();
     updateSpinnerButtonState();
+    syncSpinnerGateCards();
   })();
 
   function spinWheel() {
     const btn = document.getElementById('btn-spin');
     const resultEl = document.getElementById('spinner-result');
+    if (!btn || !resultEl) return;
     const catEl = document.getElementById('spinner-cat');
     const line = document.getElementById('spinner-start-date-line');
     const cbStart = document.getElementById('spinner-check-start');
     const cbR = document.getElementById('spinner-check-routine');
-
-    if (!cbStart || !cbStart.checked) {
-      setSpinnerHint('먼저 「시작」에 체크해 주세요. 체크 시 돌림판 아래에 시작 날짜가 표시됩니다.');
-      updateSpinnerButtonState();
-      return;
-    }
-
-    if (!routineEffective()) {
-      if (!allTabsHaveActivity()) {
-        setSpinnerHint('기본기·크로키·포즈·데포르메·레퍼·갤러리·디자인·메모·캐릭터 분석·창작 탭에서 각각 저장 또는 업로드 후 「완료」가 활성화됩니다.');
-      } else {
-        setSpinnerHint('「완료」에 체크해 주세요.');
-      }
-      updateSpinnerButtonState();
-      return;
-    }
 
     setSpinnerHint('');
     btn.classList.add('spinning');
@@ -4469,6 +4579,7 @@
     if (cbR) cbR.checked = false;
     updateRoutineCheckboxAvailability();
     updateSpinnerButtonState();
+    syncSpinnerGateCards();
   }
 
   /* ── 레퍼런스 / 갤러리 / 크로키 (localStorage + Firebase 연동) ── */
