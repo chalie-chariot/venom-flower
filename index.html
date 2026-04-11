@@ -2957,6 +2957,23 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 0.5rem;
     }
+    .gal-group {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 0.4rem;
+      padding: 0.4rem;
+      border-radius: 10px;
+      border: 0.5px solid rgba(122, 158, 26, 0.4);
+      background: rgba(122, 158, 26, 0.07);
+    }
+    .gal-group .gal-cell {
+      cursor: pointer;
+    }
+    .gal-cell--dnd-target {
+      outline: 2px dashed rgba(122, 158, 26, 0.85);
+      outline-offset: 2px;
+    }
     .gal-cell {
       position: relative;
       aspect-ratio: 1;
@@ -2979,7 +2996,6 @@
     }
     .gal-cell--locked img {
       user-select: none;
-      -webkit-user-drag: none;
     }
     .gal-cell--picked {
       outline: 2px solid var(--accent2);
@@ -3816,7 +3832,7 @@
           </div>
 
           <div class="croquis-image-wrap" id="croquis-image-wrap">
-            <p class="croquis-placeholder">이미지 업로드 또는 랜덤으로 불러오세요</p>
+            <p class="croquis-placeholder">이미지 업로드 또는 랜덤(포즈 탭 저장본)</p>
             <img id="croquis-img" alt="크로키 참고" />
             <button type="button" class="croquis-img-remove" id="cq-remove-img" aria-label="이미지 제거" title="이미지 제거">×</button>
           </div>
@@ -3871,7 +3887,7 @@
             <span class="croquis-dup" id="gq-dup-info"></span>
           </div>
           <div class="croquis-image-wrap" id="gq-image-wrap">
-            <p class="croquis-placeholder">크로키에서 넘어온 참고가 없으면 업로드 또는 랜덤</p>
+            <p class="croquis-placeholder">크로키에서 넘어온 참고가 없으면 업로드 또는 랜덤(포즈 탭 저장본)</p>
             <img id="gq-img" alt="도형화 참고" />
             <button type="button" class="croquis-img-remove" id="gq-remove-img" aria-label="이미지 제거" title="이미지 제거">×</button>
           </div>
@@ -3898,37 +3914,13 @@
       <div id="page-pose" class="merge-sub-panel" style="display:none">
           <div class="page-header">
             <h2 class="page-title">포즈</h2>
-            <span class="page-sub">크로키 전용 · LD · SD · 스파인 · 연출 · 동세 · 감정(표정) · 크리쳐 디자인</span>
+            <span class="page-sub">참고 이미지 업로드</span>
           </div>
           <div class="ref-upload-bar">
-            <select class="ref-select" id="pose-cat-select" aria-label="포즈 업로드 카테고리">
-              <option value="LD">LD</option>
-              <option value="SD">SD</option>
-              <option value="스파인">스파인</option>
-              <option value="연출">연출</option>
-              <option value="동세">동세</option>
-              <option value="감정(표정)">감정(표정)</option>
-              <option value="크리쳐 디자인">크리쳐 디자인</option>
-            </select>
             <input type="file" id="pose-file" accept="image/*" multiple hidden />
             <button type="button" class="btn-cq primary" id="pose-upload-btn" style="height:40px;padding:0 1rem;">이미지 업로드</button>
           </div>
-          <div class="ref-cat-bar" role="tablist">
-            <button type="button" class="pose-cat-btn active" data-pose-tab="LD" role="tab">LD</button>
-            <button type="button" class="pose-cat-btn" data-pose-tab="SD" role="tab">SD</button>
-            <button type="button" class="pose-cat-btn" data-pose-tab="스파인" role="tab">스파인</button>
-            <button type="button" class="pose-cat-btn" data-pose-tab="연출" role="tab">연출</button>
-            <button type="button" class="pose-cat-btn" data-pose-tab="동세" role="tab">동세</button>
-            <button type="button" class="pose-cat-btn" data-pose-tab="감정(표정)" role="tab">감정(표정)</button>
-            <button type="button" class="pose-cat-btn" data-pose-tab="크리쳐 디자인" role="tab">크리쳐 디자인</button>
-          </div>
-          <div id="pose-panel-ld" class="ref-grid" data-pose-panel="LD"></div>
-          <div id="pose-panel-sd" class="ref-grid" data-pose-panel="SD" style="display:none;"></div>
-          <div id="pose-panel-spine" class="ref-grid" data-pose-panel="스파인" style="display:none;"></div>
-          <div id="pose-panel-dir" class="ref-grid" data-pose-panel="연출" style="display:none;"></div>
-          <div id="pose-panel-dongse" class="ref-grid" data-pose-panel="동세" style="display:none;"></div>
-          <div id="pose-panel-emotion" class="ref-grid" data-pose-panel="감정(표정)" style="display:none;"></div>
-          <div id="pose-panel-creature" class="ref-grid" data-pose-panel="크리쳐 디자인" style="display:none;"></div>
+          <div id="pose-panel" class="ref-grid" data-pose-panel="all"></div>
       </div>
 
         </div>
@@ -3981,18 +3973,9 @@
             <span class="page-sub" id="gallery-count">0장</span>
           </div>
           <div class="gallery-toolbar">
-            <select class="ref-select" id="gal-cat-select" aria-label="갤러리 업로드 분류">
-              <option value="LD">LD</option>
-              <option value="SD">SD</option>
-              <option value="스파인">스파인</option>
-              <option value="연출">연출</option>
-              <option value="동세">동세</option>
-              <option value="감정(표정)">감정(표정)</option>
-              <option value="크리쳐 디자인">크리쳐 디자인</option>
-            </select>
             <input type="file" id="gal-file" accept="image/*,.heic,.heif" multiple hidden />
             <button type="button" class="btn-cq primary" id="gal-upload-btn" style="height:40px;padding:0 1rem;">이미지 업로드</button>
-            <span style="font-size:11px;font-weight:500;color:var(--text2);letter-spacing:0.08em;">최대 30장 · 업로드 후 5분 안에만 삭제 가능 · 이후 보관(편집·삭제 불가) · JPG/PNG 등 확장자·브라우저 저장 용량에 따라 실패할 수 있음</span>
+            <span style="font-size:11px;font-weight:500;color:var(--text2);letter-spacing:0.08em;">최대 30장 · 업로드 후 5분 안에만 삭제 가능 · 이후 보관(편집·삭제 불가) · JPG/PNG 등 확장자·브라우저 저장 용량에 따라 실패할 수 있음 · 썸네일을 다른 썸네일 위로 끌어다 놓으면 한 묶음으로 표시</span>
           </div>
           <p class="gallery-hint">갤러리 30장은 이 브라우저에 모두 저장됩니다. 아래에서 5장을 고르는 것은 「작가에게 보내보기」 메일 작성용일 뿐이며, <span style="color:var(--text2);">나머지 25장도 삭제되지 않고 그대로 보관·열람</span>됩니다. 같은 통합 메뉴의 레퍼런스는 별도 저장이라 장 수 제한이 없습니다.</p>
           <div id="gallery-pick-bar" class="gallery-pick-bar" aria-live="polite">
@@ -7902,15 +7885,6 @@
     return REF_CATEGORIES.indexOf(cat) >= 0 ? cat : 'LD';
   }
 
-  function setGalleryItemCategory(id, cat) {
-    const nextCat = normalizeWorkImageCat(cat);
-    const list = readGallery().map(function(x) {
-      return x.id === id ? Object.assign({}, x, { cat: nextCat }) : x;
-    });
-    writeGallery(list);
-    if (typeof window._renderGallery === 'function') window._renderGallery();
-  }
-
   /* ── 레퍼런스 UI (2열 워크스페이스) ── */
   function refWsOpenLightbox(src) {
     var lb = document.getElementById('ref-ws-lightbox');
@@ -8277,57 +8251,39 @@
   };
 
   window._renderPose = function() {
-    const byCat = {};
-    REF_CATEGORIES.forEach(function(c) { byCat[c] = []; });
-    readPoses().forEach(item => {
-      if (byCat[item.cat]) byCat[item.cat].push(item);
-      else byCat['LD'].push(item);
-    });
-    REF_CATEGORIES.forEach(cat => {
-      const panel = document.querySelector('#page-pose [data-pose-panel="' + cat + '"]');
-      if (!panel) return;
-      panel.innerHTML = '';
-      const list = byCat[cat];
-      if (!list.length) {
-        const empty = document.createElement('div');
-        empty.className = 'ref-empty';
-        empty.textContent = '이 카테고리에 저장된 이미지가 없습니다.';
-        panel.appendChild(empty);
-        return;
-      }
-      list.forEach(item => {
-        const cell = document.createElement('div');
-        cell.className = 'ref-cell';
-        const img = document.createElement('img');
-        img.src = item.data;
-        img.alt = cat;
-        const rm = document.createElement('button');
-        rm.type = 'button';
-        rm.className = 'thumb-remove';
-        rm.textContent = '×';
-        rm.setAttribute('aria-label', '이미지 삭제');
-        rm.addEventListener('click', (ev) => {
-          ev.stopPropagation();
-          const next = readPoses().filter(x => x.id !== item.id);
-          writePoses(next);
-          window._renderPose();
-        });
-        cell.appendChild(img);
-        cell.appendChild(rm);
-        panel.appendChild(cell);
+    const panel = document.getElementById('pose-panel');
+    if (!panel) return;
+    panel.innerHTML = '';
+    const list = readPoses();
+    if (!list.length) {
+      const empty = document.createElement('div');
+      empty.className = 'ref-empty';
+      empty.textContent = '업로드한 이미지가 여기 표시됩니다.';
+      panel.appendChild(empty);
+      return;
+    }
+    list.forEach(function(item) {
+      const cell = document.createElement('div');
+      cell.className = 'ref-cell';
+      const img = document.createElement('img');
+      img.src = item.data;
+      img.alt = '';
+      const rm = document.createElement('button');
+      rm.type = 'button';
+      rm.className = 'thumb-remove';
+      rm.textContent = '×';
+      rm.setAttribute('aria-label', '이미지 삭제');
+      rm.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        const next = readPoses().filter(function(x) { return x.id !== item.id; });
+        writePoses(next);
+        window._renderPose();
       });
+      cell.appendChild(img);
+      cell.appendChild(rm);
+      panel.appendChild(cell);
     });
   };
-
-  document.querySelectorAll('#page-pose .pose-cat-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const cat = btn.getAttribute('data-pose-tab');
-      document.querySelectorAll('#page-pose .pose-cat-btn').forEach(b => b.classList.toggle('active', b === btn));
-      document.querySelectorAll('#page-pose [data-pose-panel]').forEach(p => {
-        p.style.display = p.getAttribute('data-pose-panel') === cat ? 'grid' : 'none';
-      });
-    });
-  });
 
   (function bindRefPoseUploads() {
     var poseBtn = document.getElementById('pose-upload-btn');
@@ -8337,8 +8293,6 @@
       poseInp.addEventListener('change', function(ev) {
         const files = ev.target.files;
         if (!files || !files.length) return;
-        const catSel = document.getElementById('pose-cat-select');
-        const cat = catSel ? catSel.value : 'LD';
         const imgs = Array.from(files).filter(isLikelyImageFile);
         ev.target.value = '';
         if (!imgs.length) return;
@@ -8347,7 +8301,7 @@
         imgs.forEach(function(f) {
           const r = new FileReader();
           r.onload = function() {
-            list.push({ id: uid(), cat: cat, data: r.result, addedAt: new Date().toISOString() });
+            list.push({ id: uid(), data: r.result, addedAt: new Date().toISOString() });
             left--;
             if (left === 0) {
               writePoses(list);
@@ -8413,6 +8367,49 @@
     galleryTick = setInterval(() => { if (typeof window._renderGallery === 'function') window._renderGallery(); }, 1000);
   }
 
+  let gallerySuppressPickUntil = 0;
+
+  function mergeGalleryDroppedOnto(dragId, targetId) {
+    if (!dragId || !targetId || dragId === targetId) return;
+    const list = readGallery();
+    const dr = list.find(function(x) { return x.id === dragId; });
+    const tg = list.find(function(x) { return x.id === targetId; });
+    if (!dr || !tg) return;
+    const idsFromDrag = dr.groupId
+      ? list.filter(function(x) { return x.groupId === dr.groupId; }).map(function(x) { return x.id; })
+      : [dr.id];
+    const idsFromTarget = tg.groupId
+      ? list.filter(function(x) { return x.groupId === tg.groupId; }).map(function(x) { return x.id; })
+      : [tg.id];
+    const union = new Set(idsFromDrag.concat(idsFromTarget));
+    const newGid = uid();
+    const next = list.map(function(x) {
+      return union.has(x.id) ? Object.assign({}, x, { groupId: newGid }) : x;
+    });
+    writeGallery(next);
+  }
+
+  function buildGalleryDisplaySegments(items) {
+    const segments = [];
+    const seenGroup = new Set();
+    const seenSolo = new Set();
+    items.forEach(function(it) {
+      if (it.groupId) {
+        if (seenGroup.has(it.groupId)) return;
+        seenGroup.add(it.groupId);
+        const mem = items.filter(function(x) { return x.groupId === it.groupId; })
+          .sort(function(a, b) { return a.uploadedAt - b.uploadedAt; });
+        if (mem.length > 1) segments.push({ kind: 'group', items: mem });
+        else segments.push({ kind: 'solo', items: mem });
+      } else {
+        if (seenSolo.has(it.id)) return;
+        seenSolo.add(it.id);
+        segments.push({ kind: 'solo', items: [it] });
+      }
+    });
+    return segments;
+  }
+
   window._renderGallery = function() {
     const grid = document.getElementById('gallery-grid');
     const countEl = document.getElementById('gallery-count');
@@ -8430,23 +8427,51 @@
       return;
     }
     const now = Date.now();
-    items.forEach(item => {
+
+    function mountGalleryCell(item) {
+      const uploadedAt = typeof item.uploadedAt === 'number' ? item.uploadedAt : now;
       const cell = document.createElement('div');
-      const elapsed = now - item.uploadedAt;
+      const elapsed = now - uploadedAt;
       const left = Math.max(0, GAL_DEL_MS - elapsed);
       const locked = left <= 0;
-      const itemCat = normalizeWorkImageCat(item.cat);
       cell.className = 'gal-cell' + (locked ? ' gal-cell--locked' : '') + (galleryPickedIds.has(item.id) ? ' gal-cell--picked' : '');
+      cell.dataset.galleryId = item.id;
       cell.addEventListener('click', function(ev) {
+        if (Date.now() < gallerySuppressPickUntil) return;
         if (ev.target.closest('.thumb-remove')) return;
-        if (ev.target.closest('.gal-cat-select')) return;
         galleryTogglePick(item.id);
       });
 
       const img = document.createElement('img');
       img.src = item.data;
       img.alt = '';
-      img.draggable = false;
+      img.draggable = true;
+      img.addEventListener('dragstart', function(e) {
+        e.dataTransfer.setData('text/plain', item.id);
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      img.addEventListener('dragend', function() {
+        grid.querySelectorAll('.gal-cell--dnd-target').forEach(function(n) {
+          n.classList.remove('gal-cell--dnd-target');
+        });
+      });
+      cell.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        cell.classList.add('gal-cell--dnd-target');
+      });
+      cell.addEventListener('dragleave', function(e) {
+        if (!cell.contains(e.relatedTarget)) cell.classList.remove('gal-cell--dnd-target');
+      });
+      cell.addEventListener('drop', function(e) {
+        e.preventDefault();
+        cell.classList.remove('gal-cell--dnd-target');
+        const fromId = e.dataTransfer.getData('text/plain');
+        if (!fromId || fromId === item.id) return;
+        gallerySuppressPickUntil = Date.now() + 450;
+        mergeGalleryDroppedOnto(fromId, item.id);
+        window._renderGallery();
+      });
 
       const meta = document.createElement('div');
       meta.className = 'gal-meta';
@@ -8461,24 +8486,7 @@
         const sec = s % 60;
         cd.textContent = m + ':' + String(sec).padStart(2, '0');
       }
-
-      const catSel = document.createElement('select');
-      catSel.className = 'gal-cat-select';
-      catSel.setAttribute('aria-label', '이미지 분류');
-      REF_CATEGORIES.forEach(function(c) {
-        const op = document.createElement('option');
-        op.value = c;
-        op.textContent = c;
-        if (c === itemCat) op.selected = true;
-        catSel.appendChild(op);
-      });
-      catSel.addEventListener('click', function(ev) { ev.stopPropagation(); });
-      catSel.addEventListener('change', function() {
-        setGalleryItemCategory(item.id, catSel.value);
-      });
-
       meta.appendChild(cd);
-      meta.appendChild(catSel);
       cell.appendChild(img);
       if (!locked) {
         const rm = document.createElement('button');
@@ -8486,17 +8494,31 @@
         rm.className = 'thumb-remove';
         rm.textContent = '×';
         rm.setAttribute('aria-label', '이미지 삭제');
-        rm.addEventListener('click', (ev) => {
+        rm.addEventListener('click', function(ev) {
           ev.stopPropagation();
-          if (Date.now() - item.uploadedAt >= GAL_DEL_MS) return;
-          const arr = readGallery().filter(x => x.id !== item.id);
+          if (Date.now() - uploadedAt >= GAL_DEL_MS) return;
+          const arr = readGallery().filter(function(x) { return x.id !== item.id; });
           writeGallery(arr);
           window._renderGallery();
         });
         cell.appendChild(rm);
       }
       cell.appendChild(meta);
-      grid.appendChild(cell);
+      return cell;
+    }
+
+    buildGalleryDisplaySegments(items).forEach(function(seg) {
+      if (seg.kind === 'group') {
+        const wrap = document.createElement('div');
+        wrap.className = 'gal-group';
+        wrap.setAttribute('role', 'group');
+        seg.items.forEach(function(it) {
+          wrap.appendChild(mountGalleryCell(it));
+        });
+        grid.appendChild(wrap);
+      } else {
+        grid.appendChild(mountGalleryCell(seg.items[0]));
+      }
     });
     gallerySyncPickBar(items.length);
   };
@@ -8552,9 +8574,7 @@
         let data = await readFileAsDataURL(imgs[i]);
         data = await shrinkConceptImageDataUrl(data);
         if (!data || String(data).length < 32) continue;
-        var galCatEl = document.getElementById('gal-cat-select');
-        var galCat = galCatEl && galCatEl.value ? galCatEl.value : 'LD';
-        added.push({ id: uid(), data: data, uploadedAt: Date.now(), cat: normalizeWorkImageCat(galCat) });
+        added.push({ id: uid(), data: data, uploadedAt: Date.now(), cat: normalizeWorkImageCat('LD') });
       }
       if (!added.length) {
         if (typeof cqShowToast === 'function') cqShowToast('파일을 읽지 못했습니다.');
@@ -8629,6 +8649,54 @@
     }
   })();
 
+  let sketchAlarmAudioCtx = null;
+  function playSketchTimerAlarm(kind) {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    try {
+      if (!sketchAlarmAudioCtx || sketchAlarmAudioCtx.state === 'closed') {
+        sketchAlarmAudioCtx = new AC();
+      }
+      var ctx = sketchAlarmAudioCtx;
+      var baseFreq = kind === 'geometric' ? 392 : 880;
+      var steps = kind === 'geometric' ? 5 : 4;
+      var stepMs = kind === 'geometric' ? 300 : 240;
+
+      function ring(i) {
+        if (i >= steps) return;
+        var t = ctx.currentTime;
+        var o = ctx.createOscillator();
+        var g = ctx.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(baseFreq + (i % 2) * 80, t);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.13, t + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.start(t);
+        o.stop(t + 0.18);
+        setTimeout(function() { ring(i + 1); }, stepMs);
+      }
+
+      var p = ctx.state === 'suspended' ? ctx.resume() : Promise.resolve();
+      p.then(function() { ring(0); }).catch(function() {});
+    } catch (e) {}
+  }
+
+  function warmSketchAlarmAudio() {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    try {
+      if (!sketchAlarmAudioCtx || sketchAlarmAudioCtx.state === 'closed') {
+        sketchAlarmAudioCtx = new AC();
+      }
+      if (sketchAlarmAudioCtx.state === 'suspended') {
+        sketchAlarmAudioCtx.resume();
+      }
+    } catch (e) {}
+  }
+
   /* ── 크로키 ── */
   const cqRing = document.getElementById('croquis-ring-progress');
   const cqTimeEl = document.getElementById('croquis-time-display');
@@ -8690,6 +8758,7 @@
   function cqTick() {
     if (cqRemaining <= 0) {
       cqStopTimer();
+      playSketchTimerAlarm('croquis');
       cqAdvanceRound();
       return;
     }
@@ -8697,6 +8766,7 @@
     cqUpdateRing();
     if (cqRemaining <= 0) {
       cqStopTimer();
+      playSketchTimerAlarm('croquis');
       cqAdvanceRound();
     }
   }
@@ -8709,6 +8779,7 @@
       return;
     }
     cqStopTimer();
+    warmSketchAlarmAudio();
     cqRunning = true;
     cqTimerId = setInterval(cqTick, 1000);
   }
@@ -8804,20 +8875,20 @@
   }
 
   function cqPickRandomPose() {
-    const all = readPoses();
+    var all = readPoses();
     if (!all.length) {
-      cqShowToast('포즈 탭에 크로키용 이미지를 먼저 추가하세요.');
+      if (typeof cqShowToast === 'function') cqShowToast('포즈 탭에 참고 이미지를 먼저 추가하세요.');
       return;
     }
-    let pool = all.filter(it => (cqRefPickCounts[it.id] || 0) < 5);
+    var pool = all.filter(function(it) { return (cqRefPickCounts[it.id] || 0) < 5; });
     if (!pool.length) {
       cqRefPickCounts = {};
       pool = all.slice();
     }
-    const pick = pool[Math.floor(Math.random() * pool.length)];
+    var pick = pool[Math.floor(Math.random() * pool.length)];
     cqRefPickCounts[pick.id] = (cqRefPickCounts[pick.id] || 0) + 1;
     cqSetImage(pick.data, pick.id);
-    setCroquisTouched();
+    if (typeof setCroquisTouched === 'function') setCroquisTouched();
   }
 
   (function bindCroquisControls() {
@@ -8841,8 +8912,6 @@
         r.readAsDataURL(f);
       });
     }
-    var cqRand = document.getElementById('cq-random-btn');
-    if (cqRand) cqRand.addEventListener('click', cqPickRandomPose);
     var cqRm = document.getElementById('cq-remove-img');
     if (cqRm) {
       cqRm.addEventListener('click', function(ev) {
@@ -8850,6 +8919,8 @@
         cqClearCurrentImage();
       });
     }
+    var cqRand = document.getElementById('cq-random-btn');
+    if (cqRand) cqRand.addEventListener('click', cqPickRandomPose);
     var cqSt = document.getElementById('cq-start');
     var cqPs = document.getElementById('cq-pause');
     var cqRs = document.getElementById('cq-reset');
@@ -8911,6 +8982,7 @@
   function gqTick() {
     if (gqRemaining <= 0) {
       gqStopTimer();
+      playSketchTimerAlarm('geometric');
       geoOnTrainingTimerComplete();
       return;
     }
@@ -8918,6 +8990,7 @@
     gqUpdateRing();
     if (gqRemaining <= 0) {
       gqStopTimer();
+      playSketchTimerAlarm('geometric');
       geoOnTrainingTimerComplete();
     }
   }
@@ -8928,6 +9001,7 @@
       return;
     }
     gqStopTimer();
+    warmSketchAlarmAudio();
     gqRunning = true;
     gqTimerId = setInterval(gqTick, 1000);
   }
@@ -9000,17 +9074,17 @@
   }
 
   function gqPickRandomPose() {
-    const all = readPoses();
+    var all = readPoses();
     if (!all.length) {
-      if (typeof cqShowToast === 'function') cqShowToast('포즈 탭에 크로키용 이미지를 먼저 추가하세요.');
+      if (typeof cqShowToast === 'function') cqShowToast('포즈 탭에 참고 이미지를 먼저 추가하세요.');
       return;
     }
-    let pool = all.filter(function(it) { return (gqRefPickCounts[it.id] || 0) < 5; });
+    var pool = all.filter(function(it) { return (gqRefPickCounts[it.id] || 0) < 5; });
     if (!pool.length) {
       gqRefPickCounts = {};
       pool = all.slice();
     }
-    const pick = pool[Math.floor(Math.random() * pool.length)];
+    var pick = pool[Math.floor(Math.random() * pool.length)];
     gqRefPickCounts[pick.id] = (gqRefPickCounts[pick.id] || 0) + 1;
     gqSetImage(pick.data, pick.id);
     if (typeof setCroquisTouched === 'function') setCroquisTouched();
@@ -9037,8 +9111,6 @@
         r.readAsDataURL(f);
       });
     }
-    var gqRand = document.getElementById('gq-random-btn');
-    if (gqRand) gqRand.addEventListener('click', gqPickRandomPose);
     var gqRm = document.getElementById('gq-remove-img');
     if (gqRm) {
       gqRm.addEventListener('click', function(ev) {
@@ -9046,6 +9118,8 @@
         gqClearCurrentImage();
       });
     }
+    var gqRand = document.getElementById('gq-random-btn');
+    if (gqRand) gqRand.addEventListener('click', gqPickRandomPose);
     var gqSt = document.getElementById('gq-start');
     var gqPs = document.getElementById('gq-pause');
     var gqRs = document.getElementById('gq-reset');
